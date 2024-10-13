@@ -44,4 +44,9 @@ class GeneralStrings {
   static const String ahmadKhalid = 'Ahmed Khalid';
   static const String signWithGoogle = 'Sign in With Google';
   static const String signWithApple = 'Sign in With Apple';
+  static const String search = 'search';
+  static const String topMovies = 'Top Movies';
+  static const String newMovies = 'New Movies';
+  static const String allMovies = 'All Movies';
+
 }

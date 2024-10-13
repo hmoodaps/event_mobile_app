@@ -1,4 +1,5 @@
 import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/search/search_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../routs&view_models/cart/cart_route.dart';
@@ -10,6 +11,7 @@ import '../../routs&view_models/main_page/main_route.dart';
 import '../../routs&view_models/movie/movie_route.dart';
 import '../../routs&view_models/onboarding/onboarding_route.dart';
 import '../../routs&view_models/past_films/past_films_route.dart';
+import '../../routs&view_models/profile/profile_route.dart';
 import '../../routs&view_models/question/question_route.dart';
 import '../../routs&view_models/regeister/register_route.dart';
 import '../../routs&view_models/reservation/reservation_route.dart';
@@ -30,6 +32,8 @@ class Routes {
     RouteStringsManager .cartRoute: (context) => const CartRoute(),
     RouteStringsManager .favoriteRoute: (context) => const FavoriteRoute(),
     RouteStringsManager .pastFilmsRoute: (context) => const PastFilmsRoute(),
+    RouteStringsManager .profileRoute: (context) => const ProfileRoute(),
+    RouteStringsManager .searchRoute: (context) => const SearchRoute(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

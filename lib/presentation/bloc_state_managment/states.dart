@@ -25,4 +25,10 @@ class SignInWithGoogleStateError extends AppStates {String error ; SignInWithGoo
 
 
 
+class ChangeNavigationBarIndexState extends AppStates {}
+
+
+class ToggleLightAndDarkState extends AppStates {}
+
+
 

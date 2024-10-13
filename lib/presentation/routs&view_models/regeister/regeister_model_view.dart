@@ -8,6 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../components/constants/route_strings_manager.dart';
+import '../../components/constants/routs_manager.dart';
+
 class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
   // initialize variables to apply "Separation of Concerns " ::
   final formKey = GlobalKey<FormState>();
@@ -96,6 +99,12 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
       _bloc.add(SignInWithGoogleEventError(error));
     });
   }
+
+
+  @override
+  onUserAddedSuccessfully() {
+    navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
+  }
 }
 
 mixin RegisterModelViewFunctions {
@@ -108,6 +117,7 @@ mixin RegisterModelViewFunctions {
   validator(String value);
 
   onSignInwWithGooglePress();
+  onUserAddedSuccessfully();
 
   toNextField(BuildContext context);
 }

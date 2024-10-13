@@ -1,3 +1,4 @@
+import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/components/constants/assets_manager.dart';
@@ -6,12 +7,15 @@ import 'package:event_mobile_app/presentation/components/constants/font_manager.
 import 'package:event_mobile_app/presentation/components/constants/general_strings.dart';
 import 'package:event_mobile_app/presentation/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/notification_handler.dart';
+import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
+import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/text_form_manager.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/login/login_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 import '../../components/constants/color_manager.dart';
@@ -38,34 +42,44 @@ class _LoginRouteState extends State<LoginRoute> {
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
         listener: (context, state) {
-          if (state is StartCreateUserState) {
-            showDialog(
-              context: context,
-              builder: (context) => Center(
-                child: Image.asset(
-                  'assets/images/cuteAnimation.gif',
-                  width: 200,
-                  height: 200,
-                ),
-              ),
-            );
+          if(state is LoginState){
+            showDialog(context: context, builder: (context) => Center(
+              child: LoadingIndicator(
+                indicatorType: Indicator.squareSpin, /// Required, The loading type of the widget
+                colors: const [ColorManager.primarySecond],       /// Optional, The color collections
+                strokeWidth: 2,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+                backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+                pathBackgroundColor: Colors.transparent   /// Optional, the stroke backgroundColor
+            ),),);
           }
-          if (state is AddUserToFirebaseStateSuccess ||
-              state is AddUserToFirebaseStateError ||
-              state is CreateUserStateError) {
-            Navigator.pop(context);
+          if(state is LoginSuccessState ||state is LoginErrorState  ||state is  SignInWithGoogleStateSuccess ||state is  SignInWithGoogleStateError){Navigator.pop(context);}
+          if(state is LoginSuccessState){
+            navigatorToTheMain(context);
           }
-          if (state is AddUserToFirebaseStateError) {
-            errorNotification(
-                context: context, description: state.error.toString());
+          if(state is LoginErrorState){
+            errorNotification(context: context, description: state.error.toString());
           }
-          if (state is CreateUserStateError) {
-            errorNotification(
-                context: context, description: state.error.toString());
+          if(state is SignInWithGoogleState){
+            showDialog(context: context, builder: (context) => Center(
+              child: LoadingIndicator(
+                  indicatorType: Indicator.squareSpin, /// Required, The loading type of the widget
+                  colors: const [ColorManager.primarySecond],       /// Optional, The color collections
+                  strokeWidth: 2,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+                  backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+                  pathBackgroundColor: Colors.transparent   /// Optional, the stroke backgroundColor
+              ),),);
+
           }
-          if (state is AddUserToFirebaseStateSuccess) {
-            successNotification(
-                context: context, description: GeneralStrings.accountCreated);
+          if(state is SignInWithGoogleStateSuccess){
+            if(_model.checkUserExisting()){
+              navigatorToTheMain(context);
+            }else{
+              navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
+            }
+          }
+          if(state is SignInWithGoogleStateError){            errorNotification(context: context, description: state.error.toString());
+
+
           }
         });
   }
@@ -184,7 +198,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         Expanded(
                           child: Container(
                             height: 1,
-                            color: ColorManager.darkPrimary,
+                            color: ColorManager.primary,
                           ),
                         ),
                         SizedBox(
@@ -200,7 +214,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         Expanded(
                           child: Container(
                             height: 1,
-                            color: ColorManager.darkPrimary,
+                            color: ColorManager.primary,
                           ),
                         ),
                       ],

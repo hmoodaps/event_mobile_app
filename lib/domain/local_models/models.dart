@@ -1,5 +1,6 @@
 //Onboarding View Models
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -179,19 +180,11 @@ navigatorToTheMain(context){
 // handle firebase auth by google and apple
 
 User? currentUser = FirebaseAuth.instance.currentUser;
-//initialize in splash screen
-List<String> userIds =[];
 
-//sign in with google .>>
-final GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId:
-      '738356872374-8bdei58fqh2bkocfk0ph7dm3ud6jf4gl.apps.googleusercontent.com',
-);
 
-String ? userEmail ;
-String ? photoUrl ;
+
 Future<AuthCredential> signInWithGoogle(context) async {
-  final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  final GoogleSignInAccount? googleUser = await VariablesManager.googleSignIn.signIn();
   final GoogleSignInAuthentication googleAuth =
       await googleUser!.authentication;
   final AuthCredential credential = GoogleAuthProvider.credential(
@@ -245,7 +238,7 @@ Future<void> addUserToFirebase(
     id: uid,
     userPhotoUrl: userPhotoUrl,
     );
-if(!userIds.contains(userModel.id)) {
+if(!VariablesManager.userIds.contains(userModel.id)) {
   await FirebaseFirestore.instance
       .collection(GeneralStrings.users)
       .doc(currentUser!.uid)
@@ -253,5 +246,3 @@ if(!userIds.contains(userModel.id)) {
 }
 
 }
-
-

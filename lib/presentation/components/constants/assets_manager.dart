@@ -5,6 +5,6 @@ class AssetsManager{
   static const  String google = '$_asset/google.svg';
   static const  String apple = '$_asset/apple.svg';
   static const  String login = '$_asset/login.svg';
-
+  static const  String cuteAnimation = '$_asset/cuteAnimation.gif';
 
 }

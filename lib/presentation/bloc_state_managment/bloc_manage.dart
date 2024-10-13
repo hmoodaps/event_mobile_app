@@ -1,6 +1,9 @@
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
+import 'package:event_mobile_app/presentation/components/constants/theme_manager.dart';
+import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../components/error_handler/error_handler.dart';
@@ -51,7 +54,14 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<SignInWithGoogleEventError>((event, emit) {
       emit(SignInWithGoogleStateError(event.error.toString()));
     });
-
+    on<ChangeNavigationBarIndexEvent>((event, emit) {
+      emit(ChangeNavigationBarIndexState());
+    });
+    on<ToggleLightAndDarkEvent>((event, emit) {
+      VariablesManager.isDark = !VariablesManager.isDark;
+      VariablesManager.themeData = VariablesManager.isDark ? darkThemeData() : lightThemeData();
+      emit(ToggleLightAndDarkState());
+    });
 
   }
 
@@ -59,5 +69,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   static EventsBloc get(BuildContext context) =>
       BlocProvider.of<EventsBloc>(context);
 
-//handleEvents
+//toggle between themes
+ThemeData? themeData (BuildContext context ){
+  VariablesManager.themeData = toggleLightAndDark(context);
+  add(ToggleLightAndDarkEvent());
+  return VariablesManager.themeData ;
+}
+
 }

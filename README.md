@@ -1,1 +1,31 @@
-اول اشي رح ابلش اني اعرض سبلاش فيو بلون اخضر مع ايقونة بنص الشاشة بلون ابيض هالايقونة عبارة عن ايقونة التططبيق بعد هيك رح يكون في ثواني قليلية تايمر بعدين ينتقل لصفحة الاون بوردينج فيو رح يكون عنا عدد من الصفحات ورح نستخدم باكج liquid_swipe  عشان نسواب بينهم وفي اخر صفحة راح يكون في زر بلون اخضر اللون اللي طاغي على ازرار والوان التطبيق الاخضر التركوازي مكتوب فيه جت ستارتد اول ميدوس المستخدم عالزر رح ينتقل بشكل مباشر لصفحة المين فيو ... بنفس الوقت البرنامج رح يستخدم الشيرد بريفرنسز عشان يسجل انو المستخدم تخطى الاون بوردينج في المرة القادمة بس يفوت للتطبيق ما رح تظهرلو صفحة الاون بوردينج .. بعد هيك صفحة الرئيسية رح تعرضلو الافلام باستخدام flutter_staggered_grid_view  على شكل صور ... رح يكون في زر بحث باسم الفيلم .. ورح يكون في زر تصفية بيصفي الافلام بناء على اسم ممثل معين تاريخ معين مكان عرض يعني لو حكينا انو السينيما الها 5 افرع في الدولة اللي المستخدم فيها رح يقدر يصفي الاماكن انو بدي الافلام المعروضة في تاريخ كذا كذا في دنهاخ  هولندا .. ورح يكون في تصفية على مدة الفيلم وطبيعة الفيلم اكشن رومنسي وتقييم الفيلم حسب ال imbd طبعا .. لما يدوس المستخدم عالفيلم رح تفتحلو صفحة خلفية الصفحة عبارة عن صورة من الفيلم بطول وعرض شاشة الموبايل بالكامل .. فوق الصورة طبعا ستاك هتكون .. فوق الصورة راح يجي كونتينر لاينر هيجي من فوق لونه ابيض مع فل اوبستي وينزل لتحت يصير اغمق لحد م يكون اخر الشاشة ابيض بالكامل من تحت .. في بداية الصندوق اللي ماخد من ربع الشاشة السفلي  عنوان الفيلم .. وتحت العنوان تفاصيل الفيلم وديسكريبشن مختصر عن الفيلم .. وباخر النص مكتوب اقرأ اكثر .. هيدوس المستخدم عليها رح تنقلو لصفحة ثانية الصفحة الثانية فيها من فوق اعلان سبونسر عن الفيلم ونفس مبدأ صندوق اللاينر طبعا من فوق مع اوبستي .. بس الفرق انو الصندوق المرة هاي رح ياخد 3 ارباع الصفحة .. ورح يكون جاي من فوق على شكل نصف قوس مو مربع من فوق .. بعد هيك رح يجي خيارات جنب بعض وصف للفيلم بشكل كامل .. والممثلين وتاريخ العرض واول عرض وتفاصيل الفيلم ... رح نركز على الممثلين لما يدوس عالممثلين رح نستخدم بكج   wheel_expand_list مع selector_wheel  رح احاول ادمجهم مع بعض لسا طبعا مش عارف كيف بس لسا لما اوصلها .. عموما رح اعرض الممثلين بشكل نصصف قوس وبيقدر طبعا يسوي سواب بين الممثلين كل ممثل الو دورو بالفيلم ونبذه تعريفية بسيطة في نهاية المقال مثلا شو دورو بالفيلم قسم ومين هالممثل قسم ثاني باخر القسم الثاني رح يكون فيه زر لو بدو يتاكد من مصدر المعلومات .. رح نجيب معلومات الممثلين بناءا على اسماءهم ورح نحاول قدر الامكان نهندل الاخطاء اللي ممكن تحصل لما نجيب المعلومات من الويكبيديا اي بي اي .. من صورو ومعلوماته .. وطبعا عنا زر اعجاب للمثلين بيقدر يضيف ممثل من الممثلين في قائمة الاعجاب بعد هيك بيقدر يفوت عالممثل ويشوف الافلام اللي رح نعرضها لهالممثل وتفاصيلها .. ورح يكون في برضو زر اعجابات للفيلم وسلة للفلام ... لو داس ع زر الحجز رح يوجهه لصفحة الحجز بيحط اسمه وتفاصيله ورح اسوي الكراسي بجريد فيو ع ايقونات ... رح يكون في عدة الوان مثلا كراسي محجوزة كراسي فيرست كلاس وكراسي عادية .. بس يدوس عالكرسي ويدوس بدو يسوي حجز هون البرنامج رح يفحص اذا مسجل دخول ولا لا اذا لا مباشرة رح يوجهو لصفحة تسجيل الحساب ويعمل توجل بين صفحة تسجيل حساب وصفحة لوج ان ... بعد  م يعمل تسجيل دخول رح يكمل معاملة الدفع ويقدر يفتح الخريطة اللي بتووديه ع مكان عرض الفيلم 
+class Movie(models.Model):
+name = models.CharField(max_length=100)  # نص
+show_times = models.JSONField(default=list)  # مصفوفة لتخزين توقيتات العروض
+seats = models.IntegerField(default=100)  # عدد صحيح
+available_seats = models.IntegerField(default=seats)
+reservations = models.IntegerField(default=0, blank=True)  # عدد صحيح
+photo = models.CharField(max_length=255, default="https://st2.depositphotos.com/1105977/9877/i/450/depositphotos_98775856-stock-photo-retro-film-production-accessories-still.jpg")  # نص
+vertical_photo = models.CharField(max_length=255, blank=True)  # نص
+ticket_price = models.DecimalField(max_digits=5, decimal_places=2)  # عدد عشري
+reservedSeats = models.JSONField(default=list, blank=True)  # مصفوفة
+description = models.TextField(blank=True)  # نص
+short_description = models.TextField(max_length=150,blank=True)  # نص قصير
+sponsor_video = models.URLField(blank=True)  # نص
+actors = models.JSONField(default=list, blank=True)  # مصفوفة
+release_date = models.DateField(blank=True, null=True)  # نص
+duration = models.CharField(max_length=50, blank=True)  # نص
+rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)  # عدد عشري
+imdb_rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)  # عدد عشري
+tags = models.JSONField(default=list, blank=True)  # مصفوفة
+fhd_image = models.CharField(max_length=255, blank=True)  # نص لصورة بدقة FHD
+genre = models.CharField(max_length=50, blank=True)  # نوع الفيلم
+
+    def __str__(self):
+        return self.name
+
+class Guest(models.Model):
+full_name = models.CharField(max_length=100)  # نص
+age = models.IntegerField()  # عدد صحيح
+seats = models.JSONField(default=list)  # مصفوفة
+reservations = models.IntegerField(default=0)
+movie = models.ForeignKey('Movie', on_delete=models.SET_NULL, null=True, blank=True)  # ربط الضيف بالفيلم

@@ -20,7 +20,7 @@ class QuestionModelView extends BaseViewModel with QuestionNavigateFunctions {
   @override
   navigateToMain({required BuildContext context}) {
     SharedPref.saveBool(key: GeneralStrings.isGuest, value: true);
-    navigateTo(context, RouteStringsManager.mainRoute);
+    Navigator.pushNamedAndRemoveUntil(context, RouteStringsManager.mainRoute,(route)=>false );
   }
 
   @override

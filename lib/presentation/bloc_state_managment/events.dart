@@ -22,3 +22,9 @@ class SignInWithGoogleEvent extends AppEvents {}
 class SignInWithGoogleEventSuccess extends AppEvents {}
 class SignInWithGoogleEventError extends AppEvents {FirebaseAuthException error ; SignInWithGoogleEventError(this.error);}
 
+//change navigation bar index
+class ChangeNavigationBarIndexEvent extends AppEvents {}
+
+//Toggle Light And Dark
+class ToggleLightAndDarkEvent extends AppEvents {}
+

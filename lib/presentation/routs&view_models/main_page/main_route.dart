@@ -1,9 +1,13 @@
-import 'dart:math';
-
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
+import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/main_page/main_route_model_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '../../components/constants/size_manager.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../components/constants/variables_manager.dart';
 
 class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
@@ -13,45 +17,24 @@ class MainRoute extends StatefulWidget {
 }
 
 class _MainRouteState extends State<MainRoute> {
-  final List<int> apiData = List.generate(20, (index) => index);
-  final Random random = Random();
-
+  late final  MainRouteModelView _model ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _model = MainRouteModelView();
+    _model.context = context;
+    _model.start();
+  }
   @override
   Widget build(BuildContext context) {
-    // خلط البيانات بشكل عشوائي
-
-    return Scaffold(
-      appBar: AppBar(title: Text('Random Size Grid Example')),
-      body: Column(children: [
-      //  CarouselSlider(carouselController: ,items: [], options: CarouselOptions(), ),
-      ],),
-      // GridView.builder(
-      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //     crossAxisCount: 2, // عدد الأعمدة
-      //     childAspectRatio: 1, // نسبة العرض إلى الارتفاع
-      //   ),
-      //   itemCount: apiData.length,
-      //   itemBuilder: (context, index) {
-      //     // تحديد قياسات عشوائية للمربع
-      //     double width = random.nextDouble() * 100 + 50; // عرض بين 50 و150
-      //     double height = random.nextDouble() * 100 + 50; // ارتفاع بين 50 و150
-      //
-      //     return Container(
-      //       width: width,
-      //       height: height,
-      //       margin: EdgeInsets.all(8.0),
-      //       color: Colors.blue,
-      //       child: Center(
-      //         child: Text(
-      //           '${apiData[index]}',
-      //           style: TextStyle(color: Colors.white, fontSize: 24),
-      //         ),
-      //       ),
-      //     );
-      //   },
-      // ),
-    );
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light, 
+    ));
+    return BlocConsumer<EventsBloc , AppStates>(builder: (context , state)=>getScaffold(), listener: (context , state){});
   }
-
+  Widget getScaffold()=>Scaffold(
+    bottomNavigationBar: CurvedNavigationBar(onTap: (index)=>_model.onTap(index),backgroundColor:VariablesManager.isDark ? ColorManager.green4 : ColorManager.primary ,color: ColorManager.primarySecond,items: _model.bottomNavigationBarItems),
+     body: _model.onNavigationBarIconPress(),
+  );
 }
-

@@ -4,6 +4,7 @@ import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.d
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
+import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -99,6 +100,16 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
       _bloc.add(SignInWithGoogleEventError(error));
     });
   }
+
+  @override
+  onUserAddedSuccessfully() {
+    navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
+  }
+
+  @override
+  checkUserExisting() {
+   return VariablesManager.userIds.contains(FirebaseAuth.instance.currentUser!.uid);
+  }
 }
 
 mixin LoginModelViewFunctions {
@@ -108,12 +119,14 @@ mixin LoginModelViewFunctions {
       required String password});
 
   validator(String value);
+  onUserAddedSuccessfully();
 
   onForgetPasswordPress();
 
   onSignInwWithGooglePress();
 
   onSignInwWithApplePress();
+  bool checkUserExisting();
 
   toNextField(BuildContext context);
 }

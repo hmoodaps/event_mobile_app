@@ -12,14 +12,23 @@ class SizeManager {
   static const double d16 = 16;
   static const double d18 = 18;
   static const double d20 = 20;
+  static const double d22 = 22;
   static const double d24 = 24;
   static const double d30 = 30;
   static const double d50 = 50;
   static const double d70 = 70;
   static const double d100 = 100;
+  static const double d110 = 110;
+  static const double d130 = 130;
+  static const double d140 = 140;
+  static const double d150 = 150;
+  static const double d160 = 160;
+  static const double d180 = 180;
+  static const double d190 = 190;
   static const double d200 = 200;
 
   //Integer values
+  static const int i2 = 2;
   static const int i4 = 4;
   static const int i6 = 6;
   static const int i200 = 200;

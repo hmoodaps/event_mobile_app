@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../components/constants/stack_background_manager.dart';
-class FavoriteRoute extends StatefulWidget {
-  const FavoriteRoute({super.key});
+class SearchRoute extends StatefulWidget {
+  const SearchRoute({super.key});
 
   @override
-  State<FavoriteRoute> createState() => _FavoriteRouteState();
+  State<SearchRoute> createState() => _SearchRouteState();
 }
 
-class _FavoriteRouteState extends State<FavoriteRoute> {
+class _SearchRouteState extends State<SearchRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

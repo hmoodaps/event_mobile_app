@@ -1,6 +1,9 @@
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/theme_manager.dart';
+import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../presentation/routs&view_models/splash/splash_route.dart';
@@ -23,18 +26,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EventsBloc(),
-      child: MaterialApp(
+      child :BlocBuilder<EventsBloc , AppStates>(builder: (context , state){
+        EventsBloc bloc = EventsBloc.get(context);
+        return MaterialApp(
         debugShowCheckedModeBanner: false,
-        darkTheme: darkThemeData(),
-        theme: lightThemeData(),
-        themeMode: ThemeMode.light,
+        theme: bloc.themeData(context),
         onGenerateRoute: Routes.onGenerateRoute,
         home: SplashRoute(),
-      ),
+        );
+      }),
     );
   }
 }

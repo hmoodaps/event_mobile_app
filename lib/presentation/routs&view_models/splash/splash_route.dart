@@ -5,10 +5,12 @@ import 'package:event_mobile_app/presentation/components/constants/color_manager
 import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
+import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/local_storage/shared_local.dart';
-import '../../../domain/local_models/models.dart';
+import '../../../data/remote_data_source/dio_requests_handler.dart';
+import '../../../domain/models/movie_model.dart';
 import '../../components/constants/general_strings.dart';
 
 class SplashRoute extends StatefulWidget {
@@ -20,45 +22,39 @@ class SplashRoute extends StatefulWidget {
 
 class _SplashRouteState extends State<SplashRoute> {
   final bool _isFirstTimeOpened =
-      SharedPref.getBool(GeneralStrings .isFirstTimeOpened) ?? true;
-  final bool _isGuest = SharedPref.getBool(GeneralStrings .isGuest) ?? false;
+      SharedPref.getBool(GeneralStrings.isFirstTimeOpened) ?? true;
+  final bool _isGuest = SharedPref.getBool(GeneralStrings.isGuest) ?? false;
 
-  Timer? _delay;
-
-  _startDelay() {
-    _delay = Timer(Duration(seconds: SizeManager.i4), _endSplash);
-  }
-
-  _endSplash() {
-    navigateTo(
-        context,
-        _isFirstTimeOpened
-            ? RouteStringsManager .onboardingRoute
-            : _isGuest
-                ? RouteStringsManager .mainRoute
-                : RouteStringsManager .questionRoute);
-    dispose();
-  }
-  _initFirebase()async{
-    userIds.clear();
+  Future<void> _initFirebase() async {
+    VariablesManager.userIds.clear();
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(GeneralStrings.users).get();
     for (var doc in snapshot.docs) {
-      userIds.add(doc.id);
+      VariablesManager.userIds.add(doc.id);
     }
-
   }
+
+  Future<void> _startDelay() async {
+    await Future.delayed(Duration(seconds: SizeManager.i4));
+    await _initFirebase();
+    List<MovieModel> movies = await DioHelper.fetchMovies();
+    VariablesManager.movies = movies;
+    _endSplash();
+  }
+
+  void _endSplash() {
+    _isGuest == false
+        ? navigateTo(
+        context,
+        _isFirstTimeOpened
+            ? RouteStringsManager.onboardingRoute
+            : RouteStringsManager.questionRoute)
+        : Navigator.pushNamedAndRemoveUntil(context, RouteStringsManager.mainRoute, (route) => false);
+  }
+
   @override
   void initState() {
-
     super.initState();
-    _initFirebase();
     _startDelay();
-  }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _delay?.cancel();
-    super.dispose();
   }
 
   @override

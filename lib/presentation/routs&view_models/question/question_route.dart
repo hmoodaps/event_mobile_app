@@ -86,7 +86,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                   Expanded(
                     child: Container(
                       height: 1,
-                      color: ColorManager.darkPrimary,
+                      color: ColorManager.primary,
                     ),
                   ),
                   SizedBox(
@@ -102,7 +102,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                   Expanded(
                     child: Container(
                       height: 1,
-                      color: ColorManager.darkPrimary,
+                      color: ColorManager.primary,
                     ),
                   ),
                 ],
@@ -132,7 +132,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                   Expanded(
                     child: Container(
                       height: 1,
-                      color: ColorManager.darkPrimary,
+                      color: ColorManager.primary,
                     ),
                   ),
                   SizedBox(
@@ -148,7 +148,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                   Expanded(
                     child: Container(
                       height: 1,
-                      color: ColorManager.darkPrimary,
+                      color: ColorManager.primary,
                     ),
                   ),
                 ],

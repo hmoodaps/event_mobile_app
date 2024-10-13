@@ -64,17 +64,42 @@ class _RegisterRouteState extends State<RegisterRoute> {
               ),
             );
           }
-          if (state is SignInWithGoogleStateSuccess ||
-              state is SignInWithGoogleStateError ) {
+          if (state is StartCreateUserState) {
+            showDialog(
+              context: context,
+              builder: (context) => Center(
+                child: Image.asset(
+                  'assets/images/cuteAnimation.gif',
+                  width: 200,
+                  height: 200,
+                ),
+              ),
+            );
+          }
+          if (state is AddUserToFirebaseStateSuccess ||
+              state is AddUserToFirebaseStateError ||
+              state is CreateUserStateError ||
+          state is SignInWithGoogleStateSuccess ||
+          state is SignInWithGoogleStateError
+          ) {
             Navigator.pop(context);
           }
           if (state is SignInWithGoogleStateError) {
             errorNotification(
                 context: context, description: state.error.toString());
           }
+          if (state is AddUserToFirebaseStateError) {
+            errorNotification(
+                context: context, description: state.error.toString());
+          }
+          if (state is CreateUserStateError) {
+            errorNotification(
+                context: context, description: state.error.toString());
+          }
 
-          if (state is SignInWithGoogleStateSuccess) {
-            navigatorToTheMain(context);
+          if (state is AddUserToFirebaseStateSuccess ||state is SignInWithGoogleStateSuccess ) {
+            successNotification(
+                context: context, description: GeneralStrings.accountCreated);
           }
         });
   }
@@ -204,7 +229,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             Expanded(
                               child: Container(
                                 height: 1,
-                                color: ColorManager.darkPrimary,
+                                color: ColorManager.primary,
                               ),
                             ),
                             SizedBox(
@@ -220,7 +245,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             Expanded(
                               child: Container(
                                 height: 1,
-                                color: ColorManager.darkPrimary,
+                                color: ColorManager.primary,
                               ),
                             ),
                           ],
@@ -230,7 +255,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         height: SizeManager.d20,
                       ),
                       _button(
-                        onTap: ()=>_model.onSignInwWithGooglePress(),
+                          onTap: () => _model.onSignInwWithGooglePress(),
                           nameOfButton: GeneralStrings.signWithGoogle,
                           prefixSvgAssetPath: AssetsManager.google),
                       SizedBox(height: SizeManager.d30),

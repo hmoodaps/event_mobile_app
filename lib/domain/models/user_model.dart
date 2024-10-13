@@ -11,8 +11,7 @@ class UserModel {
   String? town;
   String? street;
   String? userPhotoUrl;
-  List<int?> ? movies;
-  int? totalReservations = 0;
+  List<int?> ? reservedMovies;
   Map<int, List<String>> ? movieSeats;
   Map<int, double> ? movieTotalPayment;
 
@@ -27,8 +26,7 @@ class UserModel {
     this.street,
     this.town,
     this.id,
-    this.movies,
-    this.totalReservations,
+    this.reservedMovies,
     this.movieTotalPayment,
     this.movieSeats,
     this.cart,
@@ -45,8 +43,7 @@ class UserModel {
     houseNumber = json['houseNumber'] ?? '';
     town = json['town'] ?? '';
     id = json['id'];
-    movies = List<int>.from(json['movies'] ?? []);
-    totalReservations = json['totalReservations'] ?? 0;
+    reservedMovies = List<int>.from(json['movies'] ?? []);
     movieSeats = Map<int, List<String>>.from(json['movieSeats'] ?? {});
     movieTotalPayment = Map<int, double>.from(json['movieTotalPayment'] ?? {});
     cart = List<int>.from(json['cart'] ?? []);
@@ -58,14 +55,13 @@ class UserModel {
       'fullName': fullName,
       'userPhotoUrl': userPhotoUrl,
       'email': email,
-      'dateOfBirth': dateOfBirth?.toIso8601String(),
+      'dateOfBirth': dateOfBirth,
       'mobileNumber': mobileNumber,
       'postalCode': postalCode,
       'houseNumber': houseNumber,
       'town': town,
       'id': id,
-      'movies': movies,
-      'totalReservations': totalReservations,
+      'movies': reservedMovies,
       'movieSeats': movieSeats,
       'movieTotalPayment': movieTotalPayment,
       'cart': cart,

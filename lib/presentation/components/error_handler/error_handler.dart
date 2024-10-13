@@ -9,7 +9,7 @@ firebaseAuthErrorsHandler({required event, required emit}) {
 
   switch (authException.code) {
     case 'expired-action-code':
-      emit(CreateUserStateError(ErrorStrings .expiredActionCode));
+      emit(CreateUserStateError(  ErrorStrings .expiredActionCode));
       break;
     case 'invalid-email':
       emit(CreateUserStateError(ErrorStrings .invalidEmail));

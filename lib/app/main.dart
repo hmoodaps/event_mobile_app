@@ -11,9 +11,7 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SharedPref.init();
-  //TODO : YOU HAVE TO PUT TOKEN
-  DioHelper.init('token');
+  await SharedPref.init();
   runApp( MyApp());
 }
 
