@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'color_manager.dart';
 
-Widget stackBackGroundManager({List<Widget> ? otherWidget}) =>
+Widget stackBackGroundManager({List<Widget> ? otherWidget , required bool isDark}) =>
     Stack(
       children: [
         Container(
@@ -12,7 +12,7 @@ Widget stackBackGroundManager({List<Widget> ? otherWidget}) =>
           decoration: BoxDecoration(
               gradient: LinearGradient(begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors:VariablesManager.isDark ?  [
+                  colors:isDark ?  [
                     Colors.black.withOpacity(0.96),
                     ColorManager.green1,
                     ColorManager.green2,

@@ -19,8 +19,11 @@ TextFormField textFormField({
   String? labelText,
   bool? filled,
   Color? fillColor,
+  required BuildContext context,
+
 }) {
   return defaultTextFormField(
+    context: context,
     controller: controller,
     hintText: hintText,
     fillColor: fillColor,
@@ -65,6 +68,7 @@ TextFormField textFormField({
 TextFormField searchFormField({
   bool? readOnly,
   required TextEditingController controller,
+  required BuildContext context,
   String? Function(String?)? validator,
   void Function(String)? onFieldSubmitted,
   void Function(String)? onChanged,
@@ -77,6 +81,7 @@ TextFormField searchFormField({
   String? labelText,
   bool? filled,
   Color? fillColor,
+
 }) {
   return defaultTextFormField(
     controller: controller,
@@ -95,7 +100,7 @@ TextFormField searchFormField({
     readOnly: readOnly,
     border: OutlineInputBorder(
         borderSide: BorderSide(color: ColorManager.privateBlue),
-        borderRadius: BorderRadius.all(Radius.circular(SizeManager.d200))),
+        borderRadius: BorderRadius.all(Radius.circular(SizeManager.d200))), context: context,
   );
 }
 
@@ -103,6 +108,7 @@ TextFormField searchFormField({
 TextFormField defaultTextFormField({
   bool? readOnly,
   required TextEditingController controller,
+  required BuildContext context,
   String? Function(String?)? validator,
   void Function(String)? onFieldSubmitted,
   void Function(String)? onChanged,
@@ -135,7 +141,7 @@ TextFormField defaultTextFormField({
     decoration: InputDecoration(
       contentPadding: EdgeInsets.all(SizeManager.d18),
       labelText: labelText,
-      labelStyle: TextStyleManager.lightBody,
+      labelStyle: TextStyleManager.lightBody(context),
       filled: filled ?? false,
       fillColor: fillColor,
       errorStyle: const TextStyle(fontFamily: 'cinzel', color: Colors.red),

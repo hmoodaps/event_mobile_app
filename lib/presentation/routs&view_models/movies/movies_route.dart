@@ -26,16 +26,18 @@ class _MoviesRouteState extends State<MoviesRoute> {
 
   @override
   Widget build(BuildContext context) {
+    EventsBloc bloc = EventsBloc.get(context);
+
     return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => _getScaffold(),
+        builder: (context, state) => _getScaffold(bloc: bloc),
         listener: (context, state) {});
   }
 
-  Widget _getScaffold() => Scaffold(
-        body: stackBackGroundManager(otherWidget: screenWidgets()),
+  Widget _getScaffold({required EventsBloc bloc}) => Scaffold(
+        body: stackBackGroundManager(otherWidget: screenWidgets(bloc : bloc), isDark: VariablesManager.isDark),
       );
 
-  List<Widget> screenWidgets() => [
+  List<Widget> screenWidgets({required EventsBloc bloc}) => [
     SingleChildScrollView(
       child: SafeArea(
         child: Padding(
@@ -49,6 +51,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                   width: double.infinity,
                   height: SizeManager.d50,
                   child: searchFormField(
+                    context: context,
                     controller: controller,
                     suffix: Icon(
                       IconsManager.search,
@@ -64,18 +67,18 @@ class _MoviesRouteState extends State<MoviesRoute> {
               ),
               Text(
                 GeneralStrings.newMovies,
-                style: TextStyleManager.lightTitle,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(
                 height: SizeManager.d10,
               ),
-              CarouselSlider.builder(itemCount: 10, itemBuilder: (context ,dx,index)=>newMovies(), options: CarouselOptions(scrollDirection: Axis.horizontal , height: SizeManager.screenSize(context).height/3 ,enableInfiniteScroll: true,autoPlay: true , )),
+              CarouselSlider.builder(itemCount: 10, itemBuilder: (context ,dx,index)=>newMovies(bloc: bloc), options: CarouselOptions(scrollDirection: Axis.horizontal , height: SizeManager.screenSize(context).height/3 ,enableInfiniteScroll: true,autoPlay: true , )),
               SizedBox(
                 height: SizeManager.d10,
               ),
               Text(
                 GeneralStrings.topMovies,
-                style: TextStyleManager.lightTitle,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(
                 height: SizeManager.d10,
@@ -84,7 +87,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                 height: SizeManager.d180,
                 width: double.infinity,
                 child: ListView.separated(
-                  itemBuilder: (context, index) => topMovie(),
+                  itemBuilder: (context, index) => topMovie(bloc: bloc),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
@@ -98,7 +101,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
 
               Text(
                 GeneralStrings.allMovies,
-                style: TextStyleManager.lightTitle,
+                style: TextStyleManager.lightTitle(context),
               ),
               SizedBox(
                 height: SizeManager.d10,
@@ -121,12 +124,12 @@ class _MoviesRouteState extends State<MoviesRoute> {
       ),
     ),
       ];
-Widget newMovies(){
+Widget newMovies({required EventsBloc bloc}){
   return SizedBox(
     child: Image.network('https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
   );
 }
-  Widget topMovie() {
+  Widget topMovie({required EventsBloc bloc}) {
     return Stack(
       alignment: Alignment.center,
       children: [

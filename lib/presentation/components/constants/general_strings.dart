@@ -4,14 +4,14 @@ class GeneralStrings {
   static const String isGuest = 'isGuest';
 
   static const String continueString = 'Continue';
-  static const String welcome = 'Welcome to Cinema Ticket';
-  static const String startInvesting = 'Start investing commission-free';
-  static const String otherFees = 'Other fees may apply';
-  static const String viewOur = 'View our';
-  static const String fee = 'fee schedule';
-  static const String learnMore = 'to learn more';
-  static const String allInvesting = 'All investing have risks';
-  static const String letsStart = 'Let’s get started';
+  static const String welcome = 'Welcome to Cinema Ticket ';
+  static const String startInvesting = 'Start investing commission-free ';
+  static const String otherFees = 'Other fees may apply ';
+  static const String viewOur = 'View our ';
+  static const String fee = 'fee schedule ';
+  static const String learnMore = 'to learn more ';
+  static const String allInvesting = 'All investing have risks ';
+  static const String letsStart = 'Let’s get started ';
   static const String haveAccount = 'Already have an account?';
   static const String login = 'Login';
   static const String createAccount = 'Create an account';

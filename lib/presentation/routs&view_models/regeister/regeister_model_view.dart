@@ -4,6 +4,7 @@ import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:event_mobile_app/presentation/components/constants/general_strings.dart';
+import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -76,7 +77,7 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
   onSignInwWithGooglePress() async {
     _bloc.add(SignInWithGoogleEvent());
     AuthCredential userInfoAndCredential = await signInWithGoogle(context);
-    FirebaseAuth.instance
+    VariablesManager.auth
         .signInWithCredential(userInfoAndCredential)
         .then((value) async {
       User? user = value.user;

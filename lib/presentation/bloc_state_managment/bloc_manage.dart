@@ -63,17 +63,27 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       emit(ToggleLightAndDarkState());
     });
 
+
   }
+
+
 
 //mack static instance to reach the bloc from anywhere in the app
   static EventsBloc get(BuildContext context) =>
       BlocProvider.of<EventsBloc>(context);
 
 //toggle between themes
-ThemeData? themeData (BuildContext context ){
-  VariablesManager.themeData = toggleLightAndDark(context);
-  add(ToggleLightAndDarkEvent());
-  return VariablesManager.themeData ;
-}
+  ThemeData? toggleLightAndDark(BuildContext context) {
+    Brightness brightness = MediaQuery.of(context).platformBrightness;
+    brightness == Brightness.dark
+        ? (VariablesManager.themeData = darkThemeData(), VariablesManager.isDark = true)
+        : (VariablesManager.themeData = lightThemeData(), VariablesManager.isDark = false);
+    add(ToggleLightAndDarkEvent());
+    return VariablesManager.themeData;
+  }
 
+  lightHeader (BuildContext context)=> Theme.of(context).textTheme.bodyLarge ;
+  lightTitle (BuildContext context)=> Theme.of(context).textTheme.titleLarge ;
+  lightBody (BuildContext context)=> Theme.of(context).textTheme.bodyLarge;
+  lightParagraph (BuildContext context)=> Theme.of(context).textTheme.labelLarge;
 }

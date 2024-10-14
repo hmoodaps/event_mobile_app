@@ -29,7 +29,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   }) async {
     if (formKey!.currentState!.validate()) {
       _bloc.add(StartCreateUserEvent());
-      await FirebaseAuth.instance
+      await VariablesManager.auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         _bloc.add(LoginSuccessEvent());
@@ -77,7 +77,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   onSignInwWithGooglePress() async {
     _bloc.add(SignInWithGoogleEvent());
     AuthCredential userInfoAndCredential = await signInWithGoogle(context);
-    FirebaseAuth.instance
+    VariablesManager.auth
         .signInWithCredential(userInfoAndCredential)
         .then((value) async {
       User? user = value.user;
@@ -108,7 +108,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
 
   @override
   checkUserExisting() {
-   return VariablesManager.userIds.contains(FirebaseAuth.instance.currentUser!.uid);
+   return VariablesManager.userIds.contains(VariablesManager.currentUser!.uid);
   }
 }
 

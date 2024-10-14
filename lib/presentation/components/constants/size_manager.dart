@@ -45,5 +45,5 @@ class SizeManager {
   static const int i2000 = 2000;
 
 //screen size
-  static screenSize(BuildContext context) => MediaQuery.of(context).size;
+  static  screenSize(BuildContext context) => MediaQuery.of(context).size;
 }

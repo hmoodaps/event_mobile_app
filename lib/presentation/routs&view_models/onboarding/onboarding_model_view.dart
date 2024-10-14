@@ -62,38 +62,38 @@ mixin OnboardingModelViewOutput {
 }
 //on boarding models
 class OnboardingModels {
-  static List<Widget> onboardingList(context) {
-    List<Widget> onboardingWidgetsList = [
-      onboardingPageBuilder(SizeManager.i300),
-      onboardingPageBuilder(SizeManager.i600),
-      onboardingPageBuilder(SizeManager.i900),
+   static List<Widget> onboardingList(context) {
+     List<Widget> onboardingWidgetsList = [
+      onboardingPageBuilder(SizeManager.i300 ,context),
+      onboardingPageBuilder(SizeManager.i600,context),
+      onboardingPageBuilder(SizeManager.i900,context),
 
     ];
     return onboardingWidgetsList;
   }
 
-  static Widget onboardingPageBuilder( int delay){
+   static Widget onboardingPageBuilder( int delay , BuildContext context){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(child: StaggeredAnimatedWidget(delay: delay, child: Image.asset(AssetsManager.cinemaAsset)),),
         SizedBox(height: SizeManager.d100,),
-        Center(child: StaggeredAnimatedWidget(delay: delay, child: Text(GeneralStrings .welcome , style: TextStyleManager.lightHeader,),),),
-        Center(child: StaggeredAnimatedWidget(delay: delay, child: Text(GeneralStrings .startInvesting , style: TextStyleManager.lightTitle,)),),
+        Center(child: StaggeredAnimatedWidget(delay: delay, child: Text(GeneralStrings .welcome , style: TextStyleManager.lightHeader(context),),),),
+        Center(child: StaggeredAnimatedWidget(delay: delay, child: Text(GeneralStrings .startInvesting , style: TextStyleManager.lightTitle(context),)),),
         SizedBox(height: SizeManager.d20,),
-        StaggeredAnimatedWidget(delay: delay,child: Align(alignment: Alignment.center , child: Text(GeneralStrings .otherFees),)),
+        StaggeredAnimatedWidget(delay: delay,child: Align(alignment: Alignment.center , child: Text(GeneralStrings .otherFees , style:TextStyleManager.lightBody(context) ,),)),
         StaggeredAnimatedWidget(delay: delay,          child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Align(alignment: Alignment.center , child: Text(GeneralStrings .viewOur),),
+            Align(alignment: Alignment.center , child: Text(GeneralStrings .viewOur,style:TextStyleManager.lightBody(context)),),
             Align(alignment: Alignment.center , child: GestureDetector(onTap: (){},child:  Text(GeneralStrings .fee , style: TextStyle(color: ColorManager.primarySecond),)),),
-            Align(alignment: Alignment.center , child: Text(GeneralStrings .learnMore),),
+            Align(alignment: Alignment.center , child: Text(GeneralStrings .learnMore,style:TextStyleManager.lightBody(context)),),
           ],
         ),
         ),
-        StaggeredAnimatedWidget(delay: delay,child: Align(alignment: Alignment.center , child: Text(GeneralStrings .allInvesting),)),
+        StaggeredAnimatedWidget(delay: delay,child: Align(alignment: Alignment.center , child: Text(GeneralStrings .allInvesting,style:TextStyleManager.lightBody(context)),)),
 
 
       ],);

@@ -1,4 +1,3 @@
-import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/components/constants/assets_manager.dart';
@@ -18,6 +17,7 @@ import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
 import '../../components/constants/color_manager.dart';
 import '../../components/constants/general_strings.dart';
+import '../../components/constants/variables_manager.dart';
 
 class RegisterRoute extends StatefulWidget {
   const RegisterRoute({super.key});
@@ -31,13 +31,15 @@ class _RegisterRouteState extends State<RegisterRoute> {
 
   @override
   void initState() {
+    super.initState();
     _model.context = context;
     _model.start();
-    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    EventsBloc bloc = EventsBloc.get(context);
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
         listener: (context, state) {
@@ -86,20 +88,20 @@ class _RegisterRouteState extends State<RegisterRoute> {
           }
           if (state is SignInWithGoogleStateError) {
             errorNotification(
-                context: context, description: state.error.toString());
+                context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
           }
           if (state is AddUserToFirebaseStateError) {
             errorNotification(
-                context: context, description: state.error.toString());
+                context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
           }
           if (state is CreateUserStateError) {
             errorNotification(
-                context: context, description: state.error.toString());
+                context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
           }
 
           if (state is AddUserToFirebaseStateSuccess ||state is SignInWithGoogleStateSuccess ) {
             successNotification(
-                context: context, description: GeneralStrings.accountCreated);
+                context: context, description: GeneralStrings.accountCreated, backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
           }
         });
   }
@@ -146,7 +148,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         child: Align(
                             alignment: Alignment.topLeft,
                             child: Text(GeneralStrings.welcomeBack,
-                                style: TextStyleManager.lightTitle)),
+                                style: TextStyleManager.lightTitle(context),),),
                       ),
                       SizedBox(
                         height: SizeManager.d30,
@@ -171,6 +173,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i400,
                           child: textFormField(
+                            context: context,
                             controller: _model.fullNameController,
                             hintText: GeneralStrings.ahmadKhalid,
                             labelText: GeneralStrings.fullName,
@@ -184,6 +187,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i600,
                           child: textFormField(
+                            context: context,
                             controller: _model.emailController,
                             hintText: GeneralStrings.ahmadEmail,
                             labelText: GeneralStrings.email,
@@ -197,6 +201,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i800,
                           child: textFormField(
+                            context: context,
                               controller: _model.passwordController,
                               labelText: GeneralStrings.password,
                               prefix: Icon(IconsManager.key),
@@ -237,7 +242,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             ),
                             Text(
                               GeneralStrings.or,
-                              style: TextStyleManager.lightTitle,
+                              style: TextStyleManager.lightTitle(context),
                             ),
                             SizedBox(
                               width: SizeManager.d2,
@@ -304,7 +309,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                     SizedBox(width: SizeManager.d20),
                     Text(
                       nameOfButton,
-                      style: TextStyleManager.lightTitle,
+                      style: TextStyleManager.lightTitle(context),
                     ),
                     Spacer(),
                     if (sufixSvgAssetPath != null)

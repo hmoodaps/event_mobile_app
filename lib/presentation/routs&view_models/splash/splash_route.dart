@@ -9,8 +9,6 @@ import 'package:event_mobile_app/presentation/components/constants/variables_man
 import 'package:flutter/material.dart';
 
 import '../../../data/local_storage/shared_local.dart';
-import '../../../data/remote_data_source/dio_requests_handler.dart';
-import '../../../domain/models/movie_model.dart';
 import '../../components/constants/general_strings.dart';
 
 class SplashRoute extends StatefulWidget {
@@ -34,20 +32,20 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   Future<void> _startDelay() async {
-    await Future.delayed(Duration(seconds: SizeManager.i4));
-    await _initFirebase();
-    List<MovieModel> movies = await DioHelper.fetchMovies();
-    VariablesManager.movies = movies;
-    _endSplash();
+    await Future.delayed(Duration(seconds: SizeManager.i4) ,    _endSplash);
+    //TODO :: active this after finish every thing
+   // await _initFirebase();
+   //  List<MovieModel> movies = await DioHelper.fetchMovies();
+   //  VariablesManager.movies = movies;
   }
 
   void _endSplash() {
     _isGuest == false
-        ? navigateTo(
+        ? Navigator.pushNamedAndRemoveUntil(
         context,
         _isFirstTimeOpened
             ? RouteStringsManager.onboardingRoute
-            : RouteStringsManager.questionRoute)
+            : RouteStringsManager.questionRoute  , (route) => false,)
         : Navigator.pushNamedAndRemoveUntil(context, RouteStringsManager.mainRoute, (route) => false);
   }
 

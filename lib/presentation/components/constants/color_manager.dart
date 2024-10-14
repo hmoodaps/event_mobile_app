@@ -1,8 +1,7 @@
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 
 class ColorManager {
-  static Color  primary =VariablesManager.isDark ?  Color(0xFFDEDADA) : Color(0xFFb3afaf);
+  static const Color  primary = Color(0xFFbdd6bc);
   static const Color  primarySecond = Color(0xFF36CC60);
   static const Color  privateYalow = Color(0xFFFFBB00);
   static const Color  privateGrey = Color(0xFF828282);

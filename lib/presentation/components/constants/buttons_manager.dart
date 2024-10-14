@@ -26,7 +26,7 @@ class ButtonManager {
                     Spacer(),
                     Text(
                       buttonName,
-                      style: TextStyleManager.lightTitle,
+                      style: TextStyleManager.lightTitle(context),
                     ),
                     Spacer(),
                     Icon(suffixIcon, color: ColorManager.privateGrey),
@@ -57,8 +57,8 @@ class ContainerManager {
     );
   }
   static BoxShadow myShadow(){
-    return           BoxShadow(
-      color: ColorManager.privateGrey,
+    return BoxShadow(
+      color: Colors.grey.shade800,
       // لون الظل مع الشفافية
       offset: Offset(SizeManager.d4, SizeManager.d10),
       // موضع الظل (إزاحة عمودية)

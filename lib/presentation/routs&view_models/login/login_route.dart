@@ -19,6 +19,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 import '../../components/constants/color_manager.dart';
+import '../../components/constants/variables_manager.dart';
 
 class LoginRoute extends StatefulWidget {
   const LoginRoute({super.key});
@@ -32,13 +33,15 @@ class _LoginRouteState extends State<LoginRoute> {
 
   @override
   void initState() {
+    super.initState();
     _model.context = context;
     _model.start();
-    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    EventsBloc bloc = EventsBloc.get(context);
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
         listener: (context, state) {
@@ -57,7 +60,7 @@ class _LoginRouteState extends State<LoginRoute> {
             navigatorToTheMain(context);
           }
           if(state is LoginErrorState){
-            errorNotification(context: context, description: state.error.toString());
+            errorNotification(context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ?Colors.white : Colors.grey.shade400  , );
           }
           if(state is SignInWithGoogleState){
             showDialog(context: context, builder: (context) => Center(
@@ -77,7 +80,7 @@ class _LoginRouteState extends State<LoginRoute> {
               navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
             }
           }
-          if(state is SignInWithGoogleStateError){            errorNotification(context: context, description: state.error.toString());
+          if(state is SignInWithGoogleStateError){            errorNotification(context: context, description: state.error.toString(),backgroundColor: VariablesManager.isDark ?Colors.white : Colors.grey.shade400);
 
 
           }
@@ -127,7 +130,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(GeneralStrings .welcomeBack,
-                            style: TextStyleManager.lightTitle)),
+                            style: Theme.of(context).textTheme.titleLarge,),),
                   ),
                   SizedBox(
                     height: SizeManager.d30,
@@ -140,7 +143,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         labelText: GeneralStrings .email,
                         prefix: Icon(IconsManager.email),
                         onFieldSubmitted: (p0) => _model.toNextField,
-                        validator: (p0) => _model.validator(p0),
+                        validator: (p0) => _model.validator(p0), context: context,
                       )),
                   SizedBox(
                     height: SizeManager.d20,
@@ -153,7 +156,7 @@ class _LoginRouteState extends State<LoginRoute> {
                           prefix: Icon(IconsManager.key),
                           onFieldSubmitted: (p0) => _model.toNextField,
                           validator: (p0) => _model.validator(p0),
-                          suffix: Icon(IconsManager.hide))),
+                          suffix: Icon(IconsManager.hide), context: context)),
                   SizedBox(
                     height: SizeManager.d10,
                   ),
@@ -206,7 +209,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         ),
                         Text(
                           GeneralStrings .or,
-                          style: TextStyleManager.lightTitle,
+                          style:Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(
                           width: SizeManager.d2,
@@ -273,7 +276,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     SizedBox(width: SizeManager.d20),
                     Text(
                       nameOfButton,
-                      style: TextStyleManager.lightTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Spacer(),
                     if (sufixSvgAssetPath != null)

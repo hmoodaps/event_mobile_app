@@ -173,16 +173,16 @@ class MovieCardState extends State<MovieCard>
     );
   }
 }
+
+
+//navigator To The Main Route
 navigatorToTheMain(context){
   navigateTo(context!, RouteStringsManager.mainRoute);
 
 }
 // handle firebase auth by google and apple
 
-User? currentUser = FirebaseAuth.instance.currentUser;
-
-
-
+//sign in with google
 Future<AuthCredential> signInWithGoogle(context) async {
   final GoogleSignInAccount? googleUser = await VariablesManager.googleSignIn.signIn();
   final GoogleSignInAuthentication googleAuth =
@@ -221,8 +221,7 @@ Future<UserCredential> createUserAtFirebase(
     required String email,
     required String password,
     required String fullName}) async {
-  UserCredential credential = await FirebaseAuth.instance
-      .createUserWithEmailAndPassword(email: email, password: password);
+  UserCredential credential = await VariablesManager.auth.createUserWithEmailAndPassword(email: email, password: password);
   return credential;
 }
 
@@ -241,8 +240,7 @@ Future<void> addUserToFirebase(
 if(!VariablesManager.userIds.contains(userModel.id)) {
   await FirebaseFirestore.instance
       .collection(GeneralStrings.users)
-      .doc(currentUser!.uid)
+      .doc(VariablesManager.currentUser!.uid)
       .set(userModel.toJson());
 }
-
 }

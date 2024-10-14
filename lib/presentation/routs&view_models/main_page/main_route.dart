@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
+import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/main_page/main_route_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,24 +18,37 @@ class MainRoute extends StatefulWidget {
 }
 
 class _MainRouteState extends State<MainRoute> {
-  late final  MainRouteModelView _model ;
+  late final MainRouteModelView _model;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _model = MainRouteModelView();
     _model.context = context;
     _model.start();
   }
+
   @override
   Widget build(BuildContext context) {
+    EventsBloc bloc = EventsBloc.get(context);
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.light, 
+      statusBarIconBrightness: Brightness.light,
     ));
-    return BlocConsumer<EventsBloc , AppStates>(builder: (context , state)=>getScaffold(), listener: (context , state){});
+    return BlocConsumer<EventsBloc, AppStates>(
+        builder: (context, state) => getScaffold(isDark: VariablesManager.isDark),
+        listener: (context, state) {});
   }
-  Widget getScaffold()=>Scaffold(
-    bottomNavigationBar: CurvedNavigationBar(onTap: (index)=>_model.onTap(index),backgroundColor:VariablesManager.isDark ? ColorManager.green4 : ColorManager.primary ,color: ColorManager.primarySecond,items: _model.bottomNavigationBarItems),
-     body: _model.onNavigationBarIconPress(),
-  );
+
+  Widget getScaffold({required bool isDark}) => Scaffold(
+        bottomNavigationBar: CurvedNavigationBar(
+            height: SizeManager.d50,
+            onTap: (index) => _model.onTap(index),
+            backgroundColor: isDark
+                ? ColorManager.green4
+                : ColorManager.primary,
+            color: ColorManager.primarySecond,
+            items: _model.bottomNavigationBarItems),
+        body: _model.onNavigationBarIconPress(),
+      );
 }
