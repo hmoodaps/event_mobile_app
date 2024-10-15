@@ -36,11 +36,13 @@ class _MainRouteState extends State<MainRoute> {
       statusBarIconBrightness: Brightness.light,
     ));
     return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => getScaffold(isDark: VariablesManager.isDark),
+        builder: (context, state) =>
+            getScaffold(isDark: VariablesManager.isDark),
         listener: (context, state) {});
   }
 
-  Widget getScaffold({required bool isDark}) => Scaffold(
+  Widget getScaffold({required bool isDark}) =>
+      Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
             height: SizeManager.d50,
             onTap: (index) => _model.onTap(index),

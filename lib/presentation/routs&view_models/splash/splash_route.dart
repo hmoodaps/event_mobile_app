@@ -25,28 +25,30 @@ class _SplashRouteState extends State<SplashRoute> {
 
   Future<void> _initFirebase() async {
     VariablesManager.userIds.clear();
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(GeneralStrings.users).get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(
+        GeneralStrings.users).get();
     for (var doc in snapshot.docs) {
       VariablesManager.userIds.add(doc.id);
     }
   }
 
   Future<void> _startDelay() async {
-    await Future.delayed(Duration(seconds: SizeManager.i4) ,    _endSplash);
+    await Future.delayed(Duration(seconds: SizeManager.i4), _endSplash);
     //TODO :: active this after finish every thing
-   // await _initFirebase();
-   //  List<MovieModel> movies = await DioHelper.fetchMovies();
-   //  VariablesManager.movies = movies;
+    // await _initFirebase();
+    //  List<MovieModel> movies = await DioHelper.fetchMovies();
+    //  VariablesManager.movies = movies;
   }
 
   void _endSplash() {
     _isGuest == false
         ? Navigator.pushNamedAndRemoveUntil(
-        context,
-        _isFirstTimeOpened
-            ? RouteStringsManager.onboardingRoute
-            : RouteStringsManager.questionRoute  , (route) => false,)
-        : Navigator.pushNamedAndRemoveUntil(context, RouteStringsManager.mainRoute, (route) => false);
+      context,
+      _isFirstTimeOpened
+          ? RouteStringsManager.onboardingRoute
+          : RouteStringsManager.questionRoute, (route) => false,)
+        : Navigator.pushNamedAndRemoveUntil(
+        context, RouteStringsManager.mainRoute, (route) => false);
   }
 
   @override

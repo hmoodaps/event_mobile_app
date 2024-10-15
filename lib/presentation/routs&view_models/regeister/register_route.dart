@@ -34,7 +34,6 @@ class _RegisterRouteState extends State<RegisterRoute> {
     super.initState();
     _model.context = context;
     _model.start();
-
   }
 
   @override
@@ -46,67 +45,87 @@ class _RegisterRouteState extends State<RegisterRoute> {
           if (state is SignInWithGoogleState) {
             showDialog(
               context: context,
-              builder: (context) => Center(
-                child:
+              builder: (context) =>
+                  Center(
+                    child:
                     // The clean code principle hasn't been followed here,
                     // as this widget may change or be replaced with a progress indicator in the future.
                     // It might be worthwhile to consider making the code more flexible
                     // by using an interface or a function to easily change the type of widget.
 
                     PulseIcon(
-                  icon: Icon(Icons.favorite),
-                  pulseColor: Colors.red,
-                  iconColor: Colors.white,
-                  iconSize: 44,
-                  innerSize: 54,
-                  pulseSize: 116,
-                  pulseCount: 4,
-                  pulseDuration: Duration(seconds: 4),
-                ),
-              ),
+                      icon: Icon(Icons.favorite),
+                      pulseColor: Colors.red,
+                      iconColor: Colors.white,
+                      iconSize: 44,
+                      innerSize: 54,
+                      pulseSize: 116,
+                      pulseCount: 4,
+                      pulseDuration: Duration(seconds: 4),
+                    ),
+                  ),
             );
           }
           if (state is StartCreateUserState) {
             showDialog(
               context: context,
-              builder: (context) => Center(
-                child: Image.asset(
-                  'assets/images/cuteAnimation.gif',
-                  width: 200,
-                  height: 200,
-                ),
-              ),
+              builder: (context) =>
+                  Center(
+                    child: Image.asset(
+                      'assets/images/cuteAnimation.gif',
+                      width: 200,
+                      height: 200,
+                    ),
+                  ),
             );
           }
           if (state is AddUserToFirebaseStateSuccess ||
               state is AddUserToFirebaseStateError ||
               state is CreateUserStateError ||
-          state is SignInWithGoogleStateSuccess ||
-          state is SignInWithGoogleStateError
+              state is SignInWithGoogleStateSuccess ||
+              state is SignInWithGoogleStateError
           ) {
             Navigator.pop(context);
           }
           if (state is SignInWithGoogleStateError) {
             errorNotification(
-                context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+                context: context,
+                description: state.error.toString(),
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.grey.shade400
+                    : Colors.white);
           }
           if (state is AddUserToFirebaseStateError) {
             errorNotification(
-                context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+                context: context,
+                description: state.error.toString(),
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.grey.shade400
+                    : Colors.white);
           }
           if (state is CreateUserStateError) {
             errorNotification(
-                context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+                context: context,
+                description: state.error.toString(),
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.grey.shade400
+                    : Colors.white);
           }
 
-          if (state is AddUserToFirebaseStateSuccess ||state is SignInWithGoogleStateSuccess ) {
+          if (state is AddUserToFirebaseStateSuccess ||
+              state is SignInWithGoogleStateSuccess) {
             successNotification(
-                context: context, description: GeneralStrings.accountCreated, backgroundColor: VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+                context: context,
+                description: GeneralStrings.accountCreated,
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.grey.shade400
+                    : Colors.white);
           }
         });
   }
 
-  Widget getScaffold() => Scaffold(
+  Widget getScaffold() =>
+      Scaffold(
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
@@ -146,9 +165,9 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         delay: SizeManager.i200,
                         direction: AnimationDirection.fromLeft,
                         child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(GeneralStrings.welcomeBack,
-                                style: TextStyleManager.lightTitle(context),),),
+                          alignment: Alignment.topLeft,
+                          child: Text(GeneralStrings.welcomeBack,
+                            style: TextStyleManager.lightTitle(context),),),
                       ),
                       SizedBox(
                         height: SizeManager.d30,
@@ -201,7 +220,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i800,
                           child: textFormField(
-                            context: context,
+                              context: context,
                               controller: _model.passwordController,
                               labelText: GeneralStrings.password,
                               prefix: Icon(IconsManager.key),

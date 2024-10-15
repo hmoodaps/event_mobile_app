@@ -10,20 +10,20 @@ import '../components/error_handler/error_handler.dart';
 
 class EventsBloc extends Bloc<AppEvents, AppStates> {
   EventsBloc() : super(InitialState()) {
-    on<StartCreateUserEvent>((event, emit){
+    on<StartCreateUserEvent>((event, emit) {
       emit(StartCreateUserState());
     });
 
     on<CreateUserEventError>((event, emit) {
-      firebaseAuthErrorsHandler(event: event , emit: emit);
-        });
+      firebaseAuthErrorsHandler(event: event, emit: emit);
+    });
 
     on<CreateUserEventSuccess>((event, emit) {
-          emit(CreateUserStateSuccess());
-        });
+      emit(CreateUserStateSuccess());
+    });
     on<AddUserToFirebaseEvent>((event, emit) {
-          emit(AddUserToFirebaseState());
-        });
+      emit(AddUserToFirebaseState());
+    });
 
     on<AddUserToFirebaseEventSuccess>((event, emit) {
       emit(AddUserToFirebaseStateSuccess());
@@ -33,8 +33,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       emit(AddUserToFirebaseStateError(event.error.toString()));
     });
     on<LoginEvent>((event, emit) {
-          emit(LoginState());
-        });
+      emit(LoginState());
+    });
 
     on<LoginSuccessEvent>((event, emit) {
       emit(LoginSuccessState());
@@ -44,8 +44,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       emit(LoginErrorState(event.error.toString()));
     });
     on<SignInWithGoogleEvent>((event, emit) {
-          emit(SignInWithGoogleState());
-        });
+      emit(SignInWithGoogleState());
+    });
 
     on<SignInWithGoogleEventSuccess>((event, emit) {
       emit(SignInWithGoogleStateSuccess());
@@ -59,14 +59,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
     on<ToggleLightAndDarkEvent>((event, emit) {
       VariablesManager.isDark = !VariablesManager.isDark;
-      VariablesManager.themeData = VariablesManager.isDark ? darkThemeData() : lightThemeData();
+      VariablesManager.themeData =
+          VariablesManager.isDark ? darkThemeData() : lightThemeData();
       emit(ToggleLightAndDarkState());
     });
-
-
   }
-
-
 
 //mack static instance to reach the bloc from anywhere in the app
   static EventsBloc get(BuildContext context) =>
@@ -76,14 +73,24 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   ThemeData? toggleLightAndDark(BuildContext context) {
     Brightness brightness = MediaQuery.of(context).platformBrightness;
     brightness == Brightness.dark
-        ? (VariablesManager.themeData = darkThemeData(), VariablesManager.isDark = true)
-        : (VariablesManager.themeData = lightThemeData(), VariablesManager.isDark = false);
+        ? (
+            VariablesManager.themeData = darkThemeData(),
+            VariablesManager.isDark = true
+          )
+        : (
+            VariablesManager.themeData = lightThemeData(),
+            VariablesManager.isDark = false
+          );
     add(ToggleLightAndDarkEvent());
     return VariablesManager.themeData;
   }
 
-  lightHeader (BuildContext context)=> Theme.of(context).textTheme.bodyLarge ;
-  lightTitle (BuildContext context)=> Theme.of(context).textTheme.titleLarge ;
-  lightBody (BuildContext context)=> Theme.of(context).textTheme.bodyLarge;
-  lightParagraph (BuildContext context)=> Theme.of(context).textTheme.labelLarge;
+  lightHeader(BuildContext context) => Theme.of(context).textTheme.bodyLarge;
+
+  lightTitle(BuildContext context) => Theme.of(context).textTheme.titleLarge;
+
+  lightBody(BuildContext context) => Theme.of(context).textTheme.bodyLarge;
+
+  lightParagraph(BuildContext context) =>
+      Theme.of(context).textTheme.labelLarge;
 }

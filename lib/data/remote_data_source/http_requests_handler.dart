@@ -11,7 +11,8 @@ class HttpHelper {
     Map<String, String>? queryParameters,
   }) async {
     try {
-      final Uri uri = Uri.parse(baseUrl + methodUrl).replace(queryParameters: queryParameters);
+      final Uri uri = Uri.parse(baseUrl + methodUrl)
+          .replace(queryParameters: queryParameters);
       final response = await http.get(uri);
       return response;
     } catch (e) {
@@ -29,7 +30,8 @@ class HttpHelper {
     Map<String, String>? queryParameters,
   }) async {
     try {
-      final Uri uri = Uri.parse(baseUrl + methodUrl).replace(queryParameters: queryParameters);
+      final Uri uri = Uri.parse(baseUrl + methodUrl)
+          .replace(queryParameters: queryParameters);
       final response = await http.post(
         uri,
         headers: {'Content-Type': 'application/json'},
@@ -51,7 +53,8 @@ class HttpHelper {
     Map<String, String>? queryParameters,
   }) async {
     try {
-      final Uri uri = Uri.parse(baseUrl + methodUrl).replace(queryParameters: queryParameters);
+      final Uri uri = Uri.parse(baseUrl + methodUrl)
+          .replace(queryParameters: queryParameters);
       final response = await http.put(
         uri,
         headers: {'Content-Type': 'application/json'},
@@ -72,7 +75,8 @@ class HttpHelper {
     Map<String, String>? queryParameters,
   }) async {
     try {
-      final Uri uri = Uri.parse(baseUrl + methodUrl).replace(queryParameters: queryParameters);
+      final Uri uri = Uri.parse(baseUrl + methodUrl)
+          .replace(queryParameters: queryParameters);
       final response = await http.delete(uri);
       return response;
     } catch (e) {

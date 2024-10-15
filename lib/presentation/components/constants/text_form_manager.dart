@@ -20,7 +20,6 @@ TextFormField textFormField({
   bool? filled,
   Color? fillColor,
   required BuildContext context,
-
 }) {
   return defaultTextFormField(
     context: context,
@@ -81,7 +80,6 @@ TextFormField searchFormField({
   String? labelText,
   bool? filled,
   Color? fillColor,
-
 }) {
   return defaultTextFormField(
     controller: controller,
@@ -100,7 +98,8 @@ TextFormField searchFormField({
     readOnly: readOnly,
     border: OutlineInputBorder(
         borderSide: BorderSide(color: ColorManager.privateBlue),
-        borderRadius: BorderRadius.all(Radius.circular(SizeManager.d200))), context: context,
+        borderRadius: BorderRadius.all(Radius.circular(SizeManager.d200))),
+    context: context,
   );
 }
 

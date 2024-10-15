@@ -36,7 +36,6 @@ class _LoginRouteState extends State<LoginRoute> {
     super.initState();
     _model.context = context;
     _model.start();
-
   }
 
   @override
@@ -45,44 +44,85 @@ class _LoginRouteState extends State<LoginRoute> {
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
         listener: (context, state) {
-          if(state is LoginState){
-            showDialog(context: context, builder: (context) => Center(
-              child: LoadingIndicator(
-                indicatorType: Indicator.squareSpin, /// Required, The loading type of the widget
-                colors: const [ColorManager.primarySecond],       /// Optional, The color collections
-                strokeWidth: 2,                     /// Optional, The stroke of the line, only applicable to widget which contains line
-                backgroundColor: Colors.transparent,      /// Optional, Background of the widget
-                pathBackgroundColor: Colors.transparent   /// Optional, the stroke backgroundColor
-            ),),);
+          if (state is LoginState) {
+            showDialog(
+              context: context,
+              builder: (context) => Center(
+                child: LoadingIndicator(
+                    indicatorType: Indicator.squareSpin,
+
+                    /// Required, The loading type of the widget
+                    colors: const [ColorManager.primarySecond],
+
+                    /// Optional, The color collections
+                    strokeWidth: 2,
+
+                    /// Optional, The stroke of the line, only applicable to widget which contains line
+                    backgroundColor: Colors.transparent,
+
+                    /// Optional, Background of the widget
+                    pathBackgroundColor: Colors.transparent
+
+                    /// Optional, the stroke backgroundColor
+                    ),
+              ),
+            );
           }
-          if(state is LoginSuccessState ||state is LoginErrorState  ||state is  SignInWithGoogleStateSuccess ||state is  SignInWithGoogleStateError){Navigator.pop(context);}
-          if(state is LoginSuccessState){
+          if (state is LoginSuccessState ||
+              state is LoginErrorState ||
+              state is SignInWithGoogleStateSuccess ||
+              state is SignInWithGoogleStateError) {
+            Navigator.pop(context);
+          }
+          if (state is LoginSuccessState) {
             navigatorToTheMain(context);
           }
-          if(state is LoginErrorState){
-            errorNotification(context: context, description: state.error.toString(), backgroundColor: VariablesManager.isDark ?Colors.white : Colors.grey.shade400  , );
+          if (state is LoginErrorState) {
+            errorNotification(
+              context: context,
+              description: state.error.toString(),
+              backgroundColor:
+                  VariablesManager.isDark ? Colors.white : Colors.grey.shade400,
+            );
           }
-          if(state is SignInWithGoogleState){
-            showDialog(context: context, builder: (context) => Center(
-              child: LoadingIndicator(
-                  indicatorType: Indicator.squareSpin, /// Required, The loading type of the widget
-                  colors: const [ColorManager.primarySecond],       /// Optional, The color collections
-                  strokeWidth: 2,                     /// Optional, The stroke of the line, only applicable to widget which contains line
-                  backgroundColor: Colors.transparent,      /// Optional, Background of the widget
-                  pathBackgroundColor: Colors.transparent   /// Optional, the stroke backgroundColor
-              ),),);
+          if (state is SignInWithGoogleState) {
+            showDialog(
+              context: context,
+              builder: (context) => Center(
+                child: LoadingIndicator(
+                    indicatorType: Indicator.squareSpin,
 
+                    /// Required, The loading type of the widget
+                    colors: const [ColorManager.primarySecond],
+
+                    /// Optional, The color collections
+                    strokeWidth: 2,
+
+                    /// Optional, The stroke of the line, only applicable to widget which contains line
+                    backgroundColor: Colors.transparent,
+
+                    /// Optional, Background of the widget
+                    pathBackgroundColor: Colors.transparent
+
+                    /// Optional, the stroke backgroundColor
+                    ),
+              ),
+            );
           }
-          if(state is SignInWithGoogleStateSuccess){
-            if(_model.checkUserExisting()){
+          if (state is SignInWithGoogleStateSuccess) {
+            if (_model.checkUserExisting()) {
               navigatorToTheMain(context);
-            }else{
+            } else {
               navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
             }
           }
-          if(state is SignInWithGoogleStateError){            errorNotification(context: context, description: state.error.toString(),backgroundColor: VariablesManager.isDark ?Colors.white : Colors.grey.shade400);
-
-
+          if (state is SignInWithGoogleStateError) {
+            errorNotification(
+                context: context,
+                description: state.error.toString(),
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.white
+                    : Colors.grey.shade400);
           }
         });
   }
@@ -113,11 +153,11 @@ class _LoginRouteState extends State<LoginRoute> {
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          GeneralStrings .login,
+                          GeneralStrings.login,
                           style: TextStyle(
                               fontWeight: FontWeightManager.bold,
                               fontSize: SizeManager.d50,
-                              fontFamily: GeneralStrings .cormo,
+                              fontFamily: GeneralStrings.cormo,
                               color: Colors.black),
                         )),
                   ),
@@ -128,9 +168,12 @@ class _LoginRouteState extends State<LoginRoute> {
                     delay: SizeManager.i400,
                     direction: AnimationDirection.fromLeft,
                     child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(GeneralStrings .welcomeBack,
-                            style: Theme.of(context).textTheme.titleLarge,),),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        GeneralStrings.welcomeBack,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: SizeManager.d30,
@@ -139,11 +182,12 @@ class _LoginRouteState extends State<LoginRoute> {
                       delay: SizeManager.i600,
                       child: textFormField(
                         controller: _model.emailController,
-                        hintText: GeneralStrings .ahmadEmail,
-                        labelText: GeneralStrings .email,
+                        hintText: GeneralStrings.ahmadEmail,
+                        labelText: GeneralStrings.email,
                         prefix: Icon(IconsManager.email),
                         onFieldSubmitted: (p0) => _model.toNextField,
-                        validator: (p0) => _model.validator(p0), context: context,
+                        validator: (p0) => _model.validator(p0),
+                        context: context,
                       )),
                   SizedBox(
                     height: SizeManager.d20,
@@ -152,11 +196,12 @@ class _LoginRouteState extends State<LoginRoute> {
                       delay: SizeManager.i800,
                       child: textFormField(
                           controller: _model.passwordController,
-                          labelText: GeneralStrings .password,
+                          labelText: GeneralStrings.password,
                           prefix: Icon(IconsManager.key),
                           onFieldSubmitted: (p0) => _model.toNextField,
                           validator: (p0) => _model.validator(p0),
-                          suffix: Icon(IconsManager.hide), context: context)),
+                          suffix: Icon(IconsManager.hide),
+                          context: context)),
                   SizedBox(
                     height: SizeManager.d10,
                   ),
@@ -165,7 +210,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     child: TextButton(
                       onPressed: () => _model.onForgetPasswordPress,
                       child: Text(
-                        GeneralStrings .forgetPassword,
+                        GeneralStrings.forgetPassword,
                         style: TextStyle(
                           color: ColorManager.primarySecond,
                           fontSize: SizeManager.d18,
@@ -185,7 +230,7 @@ class _LoginRouteState extends State<LoginRoute> {
                           password: _model.passwordController.text,
                         );
                       },
-                      nameOfButton: GeneralStrings .login,
+                      nameOfButton: GeneralStrings.login,
                       sufixSvgAssetPath: AssetsManager.login,
                       color: ColorManager.primarySecond),
                   SizedBox(
@@ -208,8 +253,8 @@ class _LoginRouteState extends State<LoginRoute> {
                           width: SizeManager.d2,
                         ),
                         Text(
-                          GeneralStrings .or,
-                          style:Theme.of(context).textTheme.titleLarge,
+                          GeneralStrings.or,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(
                           width: SizeManager.d2,
@@ -227,14 +272,14 @@ class _LoginRouteState extends State<LoginRoute> {
                     height: SizeManager.d20,
                   ),
                   _button(
-                    onTap: ()=>_model.onSignInwWithGooglePress(),
+                      onTap: () => _model.onSignInwWithGooglePress(),
                       delay: 1400,
-                      nameOfButton: GeneralStrings .signWithGoogle,
+                      nameOfButton: GeneralStrings.signWithGoogle,
                       prefixSvgAssetPath: AssetsManager.google),
                   SizedBox(height: SizeManager.d30),
                   _button(
                       delay: 1600,
-                      nameOfButton: GeneralStrings .signWithApple,
+                      nameOfButton: GeneralStrings.signWithApple,
                       prefixSvgAssetPath: AssetsManager.apple),
                 ],
               ),

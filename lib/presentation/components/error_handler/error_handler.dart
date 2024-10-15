@@ -3,52 +3,53 @@ import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 
 import '../constants/error_strings.dart';
 
-
 firebaseAuthErrorsHandler({required event, required emit}) {
   FirebaseAuthException authException = event.error;
 
   switch (authException.code) {
     case 'expired-action-code':
-      emit(CreateUserStateError(  ErrorStrings .expiredActionCode));
+      emit(CreateUserStateError(ErrorStrings.expiredActionCode));
       break;
     case 'invalid-email':
-      emit(CreateUserStateError(ErrorStrings .invalidEmail));
+      emit(CreateUserStateError(ErrorStrings.invalidEmail));
       break;
     case 'user-disabled':
-      emit(CreateUserStateError(ErrorStrings .userDisabled));
+      emit(CreateUserStateError(ErrorStrings.userDisabled));
       break;
     case 'operation-not-allowed':
-      emit(CreateUserStateError(ErrorStrings .operationNotAllowed));
+      emit(CreateUserStateError(ErrorStrings.operationNotAllowed));
       break;
     case 'user-mismatch':
-      emit(CreateUserStateError(ErrorStrings .userMismatch));
+      emit(CreateUserStateError(ErrorStrings.userMismatch));
       break;
     case 'user-not-found':
-      emit(CreateUserStateError(ErrorStrings .userNotFound));
+      emit(CreateUserStateError(ErrorStrings.userNotFound));
       break;
     case 'invalid-credential':
-      emit(CreateUserStateError(ErrorStrings .invalidCredential));
+      emit(CreateUserStateError(ErrorStrings.invalidCredential));
       break;
     case 'wrong-password':
-      emit(CreateUserStateError(ErrorStrings .wrongPassword));
+      emit(CreateUserStateError(ErrorStrings.wrongPassword));
       break;
     case 'invalid-verification-code':
-      emit(CreateUserStateError(ErrorStrings .invalidVerificationCode));
+      emit(CreateUserStateError(ErrorStrings.invalidVerificationCode));
       break;
     case 'invalid-verification-id':
-      emit(CreateUserStateError(ErrorStrings .invalidVerificationId));
+      emit(CreateUserStateError(ErrorStrings.invalidVerificationId));
       break;
     case 'account-exists-with-different-credential':
-      emit(CreateUserStateError(ErrorStrings .accountExistsWithDifferentCredential));
+      emit(CreateUserStateError(
+          ErrorStrings.accountExistsWithDifferentCredential));
       break;
     case 'email-already-in-use':
-      emit(CreateUserStateError(ErrorStrings .emailAlreadyInUse));
+      emit(CreateUserStateError(ErrorStrings.emailAlreadyInUse));
       break;
     case 'weak-password':
-      emit(CreateUserStateError(ErrorStrings .weakPassword));
+      emit(CreateUserStateError(ErrorStrings.weakPassword));
       break;
     default:
-      emit(CreateUserStateError(authException.message ?? ErrorStrings .unknownError));
+      emit(CreateUserStateError(
+          authException.message ?? ErrorStrings.unknownError));
   }
 }
 

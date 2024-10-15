@@ -26,167 +26,181 @@ class _QuestionRouteState extends State<QuestionRoute> {
 
   @override
   Widget build(BuildContext context) {
-    EventsBloc bloc =EventsBloc.get(context);
-    return BlocConsumer<EventsBloc  , AppStates>(builder:(context , state)=>getScaffold(bloc: bloc) , listener: (context , state){});
+    EventsBloc bloc = EventsBloc.get(context);
+    return BlocConsumer<EventsBloc, AppStates>(
+        builder: (context, state) => getScaffold(bloc: bloc),
+        listener: (context, state) {});
   }
-  Widget getScaffold({required EventsBloc bloc})=>Scaffold(
-    appBar: AppBar(
-      leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: IconsManager.arrowBack),
-    ),
-    body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(SizeManager.d20),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                StaggeredAnimatedWidget(
-                    delay: SizeManager.i200,
-                    child: Image.asset(
-                      AssetsManager.getStartAsset,
-                      color: VariablesManager.isDark?Colors.white : Colors.black,
-                      width: SizeManager.screenSize(context).width / 10,
-                      height: SizeManager.screenSize(context).width / 10,
-                    )),
-                SizedBox(
-                  height: SizeManager.d8,
-                ),
-                StaggeredAnimatedWidget(
-                  delay: SizeManager.i400,
-                  child: Text(
-                    GeneralStrings .letsStart,
-                    style: TextStyleManager.lightHeader(context),
-                  ),
-                ),
-                Spacer(),
-                Align(alignment: Alignment.bottomCenter ,child: SizedBox(
-                  height: SizeManager.screenSize(context).height/2,
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      StaggeredAnimatedWidget(
-                        delay: SizeManager.i600,
-                        child: Text(
-                          GeneralStrings .question,
-                          style: TextStyleManager.lightTitle(context),
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeManager.d24,
-                      ),
-                      StaggeredAnimatedWidget(
-                          delay: SizeManager.i800,
-                          child: ButtonManager.myButton(
-                              suffixIcon: IconsManager.home,
-                              context: context,
-                              buttonName: GeneralStrings .guest,
-                              onTap: () => _modelView.navigateToMain(context: context),
-                              color: ColorManager.primarySecond)),
-                      SizedBox(
-                        height: SizeManager.d12,
-                      ),
-                      StaggeredAnimatedWidget(
-                        delay: SizeManager.i1000,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: ColorManager.primary,
-                              ),
-                            ),
-                            SizedBox(
-                              width: SizeManager.d2,
-                            ),
-                            Text(
-                              GeneralStrings .or,
-                              style: TextStyleManager.lightTitle(context),
-                            ),
-                            SizedBox(
-                              width: SizeManager.d2,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: ColorManager.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeManager.d12,
-                      ),
-                      StaggeredAnimatedWidget(
-                          delay: SizeManager.i1200,
-                          child: ButtonManager.myButton(
-                              suffixIcon: IconsManager.register,
-                              context: context,
-                              buttonName: GeneralStrings .register,
-                              onTap: () =>
-                                  _modelView.navigateToRegister(context: context),
-                              color: ColorManager.privateYalow)),
-                      SizedBox(
-                        height: SizeManager.d12,
-                      ),
-                      StaggeredAnimatedWidget(
-                        delay: SizeManager.i1400,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: ColorManager.primary,
-                              ),
-                            ),
-                            SizedBox(
-                              width: SizeManager.d2,
-                            ),
-                            Text(
-                              GeneralStrings .haveAccount,
-                              style: TextStyleManager.lightTitle(context),
-                            ),
-                            SizedBox(
-                              width: SizeManager.d2,
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: ColorManager.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeManager.d12,
-                      ),
-                      StaggeredAnimatedWidget(
-                          delay: SizeManager.i1600,
-                          child: ButtonManager.myButton(
-                              suffixIcon: IconsManager.login,
-                              context: context,
-                              buttonName: GeneralStrings .login,
-                              onTap: () => _modelView.navigateToLogin(context: context),
-                              color: ColorManager.privateBlue)),
 
-                    ],
-                  ),
-                ),)
-              ],
-            ),
-          ),
-        )),
-  );
+  Widget getScaffold({required EventsBloc bloc}) =>
+      Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: IconsManager.arrowBack),
+        ),
+        body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(SizeManager.d20),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    StaggeredAnimatedWidget(
+                        delay: SizeManager.i200,
+                        child: Image.asset(
+                          AssetsManager.getStartAsset,
+                          color: VariablesManager.isDark ? Colors.white : Colors
+                              .black,
+                          width: SizeManager
+                              .screenSize(context)
+                              .width / 10,
+                          height: SizeManager
+                              .screenSize(context)
+                              .width / 10,
+                        )),
+                    SizedBox(
+                      height: SizeManager.d8,
+                    ),
+                    StaggeredAnimatedWidget(
+                      delay: SizeManager.i400,
+                      child: Text(
+                        GeneralStrings.letsStart,
+                        style: TextStyleManager.lightHeader(context),
+                      ),
+                    ),
+                    Spacer(),
+                    Align(alignment: Alignment.bottomCenter, child: SizedBox(
+                      height: SizeManager
+                          .screenSize(context)
+                          .height / 2,
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          StaggeredAnimatedWidget(
+                            delay: SizeManager.i600,
+                            child: Text(
+                              GeneralStrings.question,
+                              style: TextStyleManager.lightTitle(context),
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeManager.d24,
+                          ),
+                          StaggeredAnimatedWidget(
+                              delay: SizeManager.i800,
+                              child: ButtonManager.myButton(
+                                  suffixIcon: IconsManager.home,
+                                  context: context,
+                                  buttonName: GeneralStrings.guest,
+                                  onTap: () => _modelView.navigateToMain(
+                                      context: context),
+                                  color: ColorManager.primarySecond)),
+                          SizedBox(
+                            height: SizeManager.d12,
+                          ),
+                          StaggeredAnimatedWidget(
+                            delay: SizeManager.i1000,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
+                                    color: ColorManager.primary,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: SizeManager.d2,
+                                ),
+                                Text(
+                                  GeneralStrings.or,
+                                  style: TextStyleManager.lightTitle(context),
+                                ),
+                                SizedBox(
+                                  width: SizeManager.d2,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
+                                    color: ColorManager.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeManager.d12,
+                          ),
+                          StaggeredAnimatedWidget(
+                              delay: SizeManager.i1200,
+                              child: ButtonManager.myButton(
+                                  suffixIcon: IconsManager.register,
+                                  context: context,
+                                  buttonName: GeneralStrings.register,
+                                  onTap: () =>
+                                      _modelView.navigateToRegister(
+                                          context: context),
+                                  color: ColorManager.privateYalow)),
+                          SizedBox(
+                            height: SizeManager.d12,
+                          ),
+                          StaggeredAnimatedWidget(
+                            delay: SizeManager.i1400,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
+                                    color: ColorManager.primary,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: SizeManager.d2,
+                                ),
+                                Text(
+                                  GeneralStrings.haveAccount,
+                                  style: TextStyleManager.lightTitle(context),
+                                ),
+                                SizedBox(
+                                  width: SizeManager.d2,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
+                                    color: ColorManager.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeManager.d12,
+                          ),
+                          StaggeredAnimatedWidget(
+                              delay: SizeManager.i1600,
+                              child: ButtonManager.myButton(
+                                  suffixIcon: IconsManager.login,
+                                  context: context,
+                                  buttonName: GeneralStrings.login,
+                                  onTap: () => _modelView.navigateToLogin(
+                                      context: context),
+                                  color: ColorManager.privateBlue)),
+
+                        ],
+                      ),
+                    ),)
+                  ],
+                ),
+              ),
+            )),
+      );
 }

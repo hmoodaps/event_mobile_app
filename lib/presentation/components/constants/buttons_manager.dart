@@ -16,7 +16,7 @@ class ButtonManager {
       GestureDetector(
         onTap: onTap,
         child: ContainerManager.myContainer(
-          color: color,
+            color: color,
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(SizeManager.d12),
@@ -40,9 +40,12 @@ class ButtonManager {
 
 class ContainerManager {
   static Widget myContainer(
-      {required Widget child, required BuildContext context, Color? color ,double ? height}) {
+      {required Widget child,
+      required BuildContext context,
+      Color? color,
+      double? height}) {
     return Container(
-      height:height ?? SizeManager.d70,
+      height: height ?? SizeManager.d70,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -56,7 +59,8 @@ class ContainerManager {
       child: child,
     );
   }
-  static BoxShadow myShadow(){
+
+  static BoxShadow myShadow() {
     return BoxShadow(
       color: Colors.grey.shade800,
       // لون الظل مع الشفافية

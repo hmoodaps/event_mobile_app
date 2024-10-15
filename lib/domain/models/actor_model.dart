@@ -2,7 +2,7 @@ class ActorModel {
   String? fullName;
   String? profilePhoto;
   String? description;
-  String  ?sours ;
+  String? sours;
 
   ActorModel(this.fullName, this.description, this.profilePhoto);
 
@@ -14,6 +14,4 @@ class ActorModel {
     description = page['extract'];
     profilePhoto = page['original']?['source'];
   }
-
-
 }

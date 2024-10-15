@@ -16,6 +16,7 @@ class OnboardingRoute extends StatefulWidget {
 class _OnboardingRouteState extends State<OnboardingRoute> {
   late final OnboardingModelView _model;
   final PageController _pageController = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -26,10 +27,9 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _model.context = context;  // تعيين السياق هنا
+    _model.context = context; // تعيين السياق هنا
     _model.start();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +74,13 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                             child: Padding(
                               padding: EdgeInsets.only(
                                   bottom:
-                                      SizeManager.screenSize(context).height / 10),
+                                      SizeManager.screenSize(context).height /
+                                          10),
                               child: TextButton(
                                 onPressed: _model.onContinuePressed,
-                                child: Text(
-                                  GeneralStrings .continueString,
-                                  style:TextStyleManager.lightTitle(context)
-                                ),
+                                child: Text(GeneralStrings.continueString,
+                                    style:
+                                        TextStyleManager.lightTitle(context)),
                               ),
                             ),
                           ),

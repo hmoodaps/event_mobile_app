@@ -36,9 +36,6 @@ class DioHelper {
   }
 }
 
-
-
-
 //
 // //BASE URL : https://localhost:8000/
 // //method url : viewsets/guests,reservation,movies/data or create-superuser/<-post , delete only

@@ -2,9 +2,10 @@ import 'package:event_mobile_app/presentation/components/constants/size_manager.
 import 'package:flutter/cupertino.dart';
 import 'package:icon_broken/icon_broken.dart';
 
-class IconsManager{
+class IconsManager {
   static const IconData home = IconBroken.Home;
-  static const IconData login = IconBroken.Login ;
+  static const IconData login = IconBroken.Login;
+
   static const IconData register = IconBroken.AddUser;
   static const IconData person = IconBroken.User;
   static const IconData eye = IconBroken.Password;
@@ -16,5 +17,8 @@ class IconsManager{
   static const IconData search = IconBroken.Search;
   static const IconData cart = IconBroken.Bag_2;
 
-  static const Icon arrowBack = Icon(IconBroken.Arrow___Left_2 ,size: SizeManager.d24,);
+  static const Icon arrowBack = Icon(
+    IconBroken.Arrow___Left_2,
+    size: SizeManager.d24,
+  );
 }

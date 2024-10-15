@@ -87,10 +87,10 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
       _bloc.add(SignInWithGoogleEventSuccess());
       _bloc.add(AddUserToFirebaseEvent());
       await addUserToFirebase(
-          fullName: user!.displayName,
-          email: user.email,
-          userPhotoUrl: user.photoURL,
-          uid: user.uid)
+              fullName: user!.displayName,
+              email: user.email,
+              userPhotoUrl: user.photoURL,
+              uid: user.uid)
           .then((value) {
         _bloc.add(AddUserToFirebaseEventSuccess());
       }).catchError((error) {
@@ -108,7 +108,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
 
   @override
   checkUserExisting() {
-   return VariablesManager.userIds.contains(VariablesManager.currentUser!.uid);
+    return VariablesManager.userIds.contains(VariablesManager.currentUser!.uid);
   }
 }
 
@@ -119,6 +119,7 @@ mixin LoginModelViewFunctions {
       required String password});
 
   validator(String value);
+
   onUserAddedSuccessfully();
 
   onForgetPasswordPress();
@@ -126,6 +127,7 @@ mixin LoginModelViewFunctions {
   onSignInwWithGooglePress();
 
   onSignInwWithApplePress();
+
   bool checkUserExisting();
 
   toNextField(BuildContext context);

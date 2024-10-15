@@ -19,21 +19,23 @@ import '../../routs&view_models/splash/splash_route.dart';
 
 class Routes {
   static final Map<String, WidgetBuilder> routeBuilders = {
-    RouteStringsManager .splashRoute: (context) => const SplashRoute(),
-    RouteStringsManager .onboardingRoute: (context) => const OnboardingRoute(),
-    RouteStringsManager .loginRoute: (context) => const LoginRoute(),
-    RouteStringsManager .questionRoute: (context) => const QuestionRoute(),
-    RouteStringsManager .registerRoute: (context) => const RegisterRoute(),
-    RouteStringsManager .forgetPasswordRoute: (context) => const ForgetPasswordRoute(),
-    RouteStringsManager .mainRoute: (context) => const MainRoute(),
-    RouteStringsManager .editReservationRoute: (context) => const EditReservationRoute(),
-    RouteStringsManager .reservationRoute: (context) => const ReservationRoute(),
-    RouteStringsManager .movieRoute: (context) => const MovieRoute(),
-    RouteStringsManager .cartRoute: (context) => const CartRoute(),
-    RouteStringsManager .favoriteRoute: (context) => const FavoriteRoute(),
-    RouteStringsManager .pastFilmsRoute: (context) => const PastFilmsRoute(),
-    RouteStringsManager .profileRoute: (context) => const ProfileRoute(),
-    RouteStringsManager .searchRoute: (context) => const SearchRoute(),
+    RouteStringsManager.splashRoute: (context) => const SplashRoute(),
+    RouteStringsManager.onboardingRoute: (context) => const OnboardingRoute(),
+    RouteStringsManager.loginRoute: (context) => const LoginRoute(),
+    RouteStringsManager.questionRoute: (context) => const QuestionRoute(),
+    RouteStringsManager.registerRoute: (context) => const RegisterRoute(),
+    RouteStringsManager.forgetPasswordRoute: (context) =>
+        const ForgetPasswordRoute(),
+    RouteStringsManager.mainRoute: (context) => const MainRoute(),
+    RouteStringsManager.editReservationRoute: (context) =>
+        const EditReservationRoute(),
+    RouteStringsManager.reservationRoute: (context) => const ReservationRoute(),
+    RouteStringsManager.movieRoute: (context) => const MovieRoute(),
+    RouteStringsManager.cartRoute: (context) => const CartRoute(),
+    RouteStringsManager.favoriteRoute: (context) => const FavoriteRoute(),
+    RouteStringsManager.pastFilmsRoute: (context) => const PastFilmsRoute(),
+    RouteStringsManager.profileRoute: (context) => const ProfileRoute(),
+    RouteStringsManager.searchRoute: (context) => const SearchRoute(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -59,13 +61,15 @@ void navigateTo(BuildContext context, String route) {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => builder(context),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            builder(context),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
           const curve = Curves.ease;
 
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
 
           return SlideTransition(

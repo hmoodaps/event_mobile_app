@@ -23,16 +23,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EventsBloc(),
       child: BlocBuilder<EventsBloc, AppStates>(builder: (context, state) {
-        ThemeData? themeData = EventsBloc.get(context).toggleLightAndDark(context);
+        ThemeData? themeData =
+            EventsBloc.get(context).toggleLightAndDark(context);
         return MaterialApp(
           onGenerateRoute: Routes.onGenerateRoute,
           debugShowCheckedModeBanner: false,

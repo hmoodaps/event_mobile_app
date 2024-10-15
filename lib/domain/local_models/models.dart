@@ -174,17 +174,16 @@ class MovieCardState extends State<MovieCard>
   }
 }
 
-
 //navigator To The Main Route
-navigatorToTheMain(context){
+navigatorToTheMain(context) {
   navigateTo(context!, RouteStringsManager.mainRoute);
-
 }
 // handle firebase auth by google and apple
 
 //sign in with google
 Future<AuthCredential> signInWithGoogle(context) async {
-  final GoogleSignInAccount? googleUser = await VariablesManager.googleSignIn.signIn();
+  final GoogleSignInAccount? googleUser =
+      await VariablesManager.googleSignIn.signIn();
   final GoogleSignInAuthentication googleAuth =
       await googleUser!.authentication;
   final AuthCredential credential = GoogleAuthProvider.credential(
@@ -214,33 +213,33 @@ Future<AuthCredential> signInWithApple() async {
   return credential;
 }
 
-
 //create new user
 Future<UserCredential> createUserAtFirebase(
     {required GlobalKey<FormState>? formKey,
     required String email,
     required String password,
     required String fullName}) async {
-  UserCredential credential = await VariablesManager.auth.createUserWithEmailAndPassword(email: email, password: password);
+  UserCredential credential = await VariablesManager.auth
+      .createUserWithEmailAndPassword(email: email, password: password);
   return credential;
 }
 
-
-
-
 //add user to firebase
 Future<void> addUserToFirebase(
-    {required String? email,required String? fullName ,String ? uid , String ? userPhotoUrl }) async {
-  UserModel userModel= UserModel(
-      email: email,
-      fullName: fullName,
+    {required String? email,
+    required String? fullName,
+    String? uid,
+    String? userPhotoUrl}) async {
+  UserModel userModel = UserModel(
+    email: email,
+    fullName: fullName,
     id: uid,
     userPhotoUrl: userPhotoUrl,
-    );
-if(!VariablesManager.userIds.contains(userModel.id)) {
-  await FirebaseFirestore.instance
-      .collection(GeneralStrings.users)
-      .doc(VariablesManager.currentUser!.uid)
-      .set(userModel.toJson());
-}
+  );
+  if (!VariablesManager.userIds.contains(userModel.id)) {
+    await FirebaseFirestore.instance
+        .collection(GeneralStrings.users)
+        .doc(VariablesManager.currentUser!.uid)
+        .set(userModel.toJson());
+  }
 }

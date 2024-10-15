@@ -46,18 +46,17 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
   }
 
   @override
-  Future<void> onRegisterPressed(
-      {required GlobalKey<FormState>? formKey,
-      required String fullName,
-      required String email,
-      required String password}) async {
+  Future<void> onRegisterPressed({required GlobalKey<FormState>? formKey,
+    required String fullName,
+    required String email,
+    required String password}) async {
     if (formKey!.currentState!.validate()) {
       _bloc.add(StartCreateUserEvent());
       await createUserAtFirebase(
-              formKey: formKey,
-              email: email,
-              password: password,
-              fullName: fullName)
+          formKey: formKey,
+          email: email,
+          password: password,
+          fullName: fullName)
           .then((value) {
         _bloc.add(CreateUserEventSuccess());
       }).catchError((error) {
@@ -87,10 +86,10 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
       _bloc.add(SignInWithGoogleEventSuccess());
       _bloc.add(AddUserToFirebaseEvent());
       await addUserToFirebase(
-              fullName: user!.displayName,
-              email: user.email,
-              userPhotoUrl: user.photoURL,
-              uid: user.uid)
+          fullName: user!.displayName,
+          email: user.email,
+          userPhotoUrl: user.photoURL,
+          uid: user.uid)
           .then((value) {
         _bloc.add(AddUserToFirebaseEventSuccess());
       }).catchError((error) {
@@ -109,15 +108,15 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
 }
 
 mixin RegisterModelViewFunctions {
-  Future<void> onRegisterPressed(
-      {required GlobalKey<FormState>? formKey,
-      required String fullName,
-      required String email,
-      required String password});
+  Future<void> onRegisterPressed({required GlobalKey<FormState>? formKey,
+    required String fullName,
+    required String email,
+    required String password});
 
   validator(String value);
 
   onSignInwWithGooglePress();
+
   onUserAddedSuccessfully();
 
   toNextField(BuildContext context);

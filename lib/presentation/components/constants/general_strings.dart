@@ -48,5 +48,4 @@ class GeneralStrings {
   static const String topMovies = 'Top Movies';
   static const String newMovies = 'New Movies';
   static const String allMovies = 'All Movies';
-
 }

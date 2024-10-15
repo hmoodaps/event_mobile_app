@@ -66,29 +66,29 @@ class MovieModel {
     genre = json['genre'];
   }
 
-  //I don't need this bcz this app just for gusts
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['id'] = id;
-  //   data['name'] = name;
-  //   data['show_times'] = showTimes;
-  //   data['seats'] = seats;
-  //   data['available_seats'] = availableSeats;
-  //   data['photo'] = photo;
-  //   data['vertical_photo'] = verticalPhoto;
-  //   data['ticket_price'] = ticketPrice;
-  //   data['reservedSeats'] = reservedSeats;
-  //   data['description'] = description;
-  //   data['short_description'] = shortDescription;
-  //   data['sponsor_video'] = sponsorVideo;
-  //   data['actors'] = actors;
-  //   data['release_date'] = releaseDate;
-  //   data['duration'] = duration;
-  //   data['rating'] = rating;
-  //   data['imdb_rating'] = imdbRating;
-  //   data['tags'] = tags;
-  //   data['fhd_image'] = fhdImage;
-  //   data['genre'] = genre;
-  //   return data;
-  // }
+//I don't need this bcz this app just for gusts
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = <String, dynamic>{};
+//   data['id'] = id;
+//   data['name'] = name;
+//   data['show_times'] = showTimes;
+//   data['seats'] = seats;
+//   data['available_seats'] = availableSeats;
+//   data['photo'] = photo;
+//   data['vertical_photo'] = verticalPhoto;
+//   data['ticket_price'] = ticketPrice;
+//   data['reservedSeats'] = reservedSeats;
+//   data['description'] = description;
+//   data['short_description'] = shortDescription;
+//   data['sponsor_video'] = sponsorVideo;
+//   data['actors'] = actors;
+//   data['release_date'] = releaseDate;
+//   data['duration'] = duration;
+//   data['rating'] = rating;
+//   data['imdb_rating'] = imdbRating;
+//   data['tags'] = tags;
+//   data['fhd_image'] = fhdImage;
+//   data['genre'] = genre;
+//   return data;
+// }
 }

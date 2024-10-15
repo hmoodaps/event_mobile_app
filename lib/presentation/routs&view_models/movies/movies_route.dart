@@ -34,108 +34,123 @@ class _MoviesRouteState extends State<MoviesRoute> {
   }
 
   Widget _getScaffold({required EventsBloc bloc}) => Scaffold(
-        body: stackBackGroundManager(otherWidget: screenWidgets(bloc : bloc), isDark: VariablesManager.isDark),
+        body: stackBackGroundManager(
+            otherWidget: screenWidgets(bloc: bloc),
+            isDark: VariablesManager.isDark),
       );
 
   List<Widget> screenWidgets({required EventsBloc bloc}) => [
-    SingleChildScrollView(
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(SizeManager.d18),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: SizeManager.d50,
-                  child: searchFormField(
-                    context: context,
-                    controller: controller,
-                    suffix: Icon(
-                      IconsManager.search,
+        SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(SizeManager.d18),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: SizeManager.d50,
+                      child: searchFormField(
+                        context: context,
+                        controller: controller,
+                        suffix: Icon(
+                          IconsManager.search,
+                        ),
+                        labelText: GeneralStrings.search,
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.2),
+                      ),
                     ),
-                    labelText: GeneralStrings.search,
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.2),
                   ),
-                ),
+                  SizedBox(
+                    height: SizeManager.d20,
+                  ),
+                  Text(
+                    GeneralStrings.newMovies,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(
+                    height: SizeManager.d10,
+                  ),
+                  CarouselSlider.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, dx, index) =>
+                          newMovies(bloc: bloc),
+                      options: CarouselOptions(
+                        scrollDirection: Axis.horizontal,
+                        height: SizeManager.screenSize(context).height / 3,
+                        enableInfiniteScroll: true,
+                        autoPlay: true,
+                      )),
+                  SizedBox(
+                    height: SizeManager.d10,
+                  ),
+                  Text(
+                    GeneralStrings.topMovies,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(
+                    height: SizeManager.d10,
+                  ),
+                  SizedBox(
+                    height: SizeManager.d180,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => topMovie(bloc: bloc),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(width: SizeManager.d14),
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeManager.d10,
+                  ),
+                  Text(
+                    GeneralStrings.allMovies,
+                    style: TextStyleManager.lightTitle(context),
+                  ),
+                  SizedBox(
+                    height: SizeManager.d10,
+                  ),
+                  GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 20,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: SizeManager.i2,
+                      mainAxisSpacing: SizeManager.d30,
+                      mainAxisExtent: SizeManager.d200,
+                      crossAxisSpacing: SizeManager.d30,
+                    ),
+                    itemBuilder: (context, index) => movieCard(),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: SizeManager.d20,
-              ),
-              Text(
-                GeneralStrings.newMovies,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(
-                height: SizeManager.d10,
-              ),
-              CarouselSlider.builder(itemCount: 10, itemBuilder: (context ,dx,index)=>newMovies(bloc: bloc), options: CarouselOptions(scrollDirection: Axis.horizontal , height: SizeManager.screenSize(context).height/3 ,enableInfiniteScroll: true,autoPlay: true , )),
-              SizedBox(
-                height: SizeManager.d10,
-              ),
-              Text(
-                GeneralStrings.topMovies,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(
-                height: SizeManager.d10,
-              ),
-              SizedBox(
-                height: SizeManager.d180,
-                width: double.infinity,
-                child: ListView.separated(
-                  itemBuilder: (context, index) => topMovie(bloc: bloc),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      SizedBox(width: SizeManager.d14),
-                ),
-              ),
-              SizedBox(
-                height: SizeManager.d10,
-              ),
-
-              Text(
-                GeneralStrings.allMovies,
-                style: TextStyleManager.lightTitle(context),
-              ),
-              SizedBox(
-                height: SizeManager.d10,
-              ),
-              GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 20,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: SizeManager.i2,
-                  mainAxisSpacing: SizeManager.d30,
-                  mainAxisExtent: SizeManager.d200,
-                  crossAxisSpacing: SizeManager.d30,
-                ),
-                itemBuilder: (context, index) => movieCard(),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
       ];
-Widget newMovies({required EventsBloc bloc}){
-  return SizedBox(
-    child: Image.network('https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
-  );
-}
+
+  Widget newMovies({required EventsBloc bloc}) {
+    return SizedBox(
+      child:
+          Image.network('https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
+    );
+  }
+
   Widget topMovie({required EventsBloc bloc}) {
     return Stack(
       alignment: Alignment.center,
       children: [
         ShimmerEffect(
-          baseColor:VariablesManager.isDark? Colors.white: Colors.black,
-          highlightColor: VariablesManager.isDark?  Color(0xFFFFD700):ColorManager.primarySecond ,
+          baseColor: VariablesManager.isDark ? Colors.white : Colors.black,
+          highlightColor: VariablesManager.isDark
+              ? Color(0xFFFFD700)
+              : ColorManager.primarySecond,
           child: Container(
             height: SizeManager.d160,
             width: SizeManager.d110,
@@ -148,28 +163,30 @@ Widget newMovies({required EventsBloc bloc}){
           height: SizeManager.d150,
           width: SizeManager.d100,
           decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage('https://filmestonia.eu/wp-content/uploads/tenet.jpg'),fit: BoxFit.cover),
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
+                fit: BoxFit.cover),
             color: Colors.white,
-
             borderRadius: BorderRadius.circular(SizeManager.d20),
           ),
         ),
       ],
     );
   }
+
   Widget movieCard() {
-    return
-        Container(
-          height: SizeManager.d190,
-          width: SizeManager.d140,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage('https://filmestonia.eu/wp-content/uploads/tenet.jpg'),fit: BoxFit.cover),
-            color: Colors.white,
-
-            borderRadius: BorderRadius.circular(SizeManager.d20),
-          ),
-        );
-
+    return Container(
+      height: SizeManager.d190,
+      width: SizeManager.d140,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: NetworkImage(
+                'https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
+            fit: BoxFit.cover),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(SizeManager.d20),
+      ),
+    );
   }
-
 }

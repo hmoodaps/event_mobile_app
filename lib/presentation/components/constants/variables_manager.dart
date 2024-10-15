@@ -7,22 +7,22 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../bloc_state_managment/events.dart';
 
-class VariablesManager{
+class VariablesManager {
   static User? currentUser = FirebaseAuth.instance.currentUser;
   static FirebaseAuth auth = FirebaseAuth.instance;
   static bool isDark = false;
   static ThemeData? themeData = lightThemeData();
-  static String ? userEmail ;
-  static String ? photoUrl ;
+  static String? userEmail;
+
+  static String? photoUrl;
+
   //initialize in splash screen
-  static List<String> userIds =[];
-  static List<MovieModel> movies =[];
+  static List<String> userIds = [];
+  static List<MovieModel> movies = [];
 
 //sign in with google .>>
   static final GoogleSignIn googleSignIn = GoogleSignIn(
     clientId:
-    '738356872374-8bdei58fqh2bkocfk0ph7dm3ud6jf4gl.apps.googleusercontent.com',
+        '738356872374-8bdei58fqh2bkocfk0ph7dm3ud6jf4gl.apps.googleusercontent.com',
   );
-
-
 }
