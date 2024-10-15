@@ -1,7 +1,11 @@
 //Onboarding View Models
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:event_mobile_app/data/remote_data_source/dio_requests_handler.dart';
+import 'package:event_mobile_app/domain/models/movie_model.dart';
 import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
@@ -241,5 +245,44 @@ Future<void> addUserToFirebase(
         .collection(GeneralStrings.users)
         .doc(VariablesManager.currentUser!.uid)
         .set(userModel.toJson());
+  }
+}
+
+// init firebase
+Future<List<String>> initFirebase() async {
+  List<String> ids = [];
+  QuerySnapshot snapshot =
+      await FirebaseFirestore.instance.collection(GeneralStrings.users).get();
+  for (var doc in snapshot.docs) {
+    ids.add(doc.id) ;
+  }
+  return ids ;
+}
+
+//init fetching movies
+
+Future<Response> _getMovies() async {
+  try {
+    return await DioHelper.dio!.get('http://localhost:8000/movies/');
+  } catch (e) {
+    if (kDebugMode) {
+      print(e.toString());
+    }
+    rethrow;
+  }
+}
+
+Future<List<MovieModel>> fetchMovies() async {
+  try {
+    final response = await _getMovies();
+    List<MovieModel> movies = (response.data as List)
+        .map((movie) => MovieModel.fromJson(movie))
+        .toList();
+    return movies;
+  } catch (e) {
+    if (kDebugMode) {
+      print("Error fetching movies: $e");
+    }
+    return [];
   }
 }

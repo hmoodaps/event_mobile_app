@@ -30,5 +30,10 @@ class ChangeNavigationBarIndexState extends AppStates {}
 
 class ToggleLightAndDarkState extends AppStates {}
 
-
+class StartFetchMoviesState extends AppStates {}
+class InitFetchMoviesState extends AppStates {}
+class InitFetchMoviesErrorState extends AppStates {String error ; InitFetchMoviesErrorState(this.error);}
+class StartFetchFirebaseState extends AppStates {}
+class InitFetchFirebaseState extends AppStates {}
+class InitFetchFirebaseErrorState extends AppStates {String error ; InitFetchFirebaseErrorState(this.error);}
 

@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import '../../domain/models/movie_model.dart';
 
 class DioHelper {
   static Dio? dio;
@@ -9,34 +7,13 @@ class DioHelper {
     dio = Dio();
   }
 
-  static Future<Response> getMovies() async {
-    try {
-      return await dio!.get('http://localhost:8000/movies/');
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-      rethrow;
-    }
-  }
-
-  static Future<List<MovieModel>> fetchMovies() async {
-    try {
-      final response = await getMovies();
-      List<MovieModel> movies = (response.data as List)
-          .map((movie) => MovieModel.fromJson(movie))
-          .toList();
-      return movies;
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error fetching movies: $e");
-      }
-      return [];
-    }
-  }
 }
 
-//
+// i don't use these methods by dio bcz i don't need them , but
+// i left them here just to show my abilities to reading with dio & http
+
+
+
 // //BASE URL : https://localhost:8000/
 // //method url : viewsets/guests,reservation,movies/data or create-superuser/<-post , delete only
 //

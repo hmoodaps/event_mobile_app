@@ -1,15 +1,11 @@
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/components/constants/assets_manager.dart';
 import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/local_storage/shared_local.dart';
-import '../../components/constants/general_strings.dart';
+import '../../bloc_state_managment/states.dart';
+import 'splash_model_view.dart';
 
 class SplashRoute extends StatefulWidget {
   const SplashRoute({super.key});
@@ -19,60 +15,85 @@ class SplashRoute extends StatefulWidget {
 }
 
 class _SplashRouteState extends State<SplashRoute> {
-  final bool _isFirstTimeOpened =
-      SharedPref.getBool(GeneralStrings.isFirstTimeOpened) ?? true;
-  final bool _isGuest = SharedPref.getBool(GeneralStrings.isGuest) ?? false;
-
-  Future<void> _initFirebase() async {
-    VariablesManager.userIds.clear();
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(
-        GeneralStrings.users).get();
-    for (var doc in snapshot.docs) {
-      VariablesManager.userIds.add(doc.id);
-    }
-  }
-
-  Future<void> _startDelay() async {
-    await Future.delayed(Duration(seconds: SizeManager.i4), _endSplash);
-    //TODO :: active this after finish every thing
-    // await _initFirebase();
-    //  List<MovieModel> movies = await DioHelper.fetchMovies();
-    //  VariablesManager.movies = movies;
-  }
-
-  void _endSplash() {
-    _isGuest == false
-        ? Navigator.pushNamedAndRemoveUntil(
-      context,
-      _isFirstTimeOpened
-          ? RouteStringsManager.onboardingRoute
-          : RouteStringsManager.questionRoute, (route) => false,)
-        : Navigator.pushNamedAndRemoveUntil(
-        context, RouteStringsManager.mainRoute, (route) => false);
-  }
+  late SplashModelView _model;
+  double _progressValue = 0.0; // Initial value for the progress indicator
 
   @override
   void initState() {
     super.initState();
-    _startDelay();
+    _model = SplashModelView();
+    _model.context = context;
+    _model.start(); // Start fetching data and splash screen logic
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorManager.primarySecond,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              AssetsManager.cinemaAsset,
-              color: Colors.white,
-            )
-          ],
-        ),
-      ),
+    return BlocConsumer<EventsBloc, AppStates>(
+      builder: (context, state) => getScaffold(),
+      listener: (context, state) {
+        // Handle the progress updates based on Bloc events and states
+
+        // When starting to fetch movies, update progress to 50%
+        if (state is StartFetchMoviesState) {
+          setState(() {
+            _progressValue = 0.5;
+          });
+        }
+
+        // When movies fetching is done, update progress to 75%
+        if (state is InitFetchMoviesState) {
+          setState(() {
+            _progressValue = 0.75;
+          });
+        }
+
+        // When starting to fetch Firebase data, update progress to 75%
+        if (state is StartFetchFirebaseState) {
+          setState(() {
+            _progressValue = 0.75;
+          });
+        }
+
+        // When Firebase fetching is done, update progress to 100%
+        if (state is InitFetchFirebaseState) {
+          setState(() {
+            _progressValue = 1.0;
+          });
+          _model.endSplash(); // End the splash screen and navigate
+        }
+      },
     );
   }
+
+  // UI for the splash screen with a progress indicator
+  Widget getScaffold() => Scaffold(
+    backgroundColor: ColorManager.primarySecond,
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            AssetsManager.cinemaAsset,
+            color: Colors.white,
+          ),
+          const SizedBox(height: 20),
+          CircularProgressIndicator(
+            value: _progressValue, // Bind progress value to the state
+            backgroundColor: Colors.grey[300],
+            color: Colors.blueAccent,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            '${(_progressValue * 100).toInt()}%', // Display progress as percentage
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

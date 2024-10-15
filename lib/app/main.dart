@@ -12,5 +12,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await SharedPref.init();
+  DioHelper.init();
   runApp(MyApp());
 }

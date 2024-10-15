@@ -28,3 +28,11 @@ class ChangeNavigationBarIndexEvent extends AppEvents {}
 //Toggle Light And Dark
 class ToggleLightAndDarkEvent extends AppEvents {}
 
+//fetch init data firebase and movies
+class StartFetchMoviesEvent extends AppEvents {}
+class InitFetchMoviesEvent extends AppEvents {}
+class InitFetchMoviesErrorEvent extends AppEvents {String error ; InitFetchMoviesErrorEvent(this.error);}
+
+class StartFetchFirebaseEvent extends AppEvents {}
+class InitFetchFirebaseEvent extends AppEvents {}
+class InitFetchFirebaseErrorEvent extends AppEvents {String error ; InitFetchFirebaseErrorEvent(this.error);}
