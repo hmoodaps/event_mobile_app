@@ -3,11 +3,11 @@ import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../presentation/routs&view_models/splash/splash_route.dart';
+import '../../presentation/routs&view_models/splash/splash_route.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp._internal();
-
+  //we will use the singleTone architecture here
   ///singleton instance from MyApp
   ///When you apply the Singleton pattern along
   ///with concepts like BLoC, Dependency Injection, and Clean Architecture

@@ -43,7 +43,7 @@ class SplashModelView extends BaseViewModel with SplashRouteMethods {
   Future<void> _startLoading() async {
     startDelay();
     await initFetchMovies();
-    await initFetchFirebase();
+    //await initFetchFirebase();
   }
 
   @override

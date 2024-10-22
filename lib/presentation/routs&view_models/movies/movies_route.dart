@@ -98,10 +98,10 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     height: SizeManager.d180,
                     width: double.infinity,
                     child: ListView.separated(
-                      itemBuilder: (context, index) => topMovie(bloc: bloc),
+                      itemBuilder: (context, index) => topMovie(bloc: bloc , moviePhotoUrl: VariablesManager.movies[index].photo!),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: 10,
+                      itemCount: VariablesManager.movies.length,
                       separatorBuilder: (BuildContext context, int index) =>
                           SizedBox(width: SizeManager.d14),
                     ),
@@ -119,14 +119,14 @@ class _MoviesRouteState extends State<MoviesRoute> {
                   GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: 20,
+                    itemCount: VariablesManager.movies.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: SizeManager.i2,
                       mainAxisSpacing: SizeManager.d30,
                       mainAxisExtent: SizeManager.d200,
                       crossAxisSpacing: SizeManager.d30,
                     ),
-                    itemBuilder: (context, index) => movieCard(),
+                    itemBuilder: (context, index) => movieCard(VariablesManager.movies[index].verticalPhoto!),
                   ),
                 ],
               ),
@@ -142,7 +142,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
     );
   }
 
-  Widget topMovie({required EventsBloc bloc}) {
+  Widget topMovie({required EventsBloc bloc ,required String moviePhotoUrl}) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -165,7 +165,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: NetworkImage(
-                    'https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
+                    moviePhotoUrl),
                 fit: BoxFit.cover),
             color: Colors.white,
             borderRadius: BorderRadius.circular(SizeManager.d20),
@@ -175,18 +175,19 @@ class _MoviesRouteState extends State<MoviesRoute> {
     );
   }
 
-  Widget movieCard() {
-    return Container(
-      height: SizeManager.d190,
-      width: SizeManager.d140,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: NetworkImage(
-                'https://filmestonia.eu/wp-content/uploads/tenet.jpg'),
-            fit: BoxFit.cover),
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(SizeManager.d20),
+  Widget movieCard(String moviePhotoUrl) {
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(moviePhotoUrl),
+              fit: BoxFit.cover),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(SizeManager.d20),
+        ),
       ),
     );
   }
+
 }

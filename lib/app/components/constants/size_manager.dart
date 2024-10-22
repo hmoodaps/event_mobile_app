@@ -26,6 +26,8 @@ class SizeManager {
   static const double d180 = 180;
   static const double d190 = 190;
   static const double d200 = 200;
+  static const double d250 = 250;
+  static const double d300 = 300;
 
   //Integer values
   static const int i2 = 2;

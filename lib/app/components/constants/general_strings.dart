@@ -2,7 +2,6 @@ class GeneralStrings {
   static const String isFirstTimeOpened = 'isFirstTimeOpened';
   static const String isLogin = 'isLogin';
   static const String isGuest = 'isGuest';
-
   static const String continueString = 'Continue';
   static const String welcome = 'Welcome to Cinema Ticket ';
   static const String startInvesting = 'Start investing commission-free ';
@@ -48,4 +47,6 @@ class GeneralStrings {
   static const String topMovies = 'Top Movies';
   static const String newMovies = 'New Movies';
   static const String allMovies = 'All Movies';
+
+
 }

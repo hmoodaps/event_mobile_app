@@ -86,6 +86,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                           ),
                         )
                       : SizedBox(),
+                  SafeArea(child: Align(alignment: Alignment.topLeft,child: TextButton(onPressed: (){_pageController.animateToPage(_model.pages.length-1, duration: Duration(milliseconds: 400), curve: Curves.linear);}, child: Text('Skip' , style: TextStyleManager.lightTitle(context),)),))
                 ],
               ),
             ],
