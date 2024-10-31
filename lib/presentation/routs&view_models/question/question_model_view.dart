@@ -1,9 +1,10 @@
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
-import 'package:event_mobile_app/presentation/components/constants/general_strings.dart';
-import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/route_strings_manager.dart';
+import '../../../app/components/constants/routs_manager.dart';
 
 class QuestionModelView extends BaseViewModel with QuestionNavigateFunctions {
   @override

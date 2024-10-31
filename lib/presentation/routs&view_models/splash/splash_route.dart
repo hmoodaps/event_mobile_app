@@ -1,9 +1,9 @@
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
-import 'package:event_mobile_app/presentation/components/constants/assets_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/components/constants/assets_manager.dart';
+import '../../../app/components/constants/color_manager.dart';
 import '../../bloc_state_managment/states.dart';
 import 'splash_model_view.dart';
 

@@ -1,19 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import '../../../data/remote_data_source/dio_requests_handler.dart';
-import '../../../domain/models/actor_model.dart';
-import '../../../domain/models/movie_model.dart';
-import '../../bloc_state_managment/bloc_manage.dart';
-import '../../bloc_state_managment/states.dart';
-import '../../components/constants/stack_background_manager.dart';
+
+import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/stack_background_manager.dart';
 
 class ProfileRoute extends StatefulWidget {
   const ProfileRoute({super.key});

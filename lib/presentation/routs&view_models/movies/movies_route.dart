@@ -1,18 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/font_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/general_strings.dart';
-import 'package:event_mobile_app/presentation/components/constants/icons_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/stack_background_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/text_form_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer_effect/shimmer_effect.dart';
+
+import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/font_manager.dart';
+import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/size_manager.dart';
+import '../../../app/components/constants/stack_background_manager.dart';
+import '../../../app/components/constants/text_form_manager.dart';
+import '../../../app/components/constants/variables_manager.dart';
 
 class MoviesRoute extends StatefulWidget {
   const MoviesRoute({super.key});
@@ -98,7 +98,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     height: SizeManager.d180,
                     width: double.infinity,
                     child: ListView.separated(
-                      itemBuilder: (context, index) => topMovie(bloc: bloc , moviePhotoUrl: VariablesManager.movies[index].photo!),
+                      itemBuilder: (context, index) => topMovie(bloc: bloc , moviePhotoUrl: VariablesManager.movies[index].photo),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: VariablesManager.movies.length,
@@ -126,7 +126,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                       mainAxisExtent: SizeManager.d200,
                       crossAxisSpacing: SizeManager.d30,
                     ),
-                    itemBuilder: (context, index) => movieCard(VariablesManager.movies[index].verticalPhoto!),
+                    itemBuilder: (context, index) => movieCard(VariablesManager.movies[index].verticalPhoto),
                   ),
                 ],
               ),

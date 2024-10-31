@@ -1,6 +1,5 @@
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
-
-import '../../../presentation/bloc_state_managment/bloc_manage.dart';
 
 
 class FontWeightManager {
@@ -25,26 +24,21 @@ class TextStyleManager {
   }
 
   static TextStyle? lightHeader(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
 
-    return bloc.lightHeader(context);
+    return VariablesManager.lightHeader(context);
   }
 
   static TextStyle? lightTitle(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
 
-    return bloc.lightTitle(context);
+    return VariablesManager.lightTitle(context);
   }
 
   static TextStyle? lightBody(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
-
-    return bloc.lightBody(context);
+    return VariablesManager.lightBody(context);
   }
 
   static TextStyle? lightParagraph(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
 
-    return bloc.lightParagraph(context);
+    return VariablesManager.lightParagraph(context);
   }
 }

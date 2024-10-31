@@ -1,18 +1,18 @@
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/components/constants/assets_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/buttons_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/font_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/icons_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/question/question_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
+import '../../../app/components/constants/assets_manager.dart';
+import '../../../app/components/constants/buttons_manager.dart';
+import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/font_manager.dart';
+import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/size_manager.dart';
 
+import '../../../app/components/constants/variables_manager.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
-import '../../components/constants/general_strings.dart';
 
 class QuestionRoute extends StatefulWidget {
   const QuestionRoute({super.key});

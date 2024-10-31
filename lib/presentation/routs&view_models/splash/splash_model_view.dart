@@ -1,14 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/data/network_data_handler/internet_checker/internet_checker.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-import '../../../domain/local_models/models.dart';
+import '../../../app/components/constants/route_strings_manager.dart';
+import '../../../app/components/constants/size_manager.dart';
+import '../../../app/components/constants/variables_manager.dart';
 import '../../bloc_state_managment/events.dart';
-import '../../components/constants/route_strings_manager.dart';
-import '../../components/constants/size_manager.dart';
-import '../../components/constants/variables_manager.dart';
 
 class SplashModelView extends BaseViewModel with SplashRouteMethods {
   late BuildContext context;
@@ -64,8 +64,7 @@ class SplashModelView extends BaseViewModel with SplashRouteMethods {
   Future<void> initFetchMovies() async {
     try {
       _bloc.add(StartFetchMoviesEvent());
-      VariablesManager.movies.clear();
-      VariablesManager.movies = await fetchMovies();
+            // TODO : init fetching movies here
       _bloc.add(InitFetchMoviesEvent());
     } catch (e) {
       _bloc.add(InitFetchMoviesErrorEvent(e.toString()));
@@ -77,14 +76,24 @@ class SplashModelView extends BaseViewModel with SplashRouteMethods {
   Future<void> initFetchFirebase() async {
     try {
       _bloc.add(StartFetchFirebaseEvent());
-      VariablesManager.userIds.clear();
-      List<String> ids = await initFirebase();
-      VariablesManager.userIds.addAll(ids);
+      //TODO : INIT FIREBASE HERE
       _bloc.add(InitFetchFirebaseEvent());
     } catch (e) {
       _bloc.add(InitFetchFirebaseErrorEvent(e.toString()));
     }
   }
+
+  // Future<Either<AppEvents, AppEvents>> fetchFirebase() async {
+  //   _bloc.add(StartFetchFirebaseEvent());
+  //   try {
+  //     // TODO: INIT FIREBASE HERE
+  //     _bloc.add(InitFetchFirebaseEvent());
+  //     return Right(InitFetchFirebaseEvent());
+  //   } catch (error) {
+  //     return Left(InitFetchFirebaseErrorEvent(error.toString()));
+  //   }
+  // }
+
 }
 
 // Methods interface for the splash screen

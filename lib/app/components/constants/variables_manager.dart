@@ -28,6 +28,12 @@ class VariablesManager {
   static final bool isFirstTimeOpened =
       SharedPref.getBool(GeneralStrings.isFirstTimeOpened) ?? true;
   static final bool isGuest = SharedPref.getBool(GeneralStrings.isGuest) ?? false;
+  static  lightHeader(BuildContext context) => Theme.of(context).textTheme.bodyLarge;
 
+  static lightTitle(BuildContext context) => Theme.of(context).textTheme.titleLarge;
+
+  static lightBody(BuildContext context) => Theme.of(context).textTheme.bodyLarge;
+
+  static lightParagraph(BuildContext context) => Theme.of(context).textTheme.labelLarge;
 
 }

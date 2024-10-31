@@ -1,12 +1,12 @@
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
-import 'package:event_mobile_app/presentation/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/favorit/favorite_route.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/profile/profile_route.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/search/search_route.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../app/components/constants/icons_manager.dart';
 import '../movies/movies_route.dart';
 
 class MainRouteModelView extends BaseViewModel with MainRouteFunctions{
