@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../bloc_state_managment/bloc_manage.dart';
+import '../../../presentation/bloc_state_managment/bloc_manage.dart';
+
 
 class FontWeightManager {
   static const FontWeight light = FontWeight.w300;

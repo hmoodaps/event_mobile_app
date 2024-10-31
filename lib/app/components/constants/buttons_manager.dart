@@ -1,7 +1,7 @@
-import 'package:event_mobile_app/presentation/components/constants/color_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
+import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:flutter/material.dart';
 
+import 'color_manager.dart';
 import 'font_manager.dart';
 
 class ButtonManager {

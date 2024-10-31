@@ -1,9 +1,10 @@
-import 'package:event_mobile_app/data/remote_data_source/dio_requests_handler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'domain/local_storage/shared_local.dart';
+import 'data/local_storage/shared_local.dart';
+import 'data/network_data_handler/internet_checker/internet_checker.dart';
+import 'data/network_data_handler/remote_requests/dio_requests_handler.dart';
 import 'firebase_options.dart';
 import 'app/MyApp/app.dart';
 
@@ -20,7 +21,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await SharedPref.init();
-  await DioHelper.init();
-
+   DioHelper.init();
+  startListeningToInternet();
   runApp(MyApp());
 }

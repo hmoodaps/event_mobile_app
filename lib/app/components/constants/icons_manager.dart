@@ -1,4 +1,4 @@
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
+import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:icon_broken/icon_broken.dart';
 

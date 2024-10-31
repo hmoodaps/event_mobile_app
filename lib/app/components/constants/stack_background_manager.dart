@@ -1,4 +1,3 @@
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'color_manager.dart';

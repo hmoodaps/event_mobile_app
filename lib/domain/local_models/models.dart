@@ -1,126 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
-import 'package:event_mobile_app/data/remote_data_source/dio_requests_handler.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../data/models/user_model.dart';
-import '../../presentation/components/constants/general_strings.dart';
-import '../../presentation/components/constants/route_strings_manager.dart';
-import '../../presentation/components/constants/routs_manager.dart';
-//navigator To The Main Route
-navigatorToTheMain(context) {
-  navigateTo(context!, RouteStringsManager.mainRoute);
-}
-// handle firebase auth by google and apple
+import '../../app/components/constants/general_strings.dart';
+import '../../app/components/constants/route_strings_manager.dart';
+import '../../app/components/constants/routs_manager.dart';
+import '../../app/components/constants/variables_manager.dart';
+import '../model_objects/user_model.dart';
 
-//sign in with google
-Future<AuthCredential> signInWithGoogle(context) async {
-  final GoogleSignInAccount? googleUser =
-  await VariablesManager.googleSignIn.signIn();
-  final GoogleSignInAuthentication googleAuth =
-  await googleUser!.authentication;
-  final AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
 
-  return credential;
-}
 
-//sign in with apple
-//i didn't implement it correctly bcz they want 99$ ^_^
-Future<AuthCredential> signInWithApple() async {
-  final appleCredential = await SignInWithApple.getAppleIDCredential(
-    scopes: [
-      AppleIDAuthorizationScopes.email,
-      AppleIDAuthorizationScopes.fullName,
-    ],
-  );
-
-  final oAuthProvider = OAuthProvider("apple.com");
-
-  final credential = oAuthProvider.credential(
-    idToken: appleCredential.identityToken,
-    accessToken: appleCredential.authorizationCode,
-  );
-  return credential;
-}
-
-//create new user
-Future<UserCredential> createUserAtFirebase(
-    {required GlobalKey<FormState>? formKey,
-      required String email,
-      required String password,
-      required String fullName}) async {
-  UserCredential credential = await VariablesManager.auth
-      .createUserWithEmailAndPassword(email: email, password: password);
-  return credential;
-}
-
-//add user to firebase
-Future<void> addUserToFirebase(
-    {required String? email,
-      required String? fullName,
-      String? uid,
-      String? userPhotoUrl}) async {
-  UserModel userModel = UserModel(
-    email: email,
-    fullName: fullName,
-    id: uid,
-    userPhotoUrl: userPhotoUrl,
-  );
-  if (!VariablesManager.userIds.contains(userModel.id)) {
-    await FirebaseFirestore.instance
-        .collection(GeneralStrings.users)
-        .doc(VariablesManager.currentUser!.uid)
-        .set(userModel.toJson());
-  }
-}
-
-// init firebase
-Future<List<String>> initFirebase() async {
-  List<String> ids = [];
-  QuerySnapshot snapshot =
-  await FirebaseFirestore.instance.collection(GeneralStrings.users).get();
-  for (var doc in snapshot.docs) {
-    ids.add(doc.id) ;
-  }
-  return ids ;
-}
-
-//init fetching movies
-
-Future<Response?> _getMovies() async {
-  try {
-    return await DioHelper.getData(methodUrl: "movies/");
-  } catch (e) {
-    if (kDebugMode) {
-      print(e.toString());
-    }
-    rethrow;
-  }
-}
-
-Future<List<MovieModel>> fetchMovies() async {
-  try {
-    final response = await _getMovies();
-    List<MovieModel> movies = (response!.data as List)
-        .map((movie) => MovieModel.fromJson(movie))
-        .toList();
-    return movies;
-  } catch (e) {
-    if (kDebugMode) {
-      print("Error fetching movies: $e");
-    }
-    return [];
-  }
-}
 
 
 

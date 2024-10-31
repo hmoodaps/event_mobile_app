@@ -167,3 +167,21 @@ the comments throughout the code files.
 - Reactive Programming
 
 Thank you for reviewing my work!
+بالاضافة انو استخدمنا ال dartz  عشان نستخدم الايثر ...  واستخدمنا الريبوزيتوري  >>  سوينا عملية تسجيل الدخول عن طريق الستريم والستريم بيلدر واستغنينا عن البلوك عشان اظهر قدرتي بالتعامل مع الستريم مع اني قادر اني استخدم البلوك .. 
+مع اني سويت تسجيل الدخول باستخدام البلوك وعلقتو وبعدين سويتو بالستريم ممكن نعلق واحد ونشتغل بالثاني براحتنا سويت الطريقتين .. 
+## الاشياء الموجودة بالكود ... 
+Clean Architecture Design Pattern
+MVVM - Model - View - View Model Pattern
+bloc pattern
+ViewModel Inputs and Outputs
+Base ViewModel and Base UseCase
+//layers , , ,
+Application Layer - Dependency Injection, components , constants(contain >> assets manager buttons manager , color manager , dio and mapper constants , error strings , font manager , general strings , icons manager , notification handler , route strings manager , route manager , size manager , stack background manager , text form filed manager , theme manager and variables manager  ) , firebase error handler , extensions and  myapp(singleton class )
+Data Layer - handel dark and light mode , repository implementer , shared preferences , mapper (null protector (for the data that coming from the api )) , movie model (appling the mapper and the modern ways for bring data from api with very advanced method with with JsonSerializable  , and dio interceptor  to protect dio logs for users privacy ) and  network data handler(using dio and http with normal way , and dio with the retrofit  ) 
+Domain Layer - local Models  , models object (movies , guests , reservations , users and actors models ) , repository
+Presentation Layer - base view model , UI (cart , edit reservation , favorits , forget password , login  , main page , movie , movies , onboarding ,  past films , profile ,  question (to ask user if want to continue as a gust fires or wants to mack an account ) , register  ,  reservation  , splash screen  , user details ) , bloc state managment (events , bloc , states )
+
+Using 50 Flutter Packages
+Getting Device Info (Android - Ios)
+Using Abstract classes
+Separation of Concerns

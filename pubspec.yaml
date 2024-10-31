@@ -86,6 +86,11 @@ dependencies:
   build_runner: ^2.4.13
   json_annotation: ^4.9.0
   freezed_annotation: ^2.4.4
+  dartz: ^0.10.1
+  internet_connection_checker: ^1.0.0+1
+  pretty_dio_logger: ^1.4.0
+  flutter_localization: ^0.2.2
+  intl: ^0.19.0
 
 
 dev_dependencies:

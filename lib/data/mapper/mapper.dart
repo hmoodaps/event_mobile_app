@@ -1,7 +1,7 @@
-import 'package:event_mobile_app/app/constants&extensions/extensions.dart';
+import 'package:event_mobile_app/app/extensions/null_safety_extensions.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/domain/model_objects/movies_model.dart';
-import 'package:event_mobile_app/app/constants&extensions/app_constants.dart';
+import 'package:event_mobile_app/app/components/constants/dio_and_mapper_constants.dart';
 extension MovieModelMapper on MovieResponse? {
   MoviesModel toDomain() => MoviesModel(
       this?.tags.orEmptyList() ?? AppConstants.emptyList,

@@ -1,5 +1,8 @@
 class GeneralStrings {
   static const String isFirstTimeOpened = 'isFirstTimeOpened';
+  static const String toggleModeType = 'toggleModeType';
+  static const String manual = 'manual';
+  static const String basedOnPhone = 'basedOnPhone';
   static const String isLogin = 'isLogin';
   static const String isGuest = 'isGuest';
   static const String continueString = 'Continue';

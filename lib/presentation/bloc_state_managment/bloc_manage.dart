@@ -1,9 +1,13 @@
+import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/components/constants/theme_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../app/components/constants/general_strings.dart';
+import '../../app/components/constants/theme_manager.dart';
+import '../../app/components/constants/variables_manager.dart';
+import '../../data/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 
 class EventsBloc extends Bloc<AppEvents, AppStates> {
   EventsBloc() : super(InitialState()) {
@@ -53,7 +57,16 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       BlocProvider.of<EventsBloc>(context);
 
   // Toggle between themes
-  ThemeData? toggleLightAndDark(BuildContext context) {
+  Future<ThemeData?> toggleLightAndDark(BuildContext context) async{
+    String toggleModeType = SharedPref.prefs.getString(GeneralStrings.toggleModeType) ?? GeneralStrings.basedOnPhone;
+
+    if(toggleModeType == GeneralStrings.manual){
+      AppTheme currentTheme = await AppThemeExtension.loadFromPreferences();
+      currentTheme == AppTheme.dark
+          ? await AppTheme.light.saveToPreferences()
+        : await AppTheme.dark.saveToPreferences();
+      add(ToggleLightAndDarkEvent());
+    }else{
     Brightness brightness = MediaQuery.of(context).platformBrightness;
     brightness == Brightness.dark
         ? (
@@ -67,6 +80,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     add(ToggleLightAndDarkEvent());
     return VariablesManager.themeData;
   }
+  }
 
   lightHeader(BuildContext context) => Theme.of(context).textTheme.bodyLarge;
 
@@ -74,6 +88,5 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   lightBody(BuildContext context) => Theme.of(context).textTheme.bodyLarge;
 
-  lightParagraph(BuildContext context) =>
-      Theme.of(context).textTheme.labelLarge;
+  lightParagraph(BuildContext context) => Theme.of(context).textTheme.labelLarge;
 }

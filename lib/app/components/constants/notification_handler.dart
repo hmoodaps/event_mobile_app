@@ -1,6 +1,5 @@
 import 'package:elegant_notification/elegant_notification.dart';
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/variables_manager.dart';
+import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'font_manager.dart';

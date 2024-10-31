@@ -1,6 +1,8 @@
+import 'package:event_mobile_app/data/network_data_handler/internet_checker/internet_checker.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/events.dart';
@@ -11,7 +13,6 @@ import '../../components/constants/variables_manager.dart';
 class SplashModelView extends BaseViewModel with SplashRouteMethods {
   late BuildContext context;
   late EventsBloc _bloc;
-
   // Delayed start for the splash screen before navigating
   @override
   Future<void> startDelay() async {
@@ -35,8 +36,17 @@ class SplashModelView extends BaseViewModel with SplashRouteMethods {
   // Starting the splash screen and initiating data fetch
   @override
   void start() async {
-    _bloc = EventsBloc.get(context);
-    await _startLoading();
+    _bloc =  EventsBloc.get(context);
+    final InternetChecker checker;
+    checker = InternetCheckerImp(InternetConnectionChecker()); // Initialize the checker
+    if(await checker.isConnect){
+      //the device connect with internet >> you can inter the app
+      await _startLoading();
+    }else{
+      //the device not connect with internet
+      //TODO : DO SOMETHING ELSE >>
+
+    }
   }
 
   // Start fetching movies and Firebase data
