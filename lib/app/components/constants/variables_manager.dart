@@ -11,6 +11,7 @@ class VariablesManager {
   static User? currentUser = FirebaseAuth.instance.currentUser;
   static FirebaseAuth auth = FirebaseAuth.instance;
   static bool isDark = false;
+  static bool isConnectedToTheInternet = true;
   static ThemeData? themeData = lightThemeData();
   static String? userEmail;
 

@@ -1,31 +1,49 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../app/components/constants/general_strings.dart';
-import '../../../app/components/constants/route_strings_manager.dart';
-import '../../../app/components/constants/routs_manager.dart';
 import '../../../domain/local_models/models.dart';
 import '../../../domain/repository/repository.dart';
+import '../../../presentation/bloc_state_managment/events.dart';
 import '../../models/movie_model.dart';
 import '../../models/user_model.dart';
+import '../../network_data_handler/internet_checker/internet_checker.dart';
 import '../../network_data_handler/rest_api/rest_api_dio.dart';
 import '../failure_class/failure_class.dart';
 
 class RepositoryImplementer implements Repository {
-  final DioClient _dioClient; // Client for making API requests
-
-  RepositoryImplementer(this._dioClient); // Constructor to initialize the Dio client
-
+  final DioClient dioClient; // Client for making API requests
+  final EventsBloc bloc ;
+  final InternetChecker internetChecker;
+  RepositoryImplementer({
+    required this.dioClient,
+    required this.bloc,
+    required this.internetChecker,
+  }) {
+    internetChecker.startListening();
+    internetChecker.connectionStream.listen((status) {
+      if (status == InternetConnectionStatus.disconnected) {
+        bloc.add(DisconnectedEvent());
+      } else {
+        bloc.add(ConnectedEvent());
+      }
+    });
+    internetChecker.dispose();
+  }
   // Fetch movies from the API
   @override
   Future<Either<FailureClass, List<MovieResponse>>> fetchMovies() async {
     VariablesManager.movies.clear(); // Clear the existing movie list
     try {
       // Call the API to fetch movies
-      final response = await _dioClient.getMovies();
+      final response = await dioClient.getMovies();
       VariablesManager.movies.addAll(response); // Store the movies in the manager
       return Right(VariablesManager.movies); // Return the movies on success
     } catch (error) {
@@ -34,16 +52,9 @@ class RepositoryImplementer implements Repository {
   }
 
 
-
-  // Navigate to the main route of the application
-  @override
-  navigatorToTheMain(context) {
-    navigateTo(context!, RouteStringsManager.mainRoute); // Navigate to main route
-  }
-
   // Sign in with Google
   @override
-  Future<Either<FailureClass, AuthCredential>> signWithGoogle(context) async {
+  Future<Either<FailureClass, AuthCredential>> signInWithGoogle(context) async {
     try {
       final GoogleSignInAccount? googleUser = await VariablesManager.googleSignIn.signIn(); // Sign in with Google
       final GoogleSignInAuthentication googleAuth = await googleUser!.authentication; // Get Google authentication
@@ -135,10 +146,20 @@ class RepositoryImplementer implements Repository {
   }
 
   @override
-  Future<Either<FirebaseFailureClass, String>> loginToFirebase() {
-    // TODO: implement loginToFirebase
-    throw UnimplementedError();
+  Future<Either<FirebaseFailureClass, String>> loginToFirebase({required CreateUserRequirements req}) async {
+    late String uid ;
+    try{
+    await  FirebaseAuth.instance.signInWithEmailAndPassword(email: req.email, password: req.password).then((value){
+      uid = value.user!.uid;
+    });
+    return Right(uid);
+    }catch(error){
+      return Left(FirebaseFailureClass(authException: error as FirebaseAuthException));
+    }
   }
+
+
+
 
 
 }

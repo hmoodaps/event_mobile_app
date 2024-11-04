@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
+import '../../app/components/constants/route_strings_manager.dart';
+import '../../app/components/constants/routs_manager.dart';
+
 
 class CreateUserRequirements {
   GlobalKey<FormState>? formKey;
@@ -11,7 +14,9 @@ class CreateUserRequirements {
   CreateUserRequirements(
       this.password, this.email, this.formKey, this.fullName);
 }
-
+navigateToMainRoute(context)  {
+  navigateTo(context!, RouteStringsManager.mainRoute); // Navigate to main route
+}
 
 
 

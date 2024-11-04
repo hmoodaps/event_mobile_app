@@ -75,3 +75,6 @@ class InitFetchFirebaseErrorEvent extends AppEvents {
 
   InitFetchFirebaseErrorEvent(this.error);
 }
+//handel InternetConnection Event
+class DisconnectedEvent extends AppEvents{}
+class ConnectedEvent extends AppEvents{}

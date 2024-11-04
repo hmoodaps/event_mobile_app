@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
-import 'package:event_mobile_app/data/network_data_handler/internet_checker/internet_checker.dart';
 import 'package:event_mobile_app/data/network_data_handler/remote_requests/dio_requests_handler.dart';
 import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../../data/implementer/repository_implementer/repo_implementer.dart';
+import '../../data/network_data_handler/internet_checker/internet_checker.dart';
 import '../../domain/repository/repository.dart';
 import '../../presentation/bloc_state_managment/bloc_manage.dart';
 
@@ -36,16 +35,11 @@ Future<void> initAppModules(BuildContext context) async {
   // Register the EventsBloc for state management in the application.
   instance.registerLazySingleton<EventsBloc>(() => EventsBloc());
 
-  // Register the InternetChecker implementation to monitor network status.
-  final InternetConnectionChecker internetConnectionChecker =
-      InternetConnectionChecker();
-  instance.registerLazySingleton<InternetChecker>(
-      () => InternetCheckerImp(internetConnectionChecker));
 
   // Initialize the Dio HTTP client and register it for use in network requests.
   DioHelper.init();
   instance.registerLazySingleton<DioHelper>(
-      () => DioHelper(internetChecker: instance<InternetChecker>()));
+      () => DioHelper());
 
   // Create and register the Dio client for making HTTP requests.
   // Dio Client injection
@@ -68,14 +62,20 @@ Future<void> initAppModules(BuildContext context) async {
   // Overall, this dual approach showcases the ability to handle various types
   // of network interactions within the same application, allowing for a more
   // versatile architecture.
-
   final Dio dio = Dio();
   instance.registerLazySingleton<Dio>(() => dio);
   instance.registerLazySingleton<DioClient>(() => DioClient(instance<Dio>()));
 
-  // Register the Repository implementation, which uses the Dio client for data operations.
-  instance.registerLazySingleton<Repository>(
-      () => RepositoryImplementer(instance<DioClient>()));
+  // Register the Internet Checker,
+  instance.registerLazySingleton<InternetChecker>(
+          () => InternetCheckerImplementer());
 
-  //
+  //  Register Repository implementation
+  instance.registerLazySingleton<Repository>(() =>
+      RepositoryImplementer(
+        dioClient: instance<DioClient>(),
+        bloc: instance<EventsBloc>(),
+        internetChecker: instance<InternetChecker>(),
+      ));
+
 }

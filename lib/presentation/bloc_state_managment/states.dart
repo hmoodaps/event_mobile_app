@@ -74,3 +74,6 @@ class InitFetchFirebaseErrorState extends AppStates {
 
   InitFetchFirebaseErrorState(this.error);
 }
+//handel InternetConnection States
+class DisconnectedState extends AppStates{}
+class ConnectedState extends AppStates{}

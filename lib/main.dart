@@ -22,6 +22,5 @@ void main() async {
   );
   await SharedPref.init();
    DioHelper.init();
-  startListeningToInternet();
   runApp(MyApp());
 }

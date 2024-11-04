@@ -48,6 +48,15 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       emit(ToggleLightAndDarkState());
     });
 
+    //handel Internet connection
+    on<ConnectedEvent>((event,emit) {
+      VariablesManager.isConnectedToTheInternet = true;
+      emit(ConnectedState());
+    });
+    on<DisconnectedEvent>((event,emit) {
+      VariablesManager.isConnectedToTheInternet = false;
+      emit(DisconnectedState());
+    });
   }
 
   // Static instance to access the bloc from anywhere in the app
