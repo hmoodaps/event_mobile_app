@@ -17,8 +17,8 @@ import '../../../app/components/constants/dio_and_mapper_constants.dart';
 
 part 'rest_api_dio.g.dart';
 @RestApi(baseUrl: AppConstants.baseUrl)
-abstract class DioClint {
-  factory DioClint(Dio dio, {ParseErrorLogger? errorLogger, String? baseUrl}) = _DioClint;
+abstract class DioClient {
+  factory DioClient(Dio dio, {ParseErrorLogger? errorLogger, String? baseUrl}) = _DioClient;
 
   @GET(AppConstants.getMovies)
   Future<List<MovieResponse>> getMovies();

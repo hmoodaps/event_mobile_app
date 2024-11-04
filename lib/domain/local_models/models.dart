@@ -1,20 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../app/components/constants/assets_manager.dart';
-import '../../app/components/constants/color_manager.dart';
-import '../../app/components/constants/font_manager.dart';
-import '../../app/components/constants/general_strings.dart';
-import '../../app/components/constants/route_strings_manager.dart';
-import '../../app/components/constants/routs_manager.dart';
-import '../../app/components/constants/size_manager.dart';
-import '../../app/components/constants/variables_manager.dart';
-import '../model_objects/user_model.dart';
 
 class CreateUserRequirements {
   GlobalKey<FormState>? formKey;

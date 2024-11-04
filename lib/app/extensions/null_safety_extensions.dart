@@ -48,3 +48,12 @@ extension NonNullList on List? {
     }
   }
 }
+extension NonNullIntList on List<int>? {
+  List<int> orEmptyIntList(){
+    if(this == null) {
+     return [];
+    }else{
+      return this!;
+    }
+  }
+}

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
-import 'package:event_mobile_app/data/mapper/mapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -9,31 +8,32 @@ import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/routs_manager.dart';
 import '../../../domain/local_models/models.dart';
-import '../../../domain/model_objects/movies_model.dart';
-import '../../../domain/model_objects/user_model.dart';
 import '../../../domain/repository/repository.dart';
+import '../../models/movie_model.dart';
+import '../../models/user_model.dart';
 import '../../network_data_handler/rest_api/rest_api_dio.dart';
 import '../failure_class/failure_class.dart';
 
 class RepositoryImplementer implements Repository {
-  final DioClint _dioClient; // Client for making API requests
+  final DioClient _dioClient; // Client for making API requests
 
   RepositoryImplementer(this._dioClient); // Constructor to initialize the Dio client
 
   // Fetch movies from the API
   @override
-  Future<Either<FailureClass, List<MoviesModel>>> fetchMovies() async {
+  Future<Either<FailureClass, List<MovieResponse>>> fetchMovies() async {
     VariablesManager.movies.clear(); // Clear the existing movie list
     try {
-      final response = await _dioClient.getMovies(); // Call the API to fetch movies
-      // Convert the response to a list of MoviesModel using toDomain
-      final movies = response.map((movieResponse) => movieResponse.toDomain()).toList();
-      VariablesManager.movies.addAll(movies); // Store the movies in the manager
+      // Call the API to fetch movies
+      final response = await _dioClient.getMovies();
+      VariablesManager.movies.addAll(response); // Store the movies in the manager
       return Right(VariablesManager.movies); // Return the movies on success
     } catch (error) {
       return Left(FailureClass(error: error.toString())); // Return the error if any
     }
   }
+
+
 
   // Navigate to the main route of the application
   @override
@@ -91,13 +91,13 @@ class RepositoryImplementer implements Repository {
 
   // Add user details to Firestore
   @override
-  Future<Either<FailureClass, void>> addUserToFirebase({
+  Future<Either<FirebaseFailureClass, void>> addUserToFirebase({
     required String? email,
     required String? fullName,
     String? uid,
     String? userPhotoUrl,
   }) async {
-    UserModel userModel = UserModel(
+    UserResponse userResponse = UserResponse(
       email: email,
       fullName: fullName,
       id: uid,
@@ -106,17 +106,18 @@ class RepositoryImplementer implements Repository {
 
     try {
       // Check if the user ID already exists before adding
-      if (!VariablesManager.userIds.contains(userModel.id)) {
+      if (!VariablesManager.userIds.contains(userResponse.id)) {
         await FirebaseFirestore.instance
             .collection(GeneralStrings.users) // Reference the users collection
             .doc(VariablesManager.currentUser!.uid) // Use the current user's UID as the document ID
-            .set(userModel.toJson()); // Set the user data
+            .set(userResponse.toJson());
       }
       return Right(null); // Return success with no data
     } catch (error) {
-      return Left(FailureClass(error: error.toString())); // Return the error if any
+      return Left(FirebaseFailureClass(authException: error as FirebaseAuthException)); // Return the error if any
     }
   }
+
 
   // Initialize Firebase and fetch user IDs
   @override
@@ -132,4 +133,12 @@ class RepositoryImplementer implements Repository {
       return Left(FailureClass(error: error.toString())); // Return the error if any
     }
   }
+
+  @override
+  Future<Either<FirebaseFailureClass, String>> loginToFirebase() {
+    // TODO: implement loginToFirebase
+    throw UnimplementedError();
+  }
+
+
 }

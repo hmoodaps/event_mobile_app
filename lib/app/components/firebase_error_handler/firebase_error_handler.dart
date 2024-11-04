@@ -49,7 +49,7 @@ firebaseAuthErrorsHandler({required FirebaseFailureClass failure, required emit}
         emit(CreateUserStateError(ErrorStrings.weakPassword));
         break;
       default:
-        emit(CreateUserStateError(ErrorStrings.unknownError)); // رسالة للأخطاء غير المعروفة
+        emit(CreateUserStateError(ErrorStrings.unknownError));
     }
   }
 }

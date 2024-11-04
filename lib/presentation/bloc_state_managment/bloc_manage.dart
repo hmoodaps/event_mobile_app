@@ -53,6 +53,4 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Static instance to access the bloc from anywhere in the app
   static EventsBloc get(BuildContext context) =>
       BlocProvider.of<EventsBloc>(context);
-
-
 }
