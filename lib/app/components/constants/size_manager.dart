@@ -1,33 +1,37 @@
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:flutter/cupertino.dart';
 
 class SizeManager {
-  //double values
-  static const double d1 = 1;
-  static const double d2 = 2;
-  static const double d4 = 4;
-  static const double d8 = 8;
-  static const double d10 = 10;
-  static const double d12 = 12;
-  static const double d14 = 14;
-  static const double d16 = 16;
-  static const double d18 = 18;
-  static const double d20 = 20;
-  static const double d22 = 22;
-  static const double d24 = 24;
-  static const double d30 = 30;
-  static const double d50 = 50;
-  static const double d70 = 70;
-  static const double d100 = 100;
-  static const double d110 = 110;
-  static const double d130 = 130;
-  static const double d140 = 140;
-  static const double d150 = 150;
-  static const double d160 = 160;
-  static const double d180 = 180;
-  static const double d190 = 190;
-  static const double d200 = 200;
-  static const double d250 = 250;
-  static const double d300 = 300;
+
+
+
+  static double d1 = 1;
+  static double d2 = 2;
+  static double d4 = 4;
+  static double d8 = 8;
+  static double d10 = 10;
+  static double d12 = 12;
+  static double d14 = 14;
+  static double d16 = 16;
+  static double d18 = 18;
+  static double d20 = 20;
+  static double d22 = 22;
+  static double d24 = 24;
+  static double d30 = 30;
+  static double d50 = 50;
+  static double d70 = 70;
+  static double d100 = 100;
+  static double d110 = 110;
+  static double d130 = 130;
+  static double d140 = 140;
+  static double d150 = 150;
+  static double d160 = 160;
+  static double d180 = 180;
+  static double d190 = 190;
+  static double d200 = 200;
+  static double d250 = 250;
+  static double d300 = 300;
+
 
   //Integer values
   static const int i2 = 2;

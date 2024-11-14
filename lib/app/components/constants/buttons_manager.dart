@@ -1,5 +1,8 @@
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
 import 'color_manager.dart';
 import 'font_manager.dart';
@@ -19,14 +22,14 @@ class ButtonManager {
             color: color,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(SizeManager.d12),
+                padding:  EdgeInsets.all(SizeManager.d12),
                 child: Row(
                   children: [
                     Icon(prefixIcon, color: ColorManager.privateGrey),
                     Spacer(),
                     Text(
                       buttonName,
-                      style: TextStyleManager.lightTitle(context),
+                      style: TextStyleManager.titleStyle(context),
                     ),
                     Spacer(),
                     Icon(suffixIcon, color: ColorManager.privateGrey),
@@ -71,4 +74,58 @@ class ContainerManager {
       spreadRadius: SizeManager.d1, // مدى انتشار الظل
     );
   }
+}
+
+Widget googleAndAppleButton({
+  required String nameOfButton,
+  required BuildContext context,
+  void Function()? onTap,
+  String? prefixSvgAssetPath,
+  String? sufixSvgAssetPath,
+  Color? color,
+  int?delay,
+
+}) {
+  return StaggeredAnimatedWidget(
+    delay: delay ?? SizeManager.i1400,
+    child: GestureDetector(
+      onTap: onTap,
+      child: ContainerManager.myContainer(
+        color: color ?? Colors.grey.shade400,
+        context: context,
+        child: Padding(
+          padding:  EdgeInsets.all(SizeManager.d12),
+          child: Align(
+            alignment: Alignment.center,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Spacer(),
+                  if (prefixSvgAssetPath != null)
+                    SvgPicture.asset(
+                      prefixSvgAssetPath,
+                      height: SizeManager.d50,
+                      width: SizeManager.d70,
+                    ),
+                  SizedBox(width: SizeManager.d20),
+                  Text(
+                    nameOfButton,
+                      style:TextStyleManager.titleStyle(context)                  ),
+                  Spacer(),
+                  if (sufixSvgAssetPath != null)
+                    SvgPicture.asset(
+                      sufixSvgAssetPath,
+                      height: SizeManager.d50,
+                      width: SizeManager.d70,
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

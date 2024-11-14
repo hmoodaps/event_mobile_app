@@ -3,28 +3,27 @@ import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/app/components/constants/dio_and_mapper_constants.dart';
 
 import '../models/user_model.dart';
-
 extension MovieResponseMapper on MovieResponse? {
   Map<String, dynamic> toDomain() => {
     'tags': this?.tags.orEmptyList() ?? AppConstants.emptyList,
-    'sponsorVideo': this?.sponsorVideo.orEmpty() ?? AppConstants.emptyText,
-    'showTimes': this?.showTimes?.toDomain() ?? {
+    'sponsor_video': this?.sponsorVideo.orEmpty() ?? AppConstants.emptyText, // تم تعديل الحقل
+    'show_times': this?.showTimes?.toDomain() ?? {  // تم تعديل الحقل
       'dates': AppConstants.emptyList,
       'halls': AppConstants.emptyList,
       'times': AppConstants.emptyList,
     },
-    'shortDescription': this?.shortDescription.orEmpty() ?? AppConstants.emptyText,
-    'releaseDate': this?.releaseDate.orEmpty() ?? AppConstants.emptyText,
+    'short_description': this?.shortDescription.orEmpty() ?? AppConstants.emptyText, // تم تعديل الحقل
+    'release_date': this?.releaseDate.orEmpty() ?? AppConstants.emptyText, // تم تعديل الحقل
     'rating': this?.rating.orZero() ?? AppConstants.doubleZero,
-    'imdbRating': this?.imdbRating.orZero() ?? AppConstants.doubleZero,
+    'imdb_rating': this?.imdbRating.orZero() ?? AppConstants.doubleZero, // تم تعديل الحقل
     'duration': this?.duration.orEmpty() ?? AppConstants.emptyText,
     'actors': this?.actors.orEmptyList() ?? AppConstants.emptyList,
-    'availableSeats': this?.availableSeats.orZero() ?? AppConstants.intZero,
+    'available_seats': this?.availableSeats.orZero() ?? AppConstants.intZero, // تم تعديل الحقل
     'reservations': this?.reservations.orZero() ?? AppConstants.intZero,
-    'verticalPhoto': this?.verticalPhoto.orEmpty() ?? AppConstants.emptyText,
-    'ticketPrice': this?.ticketPrice.orZero() ?? AppConstants.doubleZero,
+    'vertical_photo': this?.verticalPhoto.orEmpty() ?? AppConstants.emptyText, // تم تعديل الحقل
+    'ticket_price': this?.ticketPrice.orZero() ?? AppConstants.doubleZero,
     'seats': this?.seats.orZero() ?? AppConstants.intZero,
-    'reservedSeats': this?.reservedSeats.orEmptyList() ?? AppConstants.emptyList,
+    'reserved_seats': this?.reservedSeats.orEmptyList() ?? AppConstants.emptyList, // تم تعديل الحقل
     'description': this?.description.orEmpty() ?? AppConstants.emptyText,
     'name': this?.name.orEmpty() ?? AppConstants.emptyText,
     'id': this?.id.orZero() ?? AppConstants.intZero,

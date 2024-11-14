@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:flutter/material.dart';
 

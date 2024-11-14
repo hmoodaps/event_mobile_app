@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 class SearchRoute extends StatefulWidget {
   const SearchRoute({super.key});
@@ -15,7 +16,7 @@ class SearchRoute extends StatefulWidget {
 class _SearchRouteState extends State<SearchRoute> {
   @override
   Widget build(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
+    EventsBloc bloc = instance();
 
     return BlocConsumer<EventsBloc , AppStates>(builder: (context  , state)=>getScaffold(isDark : VariablesManager.isDark), listener: (context  , state){});
   }

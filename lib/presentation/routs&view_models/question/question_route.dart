@@ -12,6 +12,7 @@ import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 
 import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 
 class QuestionRoute extends StatefulWidget {
@@ -26,7 +27,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
 
   @override
   Widget build(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
+    EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(bloc: bloc),
         listener: (context, state) {});
@@ -43,7 +44,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
         ),
         body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(SizeManager.d20),
+              padding:  EdgeInsets.all(SizeManager.d20),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -68,8 +69,8 @@ class _QuestionRouteState extends State<QuestionRoute> {
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i400,
                       child: Text(
-                        GeneralStrings.letsStart,
-                        style: TextStyleManager.lightHeader(context),
+                        GeneralStrings.letsStart(context),
+                        style: TextStyleManager.header(context),
                       ),
                     ),
                     Spacer(),
@@ -85,8 +86,8 @@ class _QuestionRouteState extends State<QuestionRoute> {
                           StaggeredAnimatedWidget(
                             delay: SizeManager.i600,
                             child: Text(
-                              GeneralStrings.question,
-                              style: TextStyleManager.lightTitle(context),
+                              GeneralStrings.question(context),
+                              style: TextStyleManager.titleStyle(context),
                             ),
                           ),
                           SizedBox(
@@ -97,7 +98,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               child: ButtonManager.myButton(
                                   suffixIcon: IconsManager.home,
                                   context: context,
-                                  buttonName: GeneralStrings.guest,
+                                  buttonName: GeneralStrings.guest(context),
                                   onTap: () => _modelView.navigateToMain(
                                       context: context),
                                   color: ColorManager.primarySecond)),
@@ -120,8 +121,8 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                   width: SizeManager.d2,
                                 ),
                                 Text(
-                                  GeneralStrings.or,
-                                  style: TextStyleManager.lightTitle(context),
+                                  GeneralStrings.or(context),
+                                  style: TextStyleManager.titleStyle(context),
                                 ),
                                 SizedBox(
                                   width: SizeManager.d2,
@@ -143,7 +144,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               child: ButtonManager.myButton(
                                   suffixIcon: IconsManager.register,
                                   context: context,
-                                  buttonName: GeneralStrings.register,
+                                  buttonName: GeneralStrings.register(context),
                                   onTap: () =>
                                       _modelView.navigateToRegister(
                                           context: context),
@@ -167,8 +168,8 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                   width: SizeManager.d2,
                                 ),
                                 Text(
-                                  GeneralStrings.haveAccount,
-                                  style: TextStyleManager.lightTitle(context),
+                                  GeneralStrings.haveAccount(context),
+                                  style: TextStyleManager.titleStyle(context),
                                 ),
                                 SizedBox(
                                   width: SizeManager.d2,
@@ -190,7 +191,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               child: ButtonManager.myButton(
                                   suffixIcon: IconsManager.login,
                                   context: context,
-                                  buttonName: GeneralStrings.login,
+                                  buttonName: GeneralStrings.login(context),
                                   onTap: () => _modelView.navigateToLogin(
                                       context: context),
                                   color: ColorManager.privateBlue)),

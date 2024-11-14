@@ -44,8 +44,8 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
           child: StaggeredAnimatedWidget(
             delay: delay,
             child: Text(
-              GeneralStrings.welcome,
-              style: TextStyleManager.lightHeader(context),
+              GeneralStrings.welcome(context),
+              style: TextStyleManager.header(context),
             ),
           ),
         ),
@@ -53,8 +53,8 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
           child: StaggeredAnimatedWidget(
               delay: delay,
               child: Text(
-                GeneralStrings.startInvesting,
-                style: TextStyleManager.lightTitle(context),
+                GeneralStrings.startInvesting(context),
+                style: TextStyleManager.titleStyle(context),
               )),
         ),
         SizedBox(
@@ -65,8 +65,8 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                GeneralStrings.otherFees,
-                style: TextStyleManager.lightBody(context),
+                GeneralStrings.otherFees(context),
+                style: TextStyleManager.bodyStyle(context),
               ),
             )),
         StaggeredAnimatedWidget(
@@ -77,22 +77,22 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Text(GeneralStrings.viewOur,
-                    style: TextStyleManager.lightBody(context)),
+                child: Text(GeneralStrings.viewOur(context),
+                    style: TextStyleManager.bodyStyle(context)),
               ),
               Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
                     onTap: () {},
                     child: Text(
-                      GeneralStrings.fee,
+                      GeneralStrings.fee(context),
                       style: TextStyle(color: ColorManager.primarySecond),
                     )),
               ),
               Align(
                 alignment: Alignment.center,
-                child: Text(GeneralStrings.learnMore,
-                    style: TextStyleManager.lightBody(context)),
+                child: Text(GeneralStrings.learnMore(context),
+                    style: TextStyleManager.bodyStyle(context)),
               ),
             ],
           ),
@@ -101,8 +101,8 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
             delay: delay,
             child: Align(
               alignment: Alignment.center,
-              child: Text(GeneralStrings.allInvesting,
-                  style: TextStyleManager.lightBody(context)),
+              child: Text(GeneralStrings.allInvesting(context),
+                  style: TextStyleManager.bodyStyle(context)),
             )),
       ],
     );
@@ -123,7 +123,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
         dotDecoration: DotDecoration(
           width: SizeManager.d20,
           height: SizeManager.d16,
-          borderRadius: const BorderRadius.only(
+          borderRadius:  BorderRadius.only(
             bottomLeft: Radius.elliptical(SizeManager.d20, SizeManager.d20),
             topRight: Radius.circular(SizeManager.d20),
           ),
@@ -138,18 +138,19 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
   final PageController _pageController = PageController();
 
   @override
-  void initState() {
-    super.initState();
-    _model.pages = _onboardingList(context);
-    _model = OnboardingModelView();
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _model.context = context; // تعيين السياق هنا
+    _model = OnboardingModelView();
+    _model.context = context ;
+    _model.pages = _onboardingList(context);
     _model.start();
+
   }
+  //
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +164,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
 
   Widget _getOnboarding(bool isLast) => Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(SizeManager.d20),
+          padding:  EdgeInsets.all(SizeManager.d20),
           child: Stack(
             children: [
               Center(
@@ -198,15 +199,15 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                                           10),
                               child: TextButton(
                                 onPressed: _model.onContinuePressed,
-                                child: Text(GeneralStrings.continueString,
+                                child: Text(GeneralStrings.continueString(context),
                                     style:
-                                        TextStyleManager.lightTitle(context)),
+                                        TextStyleManager.titleStyle(context)),
                               ),
                             ),
                           ),
                         )
                       : SizedBox(),
-                  SafeArea(child: Align(alignment: Alignment.topLeft,child: TextButton(onPressed: (){_pageController.animateToPage(_model.pages.length-1, duration: Duration(milliseconds: 400), curve: Curves.linear);}, child: Text('Skip' , style: TextStyleManager.lightTitle(context),)),))
+                  SafeArea(child: Align(alignment: Alignment.topLeft,child: TextButton(onPressed: (){_pageController.animateToPage(_model.pages.length-1, duration: Duration(milliseconds: 400), curve: Curves.linear);}, child: Text('Skip' , style: TextStyleManager.titleStyle(context),)),))
                 ],
               ),
             ],

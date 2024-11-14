@@ -1,25 +1,24 @@
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/components/constants/assets_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/buttons_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/font_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/general_strings.dart';
-import 'package:event_mobile_app/presentation/components/constants/icons_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/notification_handler.dart';
-import 'package:event_mobile_app/presentation/components/constants/route_strings_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/routs_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/size_manager.dart';
-import 'package:event_mobile_app/presentation/components/constants/text_form_manager.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/login/login_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
-import '../../components/constants/color_manager.dart';
-import '../../components/constants/variables_manager.dart';
+
+import '../../../app/components/constants/assets_manager.dart';
+import '../../../app/components/constants/buttons_manager.dart';
+import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/font_manager.dart';
+import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/notification_handler.dart';
+import '../../../app/components/constants/size_manager.dart';
+import '../../../app/components/constants/text_form_manager.dart';
+import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/components/tranlate_massages/translate_massage.dart';
 
 class LoginRoute extends StatefulWidget {
   const LoginRoute({super.key});
@@ -29,18 +28,19 @@ class LoginRoute extends StatefulWidget {
 }
 
 class _LoginRouteState extends State<LoginRoute> {
-  final LoginModelView _model = LoginModelView();
+  late final  LoginModelView _model;
 
   @override
   void initState() {
     super.initState();
+    _model = LoginModelView();
     _model.context = context;
     _model.start();
   }
 
   @override
   Widget build(BuildContext context) {
-    EventsBloc bloc = EventsBloc.get(context);
+    //EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
         listener: (context, state) {
@@ -72,15 +72,14 @@ class _LoginRouteState extends State<LoginRoute> {
               state is LoginErrorState ||
               state is SignInWithGoogleStateSuccess ||
               state is SignInWithGoogleStateError) {
-            Navigator.pop(context);
+        //    Navigator.pop(context);
           }
           if (state is LoginSuccessState) {
-            navigatorToTheMain(context);
           }
           if (state is LoginErrorState) {
             errorNotification(
               context: context,
-              description: state.error.toString(),
+              description: translateErrorMessage(state.error, context),
               backgroundColor:
                   VariablesManager.isDark ? Colors.white : Colors.grey.shade400,
             );
@@ -91,35 +90,24 @@ class _LoginRouteState extends State<LoginRoute> {
               builder: (context) => Center(
                 child: LoadingIndicator(
                     indicatorType: Indicator.squareSpin,
-
                     /// Required, The loading type of the widget
                     colors: const [ColorManager.primarySecond],
-
                     /// Optional, The color collections
                     strokeWidth: 2,
-
                     /// Optional, The stroke of the line, only applicable to widget which contains line
                     backgroundColor: Colors.transparent,
-
                     /// Optional, Background of the widget
                     pathBackgroundColor: Colors.transparent
-
                     /// Optional, the stroke backgroundColor
                     ),
               ),
             );
           }
-          if (state is SignInWithGoogleStateSuccess) {
-            if (_model.checkUserExisting()) {
-              navigatorToTheMain(context);
-            } else {
-              navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
-            }
-          }
+
           if (state is SignInWithGoogleStateError) {
             errorNotification(
                 context: context,
-                description: state.error.toString(),
+                description: translateErrorMessage(state.error, context),
                 backgroundColor: VariablesManager.isDark
                     ? Colors.white
                     : Colors.grey.shade400);
@@ -142,7 +130,7 @@ class _LoginRouteState extends State<LoginRoute> {
           child: Form(
             key: _model.formKey,
             child: Padding(
-              padding: const EdgeInsets.all(SizeManager.d20),
+              padding:  EdgeInsets.all(SizeManager.d20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -153,12 +141,12 @@ class _LoginRouteState extends State<LoginRoute> {
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          GeneralStrings.login,
+                          GeneralStrings.login(context),
                           style: TextStyle(
                               fontWeight: FontWeightManager.bold,
                               fontSize: SizeManager.d50,
                               fontFamily: GeneralStrings.cormo,
-                              color: Colors.black),
+                              color:VariablesManager.isDark ? Colors.white: ColorManager.primarySecond),
                         )),
                   ),
                   SizedBox(
@@ -170,9 +158,8 @@ class _LoginRouteState extends State<LoginRoute> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        GeneralStrings.welcomeBack,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
+                        GeneralStrings.welcomeBack(context),
+                          style:TextStyleManager.titleStyle(context)                      ),
                     ),
                   ),
                   SizedBox(
@@ -183,10 +170,10 @@ class _LoginRouteState extends State<LoginRoute> {
                       child: textFormField(
                         controller: _model.emailController,
                         hintText: GeneralStrings.ahmadEmail,
-                        labelText: GeneralStrings.email,
+                        labelText: GeneralStrings.email(context),
                         prefix: Icon(IconsManager.email),
-                        onFieldSubmitted: (p0) => _model.toNextField,
-                        validator: (p0) => _model.validator(p0),
+                        onFieldSubmitted: (p0) =>toNextField,
+                        validator: (p0) => validator(p0),
                         context: context,
                       )),
                   SizedBox(
@@ -196,10 +183,10 @@ class _LoginRouteState extends State<LoginRoute> {
                       delay: SizeManager.i800,
                       child: textFormField(
                           controller: _model.passwordController,
-                          labelText: GeneralStrings.password,
+                          labelText: GeneralStrings.password(context),
                           prefix: Icon(IconsManager.key),
-                          onFieldSubmitted: (p0) => _model.toNextField,
-                          validator: (p0) => _model.validator(p0),
+                          onFieldSubmitted: (p0) => toNextField,
+                          validator: (p0) => validator(p0),
                           suffix: Icon(IconsManager.hide),
                           context: context)),
                   SizedBox(
@@ -210,7 +197,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     child: TextButton(
                       onPressed: () => _model.onForgetPasswordPress,
                       child: Text(
-                        GeneralStrings.forgetPassword,
+                        GeneralStrings.forgetPassword(context),
                         style: TextStyle(
                           color: ColorManager.primarySecond,
                           fontSize: SizeManager.d18,
@@ -221,7 +208,7 @@ class _LoginRouteState extends State<LoginRoute> {
                   SizedBox(
                     height: SizeManager.d20,
                   ),
-                  _button(
+                  googleAndAppleButton(
                       delay: SizeManager.i1000,
                       onTap: () {
                         _model.onLoginPressed(
@@ -230,9 +217,9 @@ class _LoginRouteState extends State<LoginRoute> {
                           password: _model.passwordController.text,
                         );
                       },
-                      nameOfButton: GeneralStrings.login,
+                      nameOfButton: GeneralStrings.login(context),
                       sufixSvgAssetPath: AssetsManager.login,
-                      color: ColorManager.primarySecond),
+                      color: ColorManager.primarySecond, context: context),
                   SizedBox(
                     height: SizeManager.d30,
                   ),
@@ -253,9 +240,8 @@ class _LoginRouteState extends State<LoginRoute> {
                           width: SizeManager.d2,
                         ),
                         Text(
-                          GeneralStrings.or,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                          GeneralStrings.or(context),
+                            style:TextStyleManager.titleStyle(context)                        ),
                         SizedBox(
                           width: SizeManager.d2,
                         ),
@@ -271,16 +257,16 @@ class _LoginRouteState extends State<LoginRoute> {
                   SizedBox(
                     height: SizeManager.d20,
                   ),
-                  _button(
+                  googleAndAppleButton(
                       onTap: () => _model.onSignInwWithGooglePress(),
                       delay: 1400,
-                      nameOfButton: GeneralStrings.signWithGoogle,
-                      prefixSvgAssetPath: AssetsManager.google),
+                      nameOfButton: GeneralStrings.signWithGoogle(context),
+                      prefixSvgAssetPath: AssetsManager.google, context: context),
                   SizedBox(height: SizeManager.d30),
-                  _button(
+                  googleAndAppleButton(
                       delay: 1600,
-                      nameOfButton: GeneralStrings.signWithApple,
-                      prefixSvgAssetPath: AssetsManager.apple),
+                      nameOfButton: GeneralStrings.signWithApple(context),
+                      prefixSvgAssetPath: AssetsManager.apple, context: context),
                 ],
               ),
             ),
@@ -288,55 +274,4 @@ class _LoginRouteState extends State<LoginRoute> {
         ),
       );
 
-  Widget _button(
-      {required String nameOfButton,
-      void Function()? onTap,
-      String? prefixSvgAssetPath,
-      String? sufixSvgAssetPath,
-      Color? color,
-      int? delay}) {
-    return StaggeredAnimatedWidget(
-      delay: delay ?? SizeManager.i1400,
-      child: GestureDetector(
-        onTap: onTap,
-        child: ContainerManager.myContainer(
-          color: color ?? Colors.grey.shade400,
-          context: context,
-          child: Padding(
-            padding: const EdgeInsets.all(SizeManager.d12),
-            child: Align(
-              alignment: Alignment.center,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    if (prefixSvgAssetPath != null)
-                      SvgPicture.asset(
-                        prefixSvgAssetPath,
-                        height: SizeManager.d50,
-                        width: SizeManager.d70,
-                      ),
-                    SizedBox(width: SizeManager.d20),
-                    Text(
-                      nameOfButton,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Spacer(),
-                    if (sufixSvgAssetPath != null)
-                      SvgPicture.asset(
-                        sufixSvgAssetPath,
-                        height: SizeManager.d50,
-                        width: SizeManager.d70,
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }

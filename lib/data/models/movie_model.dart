@@ -45,34 +45,34 @@ class MovieResponse {
   @JsonKey(name: 'show_times')
   ShowTimesResponse? showTimes;
 
-  // main constructor
-  MovieResponse(
-      this.verticalPhoto,
-      this.photo,
-      this.id,
-      this.name,
-      this.description,
-      this.reservedSeats,
-      this.seats,
-      this.ticketPrice,
-      this.reservations,
-      this.availableSeats,
-      this.actors,
-      this.duration,
-      this.imdbRating,
-      this.rating,
-      this.releaseDate,
-      this.shortDescription,
-      this.showTimes,
-      this.sponsorVideo,
-      this.tags);
+  // Constructor with named parameters
+  MovieResponse({
+    this.verticalPhoto,
+    this.photo,
+    this.id,
+    this.name,
+    this.description,
+    this.reservedSeats,
+    this.seats,
+    this.ticketPrice,
+    this.reservations,
+    this.availableSeats,
+    this.actors,
+    this.duration,
+    this.imdbRating,
+    this.rating,
+    this.releaseDate,
+    this.shortDescription,
+    this.showTimes,
+    this.sponsorVideo,
+    this.tags,
+  });
 
-  //using factory
+  // Factory method for JSON serialization
   factory MovieResponse.fromJson(Map<String, dynamic> json) =>
       _$MovieResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MovieResponseToJson(
-      this); // we will not use this part bcz its not allowed to share videos by user .
+  Map<String, dynamic> toJson() => _$MovieResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -89,9 +89,9 @@ class ShowTimesResponse {
   factory ShowTimesResponse.fromJson(Map<String, dynamic> json) =>
       _$ShowTimesResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ShowTimesResponseToJson(
-      this); // we will not use this part bcz its not allowed to share videos by user .
+  Map<String, dynamic> toJson() => _$ShowTimesResponseToJson(this);
 }
+
 
 //then run
 //flutter pub get; flutter pub run build_runner build --delete-conflicting-outputs

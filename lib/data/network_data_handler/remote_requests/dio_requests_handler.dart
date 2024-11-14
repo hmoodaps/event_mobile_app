@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/dio_and_mapper_constants.dart';
-import 'package:event_mobile_app/data/network_data_handler/internet_checker/internet_checker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 

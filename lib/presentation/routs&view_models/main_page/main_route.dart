@@ -10,6 +10,7 @@ import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 
+
 class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
 
@@ -30,18 +31,18 @@ class _MainRouteState extends State<MainRoute> {
 
   @override
   Widget build(BuildContext context) {
-  //  EventsBloc bloc = EventsBloc.get(context);
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light,
     ));
     return BlocConsumer<EventsBloc, AppStates>(
+
         builder: (context, state) =>
-            getScaffold(isDark: VariablesManager.isDark),
+            _getScaffold(isDark: VariablesManager.isDark),
         listener: (context, state) {});
   }
 
-  Widget getScaffold({required bool isDark}) =>
+  Widget _getScaffold({required bool isDark}) =>
       Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
             height: SizeManager.d50,

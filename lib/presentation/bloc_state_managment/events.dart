@@ -1,80 +1,79 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../data/implementer/failure_class/failure_class.dart';
+import '../../data/models/movie_model.dart';
+import '../../domain/local_models/models.dart';
 
 abstract class AppEvents {}
 
-//create user events handle
-class StartCreateUserEvent extends AppEvents {}
-
-class CreateUserEventSuccess extends AppEvents {}
-
-class CreateUserEventError extends AppEvents {
-  FirebaseAuthException error;
-
-  CreateUserEventError(this.error);
+class StartCreateUserEvent extends AppEvents {
+  final CreateUserRequirements req;
+  StartCreateUserEvent(this.req);
 }
 
-//add user events handle
+class CreatingUserResultEvent extends AppEvents {
+  final String? error;
+  final CreateUserRequirements req;
+  final Either<FirebaseFailureClass, UserCredential> result;
 
-class AddUserToFirebaseEvent extends AppEvents {}
-
-class AddUserToFirebaseEventSuccess extends AppEvents {}
-
-class AddUserToFirebaseEventError extends AppEvents {
-  FirebaseAuthException error;
-
-  AddUserToFirebaseEventError(this.error);
+  CreatingUserResultEvent(this.req, this.result, {this.error});
 }
 
-//login events handle
-class LoginEvent extends AppEvents {}
-
-class LoginSuccessEvent extends AppEvents {}
-
-class LoginErrorEvent extends AppEvents {
-  FirebaseAuthException error;
-
-  LoginErrorEvent(this.error);
+class AddUserToFirebaseEvent extends AppEvents {
+  final CreateUserRequirements req;
+  AddUserToFirebaseEvent(this.req);
 }
 
-//Sign In With Google handle events
+class AddUserToFirebaseResultEvent extends AppEvents {
+  final String? error;
+  final Either<FirebaseFailureClass, void> result;
+  AddUserToFirebaseResultEvent(this.result, {this.error});
+}
+
+class LoginEvent extends AppEvents {
+  final CreateUserRequirements req;
+  LoginEvent(this.req);
+}
+
+class LoginResultEvent extends AppEvents {
+  final String? error;
+  final Either<FirebaseFailureClass, String> result;
+  LoginResultEvent(this.result, {this.error});
+}
+
 class SignInWithGoogleEvent extends AppEvents {}
 
-class SignInWithGoogleEventSuccess extends AppEvents {}
-
-class SignInWithGoogleEventError extends AppEvents {
-  FirebaseAuthException error;
-
-  SignInWithGoogleEventError(this.error);
+class SignInWithGoogleResultEvent extends AppEvents {
+  final String? error;
+  Either<FailureClass, Either<bool, bool>> result;
+  SignInWithGoogleResultEvent(this.result, {this.error});
 }
 
-//change navigation bar index events
 class ChangeNavigationBarIndexEvent extends AppEvents {}
 
-//Toggle Light And Dark events
-class ToggleLightAndDarkEvent extends AppEvents {}
+class ToggleToLightEvent extends AppEvents {}
+class ToggleToDarkEvent extends AppEvents {}
+class ToggleLightAndDarkEvent extends AppEvents {
+}
 
-//fetch init data  movies events
 class StartFetchMoviesEvent extends AppEvents {}
 
-class InitFetchMoviesEvent extends AppEvents {}
-
-class InitFetchMoviesErrorEvent extends AppEvents {
-  String error;
-
-  InitFetchMoviesErrorEvent(this.error);
+class FetchMoviesResultEvent extends AppEvents {
+  final String? error;
+  Either<FailureClass, List<MovieResponse>> result;
+  FetchMoviesResultEvent(this.result, {this.error});
 }
-
-//fetch init data  firebase events
 
 class StartFetchFirebaseEvent extends AppEvents {}
+class MoviesLoadedEvent extends AppEvents {}
 
-class InitFetchFirebaseEvent extends AppEvents {}
-
-class InitFetchFirebaseErrorEvent extends AppEvents {
-  String error;
-
-  InitFetchFirebaseErrorEvent(this.error);
+class FetchFirebaseResultEvent extends AppEvents {
+  final String? error;
+  Either<FailureClass, List<String>> result;
+  FetchFirebaseResultEvent(this.result, {this.error});
 }
-//handel InternetConnection Event
-class DisconnectedEvent extends AppEvents{}
-class ConnectedEvent extends AppEvents{}
+
+class InternetStatusChangeEvent extends AppEvents{}

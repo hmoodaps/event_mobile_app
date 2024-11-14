@@ -10,7 +10,7 @@ class ActorModel {
     final page = json['query']['pages'].values.first;
     final pageId = page['pageid'];
     sours = 'https://en.wikipedia.org/?curid=$pageId';
-    fullName = page['title'];
+    fullName = page['titleStyle'];
     description = page['extract'];
     profilePhoto = page['original']?['source'];
   }

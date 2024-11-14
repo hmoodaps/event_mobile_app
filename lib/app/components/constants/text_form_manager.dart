@@ -140,7 +140,7 @@ TextFormField defaultTextFormField({
     decoration: InputDecoration(
       contentPadding: EdgeInsets.all(SizeManager.d18),
       labelText: labelText,
-      labelStyle: TextStyleManager.lightBody(context),
+      labelStyle: TextStyleManager.bodyStyle(context),
       filled: filled ?? false,
       fillColor: fillColor,
       errorStyle: const TextStyle(fontFamily: 'cinzel', color: Colors.red),

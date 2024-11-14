@@ -8,16 +8,16 @@ import 'general_strings.dart';
 errorNotification(
     {required BuildContext context,
     required String description,
-    required Color backgroundColor}) {
+     Color ? backgroundColor}) {
   return ElegantNotification.error(
-    background: backgroundColor,
+    background: backgroundColor ?? Colors.white,
     title: Text(
-      GeneralStrings.error,
-      style: TextStyleManager.lightTitle(context),
+      GeneralStrings.error(context),
+      style: TextStyleManager.titleStyle(context),
     ),
     description: Text(
       description,
-      style: TextStyleManager.lightBody(context),
+      style: TextStyleManager.bodyStyle(context),
     ),
     animationDuration: Duration(seconds: SizeManager.i4),
     toastDuration: Duration(seconds: SizeManager.i6),
@@ -31,12 +31,12 @@ successNotification(
   return ElegantNotification(
     background: backgroundColor,
     title: Text(
-      GeneralStrings.success,
-      style: TextStyleManager.lightTitle(context),
+      GeneralStrings.success(context),
+      style: TextStyleManager.titleStyle(context),
     ),
     description: Text(
       description,
-      style: TextStyleManager.lightBody(context),
+      style: TextStyleManager.bodyStyle(context),
     ),
     animationDuration: Duration(seconds: SizeManager.i4),
     toastDuration: Duration(seconds: SizeManager.i6),

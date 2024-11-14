@@ -1,79 +1,82 @@
+import 'package:flutter/material.dart';
+
 abstract class AppStates {}
-// init state
+
 class InitialState extends AppStates {}
-//create user events handle
 
 class StartCreateUserState extends AppStates {}
 
 class CreateUserStateSuccess extends AppStates {}
 
 class CreateUserStateError extends AppStates {
-  String error;
-
+  final String error;
   CreateUserStateError(this.error);
 }
 
-
-//add user to firebase states
 class AddUserToFirebaseState extends AppStates {}
 
 class AddUserToFirebaseStateSuccess extends AppStates {}
 
 class AddUserToFirebaseStateError extends AppStates {
-  String error;
-
+  final String error;
   AddUserToFirebaseStateError(this.error);
 }
 
-//login to firebase states
 class LoginState extends AppStates {}
 
 class LoginSuccessState extends AppStates {}
 
 class LoginErrorState extends AppStates {
-  String error;
-
+  final String error;
   LoginErrorState(this.error);
 }
 
-//sign in or login by google states
 class SignInWithGoogleState extends AppStates {}
 
 class SignInWithGoogleStateSuccess extends AppStates {}
 
 class SignInWithGoogleStateError extends AppStates {
-  String error;
-
+  final String error;
   SignInWithGoogleStateError(this.error);
 }
-// Change Navigation Bar Index States
+
+class SignInWithGoogleUserExist extends AppStates {}
+
+class SignInWithGoogleUserNotExist extends AppStates {}
+
 class ChangeNavigationBarIndexState extends AppStates {}
 
+class ToggleToLightState extends AppStates {
+  ThemeData themeData ;
+  ToggleToLightState(this.themeData);
+}
+class ToggleToDarkState extends AppStates {
+  ThemeData themeData ;
+  ToggleToDarkState(this.themeData);
 
-//toggle between light and dark mood states
-
+}
 class ToggleLightAndDarkState extends AppStates {}
-//fitch movies states
+
+
 class StartFetchMoviesState extends AppStates {}
 
-class InitFetchMoviesState extends AppStates {}
+class MoviesLoadedState extends AppStates {}
 
 class InitFetchMoviesErrorState extends AppStates {
-  String error;
-
+  final String error;
   InitFetchMoviesErrorState(this.error);
 }
 
-//fetch firebase states
 class StartFetchFirebaseState extends AppStates {}
 
 class InitFetchFirebaseState extends AppStates {}
 
 class InitFetchFirebaseErrorState extends AppStates {
-  String error;
-
+  final String error;
   InitFetchFirebaseErrorState(this.error);
 }
-//handel InternetConnection States
-class DisconnectedState extends AppStates{}
-class ConnectedState extends AppStates{}
+
+class DisconnectedState extends AppStates {}
+
+class ConnectedState extends AppStates {}
+

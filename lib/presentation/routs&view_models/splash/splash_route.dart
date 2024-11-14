@@ -1,9 +1,11 @@
+import 'package:event_mobile_app/app/components/constants/notification_handler.dart';
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../app/components/constants/assets_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/size_manager.dart';
 import '../../bloc_state_managment/states.dart';
 import 'splash_model_view.dart';
 
@@ -24,42 +26,41 @@ class _SplashRouteState extends State<SplashRoute> {
     _model = SplashModelView();
     _model.context = context;
     _model.start(); // Start fetching data and splash screen logic
+    _model.startDelay();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<EventsBloc, AppStates>(
-      builder: (context, state) => getScaffold(),
+      builder: (context, state) {
+        return getScaffold();
+      },
       listener: (context, state) {
-        // Handle the progress updates based on Bloc events and states
-
-        // When starting to fetch movies, update progress to 50%
         if (state is StartFetchMoviesState) {
           setState(() {
-            _progressValue = 0.5;
+            _progressValue = 0.25;
           });
         }
-
-        // When movies fetching is done, update progress to 75%
-        if (state is InitFetchMoviesState) {
-          setState(() {
-            _progressValue = 0.75;
-          });
-        }
-
-        // When starting to fetch Firebase data, update progress to 75%
-        if (state is StartFetchFirebaseState) {
-          setState(() {
-            _progressValue = 0.75;
-          });
-        }
-
-        // When Firebase fetching is done, update progress to 100%
-        if (state is InitFetchFirebaseState) {
+        if (state is MoviesLoadedState) {
           setState(() {
             _progressValue = 1.0;
           });
-          _model.endSplash(); // End the splash screen and navigate
+        }
+        // if (state is StartFetchFirebaseState) {
+        //   setState(() {
+        //     _progressValue = 0.75;
+        //   });
+        // }
+        // if (state is InitFetchFirebaseState) {
+        //   setState(() {
+        //     _progressValue = 5.0;
+        //   });
+        //   if (VariablesManager.movies.isNotEmpty) {
+        //     _model.endSplash();
+        //   }
+        // }
+        if (state is InitFetchMoviesErrorState) {
+          errorNotification(context: context, description: state.error);
         }
       },
     );
@@ -77,13 +78,13 @@ class _SplashRouteState extends State<SplashRoute> {
             AssetsManager.cinemaAsset,
             color: Colors.white,
           ),
-          const SizedBox(height: 20),
-          CircularProgressIndicator(
+          SizedBox(height: SizeManager.d20),
+          LinearProgressIndicator(
             value: _progressValue, // Bind progress value to the state
             backgroundColor: Colors.grey[300],
             color: Colors.blueAccent,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: SizeManager.d20),
           Text(
             '${(_progressValue * 100).toInt()}%', // Display progress as percentage
             style: TextStyle(
@@ -96,4 +97,10 @@ class _SplashRouteState extends State<SplashRoute> {
       ),
     ),
   );
+
+  @override
+  void dispose() {
+    _model.dispose();
+    super.dispose();
+  }
 }

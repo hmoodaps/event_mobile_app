@@ -1,8 +1,15 @@
+import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/app/dependencies_injection/dependency_injection.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/splash/splash_route.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/take_user_Details/take_user_details_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../presentation/routs&view_models/splash/splash_route.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../../generated/l10n.dart';
+import '../../main.dart';
+import '../../presentation/bloc_state_managment/events.dart';
 import '../components/constants/routs_manager.dart';
 
 class MyApp extends StatefulWidget {
@@ -17,29 +24,61 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeData? themeData;
+  bool showNoInternetDialog = false;
 
-  @override
-  void initState() {
-    super.initState();
+  void _showNoInternetDialog() {
+    setState(() {
+      showNoInternetDialog = true;
+    });
+    final navigatorContext = navigatorKey.currentContext;
+    if (navigatorContext != null) {
+      showDialog(
+        context: navigatorContext,
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: Text(GeneralStrings.lostConnection(context)),
+            content: Text(GeneralStrings.lostConnectionContent(context)),
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EventsBloc(),
-      child: BlocBuilder<EventsBloc, AppStates>(
+      create: (context) => EventsBloc()..add(InternetStatusChangeEvent()),
+      child: BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) {
-          // Ensure themeData is initialized
-          if (themeData == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          EventsBloc bloc = instance();
           return MaterialApp(
+            navigatorKey: navigatorKey,
+            locale: const Locale('en'),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
             onGenerateRoute: Routes.onGenerateRoute,
             debugShowCheckedModeBanner: false,
-            theme: themeData,
-            home: const SplashRoute(),
+            theme: bloc.toggleLightAndDark(context),
+            home: Scaffold(body: const TakeUserDetailsRoute()),
           );
+        },
+        listener: (context, state) {
+          if (state is DisconnectedState) {
+            _showNoInternetDialog();
+          }
+
+          if (state is ConnectedState &&
+              showNoInternetDialog &&
+              navigatorKey.currentContext != null) {
+            Navigator.pop(navigatorKey.currentContext!);
+          }
         },
       ),
     );

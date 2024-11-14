@@ -1,13 +1,13 @@
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/favorit/favorite_route.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/profile/profile_route.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/search/search_route.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../app/components/constants/icons_manager.dart';
+import '../favorit/favorite_route.dart';
 import '../movies/movies_route.dart';
+import '../profile/profile_route.dart';
+import '../search/search_route.dart';
 
 class MainRouteModelView extends BaseViewModel with MainRouteFunctions{
   late BuildContext context;
@@ -15,7 +15,6 @@ class MainRouteModelView extends BaseViewModel with MainRouteFunctions{
   late final EventsBloc _bloc;
   @override
   void dispose() {
-    // TODO: implement dispose
   }
 
   @override
@@ -26,7 +25,6 @@ class MainRouteModelView extends BaseViewModel with MainRouteFunctions{
   onTap(int index){
     newIndex = index ;
     _bloc.add(ChangeNavigationBarIndexEvent());
-
   }
   Widget onNavigationBarIconPress() {
     switch (newIndex) {
@@ -36,11 +34,13 @@ class MainRouteModelView extends BaseViewModel with MainRouteFunctions{
         return FavoriteRoute();
       case 2:
         return SearchRoute();
-        case 3:
+      case 3:
         return ProfileRoute();
       default:
         return MoviesRoute();
+
     }
+
   }
 
   List<Widget> bottomNavigationBarItems = [
@@ -55,6 +55,7 @@ class MainRouteModelView extends BaseViewModel with MainRouteFunctions{
     Icon(IconsManager.profile, color:  CupertinoColors.black),
 
   ];
+
 
 }
 mixin MainRouteFunctions{
