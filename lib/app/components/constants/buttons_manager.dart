@@ -1,11 +1,10 @@
-import 'package:event_mobile_app/app/components/constants/size_manager.dart';
-import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
 import 'color_manager.dart';
 import 'font_manager.dart';
+import 'size_manager.dart';
 
 class ButtonManager {
   static Widget myButton({
@@ -22,7 +21,7 @@ class ButtonManager {
             color: color,
             child: Center(
               child: Padding(
-                padding:  EdgeInsets.all(SizeManager.d12),
+                padding: EdgeInsets.all(SizeManager.d12),
                 child: Row(
                   children: [
                     Icon(prefixIcon, color: ColorManager.privateGrey),
@@ -83,8 +82,8 @@ Widget googleAndAppleButton({
   String? prefixSvgAssetPath,
   String? sufixSvgAssetPath,
   Color? color,
-  int?delay,
-
+  Color? suffixSvgColor,
+  int? delay,
 }) {
   return StaggeredAnimatedWidget(
     delay: delay ?? SizeManager.i1400,
@@ -94,7 +93,7 @@ Widget googleAndAppleButton({
         color: color ?? Colors.grey.shade400,
         context: context,
         child: Padding(
-          padding:  EdgeInsets.all(SizeManager.d12),
+          padding: EdgeInsets.all(SizeManager.d12),
           child: Align(
             alignment: Alignment.center,
             child: Center(
@@ -110,13 +109,13 @@ Widget googleAndAppleButton({
                       width: SizeManager.d70,
                     ),
                   SizedBox(width: SizeManager.d20),
-                  Text(
-                    nameOfButton,
-                      style:TextStyleManager.titleStyle(context)                  ),
+                  Text(nameOfButton,
+                      style: TextStyleManager.titleStyle(context)),
                   Spacer(),
                   if (sufixSvgAssetPath != null)
                     SvgPicture.asset(
                       sufixSvgAssetPath,
+                      color: suffixSvgColor ?? Colors.black,
                       height: SizeManager.d50,
                       width: SizeManager.d70,
                     ),

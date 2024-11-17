@@ -1,13 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:event_mobile_app/app/dependencies_injection/dependency_injection.dart';
-import 'package:event_mobile_app/domain/isolate/isolate_helper.dart';
-import 'package:event_mobile_app/domain/repository/register_in_firebase_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../domain/local_models/models.dart';
+import '../../../domain/repository/main_repositories/repositories.dart';
+import '../../../domain/repository/register_in_firebase_repo.dart';
 import '../failure_class/failure_class.dart';
 
 class RegisterImplementer implements RegisterInFirebaseRepo {
-  IsolateHelper isolateHelper = instance<IsolateHelper>();
+  Repositories isolateHelper;
+
+  RegisterImplementer({
+    required this.isolateHelper,
+  });
 
   // Create a new user in Firebase
   @override
@@ -21,5 +25,12 @@ class RegisterImplementer implements RegisterInFirebaseRepo {
   Future<Either<FirebaseFailureClass, void>> addUserToFirebase(
       {required CreateUserRequirements req}) async {
     return await isolateHelper.addUserToFirebase(req: req);
+  }
+
+  @override
+  Future<Either<FirebaseFailureClass, void>> createUserAtFirebaseWithCredential(
+      {required AuthCredential credential}) async {
+    return await isolateHelper.createUserAtFirebaseWithCredential(
+        credential: credential);
   }
 }

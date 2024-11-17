@@ -8,8 +8,6 @@ class CartRoute extends StatefulWidget {
 }
 
 class _CartRouteState extends State<CartRoute> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold();

@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/routs_manager.dart';
 import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../../domain/local_models/models.dart';
+import '../../bloc_state_managment/bloc_manage.dart';
+import '../../bloc_state_managment/events.dart';
 
 class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   // initialize variables to apply "Separation of Concerns"

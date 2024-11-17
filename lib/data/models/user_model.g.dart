@@ -24,6 +24,7 @@ _$UserResponseImpl _$$UserResponseImplFromJson(Map<String, dynamic> json) =>
       postalCode: json['postalCode'] as String?,
       houseNumber: json['houseNumber'] as String?,
       town: json['town'] as String?,
+      additionalInfo: json['additionalInfo'] as String?,
       street: json['street'] as String?,
       userPhotoUrl: json['userPhotoUrl'] as String?,
       reservedMovies: (json['reservedMovies'] as List<dynamic>?)
@@ -51,6 +52,7 @@ Map<String, dynamic> _$$UserResponseImplToJson(_$UserResponseImpl instance) =>
       'postalCode': instance.postalCode,
       'houseNumber': instance.houseNumber,
       'town': instance.town,
+      'additionalInfo': instance.additionalInfo,
       'street': instance.street,
       'userPhotoUrl': instance.userPhotoUrl,
       'reservedMovies': instance.reservedMovies,

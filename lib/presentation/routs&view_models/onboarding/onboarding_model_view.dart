@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,6 @@ import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/routs_manager.dart';
 import '../../../data/local_storage/shared_local.dart';
-
 
 class OnboardingModelView extends BaseViewModel
     with OnboardingModelViewInputs, OnboardingModelViewOutput {
@@ -18,8 +16,7 @@ class OnboardingModelView extends BaseViewModel
   late List<Widget> pages;
 
   @override
-  void start() {
-  }
+  void start() {}
 
   @override
   void dispose() {
@@ -58,6 +55,4 @@ mixin OnboardingModelViewOutput {
 }
 
 //on boarding models
-class OnboardingModels {
-
-}
+class OnboardingModels {}

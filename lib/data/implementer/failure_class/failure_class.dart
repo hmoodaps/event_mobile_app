@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FailureClass{
-  String error ;
+class FailureClass {
+  String error;
+
   FailureClass({required this.error});
 }
 
 class FirebaseFailureClass {
-  final FirebaseAuthException? authException;
-  FirebaseFailureClass({this.authException});
+  final FirebaseException? firebaseException;
+
+  FirebaseFailureClass({this.firebaseException});
 }

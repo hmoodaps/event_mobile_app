@@ -1,14 +1,16 @@
 import 'dart:async';
+
 import 'package:dartz/dartz.dart';
-import '../../../domain/isolate/isolate_helper.dart';
-import '../../../domain/repository/repository.dart';
+
+import '../../../domain/repository/init_repository.dart';
+import '../../../domain/repository/main_repositories/repositories.dart';
 import '../../models/movie_model.dart';
 import '../failure_class/failure_class.dart';
 
-class RepositoryImplementer implements Repository {
-  final IsolateHelper isolateHelper;
+class InitRepositoryImplementer implements InitRepository {
+  final Repositories isolateHelper;
 
-  RepositoryImplementer({
+  InitRepositoryImplementer({
     required this.isolateHelper,
   });
 

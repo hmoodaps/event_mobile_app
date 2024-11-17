@@ -9,8 +9,6 @@ import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/size_manager.dart';
 import 'onboarding_model_view.dart';
 
-
-
 class OnboardingRoute extends StatefulWidget {
   const OnboardingRoute({super.key});
 
@@ -123,7 +121,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
         dotDecoration: DotDecoration(
           width: SizeManager.d20,
           height: SizeManager.d16,
-          borderRadius:  BorderRadius.only(
+          borderRadius: BorderRadius.only(
             bottomLeft: Radius.elliptical(SizeManager.d20, SizeManager.d20),
             topRight: Radius.circular(SizeManager.d20),
           ),
@@ -141,11 +139,11 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _model = OnboardingModelView();
-    _model.context = context ;
+    _model.context = context;
     _model.pages = _onboardingList(context);
     _model.start();
-
   }
+
   //
   // @override
   // void didChangeDependencies() {
@@ -164,7 +162,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
 
   Widget _getOnboarding(bool isLast) => Scaffold(
         body: Padding(
-          padding:  EdgeInsets.all(SizeManager.d20),
+          padding: EdgeInsets.all(SizeManager.d20),
           child: Stack(
             children: [
               Center(
@@ -199,7 +197,8 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                                           10),
                               child: TextButton(
                                 onPressed: _model.onContinuePressed,
-                                child: Text(GeneralStrings.continueString(context),
+                                child: Text(
+                                    GeneralStrings.continueString(context),
                                     style:
                                         TextStyleManager.titleStyle(context)),
                               ),
@@ -207,7 +206,20 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                           ),
                         )
                       : SizedBox(),
-                  SafeArea(child: Align(alignment: Alignment.topLeft,child: TextButton(onPressed: (){_pageController.animateToPage(_model.pages.length-1, duration: Duration(milliseconds: 400), curve: Curves.linear);}, child: Text('Skip' , style: TextStyleManager.titleStyle(context),)),))
+                  SafeArea(
+                      child: Align(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                        onPressed: () {
+                          _pageController.animateToPage(_model.pages.length - 1,
+                              duration: Duration(milliseconds: 400),
+                              curve: Curves.linear);
+                        },
+                        child: Text(
+                          'Skip',
+                          style: TextStyleManager.titleStyle(context),
+                        )),
+                  ))
                 ],
               ),
             ],

@@ -35,8 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "allMovies": MessageLookupByLibrary.simpleMessage("All Movies"),
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Be the first one!"),
+        "byPress": MessageLookupByLibrary.simpleMessage("by press "),
         "city": MessageLookupByLibrary.simpleMessage("city"),
-        "continueString": MessageLookupByLibrary.simpleMessage("Continue"),
+        "continueString": MessageLookupByLibrary.simpleMessage("Continue "),
         "createAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date Of Birth"),
@@ -108,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Start investing commission-free"),
         "street": MessageLookupByLibrary.simpleMessage("Street"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
+        "termsAndConditions":
+            MessageLookupByLibrary.simpleMessage("Terms and Conditions "),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage("tickets left!"),
         "topMovies": MessageLookupByLibrary.simpleMessage("Top Movies"),
         "unknownError":
@@ -125,6 +128,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welcome to Cinema Ticket"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back!"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "The password is incorrect or the account has no password set.")
+            "The password is incorrect or the account has no password set."),
+        "youAccept": MessageLookupByLibrary.simpleMessage("You Accept our ")
       };
 }

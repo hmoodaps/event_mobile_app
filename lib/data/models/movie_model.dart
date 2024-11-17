@@ -1,5 +1,3 @@
-
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_model.g.dart';
@@ -91,7 +89,6 @@ class ShowTimesResponse {
 
   Map<String, dynamic> toJson() => _$ShowTimesResponseToJson(this);
 }
-
 
 //then run
 //flutter pub get; flutter pub run build_runner build --delete-conflicting-outputs

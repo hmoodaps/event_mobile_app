@@ -1,7 +1,4 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/main_page/main_route_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
-
+import '../../bloc_state_managment/bloc_manage.dart';
+import '../../bloc_state_managment/states.dart';
+import 'main_route_model_view.dart';
 
 class MainRoute extends StatefulWidget {
   const MainRoute({super.key});
@@ -31,25 +30,21 @@ class _MainRouteState extends State<MainRoute> {
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light,
     ));
     return BlocConsumer<EventsBloc, AppStates>(
-
         builder: (context, state) =>
             _getScaffold(isDark: VariablesManager.isDark),
         listener: (context, state) {});
   }
 
-  Widget _getScaffold({required bool isDark}) =>
-      Scaffold(
+  Widget _getScaffold({required bool isDark}) => Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
             height: SizeManager.d50,
             onTap: (index) => _model.onTap(index),
-            backgroundColor: isDark
-                ? ColorManager.green4
-                : ColorManager.primary,
+            backgroundColor:
+                isDark ? ColorManager.green4 : ColorManager.primary,
             color: ColorManager.primarySecond,
             items: _model.bottomNavigationBarItems),
         body: _model.onNavigationBarIconPress(),

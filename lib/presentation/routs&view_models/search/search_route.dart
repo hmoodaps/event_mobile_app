@@ -1,4 +1,3 @@
-import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,6 +5,8 @@ import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
+import '../../bloc_state_managment/states.dart';
+
 class SearchRoute extends StatefulWidget {
   const SearchRoute({super.key});
 
@@ -18,10 +19,15 @@ class _SearchRouteState extends State<SearchRoute> {
   Widget build(BuildContext context) {
     EventsBloc bloc = instance();
 
-    return BlocConsumer<EventsBloc , AppStates>(builder: (context  , state)=>getScaffold(isDark : VariablesManager.isDark), listener: (context  , state){});
+    return BlocConsumer<EventsBloc, AppStates>(
+        builder: (context, state) =>
+            getScaffold(isDark: VariablesManager.isDark),
+        listener: (context, state) {});
   }
-  Widget getScaffold({ required bool  isDark})=>Scaffold(
-    body: stackBackGroundManager(isDark: isDark),
-  );
-  List<Widget> screenWidgets ()=>[];
+
+  Widget getScaffold({required bool isDark}) => Scaffold(
+        body: stackBackGroundManager(isDark: isDark),
+      );
+
+  List<Widget> screenWidgets() => [];
 }

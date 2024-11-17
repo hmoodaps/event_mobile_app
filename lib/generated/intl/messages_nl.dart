@@ -35,8 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "allMovies": MessageLookupByLibrary.simpleMessage("Alle films"),
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Wees de eerste!"),
+        "byPress": MessageLookupByLibrary.simpleMessage("door druk"),
         "city": MessageLookupByLibrary.simpleMessage("stad"),
-        "continueString": MessageLookupByLibrary.simpleMessage("Doorgaan"),
+        "continueString": MessageLookupByLibrary.simpleMessage("Doorgaan "),
         "createAccount":
             MessageLookupByLibrary.simpleMessage("Maak een account aan"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Geboortedatum"),
@@ -108,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Begin met commissievrij investeren"),
         "street": MessageLookupByLibrary.simpleMessage("Straat"),
         "success": MessageLookupByLibrary.simpleMessage("Succes"),
+        "termsAndConditions":
+            MessageLookupByLibrary.simpleMessage("voorwaarden en bepalingen"),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage("tickets over!"),
         "topMovies": MessageLookupByLibrary.simpleMessage("Topfilms"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
@@ -125,6 +128,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welkom bij Cinema Ticket"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welkom terug!"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "Het wachtwoord is onjuist of het account heeft geen wachtwoord ingesteld.")
+            "Het wachtwoord is onjuist of het account heeft geen wachtwoord ingesteld."),
+        "youAccept": MessageLookupByLibrary.simpleMessage("je accepteert")
       };
 }

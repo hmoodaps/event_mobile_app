@@ -1,82 +1,85 @@
-import 'package:flutter/material.dart';
+// ======== Abstract State ========
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AppStates {}
 
+// ======== Initial State ========
 class InitialState extends AppStates {}
 
-class StartCreateUserState extends AppStates {}
+// ----------- Logout States -----------
+class LogoutState extends AppStates {}
 
-class CreateUserStateSuccess extends AppStates {}
-
-class CreateUserStateError extends AppStates {
+// ----------- User Creation States -----------
+class StartUserCreateState extends AppStates{}
+class UserCreatedSuccessState extends AppStates {}
+class UserCreatedErrorState extends AppStates {
   final String error;
-  CreateUserStateError(this.error);
+
+  UserCreatedErrorState(this.error);
 }
 
-class AddUserToFirebaseState extends AppStates {}
+// ----------- Add User Details States -----------
+class AddUsersDetailsState extends AppStates{}
 
-class AddUserToFirebaseStateSuccess extends AppStates {}
+class AddUserDetailsSuccessState extends AppStates {}
+class AddUserDetailsErrorState extends AppStates {
+  String error;
 
-class AddUserToFirebaseStateError extends AppStates {
-  final String error;
-  AddUserToFirebaseStateError(this.error);
+  AddUserDetailsErrorState(this.error);
 }
 
-class LoginState extends AppStates {}
+// ----------- Login States -----------
+class LoginState extends AppStates{}
 
 class LoginSuccessState extends AppStates {}
-
 class LoginErrorState extends AppStates {
   final String error;
+
   LoginErrorState(this.error);
 }
 
-class SignInWithGoogleState extends AppStates {}
-
-class SignInWithGoogleStateSuccess extends AppStates {}
-
+// ----------- Google Sign-In States -----------
+class StartSignInWithGoogleState extends AppStates{}
+class SignInWithGoogleStateSuccess extends AppStates {
+  User user;
+  SignInWithGoogleStateSuccess(this.user);
+}
 class SignInWithGoogleStateError extends AppStates {
   final String error;
   SignInWithGoogleStateError(this.error);
 }
 
-class SignInWithGoogleUserExist extends AppStates {}
+// ----------- Movie Fetching States -----------
+class StartFetchMoviesState extends AppStates {}
+class SignInWithGoogleUserExistState extends AppStates {}
+class MoviesLoadedSuccessState extends AppStates {}
+class MoviesLoadedErrorState extends AppStates {
+  final String error;
 
-class SignInWithGoogleUserNotExist extends AppStates {}
+  MoviesLoadedErrorState(this.error);
+}
 
+
+// ----------- Navigation Bar States -----------
 class ChangeNavigationBarIndexState extends AppStates {}
 
-class ToggleToLightState extends AppStates {
-  ThemeData themeData ;
-  ToggleToLightState(this.themeData);
-}
-class ToggleToDarkState extends AppStates {
-  ThemeData themeData ;
-  ToggleToDarkState(this.themeData);
-
-}
+// ----------- Theme Toggle States -----------
 class ToggleLightAndDarkState extends AppStates {}
 
 
-class StartFetchMoviesState extends AppStates {}
-
-class MoviesLoadedState extends AppStates {}
-
-class InitFetchMoviesErrorState extends AppStates {
-  final String error;
-  InitFetchMoviesErrorState(this.error);
-}
-
+// ----------- Firebase Initialization States -----------
 class StartFetchFirebaseState extends AppStates {}
-
-class InitFetchFirebaseState extends AppStates {}
-
-class InitFetchFirebaseErrorState extends AppStates {
+class FetchFirebaseSuccessState extends AppStates {}
+class FetchFirebaseErrorState extends AppStates {
   final String error;
-  InitFetchFirebaseErrorState(this.error);
+
+  FetchFirebaseErrorState(this.error);
 }
 
+// ----------- Connectivity States -----------
 class DisconnectedState extends AppStates {}
-
 class ConnectedState extends AppStates {}
+// ----------- App theme color -----------
+
+class ChangeColorTheme extends AppStates {}
 

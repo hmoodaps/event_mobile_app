@@ -1,14 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:event_mobile_app/app/dependencies_injection/dependency_injection.dart';
-import 'package:event_mobile_app/data/models/movie_model.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/movies/movies_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shimmer_effect/shimmer_effect.dart';
+
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
@@ -17,6 +13,11 @@ import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/dependencies_injection/dependency_injection.dart';
+import '../../../data/models/movie_model.dart';
+import '../../bloc_state_managment/bloc_manage.dart';
+import '../../bloc_state_managment/states.dart';
+import 'movies_model_view.dart';
 
 class MoviesRoute extends StatefulWidget {
   const MoviesRoute({super.key});
@@ -26,13 +27,13 @@ class MoviesRoute extends StatefulWidget {
 }
 
 class _MoviesRouteState extends State<MoviesRoute> {
-final MoviesModelView _modelView = MoviesModelView() ;
+  final MoviesModelView _modelView = MoviesModelView();
+
   @override
   void initState() {
     super.initState();
     _modelView.start();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,17 +78,16 @@ final MoviesModelView _modelView = MoviesModelView() ;
                   SizedBox(
                     height: SizeManager.d20,
                   ),
-                  Text(
-                    GeneralStrings.newMovies(context),
-                    style:TextStyleManager.titleStyle(context)
-                  ),
+                  Text(GeneralStrings.newMovies(context),
+                      style: TextStyleManager.titleStyle(context)),
                   SizedBox(
                     height: SizeManager.d10,
                   ),
                   CarouselSlider.builder(
                     itemCount: VariablesManager.movies.length,
                     itemBuilder: (context, dx, index) => RepaintBoundary(
-                      child: newMovies(moviePhotoUrl:VariablesManager.movies[dx].photo! ),
+                      child: newMovies(
+                          moviePhotoUrl: VariablesManager.movies[dx].photo!),
                     ),
                     options: CarouselOptions(
                       scrollDirection: Axis.horizontal,
@@ -100,9 +100,8 @@ final MoviesModelView _modelView = MoviesModelView() ;
                   SizedBox(
                     height: SizeManager.d10,
                   ),
-                  Text(
-                    GeneralStrings.topMovies(context),
-                      style:TextStyleManager.titleStyle(context)                  ),
+                  Text(GeneralStrings.topMovies(context),
+                      style: TextStyleManager.titleStyle(context)),
                   SizedBox(
                     height: SizeManager.d10,
                   ),
@@ -111,7 +110,10 @@ final MoviesModelView _modelView = MoviesModelView() ;
                     width: double.infinity,
                     child: ListView.separated(
                       itemBuilder: (context, index) => RepaintBoundary(
-                        child: topMovie(bloc: bloc, moviePhotoUrl: VariablesManager.movies[index].verticalPhoto!),
+                        child: topMovie(
+                            bloc: bloc,
+                            moviePhotoUrl:
+                                VariablesManager.movies[index].verticalPhoto!),
                       ),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -119,7 +121,6 @@ final MoviesModelView _modelView = MoviesModelView() ;
                       separatorBuilder: (BuildContext context, int index) =>
                           SizedBox(width: SizeManager.d14),
                     ),
-
                   ),
                   SizedBox(
                     height: SizeManager.d10,
@@ -139,7 +140,8 @@ final MoviesModelView _modelView = MoviesModelView() ;
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: SizeManager.i2,
                         mainAxisSpacing: SizeManager.d30,
-                        mainAxisExtent: SizeManager.screenSize(context).height / 4,
+                        mainAxisExtent:
+                            SizeManager.screenSize(context).height / 4,
                         crossAxisSpacing: SizeManager.d30,
                       ),
                       itemBuilder: (context, index) {
@@ -150,7 +152,8 @@ final MoviesModelView _modelView = MoviesModelView() ;
                           child: ScaleAnimation(
                             child: FadeInAnimation(
                               child: RepaintBoundary(
-                                child: movieCard(_modelView.shuffledMovies[index]),
+                                child:
+                                    movieCard(_modelView.shuffledMovies[index]),
                               ),
                             ),
                           ),
@@ -165,13 +168,13 @@ final MoviesModelView _modelView = MoviesModelView() ;
         ),
       ];
 
-
   Widget newMovies({required String moviePhotoUrl}) {
     return SizedBox(
       child: CachedNetworkImage(
         imageUrl: moviePhotoUrl,
-       // placeholder: (context, url) => CircularProgressIndicator(), // Placeholder while loading
-        errorWidget: (context, url, error) => Icon(Icons.error), // Error widget in case of failure
+        // placeholder: (context, url) => CircularProgressIndicator(), // Placeholder while loading
+        errorWidget: (context, url, error) => Icon(Icons.error),
+        // Error widget in case of failure
         fit: BoxFit.cover, // Adjust image to cover the container
       ),
     );
@@ -249,9 +252,12 @@ final MoviesModelView _modelView = MoviesModelView() ;
                     child: Align(
                       alignment: Alignment.center,
                       child: IconButton(
-
                         onPressed: () {},
-                        icon: Icon(IconsManager.favorite , size: 20,color: Colors.red,),
+                        icon: Icon(
+                          IconsManager.favorite,
+                          size: 20,
+                          color: Colors.red,
+                        ),
                         padding: EdgeInsets.zero,
                       ),
                     ),
@@ -279,7 +285,6 @@ final MoviesModelView _modelView = MoviesModelView() ;
                 //     },
                 //   ),
                 // ),
-
               ],
             ),
           ),
@@ -288,7 +293,8 @@ final MoviesModelView _modelView = MoviesModelView() ;
         featuresSlider(movie),
         Row(
           children: [
-            Text("${movie.ticketPrice.toString()} €", style: TextStyleManager.bodyStyle(context)),
+            Text("${movie.ticketPrice.toString()} €",
+                style: TextStyleManager.bodyStyle(context)),
             Spacer(),
             CircleAvatar(
               radius: 15,
@@ -296,25 +302,27 @@ final MoviesModelView _modelView = MoviesModelView() ;
               child: Align(
                 alignment: Alignment.center,
                 child: IconButton(
-
                   onPressed: () {},
-                  icon: Icon(IconsManager.cart , size: 20,color: ColorManager.primarySecond,),
+                  icon: Icon(
+                    IconsManager.cart,
+                    size: 20,
+                    color: ColorManager.primarySecond,
+                  ),
                   padding: EdgeInsets.zero,
                 ),
               ),
             ),
-
           ],
         )
       ],
     );
   }
 
-
   Widget featuresSlider(MovieResponse movie) {
     List<Widget> features = [];
 
-    Widget buildTextWithVariable(String label, dynamic value, String suffixLabel) {
+    Widget buildTextWithVariable(
+        String label, dynamic value, String suffixLabel) {
       return Row(
         children: [
           Text(
@@ -324,7 +332,9 @@ final MoviesModelView _modelView = MoviesModelView() ;
           Text(
             ' $value',
             style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              color: VariablesManager.isDark ? Colors.white: ColorManager.primarySecond ,
+              color: VariablesManager.isDark
+                  ? Colors.white
+                  : ColorManager.primarySecond,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -355,7 +365,9 @@ final MoviesModelView _modelView = MoviesModelView() ;
           Text(
             ' ${movie.ticketPrice}',
             style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              color: VariablesManager.isDark ? Colors.white: ColorManager.primarySecond ,
+              color: VariablesManager.isDark
+                  ? Colors.white
+                  : ColorManager.primarySecond,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -363,9 +375,12 @@ final MoviesModelView _modelView = MoviesModelView() ;
       ),
     );
 
-    features.add(buildTextWithVariable(GeneralStrings.heightIMDBRate(context), movie.imdbRating, ''));
-    features.add(buildTextWithVariable('', movie.availableSeats, GeneralStrings.seatsAvailable(context)));
-    features.add(buildTextWithVariable('', movie.seats, GeneralStrings.seats(context)));
+    features.add(buildTextWithVariable(
+        GeneralStrings.heightIMDBRate(context), movie.imdbRating, ''));
+    features.add(buildTextWithVariable(
+        '', movie.availableSeats, GeneralStrings.seatsAvailable(context)));
+    features.add(
+        buildTextWithVariable('', movie.seats, GeneralStrings.seats(context)));
 
     if (movie.availableSeats == movie.seats) {
       features.add(
@@ -398,13 +413,20 @@ final MoviesModelView _modelView = MoviesModelView() ;
                 color: Colors.orange,
               ),
             ),
-            Text(" ${movie.availableSeats}" , style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              fontStyle: FontStyle.italic,
-              color: Colors.blue,
-            ),),            Text(" ${GeneralStrings.ticketsLeft(context)}" , style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              fontStyle: FontStyle.italic,
-              color: Colors.orange,
-            ),),
+            Text(
+              " ${movie.availableSeats}",
+              style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: Colors.blue,
+              ),
+            ),
+            Text(
+              " ${GeneralStrings.ticketsLeft(context)}",
+              style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: Colors.orange,
+              ),
+            ),
           ],
         ),
       );
@@ -421,6 +443,4 @@ final MoviesModelView _modelView = MoviesModelView() ;
       ),
     );
   }
-
-
 }

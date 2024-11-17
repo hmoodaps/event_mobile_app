@@ -32,7 +32,7 @@ String translateErrorMessage(String errorKey, BuildContext context) {
       return S.of(context).emailAlreadyInUse;
     case ErrorStrings.weakPassword:
       return S.of(context).weakPassword;
-      default:
+    default:
       return S.of(context).unknownError;
   }
 }

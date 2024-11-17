@@ -1,20 +1,31 @@
+import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:event_mobile_app/data/implementer/isolate_helper_implementer/isolate_helper_implementer.dart';
-import 'package:event_mobile_app/data/implementer/repository_implementer/auth_repo_implementer.dart';
-import 'package:event_mobile_app/data/implementer/repository_implementer/login_to_firebase_repo_imp.dart';
-import 'package:event_mobile_app/data/implementer/repository_implementer/register_implementer.dart';
-import 'package:event_mobile_app/data/local_storage/shared_local.dart';
-import 'package:event_mobile_app/data/network_data_handler/remote_requests/dio_requests_handler.dart';
-import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio.dart';
-import 'package:event_mobile_app/domain/isolate/isolate_helper.dart';
-import 'package:event_mobile_app/domain/repository/auth_repository.dart';
-import 'package:event_mobile_app/domain/repository/login_to_firebase_repo.dart';
-import 'package:event_mobile_app/domain/repository/register_in_firebase_repo.dart';
+import 'package:event_mobile_app/app/components/constants/color_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../data/implementer/repository_implementer/repo_implementer.dart';
-import '../../domain/repository/repository.dart';
+import '../../data/implementer/repository_implementer/add_user_details_implementer.dart';
+import '../../data/implementer/repository_implementer/auth_repo_implementer.dart';
+import '../../data/implementer/repository_implementer/init_repo_implementer.dart';
+import '../../data/implementer/repository_implementer/login_to_firebase_repo_imp.dart';
+import '../../data/implementer/repository_implementer/main_repositories_implementer/repositories_implementer.dart';
+import '../../data/implementer/repository_implementer/register_implementer.dart';
+import '../../data/local_storage/shared_local.dart';
+import '../../data/network_data_handler/remote_requests/dio_requests_handler.dart';
+import '../../data/network_data_handler/rest_api/rest_api_dio.dart';
+import '../../domain/repository/add_user_details.dart';
+import '../../domain/repository/auth_repository.dart';
+import '../../domain/repository/init_repository.dart';
+import '../../domain/repository/login_to_firebase_repo.dart';
+import '../../domain/repository/main_repositories/repositories.dart';
+import '../../domain/repository/register_in_firebase_repo.dart';
+import '../../firebase_options.dart';
 import '../../presentation/bloc_state_managment/bloc_manage.dart';
+import '../../presentation/bloc_state_managment/bloc_observe.dart';
+import '../handel_dark_and_light_mode/handel_dark_light_mode.dart';
+import '../handle_app_theme/handle_app_theme_colors.dart';
+
 
 /// An instance of GetIt for dependency injection throughout the application.
 /// This allows you to access and inject dependencies into various parts of the app.
@@ -22,55 +33,72 @@ final instance = GetIt.asNewInstance();
 
 /// Initializes the application modules by registering dependencies with GetIt.
 /// This method is asynchronous and should be called during the application startup.
-///
-/// The following modules are registered:
-/// - **Shared Preferences**: Handles local data storage.
-/// - **EventsBloc**: Manages the state of events within the application using the BLoC pattern.
-/// - **Internet Checker**: Monitors internet connectivity status.
-/// - **Dio**: A powerful HTTP client for making network requests.
-/// - **Dio Client**: A wrapper around Dio for RESTful API interactions.
-/// - **Repository**: Implements the data repository pattern for data management.
-///
-/// Each dependency is registered as a lazy singleton to ensure that
-/// they are instantiated only when first accessed, promoting efficient resource use.
 Future<void> initAppModules() async {
-  // 1. Initialize Shared Preferences and Dio
+  Bloc.observer = AppBlocObserver();
+  // Setting the system UI mode to manual and enabling the top overlay (like status bar)
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    SystemUiOverlay.top // Shows only the top system UI (like the status bar)
+  ]);
+
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // ------ Initialize Shared Preferences ------
+  // This section sets up the Shared Preferences instance for local storage.
   await SharedPref.init(); // Asynchronously initializes shared preferences.
   final SharedPref pref = SharedPref(); // Create an instance of SharedPref.
   instance.registerSingleton<SharedPref>(
       pref); // Register SharedPref as a singleton.
 
-  DioHelper.init(); // Initialize DioHelper for managing Dio settings.
-  instance.registerSingleton<DioHelper>(
-      DioHelper()); // Register DioHelper as a singleton.
+  // ------ Initialize Dio for Network Operations ------
+  // This section sets up Dio for network requests, which is used across the app for handling HTTP requests.
+  final Dio dio = Dio(); // Create an instance of Dio.
+  DioHelper.init(); // Initialize DioHelper to manage Dio configurations.
+  instance.registerSingleton<Dio>(
+      dio); // Register the Dio instance globally for HTTP requests.
+  instance.registerLazySingleton<DioClient>(() => DioClient(instance<
+      Dio>())); // Register DioClient which will use the Dio instance for network requests.
 
-  final Dio dio = Dio(); // Instantiate a new Dio client.
-  instance.registerSingleton<Dio>(dio); // Register the Dio instance.
-  instance.registerLazySingleton<DioClient>(() =>
-      DioClient(instance<Dio>())); // Register DioClient using the Dio instance.
-  // 3. Register AuthRepository, LoginToFirebaseRepo, and RegisterInFirebaseRepo
-  instance.registerLazySingleton<AuthRepository>(() =>
-      AuthImplementer()); // Register AuthRepository for handling authentication.
-  instance.registerLazySingleton<LoginToFirebaseRepo>(() =>
-      LoginToFirebaseImplementer()); // Register LoginToFirebaseRepo for login tasks.
-  instance.registerLazySingleton<RegisterInFirebaseRepo>(() =>
-      RegisterImplementer()); // Register RegisterInFirebaseRepo for registration tasks.
-
-  // 2. Register InternetChecker and IsolateHelper to avoid circular dependencies.
-  // instance.registerLazySingleton<InternetChecker>(() =>
-  //     InternetCheckerImplementer()); // Register InternetChecker for connectivity checks.
-  instance.registerLazySingleton<IsolateHelper>(() => IsolateHelperImplementer(
+  // ------ Register IsolateHelper for Background Tasks ------
+  // This section registers the IsolateHelper to handle background tasks, such as user login and data fetching in background isolates.
+// Register ComputedFunctions to manage background computing tasks.
+  instance.registerLazySingleton<Repositories>(() => RepositoriesImplementer(
       instance<
-          DioClient>())); // Register the isolate helper for background tasks.
+          DioClient>())); // Register IsolateHelper for managing background isolates.
 
-  // 4. Register Repository to handle data operations and ensure other dependencies are registered first.
-  instance.registerLazySingleton<Repository>(() => RepositoryImplementer(
-        isolateHelper: instance<
-            IsolateHelper>(), // Inject IsolateHelper for managing background tasks.
-      ));
+  // ------ Register Repository Implementations ------
+  // This section registers all repository implementations that handle interactions with Firebase and other data sources.
 
-// 5. Register EventsBloc to manage the events' state within the application.
-  instance.registerSingleton<EventsBloc>(
-    EventsBloc(),
-  ); // Ensure a single instance of EventsBloc.
+  // Register the repository for handling user registration.
+  instance.registerLazySingleton<RegisterInFirebaseRepo>(
+      () => RegisterImplementer(isolateHelper: instance()));
+
+  // Register the repository for handling authentication.
+  instance.registerLazySingleton<AuthRepository>(
+      () => AuthImplementer(isolateHelper: instance()));
+
+  // Register the repository for handling user login.
+  instance.registerLazySingleton<LoginToFirebaseRepo>(
+      () => LoginToFirebaseImplementer(isolateHelper: instance()));
+
+  // Register the repository for handling initialization tasks (like loading user IDs).
+  instance.registerLazySingleton<InitRepository>(
+      () => InitRepositoryImplementer(isolateHelper: instance()));
+
+  // Register the repository for handling user details.
+  instance.registerLazySingleton<AddUserDetailsRepo>(
+      () => AddUserDetailsImplementer(isolateHelper: instance()));
+
+  // ------ Register EventsBloc for State Management ------
+  // This section registers the BLoC to manage the state of events throughout the app.
+  instance.registerLazySingleton<EventsBloc>(() =>
+      EventsBloc()); // Register EventsBloc to manage event-related states.
+
+  // ------ Register App Theme Management ------
+  // This section registers the theme management service to handle dark and light mode functionality.
+  instance.registerLazySingleton<ThemeHelper>(() =>
+      ThemeHelper(instance())); // Register ThemeHelper to manage app themes.
+  instance.registerLazySingleton<AppColorHelper>(()=>AppColorHelper(instance()));
+  AppColorHelper.setInitialTheme();
 }

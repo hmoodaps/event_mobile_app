@@ -9,7 +9,8 @@ class ErrorStrings {
   static const String wrongPassword = "wrongPassword";
   static const String invalidVerificationCode = "invalidVerificationCode";
   static const String invalidVerificationId = "invalidVerificationId";
-  static const String accountExistsWithDifferentCredential = "accountExistsWithDifferentCredential";
+  static const String accountExistsWithDifferentCredential =
+      "accountExistsWithDifferentCredential";
   static const String emailAlreadyInUse = "emailAlreadyInUse";
   static const String weakPassword = "weakPassword";
   static const String unknownError = "unknownError";

@@ -1,13 +1,14 @@
 import 'dart:io';
-import 'package:event_mobile_app/app/components/tranlate_massages/translate_massage.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/regeister/regeister_model_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pulsator/pulsator.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
+
 import '../../../app/components/constants/assets_manager.dart';
 import '../../../app/components/constants/buttons_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
@@ -18,7 +19,10 @@ import '../../../app/components/constants/notification_handler.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/components/tranlate_massages/translate_massage.dart';
 import '../../../domain/local_models/models.dart';
+import '../../bloc_state_managment/bloc_manage.dart';
+import '../../bloc_state_managment/states.dart';
 
 class RegisterRoute extends StatefulWidget {
   const RegisterRoute({super.key});
@@ -40,52 +44,11 @@ class _RegisterRouteState extends State<RegisterRoute> {
 
   @override
   Widget build(BuildContext context) {
+    bool isPressed = false ;
     // EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => getScaffold(),
-        listener: (context, state) {
-          if (state is SignInWithGoogleState) {
-            showDialog(
-              context: context,
-              builder: (context) => Center(
-                child:
-                    // The clean code principle hasn't been followed here,
-                    // as this widget may change or be replaced with a progress indicator in the future.
-                    // It might be worthwhile to consider making the code more flexible
-                    // by using an interface or a function to easily change the type of widget.
-
-                    PulseIcon(
-                  icon: Icons.favorite,
-                  pulseColor: Colors.red,
-                  iconColor: Colors.white,
-                  iconSize: 44,
-                  innerSize: 54,
-                  pulseSize: 116,
-                  pulseCount: 4,
-                  pulseDuration: Duration(seconds: 4),
-                ),
-              ),
-            );
-          }
-          if (state is StartCreateUserState) {
-            showDialog(
-              context: context,
-              builder: (context) => Center(
-                child: Image.asset(
-                  'assets/images/cuteAnimation.gif',
-                  width: 200,
-                  height: 200,
-                ),
-              ),
-            );
-          }
-          if (state is AddUserToFirebaseStateSuccess ||
-              state is AddUserToFirebaseStateError ||
-              state is CreateUserStateError ||
-              state is SignInWithGoogleStateSuccess ||
-              state is SignInWithGoogleStateError) {
-            Navigator.pop(context);
-          }
+        builder: (context, state) => getScaffold(isPressed),
+        listener: (context, state) async {
           if (state is SignInWithGoogleStateError) {
             errorNotification(
                 context: context,
@@ -94,15 +57,8 @@ class _RegisterRouteState extends State<RegisterRoute> {
                     ? Colors.grey.shade400
                     : Colors.white);
           }
-          if (state is AddUserToFirebaseStateError) {
-            errorNotification(
-                context: context,
-                description: translateErrorMessage(state.error, context),
-                backgroundColor: VariablesManager.isDark
-                    ? Colors.grey.shade400
-                    : Colors.white);
-          }
-          if (state is CreateUserStateError) {
+
+          if (state is UserCreatedErrorState) {
             errorNotification(
                 context: context,
                 description: translateErrorMessage(state.error, context),
@@ -111,8 +67,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                     : Colors.white);
           }
 
-          if (state is AddUserToFirebaseStateSuccess ||
-              state is SignInWithGoogleStateSuccess) {
+          if (state is UserCreatedSuccessState) {
             successNotification(
                 context: context,
                 description: GeneralStrings.accountCreated(context),
@@ -120,16 +75,32 @@ class _RegisterRouteState extends State<RegisterRoute> {
                     ? Colors.grey.shade400
                     : Colors.white);
           }
-          if (state is SignInWithGoogleUserExist) {
-            _model.onUserExist();
+          if (state is UserCreatedSuccessState) {
           }
-          if (state is SignInWithGoogleUserNotExist) {
-            _model.onUserAddedSuccessfully();
-          }
-        });
-  }
 
-  Widget getScaffold() => Scaffold(
+          if (state is SignInWithGoogleUserExistState) {
+            final docSnapshot = await FirebaseFirestore.instance
+                .collection(GeneralStrings.users)
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .get();
+
+            if (docSnapshot.exists) {
+              final data = docSnapshot.data();
+
+              if (data != null && (data['additionalInfo'] != null)) {
+                _model.onAddExistUser();
+              }else{
+                _model.onCreateNewUser();
+              }
+            } else {
+              if (kDebugMode) {
+                print("User document does not exist.");
+              }
+            }
+          }
+        });}
+
+  Widget getScaffold(bool isPressed) => Scaffold(
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
@@ -156,11 +127,13 @@ class _RegisterRouteState extends State<RegisterRoute> {
                           child: Text(
                             GeneralStrings.register(context),
                             style: TextStyle(
-                                fontWeight: FontWeightManager.bold,
-                                fontSize: SizeManager.d50,
-                                fontFamily: GeneralStrings.cormo,
-                                color:               VariablesManager.isDark ? Colors.white: ColorManager.primarySecond ,
-                                ),
+                              fontWeight: FontWeightManager.bold,
+                              fontSize: SizeManager.d50,
+                              fontFamily: GeneralStrings.cormo,
+                              color: VariablesManager.isDark
+                                  ? Colors.white
+                                  : ColorManager.primarySecond,
+                            ),
                           ),
                         ),
                       ),
@@ -222,8 +195,11 @@ class _RegisterRouteState extends State<RegisterRoute> {
                       SizedBox(
                         height: SizeManager.d20,
                       ),
-                      googleAndAppleButton(
+                      !isPressed ?    googleAndAppleButton(
                           onTap: () {
+                            setState(() {
+                              isPressed = true ;
+                            });
                             _model.onRegisterPressed(
                                 formKey: _model.formKey,
                                 email: _model.emailController.text,
@@ -233,7 +209,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                           nameOfButton: GeneralStrings.register(context),
                           sufixSvgAssetPath: AssetsManager.login,
                           color: ColorManager.primarySecond,
-                          context: context),
+                          context: context):CircularProgressIndicator(),
                       SizedBox(
                         height: SizeManager.d30,
                       ),

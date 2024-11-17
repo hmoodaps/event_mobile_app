@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'color_manager.dart';
 import 'font_manager.dart';
 import 'general_strings.dart';
@@ -21,13 +22,13 @@ TextTheme commonTextTheme(Color textColor) {
     bodyLarge: TextStyleManager.textStyle(
       fontWeight: FontWeightManager.light,
       fontSize: SizeManager.d16,
-      fontFamily: GeneralStrings.sand,
+      fontFamily: GeneralStrings.sand, // نفس الخط في الوضعين
       color: textColor,
     ),
     labelLarge: TextStyleManager.textStyle(
       fontWeight: FontWeightManager.regular,
       fontSize: SizeManager.d14,
-      fontFamily: GeneralStrings.cinzel,
+      fontFamily: GeneralStrings.cinzel, // نفس الخط في الوضعين
       color: textColor,
     ),
   );
@@ -36,18 +37,18 @@ TextTheme commonTextTheme(Color textColor) {
 AppBarTheme commonAppBarTheme(Color color) {
   return AppBarTheme(
     backgroundColor: color,
-    iconTheme: const IconThemeData(color: ColorManager.primarySecond),
+    iconTheme: IconThemeData(color: ColorManager.primarySecond),
   );
 }
 
 ButtonThemeData commonButtonTheme() {
-  return const ButtonThemeData(
+  return ButtonThemeData(
     buttonColor: ColorManager.primarySecond,
   );
 }
 
 IconThemeData commonIconTheme() {
-  return const IconThemeData(
+  return IconThemeData(
     color: ColorManager.primarySecond,
   );
 }

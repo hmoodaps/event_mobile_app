@@ -100,10 +100,10 @@ class S {
     );
   }
 
-  /// `Continue`
+  /// `Continue `
   String get continueString {
     return Intl.message(
-      'Continue',
+      'Continue ',
       name: 'continueString',
       desc: '',
       args: [],
@@ -725,6 +725,36 @@ class S {
     return Intl.message(
       'city',
       name: 'city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `by press `
+  String get byPress {
+    return Intl.message(
+      'by press ',
+      name: 'byPress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You Accept our `
+  String get youAccept {
+    return Intl.message(
+      'You Accept our ',
+      name: 'youAccept',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms and Conditions `
+  String get termsAndConditions {
+    return Intl.message(
+      'Terms and Conditions ',
+      name: 'termsAndConditions',
       desc: '',
       args: [],
     );

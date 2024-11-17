@@ -1,6 +1,6 @@
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../../app/components/constants/variables_manager.dart';
 import '../../../data/models/movie_model.dart';
@@ -10,13 +10,13 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   List<MovieResponse> shuffledMovies = [];
 
   @override
-  void dispose() {
-  }
+  void dispose() {}
 
   @override
   void start() {
     shuffledMovies = shuffleMovies();
   }
+
   @override
   List<MovieResponse> shuffleMovies() {
     if (VariablesManager.movies.isEmpty) {
@@ -40,8 +40,8 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
 
     return uniqueMovies;
   }
-
 }
-mixin MovieModelViewFunctions{
+
+mixin MovieModelViewFunctions {
   List<MovieResponse> shuffleMovies();
 }

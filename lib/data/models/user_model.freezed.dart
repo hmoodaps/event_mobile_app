@@ -30,6 +30,7 @@ mixin _$UserResponse {
   String? get postalCode => throw _privateConstructorUsedError;
   String? get houseNumber => throw _privateConstructorUsedError;
   String? get town => throw _privateConstructorUsedError;
+  String? get additionalInfo => throw _privateConstructorUsedError;
   String? get street => throw _privateConstructorUsedError;
   String? get userPhotoUrl => throw _privateConstructorUsedError;
   List<int>? get reservedMovies => throw _privateConstructorUsedError;
@@ -63,6 +64,7 @@ abstract class $UserResponseCopyWith<$Res> {
       String? postalCode,
       String? houseNumber,
       String? town,
+      String? additionalInfo,
       String? street,
       String? userPhotoUrl,
       List<int>? reservedMovies,
@@ -95,6 +97,7 @@ class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
     Object? postalCode = freezed,
     Object? houseNumber = freezed,
     Object? town = freezed,
+    Object? additionalInfo = freezed,
     Object? street = freezed,
     Object? userPhotoUrl = freezed,
     Object? reservedMovies = freezed,
@@ -142,6 +145,10 @@ class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
           ? _value.town
           : town // ignore: cast_nullable_to_non_nullable
               as String?,
+      additionalInfo: freezed == additionalInfo
+          ? _value.additionalInfo
+          : additionalInfo // ignore: cast_nullable_to_non_nullable
+              as String?,
       street: freezed == street
           ? _value.street
           : street // ignore: cast_nullable_to_non_nullable
@@ -185,6 +192,7 @@ abstract class _$$UserResponseImplCopyWith<$Res>
       String? postalCode,
       String? houseNumber,
       String? town,
+      String? additionalInfo,
       String? street,
       String? userPhotoUrl,
       List<int>? reservedMovies,
@@ -215,6 +223,7 @@ class __$$UserResponseImplCopyWithImpl<$Res>
     Object? postalCode = freezed,
     Object? houseNumber = freezed,
     Object? town = freezed,
+    Object? additionalInfo = freezed,
     Object? street = freezed,
     Object? userPhotoUrl = freezed,
     Object? reservedMovies = freezed,
@@ -262,6 +271,10 @@ class __$$UserResponseImplCopyWithImpl<$Res>
           ? _value.town
           : town // ignore: cast_nullable_to_non_nullable
               as String?,
+      additionalInfo: freezed == additionalInfo
+          ? _value.additionalInfo
+          : additionalInfo // ignore: cast_nullable_to_non_nullable
+              as String?,
       street: freezed == street
           ? _value.street
           : street // ignore: cast_nullable_to_non_nullable
@@ -300,6 +313,7 @@ class _$UserResponseImpl implements _UserResponse {
       this.postalCode,
       this.houseNumber,
       this.town,
+      this.additionalInfo,
       this.street,
       this.userPhotoUrl,
       final List<int>? reservedMovies,
@@ -351,6 +365,8 @@ class _$UserResponseImpl implements _UserResponse {
   @override
   final String? town;
   @override
+  final String? additionalInfo;
+  @override
   final String? street;
   @override
   final String? userPhotoUrl;
@@ -387,7 +403,7 @@ class _$UserResponseImpl implements _UserResponse {
 
   @override
   String toString() {
-    return 'UserResponse(id: $id, fullName: $fullName, email: $email, dateOfBirth: $dateOfBirth, mobileNumber: $mobileNumber, cart: $cart, favorites: $favorites, postalCode: $postalCode, houseNumber: $houseNumber, town: $town, street: $street, userPhotoUrl: $userPhotoUrl, reservedMovies: $reservedMovies, movieSeats: $movieSeats, movieTotalPayment: $movieTotalPayment)';
+    return 'UserResponse(id: $id, fullName: $fullName, email: $email, dateOfBirth: $dateOfBirth, mobileNumber: $mobileNumber, cart: $cart, favorites: $favorites, postalCode: $postalCode, houseNumber: $houseNumber, town: $town, additionalInfo: $additionalInfo, street: $street, userPhotoUrl: $userPhotoUrl, reservedMovies: $reservedMovies, movieSeats: $movieSeats, movieTotalPayment: $movieTotalPayment)';
   }
 
   @override
@@ -411,6 +427,8 @@ class _$UserResponseImpl implements _UserResponse {
             (identical(other.houseNumber, houseNumber) ||
                 other.houseNumber == houseNumber) &&
             (identical(other.town, town) || other.town == town) &&
+            (identical(other.additionalInfo, additionalInfo) ||
+                other.additionalInfo == additionalInfo) &&
             (identical(other.street, street) || other.street == street) &&
             (identical(other.userPhotoUrl, userPhotoUrl) ||
                 other.userPhotoUrl == userPhotoUrl) &&
@@ -436,6 +454,7 @@ class _$UserResponseImpl implements _UserResponse {
       postalCode,
       houseNumber,
       town,
+      additionalInfo,
       street,
       userPhotoUrl,
       const DeepCollectionEquality().hash(_reservedMovies),
@@ -470,6 +489,7 @@ abstract class _UserResponse implements UserResponse {
       final String? postalCode,
       final String? houseNumber,
       final String? town,
+      final String? additionalInfo,
       final String? street,
       final String? userPhotoUrl,
       final List<int>? reservedMovies,
@@ -499,6 +519,8 @@ abstract class _UserResponse implements UserResponse {
   String? get houseNumber;
   @override
   String? get town;
+  @override
+  String? get additionalInfo;
   @override
   String? get street;
   @override

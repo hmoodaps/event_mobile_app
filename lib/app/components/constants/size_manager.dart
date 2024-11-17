@@ -1,10 +1,6 @@
-import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:flutter/cupertino.dart';
 
 class SizeManager {
-
-
-
   static double d1 = 1;
   static double d2 = 2;
   static double d4 = 4;
@@ -31,7 +27,6 @@ class SizeManager {
   static double d200 = 200;
   static double d250 = 250;
   static double d300 = 300;
-
 
   //Integer values
   static const int i2 = 2;

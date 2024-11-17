@@ -50,19 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAJYHqprqHPQF-QSZMgNlbmjmjLFyLRwqc',
-    appId: '1:738356872374:android:3d1b66ae356999fbd7d217',
-    messagingSenderId: '738356872374',
-    projectId: 'event-manager-55e57',
-    storageBucket: 'event-manager-55e57.appspot.com',
+    apiKey: 'AIzaSyCFpDpV0GJLCSsTx7YQQXQGHqK6teCLhlg',
+    appId: '1:369796753935:android:907f88d7991aca64c7117a',
+    messagingSenderId: '369796753935',
+    projectId: 'eventsmobile-2c4b1',
+    storageBucket: 'eventsmobile-2c4b1.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyALksN_YyegBbMe-jIaOIHvp6g92VSYIoU',
-    appId: '1:738356872374:ios:3d9f7b1f80b080bad7d217',
-    messagingSenderId: '738356872374',
-    projectId: 'event-manager-55e57',
-    storageBucket: 'event-manager-55e57.appspot.com',
+    apiKey: 'AIzaSyDNtYxFjxooeZyf6RQ_7y_GDWq38D0MTHs',
+    appId: '1:369796753935:ios:9b7ced432cc9bdf4c7117a',
+    messagingSenderId: '369796753935',
+    projectId: 'eventsmobile-2c4b1',
+    storageBucket: 'eventsmobile-2c4b1.firebasestorage.app',
+    androidClientId: '369796753935-okqeaehfbkm18f9ul07dvq10m2inmgau.apps.googleusercontent.com',
+    iosClientId: '369796753935-70td8p55uhljav5tmcgb2vuchcfv76fq.apps.googleusercontent.com',
     iosBundleId: 'com.example.eventMobileApp',
   );
+
 }

@@ -2,20 +2,70 @@ import 'package:flutter/material.dart';
 
 import '../../app/components/constants/general_strings.dart';
 import '../../app/components/constants/route_strings_manager.dart';
-import '../../app/components/constants/routs_manager.dart';
-
 
 class CreateUserRequirements {
-  String email;
-  String ? password;
-  String ? fullName;
+  String? dateOfBirth;
+  String? mobileNumber;
+  String? street;
+  String? houseNumber;
+  String? additinalInfo;
+  String? postalCode;
+  String? city;
+  String? password;
+  String? email;
+  String? fullName;
 
-  CreateUserRequirements(
-      { this.password, required this.email, this.fullName});
+  CreateUserRequirements({
+    this.password,
+    this.email,
+    this.fullName,
+    this.dateOfBirth,
+    this.mobileNumber,
+    this.street,
+    this.houseNumber,
+    this.additinalInfo,
+    this.postalCode,
+    this.city,
+  });
+
+  // دالة لتحويل الكائن إلى Map
+  Map<String, dynamic> toMap() {
+    return {
+      'dateOfBirth': dateOfBirth,
+      'mobileNumber': mobileNumber,
+      'street': street,
+      'houseNumber': houseNumber,
+      'additinalInfo': additinalInfo,
+      'postalCode': postalCode,
+      'city': city,
+      'password': password,
+      'email': email,
+      'fullName': fullName,
+    };
+  }
+
+  // دالة لتحويل Map إلى CreateUserRequirements
+  factory CreateUserRequirements.fromMap(Map<String, dynamic> map) {
+    return CreateUserRequirements(
+      dateOfBirth: map['dateOfBirth'],
+      mobileNumber: map['mobileNumber'],
+      street: map['street'],
+      houseNumber: map['houseNumber'],
+      additinalInfo: map['additinalInfo'],
+      postalCode: map['postalCode'],
+      city: map['city'],
+      password: map['password'],
+      email: map['email'],
+      fullName: map['fullName'],
+    );
+  }
 }
 
-navigateToMainRoute(context)  {
-  navigateTo(context!, RouteStringsManager.mainRoute); // Navigate to main route
+navigateToMainRoute(context) {
+  Navigator.pushNamedAndRemoveUntil(
+      context,
+      RouteStringsManager.mainRoute,
+          (Route<dynamic> route) => false);
 }
 
 bool toNextField(BuildContext context) {
@@ -28,10 +78,6 @@ validator(String? value) {
   }
   return null;
 }
-
-
-
-
 
 //movie show models
 // class MovieCard extends StatefulWidget {

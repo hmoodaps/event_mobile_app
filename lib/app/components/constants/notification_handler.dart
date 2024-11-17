@@ -8,7 +8,7 @@ import 'general_strings.dart';
 errorNotification(
     {required BuildContext context,
     required String description,
-     Color ? backgroundColor}) {
+    Color? backgroundColor}) {
   return ElegantNotification.error(
     background: backgroundColor ?? Colors.white,
     title: Text(

@@ -10,10 +10,10 @@ firebaseAuthErrorsHandler({
   required Emitter<AppStates> emit,
   required AppStates Function(String errorKey) state,
 }) {
-  FirebaseAuthException? authException = failure.authException;
+  FirebaseException? firebaseException = failure.firebaseException;
 
-  if (authException != null) {
-    switch (authException.code) {
+  if (firebaseException != null) {
+    switch (firebaseException.code) {
       case 'expired-action-code':
         emit(state(ErrorStrings.expiredActionCode));
         break;

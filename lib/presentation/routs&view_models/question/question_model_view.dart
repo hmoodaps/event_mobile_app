@@ -1,11 +1,11 @@
-import 'package:event_mobile_app/data/local_storage/shared_local.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/routs_manager.dart';
+import '../../../data/local_storage/shared_local.dart';
 
-class QuestionModelView extends  QuestionNavigateFunctions {
+class QuestionModelView extends QuestionNavigateFunctions {
   @override
   navigateToLogin({required BuildContext context}) {
     navigateTo(context, RouteStringsManager.loginRoute);
@@ -14,7 +14,8 @@ class QuestionModelView extends  QuestionNavigateFunctions {
   @override
   navigateToMain({required BuildContext context}) {
     SharedPref.saveBool(key: GeneralStrings.isGuest, value: true);
-    Navigator.pushNamedAndRemoveUntil(context, RouteStringsManager.mainRoute,(route)=>false );
+    Navigator.pushReplacementNamed(
+        context, RouteStringsManager.mainRoute, );
   }
 
   @override
@@ -23,7 +24,7 @@ class QuestionModelView extends  QuestionNavigateFunctions {
   }
 }
 
-abstract class  QuestionNavigateFunctions {
+abstract class QuestionNavigateFunctions {
   navigateToMain({required BuildContext context});
 
   navigateToRegister({required BuildContext context});

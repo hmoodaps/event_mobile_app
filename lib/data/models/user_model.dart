@@ -16,6 +16,7 @@ class UserResponse with _$UserResponse {
     String? postalCode,
     String? houseNumber,
     String? town,
+    String? additionalInfo,
     String? street,
     String? userPhotoUrl,
     List<int>? reservedMovies,
@@ -23,5 +24,6 @@ class UserResponse with _$UserResponse {
     Map<int, double>? movieTotalPayment,
   }) = _UserResponse;
 
-  factory UserResponse.fromJson(Map<String, dynamic> json) => _$UserResponseFromJson(json);
+  factory UserResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserResponseFromJson(json);
 }

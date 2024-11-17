@@ -1,4 +1,3 @@
-
 // RESTful API using the Dio package
 // I created the API; more details can be found in README.md.
 // This helper class (DioHelper) supports fetching movies before user login.
@@ -9,16 +8,18 @@
 // (http & dio) will be used in other parts of the app where needed.
 
 import 'package:dio/dio.dart';
-import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 import '../../../app/components/constants/dio_and_mapper_constants.dart';
+import '../../models/movie_model.dart';
 
 part 'rest_api_dio.g.dart';
+
 @RestApi(baseUrl: AppConstants.baseUrl)
 abstract class DioClient {
-  factory DioClient(Dio dio, {ParseErrorLogger? errorLogger, String? baseUrl}) = _DioClient;
+  factory DioClient(Dio dio, {ParseErrorLogger? errorLogger, String? baseUrl}) =
+      _DioClient;
 
   @GET(AppConstants.getMovies)
   Future<List<MovieResponse>> getMovies();

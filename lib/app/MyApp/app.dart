@@ -1,12 +1,14 @@
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/dependencies_injection/dependency_injection.dart';
+import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/splash/splash_route.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/take_user_Details/take_user_details_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import '../../data/local_storage/shared_local.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../presentation/bloc_state_managment/events.dart';
@@ -25,7 +27,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool showNoInternetDialog = false;
-
   void _showNoInternetDialog() {
     setState(() {
       showNoInternetDialog = true;
@@ -46,13 +47,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EventsBloc()..add(InternetStatusChangeEvent()),
       child: BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) {
-          EventsBloc bloc = instance();
+          ThemeHelper themeHelper = instance();
+          print('current user${SharedPref.prefs.getString(GeneralStrings.currentUser)}');
+
           return MaterialApp(
             navigatorKey: navigatorKey,
             locale: const Locale('en'),
@@ -65,8 +69,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             onGenerateRoute: Routes.onGenerateRoute,
             debugShowCheckedModeBanner: false,
-            theme: bloc.toggleLightAndDark(context),
-            home: Scaffold(body: const TakeUserDetailsRoute()),
+            theme: themeHelper.toggleLightAndDark(context),
           );
         },
         listener: (context, state) {

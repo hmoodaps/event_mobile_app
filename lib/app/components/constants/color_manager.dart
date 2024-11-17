@@ -1,15 +1,58 @@
+import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/data/local_storage/shared_local.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../presentation/bloc_state_managment/events.dart';
+
+// Manages and updates the application's colors.
 class ColorManager {
-  static const Color primary = Color(0xFFbdd6bc);
-  static const Color primarySecond = Color(0xFF36CC60);
+  static Color primary = Colors.grey;
+  static Color primarySecond = Colors.grey;
   static const Color privateYalow = Color(0xFFFFBB00);
   static const Color privateGrey = Color(0xFF828282);
   static const Color privateBlue = Color(0xFF40E0D0);
 
-  //main page Color manager
-  static const Color green1 = Color(0xFF061400);
-  static const Color green2 = Color(0xFF164701);
-  static const Color green3 = Color(0xFF2b8c01);
-  static const Color green4 = Color(0xFF4cf502);
+  static Color green1 = Colors.grey;
+  static Color green2 = Colors.grey;
+  static Color green3 = Colors.grey;
+  static Color green4 = Colors.grey;
+
+  static List<Color> colorsList = [
+    primary,
+    primarySecond,
+    privateYalow,
+    privateGrey,
+    privateBlue,
+    green1,
+    green2,
+    green3,
+    green4,
+  ];
+
+  // Updates the app's colors based on the selected theme.
+  static void updateColors(AppColorManager appColorManager) {
+    print("Updating colors...");
+    primary = appColorManager.primary;
+    primarySecond = appColorManager.primarySecond;
+    green1 = appColorManager.green1;
+    green2 = appColorManager.green2;
+    green3 = appColorManager.green3;
+    green4 = appColorManager.green4;
+    print("Colors updated: $primary, $primarySecond, $green1");
+  }
 }
+
+// Abstract class for managing app color themes.
+abstract class AppColorManager {
+  late Color primary;
+  late Color primarySecond;
+
+  late Color green1;
+  late Color green2;
+  late Color green3;
+  late Color green4;
+}
+
+

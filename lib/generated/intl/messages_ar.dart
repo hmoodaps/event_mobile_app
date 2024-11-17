@@ -33,8 +33,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "جميع الاستثمارات تنطوي على مخاطر"),
         "allMovies": MessageLookupByLibrary.simpleMessage("جميع الأفلام"),
         "beTheFirstOne": MessageLookupByLibrary.simpleMessage("كن الأول!"),
+        "byPress": MessageLookupByLibrary.simpleMessage("عند الضغط"),
         "city": MessageLookupByLibrary.simpleMessage("المدينة"),
-        "continueString": MessageLookupByLibrary.simpleMessage("متابعة"),
+        "continueString": MessageLookupByLibrary.simpleMessage("متابعة "),
         "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
@@ -106,6 +107,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ابدأ الاستثمار بدون عمولة"),
         "street": MessageLookupByLibrary.simpleMessage("الشارع"),
         "success": MessageLookupByLibrary.simpleMessage("تم بنجاح"),
+        "termsAndConditions":
+            MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage("تذاكر متبقية!"),
         "topMovies": MessageLookupByLibrary.simpleMessage("أفضل الأفلام"),
         "unknownError":
@@ -124,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcomeBack":
             MessageLookupByLibrary.simpleMessage("أهلاً وسهلاً بعودتك!"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "كلمة المرور غير صحيحة أو أن الحساب ليس به كلمة مرور.")
+            "كلمة المرور غير صحيحة أو أن الحساب ليس به كلمة مرور."),
+        "youAccept": MessageLookupByLibrary.simpleMessage("أنت تقبل")
       };
 }

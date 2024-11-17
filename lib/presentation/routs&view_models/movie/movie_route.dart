@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class MovieRoute extends StatefulWidget {
   const MovieRoute({super.key});
 
