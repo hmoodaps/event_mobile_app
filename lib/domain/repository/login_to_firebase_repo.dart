@@ -6,5 +6,6 @@ import '../local_models/models.dart';
 abstract class LoginToFirebaseRepo {
   Future<Either<FirebaseFailureClass, String>> loginToFirebase(
       {required CreateUserRequirements req});
+
   Future<void> logout();
 }

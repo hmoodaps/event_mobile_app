@@ -44,7 +44,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
 
   @override
   Widget build(BuildContext context) {
-    bool isPressed = false ;
+    bool isPressed = false;
     // EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(isPressed),
@@ -67,15 +67,9 @@ class _RegisterRouteState extends State<RegisterRoute> {
                     : Colors.white);
           }
 
+
           if (state is UserCreatedSuccessState) {
-            successNotification(
-                context: context,
-                description: GeneralStrings.accountCreated(context),
-                backgroundColor: VariablesManager.isDark
-                    ? Colors.grey.shade400
-                    : Colors.white);
-          }
-          if (state is UserCreatedSuccessState) {
+            _model.onCreateNewUser();
           }
 
           if (state is SignInWithGoogleUserExistState) {
@@ -89,7 +83,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
 
               if (data != null && (data['additionalInfo'] != null)) {
                 _model.onAddExistUser();
-              }else{
+              } else {
                 _model.onCreateNewUser();
               }
             } else {
@@ -98,7 +92,8 @@ class _RegisterRouteState extends State<RegisterRoute> {
               }
             }
           }
-        });}
+        });
+  }
 
   Widget getScaffold(bool isPressed) => Scaffold(
         appBar: AppBar(
@@ -195,21 +190,23 @@ class _RegisterRouteState extends State<RegisterRoute> {
                       SizedBox(
                         height: SizeManager.d20,
                       ),
-                      !isPressed ?    googleAndAppleButton(
-                          onTap: () {
-                            setState(() {
-                              isPressed = true ;
-                            });
-                            _model.onRegisterPressed(
-                                formKey: _model.formKey,
-                                email: _model.emailController.text,
-                                password: _model.passwordController.text,
-                                fullName: _model.fullNameController.text);
-                          },
-                          nameOfButton: GeneralStrings.register(context),
-                          sufixSvgAssetPath: AssetsManager.login,
-                          color: ColorManager.primarySecond,
-                          context: context):CircularProgressIndicator(),
+                      !isPressed
+                          ? googleAndAppleButton(
+                              onTap: () {
+                                setState(() {
+                                  isPressed = true;
+                                });
+                                _model.onRegisterPressed(
+                                    formKey: _model.formKey,
+                                    email: _model.emailController.text,
+                                    password: _model.passwordController.text,
+                                    fullName: _model.fullNameController.text);
+                              },
+                              nameOfButton: GeneralStrings.register(context),
+                              sufixSvgAssetPath: AssetsManager.login,
+                              color: ColorManager.primarySecond,
+                              context: context)
+                          : CircularProgressIndicator(),
                       SizedBox(
                         height: SizeManager.d30,
                       ),

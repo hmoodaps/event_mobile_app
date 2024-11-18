@@ -13,22 +13,17 @@ class GreenAppColor implements AppColorManager {
   @override
   Color primary = Color(0xFFbdd6bc);
   @override
-
   Color primarySecond = Color(0xFF36CC60);
 
   //main page Color manager
   @override
-
   Color green1 = Color(0xFF061400);
   @override
-
   Color green2 = Color(0xFF164701);
   @override
-
   Color green3 = Color(0xFF2b8c01);
   @override
   Color green4 = Color(0xFF4cf502);
-
 }
 
 // Defines the purple theme colors.
@@ -96,16 +91,22 @@ class AppColorHelper {
       print("Setting initial theme...");
     }
     if (SharedPref.prefs.getString(GeneralStrings.colorTheme) == null) {
-      AppColorManager defaultColorManager = AppColorsTheme.green.appColorManager;
+      AppColorManager defaultColorManager =
+          AppColorsTheme.green.appColorManager;
       ColorManager.updateColors(defaultColorManager);
-    } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) == GeneralStrings.greenTheme) {
-      AppColorManager defaultColorManager = AppColorsTheme.green.appColorManager;
+    } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) ==
+        GeneralStrings.greenTheme) {
+      AppColorManager defaultColorManager =
+          AppColorsTheme.green.appColorManager;
       ColorManager.updateColors(defaultColorManager);
-    } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) == GeneralStrings.blueTheme) {
+    } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) ==
+        GeneralStrings.blueTheme) {
       AppColorManager defaultColorManager = AppColorsTheme.blue.appColorManager;
       ColorManager.updateColors(defaultColorManager);
-    } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) == GeneralStrings.purpleTheme) {
-      AppColorManager defaultColorManager = AppColorsTheme.purple.appColorManager;
+    } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) ==
+        GeneralStrings.purpleTheme) {
+      AppColorManager defaultColorManager =
+          AppColorsTheme.purple.appColorManager;
       ColorManager.updateColors(defaultColorManager);
     }
     if (kDebugMode) {

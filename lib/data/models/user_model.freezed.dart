@@ -21,20 +21,35 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserResponse {
   String? get id => throw _privateConstructorUsedError;
+
   String? get fullName => throw _privateConstructorUsedError;
+
   String? get email => throw _privateConstructorUsedError;
+
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
+
   String? get mobileNumber => throw _privateConstructorUsedError;
+
   List<int>? get cart => throw _privateConstructorUsedError;
+
   List<int>? get favorites => throw _privateConstructorUsedError;
+
   String? get postalCode => throw _privateConstructorUsedError;
+
   String? get houseNumber => throw _privateConstructorUsedError;
+
   String? get town => throw _privateConstructorUsedError;
+
   String? get additionalInfo => throw _privateConstructorUsedError;
+
   String? get street => throw _privateConstructorUsedError;
+
   String? get userPhotoUrl => throw _privateConstructorUsedError;
+
   List<int>? get reservedMovies => throw _privateConstructorUsedError;
+
   Map<int, List<String>>? get movieSeats => throw _privateConstructorUsedError;
+
   Map<int, double>? get movieTotalPayment => throw _privateConstructorUsedError;
 
   /// Serializes this UserResponse to a JSON map.
@@ -52,6 +67,7 @@ abstract class $UserResponseCopyWith<$Res> {
   factory $UserResponseCopyWith(
           UserResponse value, $Res Function(UserResponse) then) =
       _$UserResponseCopyWithImpl<$Res, UserResponse>;
+
   @useResult
   $Res call(
       {String? id,
@@ -79,6 +95,7 @@ class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -179,6 +196,7 @@ abstract class _$$UserResponseImplCopyWith<$Res>
   factory _$$UserResponseImplCopyWith(
           _$UserResponseImpl value, $Res Function(_$UserResponseImpl) then) =
       __$$UserResponseImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -339,6 +357,7 @@ class _$UserResponseImpl implements _UserResponse {
   @override
   final String? mobileNumber;
   final List<int>? _cart;
+
   @override
   List<int>? get cart {
     final value = _cart;
@@ -349,6 +368,7 @@ class _$UserResponseImpl implements _UserResponse {
   }
 
   final List<int>? _favorites;
+
   @override
   List<int>? get favorites {
     final value = _favorites;
@@ -371,6 +391,7 @@ class _$UserResponseImpl implements _UserResponse {
   @override
   final String? userPhotoUrl;
   final List<int>? _reservedMovies;
+
   @override
   List<int>? get reservedMovies {
     final value = _reservedMovies;
@@ -381,6 +402,7 @@ class _$UserResponseImpl implements _UserResponse {
   }
 
   final Map<int, List<String>>? _movieSeats;
+
   @override
   Map<int, List<String>>? get movieSeats {
     final value = _movieSeats;
@@ -391,6 +413,7 @@ class _$UserResponseImpl implements _UserResponse {
   }
 
   final Map<int, double>? _movieTotalPayment;
+
   @override
   Map<int, double>? get movieTotalPayment {
     final value = _movieTotalPayment;
@@ -501,34 +524,49 @@ abstract class _UserResponse implements UserResponse {
 
   @override
   String? get id;
+
   @override
   String? get fullName;
+
   @override
   String? get email;
+
   @override
   DateTime? get dateOfBirth;
+
   @override
   String? get mobileNumber;
+
   @override
   List<int>? get cart;
+
   @override
   List<int>? get favorites;
+
   @override
   String? get postalCode;
+
   @override
   String? get houseNumber;
+
   @override
   String? get town;
+
   @override
   String? get additionalInfo;
+
   @override
   String? get street;
+
   @override
   String? get userPhotoUrl;
+
   @override
   List<int>? get reservedMovies;
+
   @override
   Map<int, List<String>>? get movieSeats;
+
   @override
   Map<int, double>? get movieTotalPayment;
 

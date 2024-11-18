@@ -1,10 +1,4 @@
-import 'package:event_mobile_app/app/components/constants/general_strings.dart';
-import 'package:event_mobile_app/data/local_storage/shared_local.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../../presentation/bloc_state_managment/events.dart';
 
 // Manages and updates the application's colors.
 class ColorManager {
@@ -54,5 +48,3 @@ abstract class AppColorManager {
   late Color green3;
   late Color green4;
 }
-
-

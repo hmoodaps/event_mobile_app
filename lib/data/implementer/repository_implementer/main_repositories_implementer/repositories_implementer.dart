@@ -34,8 +34,7 @@ class RepositoriesImplementer implements Repositories {
       );
       return Right(userCredential.user!.uid);
     } on FirebaseException catch (error) {
-      return Left(
-          FirebaseFailureClass(firebaseException: error));
+      return Left(FirebaseFailureClass(firebaseException: error));
     }
   }
 
@@ -52,8 +51,7 @@ class RepositoriesImplementer implements Repositories {
 
       return Right(userCredential);
     } on FirebaseException catch (error) {
-      return Left(
-          FirebaseFailureClass(firebaseException: error));
+      return Left(FirebaseFailureClass(firebaseException: error));
     }
   }
 
@@ -74,8 +72,7 @@ class RepositoriesImplementer implements Repositories {
           .set(userResponse.toJson());
       return Right(null);
     } on FirebaseException catch (error) {
-      return Left(
-          FirebaseFailureClass(firebaseException: error));
+      return Left(FirebaseFailureClass(firebaseException: error));
     }
   }
 
@@ -83,8 +80,9 @@ class RepositoriesImplementer implements Repositories {
   @override
   Future<Either<FailureClass, List<String>>> initFirebase() async {
     try {
-      final snapshot =
-          await FirebaseFirestore.instance.collection(GeneralStrings.users).get();
+      final snapshot = await FirebaseFirestore.instance
+          .collection(GeneralStrings.users)
+          .get();
       final userIds = snapshot.docs.map((doc) => doc.id).toList();
       if (kDebugMode) {
         print(userIds);
@@ -111,7 +109,6 @@ class RepositoriesImplementer implements Repositories {
       return Left(FailureClass(error: error.toString()));
     }
   }
-
 
   // -------Function: Add user details -------
   @override
@@ -140,13 +137,13 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Function: Create user with credentials -------
   @override
-  Future<Either<FirebaseFailureClass, User>>
-      createUserAtFirebaseWithCredential(
-          {required AuthCredential credential}) async {
+  Future<Either<FirebaseFailureClass, User>> createUserAtFirebaseWithCredential(
+      {required AuthCredential credential}) async {
     try {
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      SharedPref.prefs.setString(GeneralStrings.currentUser, userCredential.user!.uid);
+      SharedPref.prefs
+          .setString(GeneralStrings.currentUser, userCredential.user!.uid);
 
       return Right(userCredential.user!);
     } catch (error) {
@@ -156,11 +153,11 @@ class RepositoriesImplementer implements Repositories {
   }
 
   @override
-  Future<void> logout()async {
+  Future<void> logout() async {
     FirebaseAuth.instance.signOut();
   }
 
-  bool checkUserExisting(String ? uid){
+  bool checkUserExisting(String? uid) {
     return VariablesManager.userIds.contains(uid);
   }
 }

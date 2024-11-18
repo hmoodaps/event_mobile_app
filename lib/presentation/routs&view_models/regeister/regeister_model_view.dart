@@ -45,23 +45,17 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
     _bloc.add(SignInWithGoogleEvent());
   }
 
+  @override
+  onCreateNewUser() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteStringsManager.takeUserDetailsRoute, (route) => false);
+  }
 
   @override
-  onCreateNewUser(){
-    Navigator.pushReplacementNamed(
-      context,
-      RouteStringsManager.takeUserDetailsRoute,
-    );
+  onAddExistUser() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteStringsManager.mainRoute, (route) => false);
   }
-@override
-  onAddExistUser(){
-  Navigator.pushReplacementNamed(
-    context,
-    RouteStringsManager.mainRoute,
-  );
-
-}
-
 }
 
 mixin RegisterModelViewFunctions {
@@ -73,6 +67,8 @@ mixin RegisterModelViewFunctions {
   });
 
   onSignInwWithGooglePress();
+
   onAddExistUser();
+
   onCreateNewUser();
 }

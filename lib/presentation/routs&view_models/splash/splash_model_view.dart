@@ -41,11 +41,12 @@ class SplashModelView extends BaseViewModel with SplashRouteMethods {
             : SharedPref.prefs.getString(GeneralStrings.currentUser) == null
                 ? RouteStringsManager.questionRoute
                 : RouteStringsManager.mainRoute,
-
       );
     } else {
       Navigator.pushReplacementNamed(
-          context, RouteStringsManager.mainRoute, );
+        context,
+        RouteStringsManager.mainRoute,
+      );
     }
     _bloc.add(StartFetchFirebaseEvent());
   }

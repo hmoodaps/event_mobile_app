@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
@@ -9,9 +14,11 @@ import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/notification_handler.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/components/tranlate_massages/translate_massage.dart';
 import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
@@ -35,12 +42,64 @@ class _LoginRouteState extends State<LoginRoute> {
     _model.start();
   }
 
+  errorNoti(String msg) => errorNotification(
+      context: context,
+      description: translateErrorMessage(msg, context),
+      backgroundColor:
+          VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+
   @override
   Widget build(BuildContext context) {
     //EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
-        listener: (context, state) {});
+        listener: (context, state) async {
+          if (state is SignInWithGoogleStateError) {
+            errorNotification(
+                context: context,
+                description: translateErrorMessage(state.error, context),
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.grey.shade400
+                    : Colors.white);
+          }
+          if (state is UserCreatedErrorState) {
+            errorNotification(
+                context: context,
+                description: translateErrorMessage(state.error, context),
+                backgroundColor: VariablesManager.isDark
+                    ? Colors.grey.shade400
+                    : Colors.white);
+          }
+          if (state is UserCreatedSuccessState) {
+            _model.onCreateNewUser();
+          }
+          if (state is SignInWithGoogleUserExistState) {
+            final docSnapshot = await FirebaseFirestore.instance
+                .collection(GeneralStrings.users)
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .get();
+
+            if (docSnapshot.exists) {
+              final data = docSnapshot.data();
+
+              if (data != null && (data['additionalInfo'] != null)) {
+                _model.onAddExistUser();
+              } else {
+                _model.onCreateNewUser();
+              }
+            } else {
+              if (kDebugMode) {
+                print("User document does not exist.");
+              }
+            }
+          }
+          if (state is LoginErrorState) {
+            errorNoti(state.error);
+          }
+          if (state is LoginSuccessState) {
+            _model.navigateToHome();
+          }
+        });
   }
 
   Widget getScaffold() => Scaffold(
@@ -140,11 +199,12 @@ class _LoginRouteState extends State<LoginRoute> {
                   googleAndAppleButton(
                       delay: SizeManager.i1000,
                       onTap: () {
-                        _model.onLoginPressed(
-                          formKey: _model.formKey,
-                          email: _model.emailController.text,
-                          password: _model.passwordController.text,
-                        );
+                        if (_model.formKey.currentState!.validate()) {
+                          _model.onLoginPressed(
+                            email: _model.emailController.text,
+                            password: _model.passwordController.text,
+                          );
+                        }
                       },
                       nameOfButton: GeneralStrings.login(context),
                       sufixSvgAssetPath: AssetsManager.login,
@@ -188,16 +248,18 @@ class _LoginRouteState extends State<LoginRoute> {
                   ),
                   googleAndAppleButton(
                       onTap: () => _model.onSignInwWithGooglePress(),
-                      delay: 1400,
                       nameOfButton: GeneralStrings.signWithGoogle(context),
                       prefixSvgAssetPath: AssetsManager.google,
                       context: context),
                   SizedBox(height: SizeManager.d30),
-                  googleAndAppleButton(
-                      delay: 1600,
-                      nameOfButton: GeneralStrings.signWithApple(context),
-                      prefixSvgAssetPath: AssetsManager.apple,
-                      context: context),
+                  Visibility(
+                    visible: Platform.isIOS,
+                    child: googleAndAppleButton(
+                        delay: 1600,
+                        nameOfButton: GeneralStrings.signWithApple(context),
+                        prefixSvgAssetPath: AssetsManager.apple,
+                        context: context),
+                  ),
                 ],
               ),
             ),

@@ -29,7 +29,8 @@ abstract class Repositories {
       {required CreateUserRequirements req});
 
   // Creates a user in Firebase using credentials
-  Future<Either<FirebaseFailureClass,  User >>
-  createUserAtFirebaseWithCredential({required AuthCredential credential});
-  Future<void> logout() ;
+  Future<Either<FirebaseFailureClass, User>> createUserAtFirebaseWithCredential(
+      {required AuthCredential credential});
+
+  Future<void> logout();
 }

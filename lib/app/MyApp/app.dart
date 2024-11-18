@@ -1,9 +1,10 @@
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/dependencies_injection/dependency_injection.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
+import 'package:event_mobile_app/app/handle_app_language/handle_app_language.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/splash/splash_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool showNoInternetDialog = false;
+
   void _showNoInternetDialog() {
     setState(() {
       showNoInternetDialog = true;
@@ -47,7 +49,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -55,11 +56,14 @@ class _MyAppState extends State<MyApp> {
       child: BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) {
           ThemeHelper themeHelper = instance();
-          print('current user${SharedPref.prefs.getString(GeneralStrings.currentUser)}');
+          if (kDebugMode) {
+            print(
+                'current user${SharedPref.prefs.getString(GeneralStrings.currentUser)}');
+          }
 
           return MaterialApp(
             navigatorKey: navigatorKey,
-            locale: const Locale('en'),
+            locale: Locale(TheAppLanguage.appLanguage),
             localizationsDelegates: [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

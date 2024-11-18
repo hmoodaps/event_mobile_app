@@ -47,7 +47,7 @@ extension ShowTimesResponseMapper on ShowTimesResponse? {
 extension UserResponseMapper on UserResponse? {
   UserResponse toDomain() => UserResponse(
         id: this?.id ?? AppConstants.emptyText,
-    additionalInfo: this?.additionalInfo ?? AppConstants.emptyText,
+        additionalInfo: this?.additionalInfo ?? AppConstants.emptyText,
         fullName: this?.fullName ?? AppConstants.emptyText,
         email: this?.email ?? AppConstants.emptyText,
         dateOfBirth: this?.dateOfBirth ?? AppConstants.defaultDate,

@@ -6,5 +6,5 @@ import '../../data/implementer/failure_class/failure_class.dart';
 abstract class AuthRepository {
   Future<Either<FailureClass, User>> signInWithGoogle();
 
-  // Future<AuthCredential> signInWithApple();
+// Future<AuthCredential> signInWithApple();
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
+import 'package:event_mobile_app/app/handle_app_language/handle_app_language.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
@@ -79,6 +80,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<LoginErrorEvent>(_onLoginErrorEvent);
     on<LoginSuccessEvent>(_onLoginSuccessEvent);
     on<ChangeColorModeEvent>(_onChangeColorModeEvent);
+    on<ChangeLanguageEvent>(_onChangeLanguageEvent);
     on<AddUserToFirebaseEvent>(_onAddUserToFirebaseEvent);
     on<SignInWithGoogleUserExistEvent>(_onSignInWithGoogleUserExistEvent);
 
@@ -326,7 +328,9 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onSignInWithGoogleEventSuccess(
       SignInWithGoogleEventSuccess event, Emitter<AppStates> emit) async {
-    VariablesManager.userIds.contains(event.user.uid) ? add(SignInWithGoogleUserExistEvent()) : add(UserCreatedSuccessEvent(event.user));
+    VariablesManager.userIds.contains(event.user.uid)
+        ? add(SignInWithGoogleUserExistEvent())
+        : add(UserCreatedSuccessEvent(event.user));
   }
 
   Future<void> _onSignInWithGoogleUserExistEvent(
@@ -337,7 +341,12 @@ emit(SignInWithGoogleUserExistState());
   Future<void> _onChangeColorModeEvent(
       ChangeColorModeEvent event, Emitter<AppStates> emit) async {
     AppColorHelper.changeColorTheme(event);
-    emit(ChangeColorTheme());
+    emit(ChangeColorThemeState());
+  }
+  Future<void> _onChangeLanguageEvent(
+      ChangeLanguageEvent event, Emitter<AppStates> emit) async {
+    HandleAppLanguage.changeAppLanguage(event);
+    emit(ChangeAppLanguageState());
   }
 
 

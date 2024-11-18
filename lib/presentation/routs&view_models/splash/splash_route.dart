@@ -29,8 +29,6 @@ class _SplashRouteState extends State<SplashRoute> {
     _model.startDelay();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<EventsBloc, AppStates>(
@@ -38,7 +36,7 @@ class _SplashRouteState extends State<SplashRoute> {
         return getScaffold();
       },
       listener: (context, state) {
-        if (state is MoviesLoadedErrorState ) {
+        if (state is MoviesLoadedErrorState) {
           errorNotification(context: context, description: state.error);
         }
       },

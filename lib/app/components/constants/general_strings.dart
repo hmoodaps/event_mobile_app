@@ -20,6 +20,10 @@ class GeneralStrings {
   static const String purpleTheme = 'purpleTheme';
   static const String greenTheme = 'greenTheme';
   static const String blueTheme = 'blueTheme';
+  static const String appLanguage = 'appLanguage';
+  static const String englishLanguage = 'en';
+  static const String netherlandsLanguage = 'nl';
+  static const String arabicLanguage = 'ar';
 
   static String ticketsLeft(BuildContext context) => S.of(context).ticketsLeft;
 

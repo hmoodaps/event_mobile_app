@@ -63,9 +63,7 @@ class CreateUserRequirements {
 
 navigateToMainRoute(context) {
   Navigator.pushNamedAndRemoveUntil(
-      context,
-      RouteStringsManager.mainRoute,
-          (Route<dynamic> route) => false);
+      context, RouteStringsManager.mainRoute, (Route<dynamic> route) => false);
 }
 
 bool toNextField(BuildContext context) {

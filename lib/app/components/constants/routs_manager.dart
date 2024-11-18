@@ -37,7 +37,8 @@ class Routes {
     RouteStringsManager.pastFilmsRoute: (context) => const PastFilmsRoute(),
     RouteStringsManager.profileRoute: (context) => const ProfileRoute(),
     RouteStringsManager.searchRoute: (context) => const SearchRoute(),
-    RouteStringsManager.takeUserDetailsRoute: (context) => const TakeUserDetailsRoute(),
+    RouteStringsManager.takeUserDetailsRoute: (context) =>
+        const TakeUserDetailsRoute(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

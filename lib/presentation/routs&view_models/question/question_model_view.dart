@@ -15,7 +15,9 @@ class QuestionModelView extends QuestionNavigateFunctions {
   navigateToMain({required BuildContext context}) {
     SharedPref.saveBool(key: GeneralStrings.isGuest, value: true);
     Navigator.pushReplacementNamed(
-        context, RouteStringsManager.mainRoute, );
+      context,
+      RouteStringsManager.mainRoute,
+    );
   }
 
   @override

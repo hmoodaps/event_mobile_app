@@ -3,6 +3,7 @@ import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../app/handle_app_language/handle_app_language.dart';
 import '../../app/handle_app_theme/handle_app_theme_colors.dart';
 import '../../data/implementer/failure_class/failure_class.dart';
 import '../../data/models/movie_model.dart';
@@ -151,4 +152,7 @@ class ChangeColorModeEvent extends AppEvents{
   AppColorsTheme appColorsTheme ;
   ChangeColorModeEvent(this.appColorsTheme);
 }
-class AppColorChangedEvent extends AppEvents{}
+class ChangeLanguageEvent extends AppEvents{
+  ApplicationLanguage applicationLanguage;
+  ChangeLanguageEvent(this.applicationLanguage);
+}

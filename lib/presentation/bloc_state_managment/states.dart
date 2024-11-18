@@ -81,5 +81,6 @@ class DisconnectedState extends AppStates {}
 class ConnectedState extends AppStates {}
 // ----------- App theme color -----------
 
-class ChangeColorTheme extends AppStates {}
+class ChangeColorThemeState extends AppStates {}
+class ChangeAppLanguageState extends AppStates {}
 

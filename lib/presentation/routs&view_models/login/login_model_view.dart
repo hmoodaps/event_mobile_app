@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/routs_manager.dart';
-import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/events.dart';
@@ -16,12 +16,11 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   late final BuildContext context;
-  final EventsBloc _bloc = instance<EventsBloc>();
+  late final EventsBloc _bloc;
 
   // Create user in Firebase
   @override
   onLoginPressed({
-    required GlobalKey<FormState>? formKey,
     required String email,
     required String password,
   }) async {
@@ -29,9 +28,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
       email: email,
       password: password,
     );
-    if (formKey!.currentState!.validate()) {
-      _bloc.add(LoginEvent(req));
-    }
+    _bloc.add(LoginEvent(req));
   }
 
   @override
@@ -41,7 +38,9 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   }
 
   @override
-  void start() {}
+  void start() {
+    _bloc = EventsBloc.get(context);
+  }
 
   @override
   onForgetPasswordPress() {
@@ -49,31 +48,50 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   }
 
   @override
-  onSignInwWithApplePress() async {}
-
-  @override
   onSignInwWithGooglePress() async {
     _bloc.add(SignInWithGoogleEvent());
   }
 
   @override
-  onUserAddedSuccessfully() {
-    navigateTo(context, RouteStringsManager.takeUserDetailsRoute);
+  onCreateNewUser() {
+    Navigator.pushReplacementNamed(
+      context,
+      RouteStringsManager.takeUserDetailsRoute,
+    );
+  }
+
+  @override
+  onAddExistUser() {
+    Navigator.pushReplacementNamed(
+      context,
+      RouteStringsManager.mainRoute,
+    );
+  }
+
+  @override
+  navigateToHome() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteStringsManager.mainRoute, (route) => false);
+  }
+  @override
+  onForgetPassword() {
   }
 }
 
 mixin LoginModelViewFunctions {
   Future<void> onLoginPressed({
-    required GlobalKey<FormState>? formKey,
     required String email,
     required String password,
   });
 
-  void onUserAddedSuccessfully();
-
   void onForgetPasswordPress();
 
-  void onSignInwWithGooglePress();
+  onCreateNewUser();
 
-  void onSignInwWithApplePress();
+  onSignInwWithGooglePress();
+
+  onAddExistUser();
+
+  navigateToHome();
+  onForgetPassword();
 }

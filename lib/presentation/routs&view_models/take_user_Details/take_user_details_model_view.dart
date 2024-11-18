@@ -14,7 +14,8 @@ class TakeUserDetailsModelView extends BaseViewModel
   TextEditingController city = TextEditingController();
   TextEditingController additinalInfo = TextEditingController();
   TextEditingController street = TextEditingController();
-  late final BuildContext context ;
+  late final BuildContext context;
+
   final formKey = GlobalKey<FormState>();
 
   final List<int> days = List.generate(31, (index) => index + 1);

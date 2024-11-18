@@ -6,7 +6,6 @@ import 'general_strings.dart';
 
 class VariablesManager {
   static bool isDark = false;
-
   static List<String> userIds = [];
   static List<MovieResponse> movies = [];
 
@@ -15,10 +14,8 @@ class VariablesManager {
     serverClientId:
         '369796753935-l561iq0q34qadmolhc8r2uv4lim1ltmh.apps.googleusercontent.com',
   );
-
   static final bool isFirstTimeOpened =
       SharedPref.getBool(GeneralStrings.isFirstTimeOpened) ?? true;
-
   static final bool isGuest =
       SharedPref.getBool(GeneralStrings.isGuest) ?? false;
 }
