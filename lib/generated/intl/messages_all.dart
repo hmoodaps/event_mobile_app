@@ -21,7 +21,6 @@ import 'messages_en.dart' as messages_en;
 import 'messages_nl.dart' as messages_nl;
 
 typedef Future<dynamic> LibraryLoader();
-
 Map<String, LibraryLoader> _deferredLibraries = {
   'ar': () => new SynchronousFuture(null),
   'en': () => new SynchronousFuture(null),
