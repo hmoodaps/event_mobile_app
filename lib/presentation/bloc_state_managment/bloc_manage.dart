@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
-import '../../app/components/constants/color_manager.dart';
+import '../../app/components/constants/theme_manager.dart';
 import '../../app/components/constants/variables_manager.dart';
 import '../../app/components/firebase_error_handler/firebase_error_handler.dart';
 import '../../app/dependencies_injection/dependency_injection.dart';
@@ -48,7 +48,6 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Main injected_repository object for data management and access across the app
   final AddUserDetailsRepo addUserDetailsRepo = instance();
 
-
   EventsBloc() : super(InitialState()) {
     // Registering event handlers to listen and respond to various events
     on<StartCreateUserEvent>(_onCreateUserEvent);
@@ -83,28 +82,32 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<ChangeLanguageEvent>(_onChangeLanguageEvent);
     on<AddUserToFirebaseEvent>(_onAddUserToFirebaseEvent);
     on<SignInWithGoogleUserExistEvent>(_onSignInWithGoogleUserExistEvent);
-
+    on<ResetPasswordEvent>(_onResetPasswordEvent);
+    on<ResetPasswordErrorEvent>(_onResetPasswordErrorEvent);
+    on<ResetPasswordSuccessEvent>(_onResetPasswordSuccessEvent);
   }
 
 //====================Add User Details Handler=============================
-  _onAddUserDetailsEvent(AddUserDetailsEvent event , Emitter<AppStates> emit)async{
+  _onAddUserDetailsEvent(
+      AddUserDetailsEvent event, Emitter<AppStates> emit) async {
     emit(AddUsersDetailsState());
-    await addUserDetailsRepo.addUserDetails(req: event.req).then((result){
+    await addUserDetailsRepo.addUserDetails(req: event.req).then((result) {
       add(AddUserDetailsResultEvent(result));
     });
   }
 
-  _onAddUserDetailsResultEvent(AddUserDetailsResultEvent event , Emitter<AppStates> emit)async{
-    event.result.fold((error){
-      add(AddUserDetailsErrorEvent(error.firebaseException!.message.toString()));
-    }, (success){
+  _onAddUserDetailsResultEvent(
+      AddUserDetailsResultEvent event, Emitter<AppStates> emit) async {
+    event.result.fold((error) {
+      add(AddUserDetailsErrorEvent(error.firebaseException!));
+    }, (success) {
       add(AddUserDetailsSuccessEvent());
     });
   }
 
   Future<void> _onAddUserDetailsErrorEvent(
       AddUserDetailsErrorEvent event, Emitter<AppStates> emit) async {
-    emit(AddUserDetailsErrorState(event.error.toString()));
+    emit(AddUserDetailsErrorState(event.error));
   }
 
   Future<void> _onAddUserDetailsSuccessEvent(
@@ -115,12 +118,16 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   //create instance from Event bloc if we need new instance and cant use it from DI
 
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
+
 //====================Log OUT=============================
 
-
-  Future<void>_onLogoutEvent(LogoutEvent event , Emitter<AppStates> emit)async{
-    await login.logout().then((_){emit(LogoutState());});
+  Future<void> _onLogoutEvent(
+      LogoutEvent event, Emitter<AppStates> emit) async {
+    await login.logout().then((_) {
+      emit(LogoutState());
+    });
   }
+
   // ======== StartFetchMoviesEvent Handler ==========
   // Initiates fetching of movies, emits loading state, then fetches movies
   // from the injected_repository and triggers FetchMoviesResultEvent with the result
@@ -137,11 +144,13 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onFetchMoviesResultEvent(
       FetchMoviesResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
-          (fail) {
-            add(MoviesLoadedErrorEvent(fail.toString()));
+      (fail) {
+        add(MoviesLoadedErrorEvent(fail.toString()));
       },
-          (movies) {
-        if(VariablesManager.movies.isNotEmpty){VariablesManager.movies.clear();}
+      (movies) {
+        if (VariablesManager.movies.isNotEmpty) {
+          VariablesManager.movies.clear();
+        }
         VariablesManager.movies.addAll(movies);
         getPhotos(VariablesManager.movies).then((value) {
           if (kDebugMode) {
@@ -153,10 +162,9 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-
   Future<void> _onMoviesLoadedErrorEvent(
       MoviesLoadedErrorEvent event, Emitter<AppStates> emit) async {
-    emit(MoviesLoadedErrorState(event.fail.toString()));
+    emit(MoviesLoadedErrorState(event.fail));
   }
 
   Future<void> _onMoviesLoadedSuccessEvent(
@@ -168,29 +176,31 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Starts Firebase initialization and adds the FetchFirebaseResultEvent
   // with the outcome of the injected_repository's initFirebase call
 
-    Future<void> _onStartFetchFirebaseEvent(
-        StartFetchFirebaseEvent event, Emitter<AppStates> emit) async {
-      emit(StartFetchFirebaseState());
-      Either<FailureClass, List<String>> result = await repository.initFirebase();
-      add(FetchFirebaseResultEvent(result));
-    }
+  Future<void> _onStartFetchFirebaseEvent(
+      StartFetchFirebaseEvent event, Emitter<AppStates> emit) async {
+    emit(StartFetchFirebaseState());
+    Either<FailureClass, List<String>> result = await repository.initFirebase();
+    add(FetchFirebaseResultEvent(result));
+  }
 
-    Future<void> _onStartFetchFirebaseEventResult(
-        FetchFirebaseResultEvent event, Emitter<AppStates> emit) async {
-      event.result.fold(
-            (fail) {
-              add(FetchFirebaseErrorEvent(fail.error));
-        },
-            (success) {
-          if(VariablesManager.userIds.isNotEmpty){VariablesManager.userIds.clear();}
-          VariablesManager.userIds.addAll(success);
-          if (kDebugMode) {
-            print(VariablesManager.userIds);
-          }
-          add(FetchFirebaseSuccessEvent());
-        },
-      );
-    }
+  Future<void> _onStartFetchFirebaseEventResult(
+      FetchFirebaseResultEvent event, Emitter<AppStates> emit) async {
+    event.result.fold(
+      (fail) {
+        add(FetchFirebaseErrorEvent(fail.error));
+      },
+      (success) {
+        if (VariablesManager.userIds.isNotEmpty) {
+          VariablesManager.userIds.clear();
+        }
+        VariablesManager.userIds.addAll(success);
+        if (kDebugMode) {
+          print(VariablesManager.userIds);
+        }
+        add(FetchFirebaseSuccessEvent());
+      },
+    );
+  }
 
   Future<void> _onFetchFirebaseErrorEvent(
       FetchFirebaseErrorEvent event, Emitter<AppStates> emit) async {
@@ -202,124 +212,129 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(FetchFirebaseSuccessState());
   }
 
-    // ======== CreateUserEvent Handler ==========
-    // Starts user creation by calling createUserAtFirebase and triggers
-    // CreatingUserResultEvent with the result for further processing
-    Future<void> _onCreateUserEvent(
-        StartCreateUserEvent event, Emitter<AppStates> emit) async {
-      emit(StartUserCreateState());
-      Either<FirebaseFailureClass, UserCredential> result =
-      await register.createUserAtFirebase(req: event.req);
-      if (kDebugMode) {
-        print(result.toString());
-      }
-      add(CreatingUserResultEvent(event.req, result));
+  // ======== CreateUserEvent Handler ==========
+  // Starts user creation by calling createUserAtFirebase and triggers
+  // CreatingUserResultEvent with the result for further processing
+  Future<void> _onCreateUserEvent(
+      StartCreateUserEvent event, Emitter<AppStates> emit) async {
+    emit(StartUserCreateState());
+    Either<FirebaseFailureClass, UserCredential> result =
+        await register.createUserAtFirebase(req: event.req);
+    if (kDebugMode) {
+      print(result.toString());
     }
+    add(CreatingUserResultEvent(event.req, result));
+  }
 
-    // ======== CreatingUserResultEvent Handler ==========
-    // Processes user creation result, handling success by moving to add user
-    // to Firebase, or failure by showing error state
-    Future<void> _onCreatingUserResultEvent(
-        CreatingUserResultEvent event, Emitter<AppStates> emit) async {
-      event.result.fold(
-            (fail) {
-              add(UserCreatedErrorEvent(fail));
-
-
-        },
-            (success) {
-          if(success.user != null ){
-            SharedPref.prefs.setString(GeneralStrings.currentUser, success.user!.uid);
-            add(UserCreatedSuccessEvent(success.user!));
-          }
-        },
-      );
-    }
+  // ======== CreatingUserResultEvent Handler ==========
+  // Processes user creation result, handling success by moving to add user
+  // to Firebase, or failure by showing error state
+  Future<void> _onCreatingUserResultEvent(
+      CreatingUserResultEvent event, Emitter<AppStates> emit) async {
+    event.result.fold(
+      (fail) {
+        add(UserCreatedErrorEvent(fail));
+      },
+      (success) {
+        if (success.user != null) {
+          SharedPref.prefs
+              .setString(GeneralStrings.currentUser, success.user!.uid);
+          add(UserCreatedSuccessEvent(success.user!));
+        }
+      },
+    );
+  }
 
   Future<void> _onUserCreatedErrorEvent(
       UserCreatedErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.fail,
-      state: (String error) => UserCreatedErrorState(error),
-    );  }
+      state: (String error) =>
+          UserCreatedErrorState(event.fail.firebaseException!),
+    );
+  }
 
   Future<void> _onUserCreatedSuccessEvent(
       UserCreatedSuccessEvent event, Emitter<AppStates> emit) async {
-    register.addUserToFirebase(req: CreateUserRequirements(fullName: event.user.displayName , email: event.user.email ,)).then((_){
+    register
+        .addUserToFirebase(
+            req: CreateUserRequirements(
+      fullName: event.user.displayName,
+      email: event.user.email,
+    ))
+        .then((_) {
       add(AddUserToFirebaseEvent());
     });
-
   }
+
   Future<void> _onAddUserToFirebaseEvent(
-      AddUserToFirebaseEvent event, Emitter<AppStates> emit
-      )async{
+      AddUserToFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(UserCreatedSuccessState());
-
   }
 
-    // ======== LoginEvent Handler ==========
-    // Initiates login process, emits loading state, performs login, and triggers
-    // LoginResultEvent with result to proceed with login outcome handling
-    Future<void> _onLoginEvent(LoginEvent event, Emitter<AppStates> emit) async {
-      emit(LoginState());
-      Either<FirebaseFailureClass, String> result =
-      await login.loginToFirebase(req: event.req);
-      add(LoginResultEvent(result));
-    }
+  // ======== LoginEvent Handler ==========
+  // Initiates login process, emits loading state, performs login, and triggers
+  // LoginResultEvent with result to proceed with login outcome handling
+  Future<void> _onLoginEvent(LoginEvent event, Emitter<AppStates> emit) async {
+    emit(LoginState());
+    Either<FirebaseFailureClass, String> result =
+        await login.loginToFirebase(req: event.req);
+    add(LoginResultEvent(result));
+  }
 
-    // ======== LoginResultEvent Handler ==========
-    // Handles result of login, emitting success state or showing error state upon failure
-    Future<void> _onLoginResultEvent(
-        LoginResultEvent event, Emitter<AppStates> emit) async {
-      event.result.fold(
-            (fail) {
-              add(LoginErrorEvent(fail));
-
-        },
-            (success) {
-              add(LoginSuccessEvent());
-        },
-      );
-    }
-
+  // ======== LoginResultEvent Handler ==========
+  // Handles result of login, emitting success state or showing error state upon failure
+  Future<void> _onLoginResultEvent(
+      LoginResultEvent event, Emitter<AppStates> emit) async {
+    event.result.fold(
+      (fail) {
+        add(LoginErrorEvent(fail));
+      },
+      (success) {
+        add(LoginSuccessEvent());
+      },
+    );
+  }
 
   Future<void> _onLoginErrorEvent(
       LoginErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.fail,
-      state: (String error) => LoginErrorState(error),
-    );  }
+      state: (String error) => LoginErrorState(event.fail.firebaseException!),
+    );
+  }
 
   Future<void> _onLoginSuccessEvent(
       LoginSuccessEvent event, Emitter<AppStates> emit) async {
     emit(LoginSuccessState());
   }
-    // ======== SignInWithGoogleEvent Handler ==========
-    // Initiates Google sign=in, emits loading state, performs sign=in, and triggers
-    // SignInWithGoogleResultEvent with the result for further handling
-    Future<void> _onSignInWithGoogleEvent(
-        SignInWithGoogleEvent event, Emitter<AppStates> emit) async {
-      emit(StartSignInWithGoogleState());
-      Either<FailureClass,  User > result = await auth.signInWithGoogle();
-      add(SignInWithGoogleResultEvent(result));
-    }
 
-    // ======== SignInWithGoogleResultEvent Handler ==========
-    // Processes result of Google sign=in, checking if the user exists or not,
-    // and emits respective states based on the outcome
-    Future<void> _onSignInWithGoogleResultEvent(
-        SignInWithGoogleResultEvent event, Emitter<AppStates> emit) async {
-      event.result.fold(
-            (fail) {
-              add(SignInWithGoogleEventError(fail.toString()));
-        },
-            (user) {
-              add(SignInWithGoogleEventSuccess(user));
-        },
-      );
-    }
+  // ======== SignInWithGoogleEvent Handler ==========
+  // Initiates Google sign=in, emits loading state, performs sign=in, and triggers
+  // SignInWithGoogleResultEvent with the result for further handling
+  Future<void> _onSignInWithGoogleEvent(
+      SignInWithGoogleEvent event, Emitter<AppStates> emit) async {
+    emit(StartSignInWithGoogleState());
+    Either<FailureClass, User> result = await auth.signInWithGoogle();
+    add(SignInWithGoogleResultEvent(result));
+  }
+
+  // ======== SignInWithGoogleResultEvent Handler ==========
+  // Processes result of Google sign=in, checking if the user exists or not,
+  // and emits respective states based on the outcome
+  Future<void> _onSignInWithGoogleResultEvent(
+      SignInWithGoogleResultEvent event, Emitter<AppStates> emit) async {
+    event.result.fold(
+      (fail) {
+        add(SignInWithGoogleEventError(fail.toString()));
+      },
+      (user) {
+        add(SignInWithGoogleEventSuccess(user));
+      },
+    );
+  }
 
   Future<void> _onSignInWithGoogleEventError(
       SignInWithGoogleEventError event, Emitter<AppStates> emit) async {
@@ -335,7 +350,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onSignInWithGoogleUserExistEvent(
       SignInWithGoogleUserExistEvent event, Emitter<AppStates> emit) async {
-emit(SignInWithGoogleUserExistState());
+    emit(SignInWithGoogleUserExistState());
   }
 
   Future<void> _onChangeColorModeEvent(
@@ -343,84 +358,117 @@ emit(SignInWithGoogleUserExistState());
     AppColorHelper.changeColorTheme(event);
     emit(ChangeColorThemeState());
   }
+
   Future<void> _onChangeLanguageEvent(
       ChangeLanguageEvent event, Emitter<AppStates> emit) async {
     HandleAppLanguage.changeAppLanguage(event);
     emit(ChangeAppLanguageState());
   }
 
-
-    // ======== add user info Handler ==========
-    // ======== InternetStatusChangeEvent Handler ==========
-    // Listens to internet connectivity status changes and emits either ConnectedState
-    // or DisconnectedState based on the current connectivity status
-    Future<void> _onInternetStatusChangeEvent(
-        InternetStatusChangeEvent event, Emitter<AppStates> emit) async {
-      await for (var status in InternetConnection().onStatusChange) {
-        if (status == InternetStatus.connected) {
-          emit(ConnectedState());
-        } else {
-          emit(DisconnectedState());
-        }
+  // ======== add user info Handler ==========
+  // ======== InternetStatusChangeEvent Handler ==========
+  // Listens to internet connectivity status changes and emits either ConnectedState
+  // or DisconnectedState based on the current connectivity status
+  Future<void> _onInternetStatusChangeEvent(
+      InternetStatusChangeEvent event, Emitter<AppStates> emit) async {
+    await for (var status in InternetConnection().onStatusChange) {
+      if (status == InternetStatus.connected) {
+        emit(ConnectedState());
+      } else {
+        emit(DisconnectedState());
       }
     }
+  }
 
-    // ======== ChangeNavigationBarIndexEvent Handler ==========
-    // Updates the current navigation bar index and emits the related state
-    Future<void> _onChangeNavigationBarIndexEvent(
-        ChangeNavigationBarIndexEvent event, Emitter<AppStates> emit) async {
-      emit(ChangeNavigationBarIndexState());
+  Future<void> _onResetPasswordEvent(
+      ResetPasswordEvent event, Emitter<AppStates> emit) async {
+    final result = await login.forgetPassword(event.email);
+    result.fold((error) {
+      add(ResetPasswordErrorEvent(error.firebaseException!));
+    }, (success) {
+      add(ResetPasswordSuccessEvent());
+    });
+  }
+
+  Future<void> _onResetPasswordErrorEvent(
+      ResetPasswordErrorEvent event, Emitter<AppStates> emit) async {
+    emit(ResetPasswordErrorState(event.error));
+  }
+
+  Future<void> _onResetPasswordSuccessEvent(
+      ResetPasswordSuccessEvent event, Emitter<AppStates> emit) async {
+    emit(ResetPasswordSuccessState());
+  }
+
+  // ======== ChangeNavigationBarIndexEvent Handler ==========
+  // Updates the current navigation bar index and emits the related state
+  Future<void> _onChangeNavigationBarIndexEvent(
+      ChangeNavigationBarIndexEvent event, Emitter<AppStates> emit) async {
+    emit(ChangeNavigationBarIndexState());
+  }
+
+  // ======== ToggleLightAndDarkEvent Handler ==========
+  // Switches between light and dark themes, updates the theme state accordingly,
+  // and checks device theme mode to adjust the theme dynamically
+  ThemeData? toggleLightAndDark(context) {
+    ThemeData themeData = lightThemeData();
+    Brightness brightness = MediaQuery.of(context).platformBrightness;
+    brightness == Brightness.dark
+        ? (themeData = AppTheme.dark.themeData)
+        : (themeData = AppTheme.light.themeData);
+    if (kDebugMode) {
+      print(VariablesManager.isDark ? "dark" : 'light');
     }
+    add(ToggleLightAndDarkEvent(themeData));
+    return themeData;
+  }
 
-    // ======== ToggleLightAndDarkEvent Handler ==========
-    // Switches between light and dark themes, updates the theme state accordingly,
-    // and checks device theme mode to adjust the theme dynamically
-    void _onToggleLightAndDarkEvent(
-        ToggleLightAndDarkEvent event, Emitter<AppStates> emit) {
-      event.themeData ==AppTheme.dark.themeData
-          ? VariablesManager.isDark = true
-          : VariablesManager.isDark = false ;
-      emit(ToggleLightAndDarkState());
-    }
+  void _onToggleLightAndDarkEvent(
+      ToggleLightAndDarkEvent event, Emitter<AppStates> emit) {
+    event.themeData == AppTheme.dark.themeData
+        ? VariablesManager.isDark = true
+        : VariablesManager.isDark = false;
+    emit(ToggleLightAndDarkState());
+  }
 
-    // ======== Light Theme Text Styles ========
-    // Helper methods to set text styles for various text elements
-    static headerStyle(BuildContext context) => Theme.of(context)
-        .textTheme
-        .headlineLarge
-        ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
+  // ======== Light Theme Text Styles ========
+  // Helper methods to set text styles for various text elements
+  static headerStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .headlineLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-    static titleStyle(BuildContext context) => Theme.of(context)
-        .textTheme
-        .titleLarge
-        ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static titleStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .titleLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-    static bodyStyle(BuildContext context) => Theme.of(context)
-        .textTheme
-        .bodyLarge
-        ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static bodyStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .bodyLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-    static paragraphStyle(BuildContext context) => Theme.of(context)
-        .textTheme
-        .labelLarge
-        ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static paragraphStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .labelLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-    static smallParagraphStyle(BuildContext context) => Theme.of(context)
-        .textTheme
-        .labelSmall
-        ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static smallParagraphStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .labelSmall
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-    // Caches images associated with movies
+  // Caches images associated with movies
 // This function is used to cache the images of movies by initializing CachedNetworkImageProvider instances
 // for each movie's image (both the main and vertical images).
-    Future<void> getPhotos(List<MovieResponse> movies) async {
-      // Preload images into cache using precacheImage
-      // The images are first wrapped in CachedNetworkImageProvider, then they are stored in memory.
-      // Preload the images without displaying them to the user (in the background)
-      // This ensures the images are cached and ready to be shown without delay.
+  Future<void> getPhotos(List<MovieResponse> movies) async {
+    // Preload images into cache using precacheImage
+    // The images are first wrapped in CachedNetworkImageProvider, then they are stored in memory.
+    // Preload the images without displaying them to the user (in the background)
+    // This ensures the images are cached and ready to be shown without delay.
 
-      final moviesCopy = List<MovieResponse>.from(movies); // Create a copy
-          if(VariablesManager.isFirstTimeOpened){
+    final moviesCopy = List<MovieResponse>.from(movies); // Create a copy
+    if (VariablesManager.isFirstTimeOpened) {
       for (MovieResponse movie in moviesCopy) {
         await precacheImage(CachedNetworkImageProvider(movie.photo!),
             navigatorKey.currentContext!);
@@ -429,4 +477,4 @@ emit(SignInWithGoogleUserExistState());
       }
     }
   }
-  }
+}

@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -491,10 +490,10 @@ class S {
     );
   }
 
-  /// `Operation not allowed. Please enable this option in Firebase Console.`
+  /// `Operation not allowed. \nPlease enable this option in Firebase Console.`
   String get operationNotAllowed {
     return Intl.message(
-      'Operation not allowed. Please enable this option in Firebase Console.',
+      'Operation not allowed. \nPlease enable this option in Firebase Console.',
       name: 'operationNotAllowed',
       desc: '',
       args: [],
@@ -561,10 +560,10 @@ class S {
     );
   }
 
-  /// `An account already exists with this email address but with different credentials.`
+  /// `An account already exists with this email address\n but with different credentials.`
   String get accountExistsWithDifferentCredential {
     return Intl.message(
-      'An account already exists with this email address but with different credentials.',
+      'An account already exists with this email address\n but with different credentials.',
       name: 'accountExistsWithDifferentCredential',
       desc: '',
       args: [],
@@ -691,10 +690,10 @@ class S {
     );
   }
 
-  /// `We'll take a bit of information to enhance the personalized experience, just a few seconds.`
+  /// `We'll take a bit of information to enhance the \npersonalized experience, just a few seconds.`
   String get someInfo {
     return Intl.message(
-      'We\'ll take a bit of information to enhance the personalized experience, just a few seconds.',
+      'We\'ll take a bit of information to enhance the \npersonalized experience, just a few seconds.',
       name: 'someInfo',
       desc: '',
       args: [],
@@ -760,6 +759,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Reset Password`
+  String get resetPassword {
+    return Intl.message(
+      'Reset Password',
+      name: 'resetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `password reset link was sent to your emain\n .Check your inbox`
+  String get passwordResetSuccess {
+    return Intl.message(
+      'password reset link was sent to your emain\n .Check your inbox',
+      name: 'passwordResetSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let's try resetting your password. We will send a link to \nset your password to your email address.`
+  String get ltsResetPassword {
+    return Intl.message(
+      'Let\'s try resetting your password. We will send a link to \nset your password to your email address.',
+      name: 'ltsResetPassword',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -775,10 +804,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
-
   @override
   Future<S> load(Locale locale) => S.load(locale);
-
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

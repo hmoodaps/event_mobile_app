@@ -21,13 +21,12 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'nl';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accountCreated": MessageLookupByLibrary.simpleMessage(
             "Account succesvol aangemaakt!"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
-                "Er bestaat al een account met dit e-mailadres, maar met andere referenties."),
+                "Er bestaat al een account met dit \ne-mailadres, maar met andere referenties."),
         "additinalInfo":
             MessageLookupByLibrary.simpleMessage("Aanvullende informatie"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid"),
@@ -84,6 +83,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
             "Controleer uw internetverbinding.\nDit bericht verdwijnt automatisch wanneer de verbinding is hersteld."),
         "lowPrice": MessageLookupByLibrary.simpleMessage("Lage prijs:"),
+        "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
+            "Laten we proberen je wachtwoord opnieuw in te stellen. We sturen een \nlink om je wachtwoord in te stellen naar je e-mailadres."),
         "mobileNumber": MessageLookupByLibrary.simpleMessage("Telefoonnummer"),
         "newMovies": MessageLookupByLibrary.simpleMessage("Nieuwe films"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
@@ -92,10 +93,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "otherFees": MessageLookupByLibrary.simpleMessage(
             "Andere kosten kunnen van toepassing zijn"),
         "password": MessageLookupByLibrary.simpleMessage("Wachtwoord"),
+        "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
+            "De link om je wachtwoord opnieuw in te stellen is\n naar je e-mail verzonden. Controleer je inbox."),
         "postalCode": MessageLookupByLibrary.simpleMessage("Postcode"),
         "privacy": MessageLookupByLibrary.simpleMessage("Privacybeleid"),
         "question": MessageLookupByLibrary.simpleMessage("Wil je doorgaan?"),
         "register": MessageLookupByLibrary.simpleMessage("Registreren"),
+        "resetPassword": MessageLookupByLibrary.simpleMessage(
+            "Wachtwoord opnieuw instellen"),
         "search": MessageLookupByLibrary.simpleMessage("zoeken"),
         "seats": MessageLookupByLibrary.simpleMessage("stoelen"),
         "seatsAvailable":
@@ -105,7 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signWithGoogle":
             MessageLookupByLibrary.simpleMessage("Inloggen met Google"),
         "someInfo": MessageLookupByLibrary.simpleMessage(
-            "We nemen een beetje informatie om de gepersonaliseerde ervaring te verbeteren, slechts een paar seconden."),
+            "We nemen een beetje informatie om de gepersonaliseerde\n ervaring te verbeteren, slechts een paar seconden."),
         "startInvesting": MessageLookupByLibrary.simpleMessage(
             "Begin met commissievrij investeren"),
         "street": MessageLookupByLibrary.simpleMessage("Straat"),
@@ -129,7 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welkom bij Cinema Ticket"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welkom terug!"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "Het wachtwoord is onjuist of het account heeft geen wachtwoord ingesteld."),
+            "Het wachtwoord is onjuist of het account heeft\n geen wachtwoord ingesteld."),
         "youAccept": MessageLookupByLibrary.simpleMessage("je accepteert")
       };
 }

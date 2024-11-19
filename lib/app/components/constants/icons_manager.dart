@@ -11,6 +11,7 @@ class IconsManager {
   static const IconData street = Icons.horizontal_distribute;
 
   static const IconData register = IconBroken.AddUser;
+  static const IconData camera = IconBroken.Camera;
   static const IconData person = IconBroken.User;
   static const IconData eye = IconBroken.Password;
   static const IconData hide = IconBroken.Hide;

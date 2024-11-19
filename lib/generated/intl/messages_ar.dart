@@ -21,7 +21,6 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accountCreated":
             MessageLookupByLibrary.simpleMessage("تم إنشاء الحساب بنجاح!"),
@@ -81,6 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
             "يرجى التحقق من اتصال الإنترنت. \nستختفي هذه الرسالة تلقائيًا عندما يتم استعادة الاتصال."),
         "lowPrice": MessageLookupByLibrary.simpleMessage("سعر منخفض:"),
+        "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
+            "دعنا نحاول اعادة تعيين كلمة المرور الخاصة بك . سنقوم بارسال رابط \nلتعيين كلمة المرور الى البريد الالكتروني الخاص بكم"),
         "mobileNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "newMovies": MessageLookupByLibrary.simpleMessage("أفلام جديدة"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
@@ -89,11 +90,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "otherFees":
             MessageLookupByLibrary.simpleMessage("قد تنطبق رسوم إضافية"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
+            "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. تحقق من صندوق الوارد الخاص بك."),
         "postalCode": MessageLookupByLibrary.simpleMessage("الرمز البريدي"),
         "privacy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
         "question":
             MessageLookupByLibrary.simpleMessage("هل ترغب في الاستمرار؟"),
         "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
+        "resetPassword":
+            MessageLookupByLibrary.simpleMessage("اعادة تعيين كلمة المرور"),
         "search": MessageLookupByLibrary.simpleMessage("بحث"),
         "seats": MessageLookupByLibrary.simpleMessage("المقاعد"),
         "seatsAvailable":

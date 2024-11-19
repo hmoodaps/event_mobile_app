@@ -185,27 +185,25 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
                           count: _model.pages.length),
                     ),
                   ),
-                  isLast
-                      ? StaggeredAnimatedWidget(
-                          delay: 1200,
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      SizeManager.screenSize(context).height /
-                                          10),
-                              child: TextButton(
-                                onPressed: _model.onContinuePressed,
-                                child: Text(
-                                    GeneralStrings.continueString(context),
-                                    style:
-                                        TextStyleManager.titleStyle(context)),
-                              ),
-                            ),
+                  Visibility(
+                    visible: isLast,
+                    child: StaggeredAnimatedWidget(
+                      delay: 1200,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  SizeManager.screenSize(context).height / 10),
+                          child: TextButton(
+                            onPressed: _model.onContinuePressed,
+                            child: Text(GeneralStrings.continueString(context),
+                                style: TextStyleManager.titleStyle(context)),
                           ),
-                        )
-                      : SizedBox(),
+                        ),
+                      ),
+                    ),
+                  ),
                   SafeArea(
                       child: Align(
                     alignment: Alignment.topLeft,

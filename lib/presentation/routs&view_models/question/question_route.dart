@@ -11,7 +11,6 @@ import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
-import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
 
@@ -27,13 +26,12 @@ class _QuestionRouteState extends State<QuestionRoute> {
 
   @override
   Widget build(BuildContext context) {
-    EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => getScaffold(bloc: bloc),
+        builder: (context, state) => getScaffold(),
         listener: (context, state) {});
   }
 
-  Widget getScaffold({required EventsBloc bloc}) => Scaffold(
+  Widget getScaffold() => Scaffold(
         body: SafeArea(
             child: Padding(
           padding: EdgeInsets.all(SizeManager.d20),

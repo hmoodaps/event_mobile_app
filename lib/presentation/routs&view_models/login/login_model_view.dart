@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../app/components/constants/route_strings_manager.dart';
@@ -73,9 +72,9 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
     Navigator.pushNamedAndRemoveUntil(
         context, RouteStringsManager.mainRoute, (route) => false);
   }
+
   @override
-  onForgetPassword() {
-  }
+  onForgetPassword() {}
 }
 
 mixin LoginModelViewFunctions {
@@ -93,5 +92,6 @@ mixin LoginModelViewFunctions {
   onAddExistUser();
 
   navigateToHome();
+
   onForgetPassword();
 }

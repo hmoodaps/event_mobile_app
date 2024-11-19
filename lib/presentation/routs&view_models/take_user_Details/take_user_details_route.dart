@@ -1,3 +1,4 @@
+import 'package:event_mobile_app/app/components/tranlate_massages/translate_massage.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/take_user_Details/take_user_details_model_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,9 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
           );
         }
         if (state is AddUserDetailsErrorState) {
-          errorNotification(context: context, description: state.error);
+          errorNotification(
+              context: context,
+              description: translateErrorMessage(state.error.code, context));
         }
       },
     );
@@ -133,7 +136,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                           icon: Icon(IconsManager.calender),
                         ),
                         onFieldSubmitted: (p0) => toNextField,
-                        validator: (p0) => validator(p0),
+                        validator: (p0) => validator(p0, context),
                         context: context,
                       ),
                     ),
@@ -150,7 +153,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                           child: Icon(IconsManager.phone),
                         ),
                         onFieldSubmitted: (p0) => toNextField,
-                        validator: (p0) => validator(p0),
+                        validator: (p0) => validator(p0, context),
                         context: context,
                       ),
                     ),
@@ -167,7 +170,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                           child: Icon(IconsManager.street),
                         ),
                         onFieldSubmitted: (p0) => toNextField,
-                        validator: (p0) => validator(p0),
+                        validator: (p0) => validator(p0, context),
                         context: context,
                       ),
                     ),
@@ -190,7 +193,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                                   child: Icon(IconsManager.home),
                                 ),
                                 onFieldSubmitted: (p0) => toNextField,
-                                validator: (p0) => validator(p0),
+                                validator: (p0) => validator(p0, context),
                                 context: context,
                               ),
                             ),
@@ -205,7 +208,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                                 labelText:
                                     GeneralStrings.additinalInfo(context),
                                 onFieldSubmitted: (p0) => toNextField,
-                                validator: (p0) => validator(p0),
+                                validator: (p0) => validator(p0, context),
                                 context: context,
                               ),
                             ),
@@ -226,7 +229,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                           child: Icon(IconsManager.postcode),
                         ),
                         onFieldSubmitted: (p0) => toNextField,
-                        validator: (p0) => validator(p0),
+                        validator: (p0) => validator(p0, context),
                         context: context,
                       ),
                     ),
@@ -243,7 +246,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                           child: Icon(IconsManager.city),
                         ),
                         onFieldSubmitted: (p0) => toNextField,
-                        validator: (p0) => validator(p0),
+                        validator: (p0) => validator(p0, context),
                         context: context,
                       ),
                     ),

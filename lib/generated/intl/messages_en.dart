@@ -21,13 +21,12 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accountCreated": MessageLookupByLibrary.simpleMessage(
             "Account created successfully!"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
-                "An account already exists with this email address but with different credentials."),
+                "An account already exists with this email address\n but with different credentials."),
         "additinalInfo":
             MessageLookupByLibrary.simpleMessage("Additional Information"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid"),
@@ -83,19 +82,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
             "Please check your internet connection.\nThis message will automatically disappear when the connection is restored."),
         "lowPrice": MessageLookupByLibrary.simpleMessage("Low Price:"),
+        "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
+            "Let\'s try resetting your password. We will send a link to \nset your password to your email address."),
         "mobileNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "newMovies": MessageLookupByLibrary.simpleMessage("New Movies"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
-            "Operation not allowed. Please enable this option in Firebase Console."),
+            "Operation not allowed. \nPlease enable this option in Firebase Console."),
         "or": MessageLookupByLibrary.simpleMessage("or"),
         "otherFees":
             MessageLookupByLibrary.simpleMessage("Other fees may apply"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
+            "password reset link was sent to your emain\n .Check your inbox"),
         "postalCode": MessageLookupByLibrary.simpleMessage("Postal Code"),
         "privacy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "question":
             MessageLookupByLibrary.simpleMessage("Do you want to continue?"),
         "register": MessageLookupByLibrary.simpleMessage("Register"),
+        "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
         "search": MessageLookupByLibrary.simpleMessage("search"),
         "seats": MessageLookupByLibrary.simpleMessage("seats"),
         "seatsAvailable":
@@ -105,7 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signWithGoogle":
             MessageLookupByLibrary.simpleMessage("Sign in With Google"),
         "someInfo": MessageLookupByLibrary.simpleMessage(
-            "We\'ll take a bit of information to enhance the personalized experience, just a few seconds."),
+            "We\'ll take a bit of information to enhance the \npersonalized experience, just a few seconds."),
         "startInvesting": MessageLookupByLibrary.simpleMessage(
             "Start investing commission-free"),
         "street": MessageLookupByLibrary.simpleMessage("Street"),

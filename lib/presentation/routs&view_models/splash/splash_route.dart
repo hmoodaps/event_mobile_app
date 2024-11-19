@@ -51,11 +51,14 @@ class _SplashRouteState extends State<SplashRoute> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(AssetsManager.just4prog),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.width / 4,
+                  child: Image.asset(AssetsManager.just4prog)),
               SizedBox(height: SizeManager.d20),
               SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.width / 3,
+                  width: MediaQuery.of(context).size.width / 4.5,
+                  height: MediaQuery.of(context).size.width / 4.5,
                   child: LoadingIndicator(
                     indicatorType: Indicator.ballSpinFadeLoader,
                     backgroundColor: Colors.transparent,

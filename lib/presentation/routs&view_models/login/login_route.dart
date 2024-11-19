@@ -50,7 +50,6 @@ class _LoginRouteState extends State<LoginRoute> {
 
   @override
   Widget build(BuildContext context) {
-    //EventsBloc bloc = instance();
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(),
         listener: (context, state) async {
@@ -65,7 +64,7 @@ class _LoginRouteState extends State<LoginRoute> {
           if (state is UserCreatedErrorState) {
             errorNotification(
                 context: context,
-                description: translateErrorMessage(state.error, context),
+                description: translateErrorMessage(state.error.code, context),
                 backgroundColor: VariablesManager.isDark
                     ? Colors.grey.shade400
                     : Colors.white);
@@ -94,7 +93,7 @@ class _LoginRouteState extends State<LoginRoute> {
             }
           }
           if (state is LoginErrorState) {
-            errorNoti(state.error);
+            errorNoti(state.error.code);
           }
           if (state is LoginSuccessState) {
             _model.navigateToHome();
@@ -161,7 +160,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         labelText: GeneralStrings.email(context),
                         prefix: Icon(IconsManager.email),
                         onFieldSubmitted: (p0) => toNextField,
-                        validator: (p0) => validator(p0),
+                        validator: (p0) => validator(p0, context),
                         context: context,
                       )),
                   SizedBox(
@@ -174,21 +173,24 @@ class _LoginRouteState extends State<LoginRoute> {
                           labelText: GeneralStrings.password(context),
                           prefix: Icon(IconsManager.key),
                           onFieldSubmitted: (p0) => toNextField,
-                          validator: (p0) => validator(p0),
+                          validator: (p0) => validator(p0, context),
                           suffix: Icon(IconsManager.hide),
                           context: context)),
                   SizedBox(
                     height: SizeManager.d10,
                   ),
-                  StaggeredAnimatedWidget(
-                    delay: SizeManager.i900,
-                    child: TextButton(
-                      onPressed: () => _model.onForgetPasswordPress,
-                      child: Text(
-                        GeneralStrings.forgetPassword(context),
-                        style: TextStyle(
-                          color: ColorManager.primarySecond,
-                          fontSize: SizeManager.d18,
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: StaggeredAnimatedWidget(
+                      delay: SizeManager.i900,
+                      child: TextButton(
+                        onPressed: () => _model.onForgetPasswordPress(),
+                        child: Text(
+                          GeneralStrings.forgetPassword(context),
+                          style: TextStyle(
+                            color: ColorManager.primarySecond,
+                            fontSize: SizeManager.d12,
+                          ),
                         ),
                       ),
                     ),
@@ -247,6 +249,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     height: SizeManager.d20,
                   ),
                   googleAndAppleButton(
+                      delay: SizeManager.i1400,
                       onTap: () => _model.onSignInwWithGooglePress(),
                       nameOfButton: GeneralStrings.signWithGoogle(context),
                       prefixSvgAssetPath: AssetsManager.google,

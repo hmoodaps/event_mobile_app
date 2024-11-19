@@ -27,10 +27,19 @@ class GeneralStrings {
 
   static String ticketsLeft(BuildContext context) => S.of(context).ticketsLeft;
 
+  static String ltsResetPassword(BuildContext context) =>
+      S.of(context).ltsResetPassword;
+
+  static String passwordResetSuccess(BuildContext context) =>
+      S.of(context).passwordResetSuccess;
+
   static String city(BuildContext context) => S.of(context).city;
 
   static String additinalInfo(BuildContext context) =>
       S.of(context).additinalInfo;
+
+  static String resetPassword(BuildContext context) =>
+      S.of(context).resetPassword;
 
   static String mobileNumber(BuildContext context) =>
       S.of(context).mobileNumber;

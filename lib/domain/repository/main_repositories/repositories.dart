@@ -32,5 +32,7 @@ abstract class Repositories {
   Future<Either<FirebaseFailureClass, User>> createUserAtFirebaseWithCredential(
       {required AuthCredential credential});
 
-  Future<void> logout();
+  Future<Either<FirebaseFailureClass, void>> logout();
+
+  Future<Either<FirebaseFailureClass, void>> forgetPassword(String email);
 }

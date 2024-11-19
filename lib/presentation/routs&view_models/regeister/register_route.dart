@@ -43,30 +43,31 @@ class _RegisterRouteState extends State<RegisterRoute> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _model.dispose();
+  }
+
+  errorNoti(String error) => errorNotification(
+      context: context,
+      description: translateErrorMessage(error, context),
+      backgroundColor:
+          VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+
+  @override
   Widget build(BuildContext context) {
     bool isPressed = false;
-    // EventsBloc bloc = instance();
+
     return BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) => getScaffold(isPressed),
         listener: (context, state) async {
           if (state is SignInWithGoogleStateError) {
-            errorNotification(
-                context: context,
-                description: translateErrorMessage(state.error, context),
-                backgroundColor: VariablesManager.isDark
-                    ? Colors.grey.shade400
-                    : Colors.white);
+            errorNoti(state.error);
           }
 
           if (state is UserCreatedErrorState) {
-            errorNotification(
-                context: context,
-                description: translateErrorMessage(state.error, context),
-                backgroundColor: VariablesManager.isDark
-                    ? Colors.grey.shade400
-                    : Colors.white);
+            errorNoti(state.error.code);
           }
-
 
           if (state is UserCreatedSuccessState) {
             _model.onCreateNewUser();
@@ -158,7 +159,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             labelText: GeneralStrings.fullName(context),
                             prefix: Icon(IconsManager.profile),
                             onFieldSubmitted: (p0) => toNextField,
-                            validator: (p0) => validator(p0),
+                            validator: (p0) => validator(p0, context),
                           )),
                       SizedBox(
                         height: SizeManager.d20,
@@ -172,7 +173,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             labelText: GeneralStrings.email(context),
                             prefix: Icon(IconsManager.email),
                             onFieldSubmitted: (p0) => toNextField,
-                            validator: (p0) => validator(p0),
+                            validator: (p0) => validator(p0, context),
                           )),
                       SizedBox(
                         height: SizeManager.d20,
@@ -185,13 +186,14 @@ class _RegisterRouteState extends State<RegisterRoute> {
                               labelText: GeneralStrings.password(context),
                               prefix: Icon(IconsManager.key),
                               onFieldSubmitted: (p0) => toNextField,
-                              validator: (p0) => validator(p0),
+                              validator: (p0) => validator(p0, context),
                               suffix: Icon(IconsManager.hide))),
                       SizedBox(
                         height: SizeManager.d20,
                       ),
                       !isPressed
                           ? googleAndAppleButton(
+                              delay: SizeManager.i1200,
                               onTap: () {
                                 setState(() {
                                   isPressed = true;
@@ -211,7 +213,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         height: SizeManager.d30,
                       ),
                       StaggeredAnimatedWidget(
-                        delay: SizeManager.i1000,
+                        delay: SizeManager.i1200,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -245,17 +247,20 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         height: SizeManager.d20,
                       ),
                       googleAndAppleButton(
+                          delay: SizeManager.i1400,
                           onTap: () => _model.onSignInwWithGooglePress(),
                           nameOfButton: GeneralStrings.signWithGoogle(context),
                           prefixSvgAssetPath: AssetsManager.google,
                           context: context),
-                      if (Platform.isIOS) SizedBox(height: SizeManager.d30),
-                      if (Platform.isIOS)
-                        googleAndAppleButton(
+                      SizedBox(height: SizeManager.d30),
+                      Visibility(
+                        visible: Platform.isIOS,
+                        child: googleAndAppleButton(
                           nameOfButton: GeneralStrings.signWithApple(context),
                           prefixSvgAssetPath: AssetsManager.apple,
                           context: context,
                         ),
+                      ),
                     ],
                   ),
                 ),

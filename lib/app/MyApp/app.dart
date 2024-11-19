@@ -1,6 +1,4 @@
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
-import 'package:event_mobile_app/app/dependencies_injection/dependency_injection.dart';
-import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:event_mobile_app/app/handle_app_language/handle_app_language.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
@@ -55,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       create: (context) => EventsBloc()..add(InternetStatusChangeEvent()),
       child: BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) {
-          ThemeHelper themeHelper = instance();
+          EventsBloc bloc = EventsBloc.get(context);
           if (kDebugMode) {
             print(
                 'current user${SharedPref.prefs.getString(GeneralStrings.currentUser)}');
@@ -73,7 +71,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             onGenerateRoute: Routes.onGenerateRoute,
             debugShowCheckedModeBanner: false,
-            theme: themeHelper.toggleLightAndDark(context),
+            theme: bloc.toggleLightAndDark(context),
           );
         },
         listener: (context, state) {

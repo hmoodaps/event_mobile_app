@@ -8,6 +8,7 @@ class FailureClass {
 
 class FirebaseFailureClass {
   final FirebaseException? firebaseException;
+  final FirebaseAuthException? firebaseAuthException;
 
-  FirebaseFailureClass({this.firebaseException});
+  FirebaseFailureClass({this.firebaseException, this.firebaseAuthException});
 }

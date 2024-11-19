@@ -70,9 +70,9 @@ bool toNextField(BuildContext context) {
   return FocusScope.of(context).nextFocus();
 }
 
-validator(String? value) {
+validator(String? value, BuildContext context) {
   if (value == null || value.isEmpty) {
-    return GeneralStrings.fieldRequired;
+    return GeneralStrings.fieldRequired(context);
   }
   return null;
 }

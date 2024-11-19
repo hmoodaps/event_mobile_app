@@ -20,7 +20,13 @@ class LoginToFirebaseImplementer implements LoginToFirebaseRepo {
   }
 
   @override
-  Future<void> logout() async {
+  Future<Either<FirebaseFailureClass, void>> logout() async {
     return await isolateHelper.logout();
+  }
+
+  @override
+  Future<Either<FirebaseFailureClass, void>> forgetPassword(
+      String email) async {
+    return await isolateHelper.forgetPassword(email);
   }
 }

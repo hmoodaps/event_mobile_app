@@ -13,7 +13,6 @@ import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
-import '../../../app/dependencies_injection/dependency_injection.dart';
 import '../../../data/models/movie_model.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
@@ -37,20 +36,17 @@ class _MoviesRouteState extends State<MoviesRoute> {
 
   @override
   Widget build(BuildContext context) {
-    EventsBloc bloc = instance<EventsBloc>();
-
     return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => _getScaffold(bloc: bloc),
+        builder: (context, state) => _getScaffold(),
         listener: (context, state) {});
   }
 
-  Widget _getScaffold({required EventsBloc bloc}) => Scaffold(
+  Widget _getScaffold() => Scaffold(
         body: stackBackGroundManager(
-            otherWidget: screenWidgets(bloc: bloc),
-            isDark: VariablesManager.isDark),
+            otherWidget: _screenWidgets(), isDark: VariablesManager.isDark),
       );
 
-  List<Widget> screenWidgets({required EventsBloc bloc}) => [
+  List<Widget> _screenWidgets() => [
         SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -111,7 +107,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     child: ListView.separated(
                       itemBuilder: (context, index) => RepaintBoundary(
                         child: topMovie(
-                            bloc: bloc,
                             moviePhotoUrl:
                                 VariablesManager.movies[index].verticalPhoto!),
                       ),
@@ -180,7 +175,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
     );
   }
 
-  Widget topMovie({required EventsBloc bloc, required String moviePhotoUrl}) {
+  Widget topMovie({required String moviePhotoUrl}) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -263,28 +258,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     ),
                   ),
                 ),
-
-                // Align(
-                //   alignment: Alignment.bottomRight,
-                //   child: RatingBar.builder(
-                //     initialRating: movie.imdbRating!,
-                //     minRating: 1,
-                //     direction: Axis.horizontal,
-                //     allowHalfRating: true,
-                //     itemCount: 5,
-                //     itemSize: 15.0,
-                //     itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                //     itemBuilder: (context, index) => Icon(
-                //       Icons.star,
-                //       color: Colors.amber,
-                //     ),
-                //     onRatingUpdate: (rating) {
-                //       if (kDebugMode) {
-                //         print(rating);
-                //       }
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),

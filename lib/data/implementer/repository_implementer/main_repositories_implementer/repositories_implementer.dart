@@ -3,7 +3,6 @@ import 'dart:isolate';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
-import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -129,9 +128,8 @@ class RepositoriesImplementer implements Repositories {
       });
 
       return Right(null);
-    } catch (error) {
-      return Left(
-          FirebaseFailureClass(firebaseException: error as FirebaseException));
+    } on FirebaseException catch (error) {
+      return Left(FirebaseFailureClass(firebaseException: error));
     }
   }
 
@@ -146,18 +144,29 @@ class RepositoriesImplementer implements Repositories {
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
 
       return Right(userCredential.user!);
-    } catch (error) {
-      return Left(
-          FirebaseFailureClass(firebaseException: error as FirebaseException));
+    } on FirebaseException catch (error) {
+      return Left(FirebaseFailureClass(firebaseException: error));
     }
   }
 
   @override
-  Future<void> logout() async {
-    FirebaseAuth.instance.signOut();
+  Future<Either<FirebaseFailureClass, void>> logout() async {
+    try {
+      FirebaseAuth.instance.signOut();
+      return Right(null);
+    } on FirebaseException catch (error) {
+      return Left(FirebaseFailureClass(firebaseException: error));
+    }
   }
 
-  bool checkUserExisting(String? uid) {
-    return VariablesManager.userIds.contains(uid);
+  @override
+  Future<Either<FirebaseFailureClass, void>> forgetPassword(
+      String email) async {
+    try {
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return Right(null);
+    } on FirebaseException catch (error) {
+      return Left(FirebaseFailureClass(firebaseException: error));
+    }
   }
 }
