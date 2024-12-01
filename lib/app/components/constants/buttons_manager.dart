@@ -14,10 +14,15 @@ class ButtonManager {
     IconData? suffixIcon,
     required void Function() onTap,
     required Color color,
+     Color ?     shadowColor,
+     Color ?     textColor,
+     double ?     height,
   }) =>
       GestureDetector(
         onTap: onTap,
         child: ContainerManager.myContainer(
+          height: height,
+shadowColor: shadowColor,
             color: color,
             child: Center(
               child: Padding(
@@ -28,7 +33,7 @@ class ButtonManager {
                     Spacer(),
                     Text(
                       buttonName,
-                      style: TextStyleManager.titleStyle(context),
+                      style: TextStyleManager.titleStyle(context)?.copyWith(color: textColor ),
                     ),
                     Spacer(),
                     Icon(suffixIcon, color: ColorManager.privateGrey),
@@ -45,6 +50,7 @@ class ContainerManager {
       {required Widget child,
       required BuildContext context,
       Color? color,
+      Color? shadowColor,
       double? height}) {
     return Container(
       height: height ?? SizeManager.d70,
@@ -55,16 +61,16 @@ class ContainerManager {
         ),
         color: color ?? Colors.red,
         boxShadow: [
-          myShadow(),
+          myShadow( shadowColor : shadowColor),
         ],
       ),
       child: child,
     );
   }
 
-  static BoxShadow myShadow() {
+  static BoxShadow myShadow({Color? shadowColor}) {
     return BoxShadow(
-      color: Colors.grey.shade800,
+      color: shadowColor ?? Colors.grey.shade800,
       // لون الظل مع الشفافية
       offset: Offset(SizeManager.d4, SizeManager.d10),
       // موضع الظل (إزاحة عمودية)
@@ -83,6 +89,7 @@ Widget googleAndAppleButton({
   String? sufixSvgAssetPath,
   Color? color,
   Color? suffixSvgColor,
+  Color? shadowColor,
   int? delay,
 }) {
   return StaggeredAnimatedWidget(
@@ -90,6 +97,7 @@ Widget googleAndAppleButton({
     child: GestureDetector(
       onTap: onTap,
       child: ContainerManager.myContainer(
+        shadowColor: shadowColor ?? Colors.white,
         color: color ?? Colors.grey.shade400,
         context: context,
         child: Padding(

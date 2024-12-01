@@ -5,7 +5,6 @@ import 'package:loading_indicator/loading_indicator.dart';
 
 import '../../../app/components/constants/assets_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
-import '../../../app/components/constants/notification_handler.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
@@ -31,16 +30,9 @@ class _SplashRouteState extends State<SplashRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
-      builder: (context, state) {
-        return getScaffold();
-      },
-      listener: (context, state) {
-        if (state is MoviesLoadedErrorState) {
-          errorNotification(context: context, description: state.error);
-        }
-      },
-    );
+    return BlocBuilder<EventsBloc, AppStates>(builder: (context, state) {
+      return getScaffold();
+    });
   }
 
   // UI for the splash screen with a progress indicator

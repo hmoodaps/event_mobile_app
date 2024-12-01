@@ -1,13 +1,21 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/notification_handler.dart';
 import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/routs_manager.dart';
+import '../../../app/components/constants/variables_manager.dart';
+import '../../../app/components/tranlate_massages/translate_massage.dart';
 import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/events.dart';
+import '../../bloc_state_managment/states.dart';
 
 class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   // initialize variables to apply "Separation of Concerns"
@@ -30,15 +38,65 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
     _bloc.add(LoginEvent(req));
   }
 
+  late StreamSubscription blocStreamSubscription;
+
+  errorNoti(String error) => errorNotification(
+      context: context,
+      description: translateErrorMessage(error, context),
+      backgroundColor:
+          VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
+
+  _startListin() {
+    blocStreamSubscription = _bloc.stream.listen((state) async {
+      if (state is SignInWithGoogleStateError) {
+        errorNoti(state.error);
+      }
+      if (state is UserCreatedErrorState) {
+        errorNoti(state.error);
+      }
+      if (state is UserCreatedSuccessState) {
+        onCreateNewUser();
+      }
+      if (state is SignInWithGoogleUserExistState) {
+        final docSnapshot = await FirebaseFirestore.instance
+            .collection(GeneralStrings.users)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
+
+        if (docSnapshot.exists) {
+          final data = docSnapshot.data();
+
+          if (data != null && (data['additionalInfo'] != null)) {
+            onAddExistUser();
+          } else {
+            onCreateNewUser();
+          }
+        } else {
+          if (kDebugMode) {
+            print("User document does not exist.");
+          }
+        }
+      }
+      if (state is LoginErrorState) {
+        errorNoti(state.error);
+      }
+      if (state is LoginSuccessState) {
+        navigateToHome();
+      }
+    });
+  }
+
   @override
   void dispose() {
     emailController.dispose(); // Dispose of controllers to avoid memory leaks
     passwordController.dispose();
+    blocStreamSubscription.cancel();
   }
 
   @override
   void start() {
     _bloc = EventsBloc.get(context);
+    _startListin();
   }
 
   @override

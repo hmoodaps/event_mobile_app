@@ -16,10 +16,9 @@ class SearchRoute extends StatefulWidget {
 class _SearchRouteState extends State<SearchRoute> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) =>
-            getScaffold(isDark: VariablesManager.isDark),
-        listener: (context, state) {});
+    return BlocBuilder<EventsBloc, AppStates>(
+      builder: (context, state) => getScaffold(isDark: VariablesManager.isDark),
+    );
   }
 
   Widget getScaffold({required bool isDark}) => Scaffold(

@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -22,7 +24,6 @@ import '../../domain/repository/register_in_firebase_repo.dart';
 import '../../firebase_options.dart';
 import '../../presentation/bloc_state_managment/bloc_manage.dart';
 import '../../presentation/bloc_state_managment/bloc_observe.dart';
-import '../handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import '../handle_app_language/handle_app_language.dart';
 import '../handle_app_theme/handle_app_theme_colors.dart';
 
@@ -33,6 +34,7 @@ final instance = GetIt.asNewInstance();
 /// Initializes the application modules by registering dependencies with GetIt.
 /// This method is asynchronous and should be called during the application startup.
 Future<void> initAppModules() async {
+
   Bloc.observer = AppBlocObserver();
   // Setting the system UI mode to manual and enabling the top overlay (like status bar)
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
@@ -96,12 +98,17 @@ Future<void> initAppModules() async {
 
   // ------ Register App Theme Management ------
   // This section registers the theme management service to handle dark and light mode functionality.
-  instance.registerLazySingleton<ThemeHelper>(() =>
-      ThemeHelper(instance())); // Register ThemeHelper to manage app themes.
-  instance
-      .registerLazySingleton<AppColorHelper>(() => AppColorHelper(instance()));
   AppColorHelper.setInitialTheme();
-  instance.registerLazySingleton<HandleAppLanguage>(
-      () => HandleAppLanguage(instance()));
+  HandleAppMode.setInitialmode();
   HandleAppLanguage.setInitialLanguage();
+  setPrefs();
+
+}
+void setPrefs(){
+  if (SharedPref.getBool(GeneralStrings.isManual) == null) {
+    SharedPref.saveBool(key: GeneralStrings.isManual, value: false);
+  }
+  if(SharedPref.prefs.getString(GeneralStrings.appMode)==null){
+      SharedPref.prefs.setString(GeneralStrings.appMode, 'dark');
+    }
 }

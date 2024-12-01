@@ -19,7 +19,7 @@ abstract class Repositories {
       {required CreateUserRequirements req});
 
   // Initializes Firebase and fetches user IDs
-  Future<Either<FailureClass, List<String>>> initFirebase();
+  Future<Either<FirebaseFailureClass, List<String>>> initFirebase();
 
   // Fetches movies
   Future<Either<FailureClass, List<MovieResponse>>> fetchMovies();

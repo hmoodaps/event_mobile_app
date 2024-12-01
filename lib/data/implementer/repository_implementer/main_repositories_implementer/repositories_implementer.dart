@@ -77,7 +77,7 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Function: Initialize Firebase and fetch user IDs -------
   @override
-  Future<Either<FailureClass, List<String>>> initFirebase() async {
+  Future<Either<FirebaseFailureClass, List<String>>> initFirebase() async {
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection(GeneralStrings.users)
@@ -87,11 +87,11 @@ class RepositoriesImplementer implements Repositories {
         print(userIds);
       }
       return Right(userIds);
-    } catch (error) {
+    } on FirebaseException catch (error) {
       if (kDebugMode) {
         print("fetch firebase uids ${error.toString()}");
       }
-      return Left(FailureClass(error: error.toString()));
+      return Left(FirebaseFailureClass(firebaseException: error));
     }
   }
 

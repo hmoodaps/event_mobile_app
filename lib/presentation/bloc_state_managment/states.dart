@@ -15,7 +15,7 @@ class StartUserCreateState extends AppStates {}
 class UserCreatedSuccessState extends AppStates {}
 
 class UserCreatedErrorState extends AppStates {
-  final FirebaseException error;
+  final String error;
 
   UserCreatedErrorState(this.error);
 }
@@ -26,7 +26,7 @@ class AddUsersDetailsState extends AppStates {}
 class AddUserDetailsSuccessState extends AppStates {}
 
 class AddUserDetailsErrorState extends AppStates {
-  FirebaseException error;
+  String error;
 
   AddUserDetailsErrorState(this.error);
 }
@@ -37,7 +37,7 @@ class LoginState extends AppStates {}
 class LoginSuccessState extends AppStates {}
 
 class LoginErrorState extends AppStates {
-  final FirebaseException error;
+  final String error;
 
   LoginErrorState(this.error);
 }
@@ -93,9 +93,22 @@ class DisconnectedState extends AppStates {}
 class ConnectedState extends AppStates {}
 // ----------- App theme color -----------
 
-class ChangeColorThemeState extends AppStates {}
+class ChangeColorThemeState extends AppStates {
+  int selectedColorIndex;
 
-class ChangeAppLanguageState extends AppStates {}
+  ChangeColorThemeState({required this.selectedColorIndex});
+}
+
+class ChangeAppLanguageState extends AppStates {
+  int selectedLanguageIndex;
+
+  ChangeAppLanguageState({required this.selectedLanguageIndex});
+}
+
+class ChangeModeState extends AppStates {
+
+  ChangeModeState();
+}
 
 //forget password
 class ResetPasswordState extends AppStates {}
@@ -103,7 +116,26 @@ class ResetPasswordState extends AppStates {}
 class ResetPasswordSuccessState extends AppStates {}
 
 class ResetPasswordErrorState extends AppStates {
-  FirebaseException error;
+  String error;
 
   ResetPasswordErrorState(this.error);
 }
+
+class LoadPreferencesState extends AppStates {
+  int selectedLanguageIndex;
+  int selectedColorIndex;
+  int? selectedModeIndex;
+
+  LoadPreferencesState(
+      {required this.selectedColorIndex,
+      this.selectedModeIndex,
+      required this.selectedLanguageIndex});
+}
+
+class ChangeModeThemeState extends AppStates {
+  bool isManual;
+  ChangeModeThemeState(this.isManual);
+}
+
+class StartChangingMode extends AppStates{}
+class ExtractDominantColorState extends AppStates{}

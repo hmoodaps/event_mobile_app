@@ -1,4 +1,3 @@
-import 'package:event_mobile_app/app/components/tranlate_massages/translate_massage.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/take_user_Details/take_user_details_model_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,6 @@ import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/icons_manager.dart';
-import '../../../app/components/constants/notification_handler.dart';
-import '../../../app/components/constants/route_strings_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
@@ -43,22 +40,16 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _modelView.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
+    return BlocBuilder<EventsBloc, AppStates>(
       builder: (context, state) => _getScaffold(context),
-      listener: (context, state) {
-        if (state is AddUserDetailsSuccessState) {
-          Navigator.pushReplacementNamed(
-            context,
-            RouteStringsManager.mainRoute,
-          );
-        }
-        if (state is AddUserDetailsErrorState) {
-          errorNotification(
-              context: context,
-              description: translateErrorMessage(state.error.code, context));
-        }
-      },
     );
   }
 
@@ -99,6 +90,16 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                            onPressed: () {
+                              _modelView.onSkipTap();
+                            },
+                            child: Text(
+                              GeneralStrings.skip(context),
+                              style: TextStyleManager.titleStyle(context),
+                            ))),
                     SizedBox(
                       height: SizeManager.d70,
                     ),
@@ -147,6 +148,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       delay: SizeManager.i800,
                       child: textFormField(
                         controller: _modelView.mobileNumber,
+                        keyboardType: TextInputType.number,
                         labelText: GeneralStrings.mobileNumber(context),
                         prefix: Padding(
                           padding: const EdgeInsets.all(0.0),

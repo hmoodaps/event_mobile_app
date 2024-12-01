@@ -1,9 +1,6 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/regeister/regeister_model_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
@@ -15,11 +12,9 @@ import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/icons_manager.dart';
-import '../../../app/components/constants/notification_handler.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
-import '../../../app/components/tranlate_massages/translate_massage.dart';
 import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
@@ -48,52 +43,13 @@ class _RegisterRouteState extends State<RegisterRoute> {
     _model.dispose();
   }
 
-  errorNoti(String error) => errorNotification(
-      context: context,
-      description: translateErrorMessage(error, context),
-      backgroundColor:
-          VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
-
   @override
   Widget build(BuildContext context) {
     bool isPressed = false;
 
-    return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => getScaffold(isPressed),
-        listener: (context, state) async {
-          if (state is SignInWithGoogleStateError) {
-            errorNoti(state.error);
-          }
-
-          if (state is UserCreatedErrorState) {
-            errorNoti(state.error.code);
-          }
-
-          if (state is UserCreatedSuccessState) {
-            _model.onCreateNewUser();
-          }
-
-          if (state is SignInWithGoogleUserExistState) {
-            final docSnapshot = await FirebaseFirestore.instance
-                .collection(GeneralStrings.users)
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .get();
-
-            if (docSnapshot.exists) {
-              final data = docSnapshot.data();
-
-              if (data != null && (data['additionalInfo'] != null)) {
-                _model.onAddExistUser();
-              } else {
-                _model.onCreateNewUser();
-              }
-            } else {
-              if (kDebugMode) {
-                print("User document does not exist.");
-              }
-            }
-          }
-        });
+    return BlocBuilder<EventsBloc, AppStates>(
+      builder: (context, state) => getScaffold(isPressed),
+    );
   }
 
   Widget getScaffold(bool isPressed) => Scaffold(

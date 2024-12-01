@@ -22,119 +22,138 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutUs": MessageLookupByLibrary.simpleMessage("Over Ons "),
         "accountCreated": MessageLookupByLibrary.simpleMessage(
-            "Account succesvol aangemaakt!"),
+            "Account succesvol aangemaakt! "),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
-                "Er bestaat al een account met dit \ne-mailadres, maar met andere referenties."),
+                "Er bestaat al een account met dit \ne-mailadres, maar met andere referenties. "),
         "additinalInfo":
-            MessageLookupByLibrary.simpleMessage("Aanvullende informatie"),
-        "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid"),
+            MessageLookupByLibrary.simpleMessage("Aanvullende informatie "),
+        "address": MessageLookupByLibrary.simpleMessage("Adres "),
+        "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid "),
         "allInvesting": MessageLookupByLibrary.simpleMessage(
-            "Alle beleggingen zijn risicovol"),
-        "allMovies": MessageLookupByLibrary.simpleMessage("Alle films"),
+            "Alle beleggingen zijn risicovol "),
+        "allMovies": MessageLookupByLibrary.simpleMessage("Alle films "),
         "beTheFirstOne":
-            MessageLookupByLibrary.simpleMessage("Wees de eerste!"),
-        "byPress": MessageLookupByLibrary.simpleMessage("door druk"),
-        "city": MessageLookupByLibrary.simpleMessage("stad"),
+            MessageLookupByLibrary.simpleMessage("Wees de eerste! "),
+        "byPress": MessageLookupByLibrary.simpleMessage("door druk "),
+        "city": MessageLookupByLibrary.simpleMessage("stad "),
+        "colorThemeApp":
+            MessageLookupByLibrary.simpleMessage("Kleurenthema\'s "),
         "continueString": MessageLookupByLibrary.simpleMessage("Doorgaan "),
+        "coupons": MessageLookupByLibrary.simpleMessage("Kortingsbonnen "),
         "createAccount":
-            MessageLookupByLibrary.simpleMessage("Maak een account aan"),
-        "dateOfBirth": MessageLookupByLibrary.simpleMessage("Geboortedatum"),
-        "email": MessageLookupByLibrary.simpleMessage("E-mailadres"),
+            MessageLookupByLibrary.simpleMessage("Maak een account aan "),
+        "dateOfBirth": MessageLookupByLibrary.simpleMessage("Geboortedatum "),
+        "email": MessageLookupByLibrary.simpleMessage("E-mailadres "),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
-            "Het e-mailadres wordt al gebruikt door een ander account."),
-        "error": MessageLookupByLibrary.simpleMessage("Fout"),
+            "Het e-mailadres wordt al gebruikt door een ander account. "),
+        "error": MessageLookupByLibrary.simpleMessage("Fout "),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
-            "De OTP in de e-maillink is verlopen."),
-        "fee": MessageLookupByLibrary.simpleMessage("kostenoverzicht"),
+            "De OTP in de e-maillink is verlopen. "),
+        "fee": MessageLookupByLibrary.simpleMessage("kostenoverzicht "),
+        "feedback":
+            MessageLookupByLibrary.simpleMessage("Feedback & Klachten "),
         "fewData":
-            MessageLookupByLibrary.simpleMessage("Gewoon wat meer gegevens!"),
+            MessageLookupByLibrary.simpleMessage("Gewoon wat meer gegevens! "),
         "fieldRequired":
-            MessageLookupByLibrary.simpleMessage("Dit veld is verplicht"),
+            MessageLookupByLibrary.simpleMessage("Dit veld is verplicht "),
         "forgetPassword":
-            MessageLookupByLibrary.simpleMessage("Wachtwoord vergeten?"),
-        "fullName": MessageLookupByLibrary.simpleMessage("Volledige naam"),
-        "guest": MessageLookupByLibrary.simpleMessage("als gast"),
+            MessageLookupByLibrary.simpleMessage("Wachtwoord vergeten? "),
+        "fullName": MessageLookupByLibrary.simpleMessage("Volledige naam "),
+        "guest": MessageLookupByLibrary.simpleMessage("als gast "),
         "haveAccount":
-            MessageLookupByLibrary.simpleMessage("Heb je al een account?"),
+            MessageLookupByLibrary.simpleMessage("Heb je al een account? "),
         "heightIMDBRate":
-            MessageLookupByLibrary.simpleMessage("Hoogste IMDB-beoordeling:"),
-        "houseNumber": MessageLookupByLibrary.simpleMessage("Huisnummer"),
+            MessageLookupByLibrary.simpleMessage("Hoogste IMDB-beoordeling: "),
+        "houseNumber": MessageLookupByLibrary.simpleMessage("Huisnummer "),
         "hurry": MessageLookupByLibrary.simpleMessage("Haast je! Nog maar "),
         "invalidCredential": MessageLookupByLibrary.simpleMessage(
-            "De referentie is ongeldig of is verlopen."),
+            "De referentie is ongeldig of is verlopen. "),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
-            "Het e-mailadres is ongeldig."),
+            "Het e-mailadres is ongeldig. "),
         "invalidVerificationCode": MessageLookupByLibrary.simpleMessage(
-            "De verificatiecode is ongeldig."),
+            "De verificatiecode is ongeldig. "),
         "invalidVerificationId": MessageLookupByLibrary.simpleMessage(
-            "Het verificatienummer is ongeldig."),
-        "lastName": MessageLookupByLibrary.simpleMessage("Achternaam"),
-        "lastTicketAvailable":
-            MessageLookupByLibrary.simpleMessage("Laatste ticket beschikbaar!"),
-        "learnMore": MessageLookupByLibrary.simpleMessage("om meer te leren"),
+            "Het verificatienummer is ongeldig. "),
+        "language": MessageLookupByLibrary.simpleMessage("Taal "),
+        "lastName": MessageLookupByLibrary.simpleMessage("Achternaam "),
+        "lastTicketAvailable": MessageLookupByLibrary.simpleMessage(
+            "Laatste ticket beschikbaar! "),
+        "learnMore": MessageLookupByLibrary.simpleMessage("om meer te leren "),
         "letsCreateAccount": MessageLookupByLibrary.simpleMessage(
-            "Laten we snel een account voor je aanmaken"),
-        "letsStart": MessageLookupByLibrary.simpleMessage("Laten we beginnen"),
-        "login": MessageLookupByLibrary.simpleMessage("Inloggen"),
+            "Laten we snel een account voor je aanmaken "),
+        "letsStart": MessageLookupByLibrary.simpleMessage("Laten we beginnen "),
+        "login": MessageLookupByLibrary.simpleMessage("Inloggen "),
+        "loginOrRegister":
+            MessageLookupByLibrary.simpleMessage("Inloggen of registreren "),
+        "logout": MessageLookupByLibrary.simpleMessage("Uitloggen "),
         "lostConnection":
-            MessageLookupByLibrary.simpleMessage("Internet verbroken"),
+            MessageLookupByLibrary.simpleMessage("Internet verbroken "),
         "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
-            "Controleer uw internetverbinding.\nDit bericht verdwijnt automatisch wanneer de verbinding is hersteld."),
-        "lowPrice": MessageLookupByLibrary.simpleMessage("Lage prijs:"),
+            "Controleer uw internetverbinding.\nDit bericht verdwijnt automatisch wanneer de verbinding is hersteld. "),
+        "lowPrice": MessageLookupByLibrary.simpleMessage("Lage prijs: "),
         "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
-            "Laten we proberen je wachtwoord opnieuw in te stellen. We sturen een \nlink om je wachtwoord in te stellen naar je e-mailadres."),
-        "mobileNumber": MessageLookupByLibrary.simpleMessage("Telefoonnummer"),
-        "newMovies": MessageLookupByLibrary.simpleMessage("Nieuwe films"),
+            "Laten we proberen je wachtwoord opnieuw in te stellen. We sturen een \nlink om je wachtwoord in te stellen naar je e-mailadres. "),
+        "mobileNumber": MessageLookupByLibrary.simpleMessage("Telefoonnummer "),
+        "myAppBalance":
+            MessageLookupByLibrary.simpleMessage("Mijn Account Saldo "),
+        "newMovies": MessageLookupByLibrary.simpleMessage("Nieuwe films "),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
-            "De bewerking is niet toegestaan. Schakel deze optie in de Firebase Console in."),
-        "or": MessageLookupByLibrary.simpleMessage("of"),
+            "De bewerking is niet toegestaan. Schakel deze optie in de Firebase Console in. "),
+        "or": MessageLookupByLibrary.simpleMessage("of "),
+        "orders": MessageLookupByLibrary.simpleMessage("Bestellingen "),
         "otherFees": MessageLookupByLibrary.simpleMessage(
-            "Andere kosten kunnen van toepassing zijn"),
-        "password": MessageLookupByLibrary.simpleMessage("Wachtwoord"),
+            "Andere kosten kunnen van toepassing zijn "),
+        "password": MessageLookupByLibrary.simpleMessage("Wachtwoord "),
         "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
-            "De link om je wachtwoord opnieuw in te stellen is\n naar je e-mail verzonden. Controleer je inbox."),
-        "postalCode": MessageLookupByLibrary.simpleMessage("Postcode"),
-        "privacy": MessageLookupByLibrary.simpleMessage("Privacybeleid"),
-        "question": MessageLookupByLibrary.simpleMessage("Wil je doorgaan?"),
-        "register": MessageLookupByLibrary.simpleMessage("Registreren"),
+            "De link om je wachtwoord opnieuw in te stellen is\n naar je e-mail verzonden. Controleer je inbox. "),
+        "paymentMethods":
+            MessageLookupByLibrary.simpleMessage("Betaalmethoden "),
+        "postalCode": MessageLookupByLibrary.simpleMessage("Postcode "),
+        "privacy": MessageLookupByLibrary.simpleMessage("Privacybeleid "),
+        "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacybeleid "),
+        "question": MessageLookupByLibrary.simpleMessage("Wil je doorgaan? "),
+        "register": MessageLookupByLibrary.simpleMessage("Registreren "),
         "resetPassword": MessageLookupByLibrary.simpleMessage(
-            "Wachtwoord opnieuw instellen"),
-        "search": MessageLookupByLibrary.simpleMessage("zoeken"),
-        "seats": MessageLookupByLibrary.simpleMessage("stoelen"),
+            "Wachtwoord opnieuw instellen "),
+        "search": MessageLookupByLibrary.simpleMessage("zoeken "),
+        "seats": MessageLookupByLibrary.simpleMessage("stoelen "),
         "seatsAvailable":
-            MessageLookupByLibrary.simpleMessage("beschikbare stoelen"),
+            MessageLookupByLibrary.simpleMessage("beschikbare stoelen "),
         "signWithApple":
-            MessageLookupByLibrary.simpleMessage("Inloggen met Apple"),
+            MessageLookupByLibrary.simpleMessage("Inloggen met Apple "),
         "signWithGoogle":
-            MessageLookupByLibrary.simpleMessage("Inloggen met Google"),
+            MessageLookupByLibrary.simpleMessage("Inloggen met Google "),
+        "skip": MessageLookupByLibrary.simpleMessage("overslaan "),
         "someInfo": MessageLookupByLibrary.simpleMessage(
-            "We nemen een beetje informatie om de gepersonaliseerde\n ervaring te verbeteren, slechts een paar seconden."),
+            "We nemen een beetje informatie om de gepersonaliseerde\n ervaring te verbeteren, slechts een paar seconden. "),
         "startInvesting": MessageLookupByLibrary.simpleMessage(
-            "Begin met commissievrij investeren"),
-        "street": MessageLookupByLibrary.simpleMessage("Straat"),
-        "success": MessageLookupByLibrary.simpleMessage("Succes"),
+            "Begin met commissievrij investeren "),
+        "street": MessageLookupByLibrary.simpleMessage("Straat "),
+        "success": MessageLookupByLibrary.simpleMessage("Succes "),
         "termsAndConditions":
-            MessageLookupByLibrary.simpleMessage("voorwaarden en bepalingen"),
-        "ticketsLeft": MessageLookupByLibrary.simpleMessage("tickets over!"),
-        "topMovies": MessageLookupByLibrary.simpleMessage("Topfilms"),
+            MessageLookupByLibrary.simpleMessage("voorwaarden en bepalingen "),
+        "themeMode": MessageLookupByLibrary.simpleMessage("Themamodus "),
+        "ticketsLeft": MessageLookupByLibrary.simpleMessage("tickets over! "),
+        "topMovies": MessageLookupByLibrary.simpleMessage("Topfilms "),
         "unknownError": MessageLookupByLibrary.simpleMessage(
-            "Er is een onbekende fout opgetreden."),
+            "Er is een onbekende fout opgetreden. "),
         "userDisabled": MessageLookupByLibrary.simpleMessage(
-            "De gebruiker is uitgeschakeld."),
+            "De gebruiker is uitgeschakeld. "),
         "userMismatch": MessageLookupByLibrary.simpleMessage(
-            "De referentie komt niet overeen met de gebruiker."),
+            "De referentie komt niet overeen met de gebruiker. "),
         "userNotFound": MessageLookupByLibrary.simpleMessage(
-            "Geen gebruiker gevonden met de verstrekte referentie."),
-        "viewOur": MessageLookupByLibrary.simpleMessage("Bekijk ons"),
+            "Geen gebruiker gevonden met de verstrekte referentie. "),
+        "viewOur": MessageLookupByLibrary.simpleMessage("Bekijk ons "),
         "weakPassword":
-            MessageLookupByLibrary.simpleMessage("Het wachtwoord is te zwak."),
+            MessageLookupByLibrary.simpleMessage("Het wachtwoord is te zwak. "),
         "welcome":
-            MessageLookupByLibrary.simpleMessage("Welkom bij Cinema Ticket"),
-        "welcomeBack": MessageLookupByLibrary.simpleMessage("Welkom terug!"),
+            MessageLookupByLibrary.simpleMessage("Welkom bij Cinema Ticket "),
+        "welcomeBack": MessageLookupByLibrary.simpleMessage("Welkom terug! "),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "Het wachtwoord is onjuist of het account heeft\n geen wachtwoord ingesteld."),
-        "youAccept": MessageLookupByLibrary.simpleMessage("je accepteert")
+            "Het wachtwoord is onjuist of het account heeft\n geen wachtwoord ingesteld. "),
+        "youAccept": MessageLookupByLibrary.simpleMessage("je accepteert ")
       };
 }

@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../presentation/bloc_state_managment/bloc_manage.dart';
+import '../../data/local_storage/shared_local.dart';
+import '../../presentation/bloc_state_managment/events.dart';
+import '../components/constants/general_strings.dart';
 import '../components/constants/theme_manager.dart';
 
 enum AppTheme {
@@ -21,11 +24,35 @@ extension AppThemeExtension on AppTheme {
   }
 }
 
-class ThemeHelper {
-  final EventsBloc bloc;
+abstract class TheAppMode {
+  static ThemeData appMode = lightThemeData();
 
-  ThemeHelper(this.bloc);
+  static void updateMode(AppTheme mode) {
+    appMode = mode.themeData;
+  }
+}
 
-//================ Toggle between light and dark mode ========================
-// Updates theme data based on system brightness and triggers ToggleLightAndDarkEvent
+// Helper class to manage theme-related operations.
+class HandleAppMode {
+  // Sets the initial theme when the app starts.
+  static void setInitialmode() {
+    if (kDebugMode) {
+      print("Setting initial theme...");
+    }
+    if (SharedPref.prefs.getString(GeneralStrings.appMode) == null) {
+      AppTheme mode = AppTheme.light;
+      TheAppMode.updateMode(mode);
+    } else if (SharedPref.prefs.getString(GeneralStrings.appMode) == 'dark') {
+      AppTheme mode = AppTheme.light;
+      TheAppMode.updateMode(mode);
+    } else if (SharedPref.prefs.getString(GeneralStrings.appMode) == 'light') {
+      AppTheme mode = AppTheme.light;
+      TheAppMode.updateMode(mode);
+    }
+    if (kDebugMode) {
+      print("Initial theme set.");
+    }
+  }
+
+
 }

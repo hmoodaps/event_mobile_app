@@ -2,9 +2,9 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../data/local_storage/shared_local.dart';
-import '../../presentation/bloc_state_managment/bloc_manage.dart';
 import '../../presentation/bloc_state_managment/events.dart';
 import '../components/constants/color_manager.dart';
 import '../components/constants/general_strings.dart';
@@ -81,34 +81,28 @@ extension AppColorsThemeExtension on AppColorsTheme {
 
 // Helper class to manage theme-related operations.
 class AppColorHelper {
-  final EventsBloc bloc;
-
-  AppColorHelper(this.bloc);
-
   // Sets the initial theme when the app starts.
   static void setInitialTheme() {
     if (kDebugMode) {
       print("Setting initial theme...");
     }
     if (SharedPref.prefs.getString(GeneralStrings.colorTheme) == null) {
-      AppColorManager defaultColorManager =
-          AppColorsTheme.green.appColorManager;
-      ColorManager.updateColors(defaultColorManager);
+      AppColorManager color = AppColorsTheme.green.appColorManager;
+      ColorManager.updateColors(color);
     } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) ==
-        GeneralStrings.greenTheme) {
-      AppColorManager defaultColorManager =
-          AppColorsTheme.green.appColorManager;
-      ColorManager.updateColors(defaultColorManager);
+        'green') {
+      AppColorManager color = AppColorsTheme.green.appColorManager;
+      ColorManager.updateColors(color);
     } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) ==
-        GeneralStrings.blueTheme) {
-      AppColorManager defaultColorManager = AppColorsTheme.blue.appColorManager;
-      ColorManager.updateColors(defaultColorManager);
+        'blue') {
+      AppColorManager color = AppColorsTheme.blue.appColorManager;
+      ColorManager.updateColors(color);
     } else if (SharedPref.prefs.getString(GeneralStrings.colorTheme) ==
-        GeneralStrings.purpleTheme) {
-      AppColorManager defaultColorManager =
-          AppColorsTheme.purple.appColorManager;
-      ColorManager.updateColors(defaultColorManager);
+        'purple') {
+      AppColorManager color = AppColorsTheme.purple.appColorManager;
+      ColorManager.updateColors(color);
     }
+
     if (kDebugMode) {
       print("Initial theme set.");
     }

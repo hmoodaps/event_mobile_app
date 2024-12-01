@@ -21,9 +21,8 @@ class GeneralStrings {
   static const String greenTheme = 'greenTheme';
   static const String blueTheme = 'blueTheme';
   static const String appLanguage = 'appLanguage';
-  static const String englishLanguage = 'en';
-  static const String netherlandsLanguage = 'nl';
-  static const String arabicLanguage = 'ar';
+  static const String appMode = 'appMode';
+  static const String isManual = 'isManual';
 
   static String ticketsLeft(BuildContext context) => S.of(context).ticketsLeft;
 
@@ -35,6 +34,8 @@ class GeneralStrings {
 
   static String city(BuildContext context) => S.of(context).city;
 
+  static String skip(BuildContext context) => S.of(context).skip;
+
   static String additinalInfo(BuildContext context) =>
       S.of(context).additinalInfo;
 
@@ -45,6 +46,9 @@ class GeneralStrings {
       S.of(context).mobileNumber;
 
   static String someInfo(BuildContext context) => S.of(context).someInfo;
+
+  static String loginOrRegister(BuildContext context) =>
+      S.of(context).loginOrRegister;
 
   static String fewData(BuildContext context) => S.of(context).fewData;
 
@@ -121,6 +125,34 @@ class GeneralStrings {
   static String password(BuildContext context) => S.of(context).password;
 
   static String fullName(BuildContext context) => S.of(context).fullName;
+
+  static String orders(BuildContext context) => S.of(context).orders;
+
+  static String coupons(BuildContext context) => S.of(context).coupons;
+
+  static String myAppBalance(BuildContext context) =>
+      S.of(context).myAppBalance;
+
+  static String address(BuildContext context) => S.of(context).address;
+
+  static String paymentMethods(BuildContext context) =>
+      S.of(context).paymentMethods;
+
+  static String language(BuildContext context) => S.of(context).language;
+
+  static String themeMode(BuildContext context) => S.of(context).themeMode;
+
+  static String colorThemeApp(BuildContext context) =>
+      S.of(context).colorThemeApp;
+
+  static String feedback(BuildContext context) => S.of(context).feedback;
+
+  static String aboutUs(BuildContext context) => S.of(context).aboutUs;
+
+  static String privacyPolicy(BuildContext context) =>
+      S.of(context).privacyPolicy;
+
+  static String logout(BuildContext context) => S.of(context).logout;
 
   static String lastName(BuildContext context) => S.of(context).lastName;
 

@@ -29,8 +29,11 @@ class SizeManager {
   static double d300 = 300;
 
   //Integer values
+  static const int i1 = 1;
   static const int i2 = 2;
+  static const int i3 = 3;
   static const int i4 = 4;
+  static const int i5 = 5;
   static const int i6 = 6;
   static const int i200 = 200;
   static const int i300 = 300;

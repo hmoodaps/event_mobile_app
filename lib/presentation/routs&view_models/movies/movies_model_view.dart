@@ -1,4 +1,6 @@
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,9 @@ import '../../../data/models/movie_model.dart';
 class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   TextEditingController searchController = TextEditingController();
   List<MovieResponse> shuffledMovies = [];
+  late EventsBloc _bloc;
+
+  late BuildContext context;
 
   @override
   void dispose() {}
@@ -15,6 +20,12 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   @override
   void start() {
     shuffledMovies = shuffleMovies();
+    _bloc = EventsBloc.get(context);
+  }
+
+  @override
+  Future<void> getMovies() async {
+    _bloc.add(StartFetchMoviesEvent());
   }
 
   @override
@@ -44,4 +55,6 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
 
 mixin MovieModelViewFunctions {
   List<MovieResponse> shuffleMovies();
+
+  Future<void> getMovies();
 }

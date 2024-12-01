@@ -1,4 +1,7 @@
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/app/components/constants/theme_manager.dart';
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
+import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:event_mobile_app/app/handle_app_language/handle_app_language.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
@@ -12,6 +15,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../presentation/bloc_state_managment/events.dart';
 import '../components/constants/routs_manager.dart';
+import '../dependencies_injection/dependency_injection.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp._internal();
@@ -53,7 +57,7 @@ class _MyAppState extends State<MyApp> {
       create: (context) => EventsBloc()..add(InternetStatusChangeEvent()),
       child: BlocConsumer<EventsBloc, AppStates>(
         builder: (context, state) {
-          EventsBloc bloc = EventsBloc.get(context);
+          EventsBloc bloc = instance();
           if (kDebugMode) {
             print(
                 'current user${SharedPref.prefs.getString(GeneralStrings.currentUser)}');
@@ -71,7 +75,11 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             onGenerateRoute: Routes.onGenerateRoute,
             debugShowCheckedModeBanner: false,
-            theme: bloc.toggleLightAndDark(context),
+            theme: bloc.toggleLightAndDark(context)
+
+              // SharedPref.getBool(GeneralStrings.isManual)!
+              //   ? TheAppMode.appMode
+              //   : bloc.toggleLightAndDark(context),
           );
         },
         listener: (context, state) {

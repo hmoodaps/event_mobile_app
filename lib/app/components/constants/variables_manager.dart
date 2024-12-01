@@ -8,6 +8,8 @@ class VariablesManager {
   static bool isDark = false;
   static List<String> userIds = [];
   static List<MovieResponse> movies = [];
+  static String? currentUser =
+      SharedPref.prefs.getString(GeneralStrings.currentUser);
 
 //sign in with google .>>
   static final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -18,4 +20,5 @@ class VariablesManager {
       SharedPref.getBool(GeneralStrings.isFirstTimeOpened) ?? true;
   static final bool isGuest =
       SharedPref.getBool(GeneralStrings.isGuest) ?? false;
+
 }

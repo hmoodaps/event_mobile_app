@@ -8,7 +8,6 @@ class RouteStringsManager {
   static const String editReservationRoute = '/editReservation';
   static const String questionRoute = '/questionRoute';
   static const String reservationRoute = '/reservation';
-  static const String movieRoute = '/movie';
   static const String cartRoute = '/cart';
   static const String favoriteRoute = '/favorite';
   static const String pastFilmsRoute = '/pastFilms';

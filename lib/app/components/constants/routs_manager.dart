@@ -7,7 +7,6 @@ import '../../../presentation/routs&view_models/favorit/favorite_route.dart';
 import '../../../presentation/routs&view_models/forget_password/forget_password_route.dart';
 import '../../../presentation/routs&view_models/login/login_route.dart';
 import '../../../presentation/routs&view_models/main_page/main_route.dart';
-import '../../../presentation/routs&view_models/movie/movie_route.dart';
 import '../../../presentation/routs&view_models/onboarding/onboarding_route.dart';
 import '../../../presentation/routs&view_models/past_films/past_films_route.dart';
 import '../../../presentation/routs&view_models/profile/profile_route.dart';
@@ -31,7 +30,6 @@ class Routes {
     RouteStringsManager.editReservationRoute: (context) =>
         const EditReservationRoute(),
     RouteStringsManager.reservationRoute: (context) => const ReservationRoute(),
-    RouteStringsManager.movieRoute: (context) => const MovieRoute(),
     RouteStringsManager.cartRoute: (context) => const CartRoute(),
     RouteStringsManager.favoriteRoute: (context) => const FavoriteRoute(),
     RouteStringsManager.pastFilmsRoute: (context) => const PastFilmsRoute(),

@@ -13,10 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
-import '../../../app/components/constants/notification_handler.dart';
-import '../../../app/components/constants/variables_manager.dart';
-import '../../../app/components/tranlate_massages/translate_massage.dart';
-
 class ForgetPasswordRoute extends StatefulWidget {
   const ForgetPasswordRoute({super.key});
 
@@ -42,24 +38,10 @@ class _ForgetPasswordRouteState extends State<ForgetPasswordRoute> {
     _model.dispose();
   }
 
-  errorNoti(String error) => errorNotification(
-      context: context,
-      description: translateErrorMessage(error, context),
-      backgroundColor:
-          VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => _getScaffold(),
-        listener: (context, state) {
-          if (state is ResetPasswordSuccessState) {
-            _model.onResetPasswordSuccessState();
-          }
-          if (state is ResetPasswordErrorState) {
-            errorNoti(state.error.code);
-          }
-        });
+    return BlocBuilder<EventsBloc, AppStates>(
+        builder: (context, state) => _getScaffold());
   }
 
   Widget _getScaffold() => Scaffold(

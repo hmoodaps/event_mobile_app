@@ -98,6 +98,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_staggered_animations: ^1.1.1
   selector_wheel: ^1.1.2
+  wheel_picker: ^0.1.1
+  palette_generator: ^0.3.3+5
 
 dev_dependencies:
   flutter_test:

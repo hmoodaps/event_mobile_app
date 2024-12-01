@@ -33,10 +33,10 @@ class _MainRouteState extends State<MainRoute> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light,
     ));
-    return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) =>
-            _getScaffold(isDark: VariablesManager.isDark),
-        listener: (context, state) {});
+    return BlocBuilder<EventsBloc, AppStates>(
+      builder: (context, state) =>
+          _getScaffold(isDark: VariablesManager.isDark),
+    );
   }
 
   Widget _getScaffold({required bool isDark}) => Scaffold(

@@ -7,6 +7,8 @@ class ColorManager {
   static const Color privateYalow = Color(0xFFFFBB00);
   static const Color privateGrey = Color(0xFF828282);
   static const Color privateBlue = Color(0xFF40E0D0);
+  static const Color privateWhite = Color(0xFFF5F5DC);
+  static const Color lightBlue = Colors.cyanAccent;
 
   static Color green1 = Colors.grey;
   static Color green2 = Colors.grey;
@@ -15,14 +17,12 @@ class ColorManager {
 
   static List<Color> colorsList = [
     primary,
-    primarySecond,
     privateYalow,
     privateGrey,
     privateBlue,
     green1,
     green2,
     green3,
-    green4,
   ];
 
   // Updates the app's colors based on the selected theme.

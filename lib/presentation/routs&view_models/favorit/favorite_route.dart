@@ -16,10 +16,9 @@ class FavoriteRoute extends StatefulWidget {
 class _FavoriteRouteState extends State<FavoriteRoute> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
+    return BlocBuilder<EventsBloc, AppStates>(
       builder: (context, state) =>
           _buildScaffold(isDark: VariablesManager.isDark),
-      listener: (context, state) {},
     );
   }
 

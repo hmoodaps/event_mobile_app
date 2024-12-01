@@ -1,8 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/animation_direction.dart';
@@ -50,55 +47,9 @@ class _LoginRouteState extends State<LoginRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => getScaffold(),
-        listener: (context, state) async {
-          if (state is SignInWithGoogleStateError) {
-            errorNotification(
-                context: context,
-                description: translateErrorMessage(state.error, context),
-                backgroundColor: VariablesManager.isDark
-                    ? Colors.grey.shade400
-                    : Colors.white);
-          }
-          if (state is UserCreatedErrorState) {
-            errorNotification(
-                context: context,
-                description: translateErrorMessage(state.error.code, context),
-                backgroundColor: VariablesManager.isDark
-                    ? Colors.grey.shade400
-                    : Colors.white);
-          }
-          if (state is UserCreatedSuccessState) {
-            _model.onCreateNewUser();
-          }
-          if (state is SignInWithGoogleUserExistState) {
-            final docSnapshot = await FirebaseFirestore.instance
-                .collection(GeneralStrings.users)
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .get();
-
-            if (docSnapshot.exists) {
-              final data = docSnapshot.data();
-
-              if (data != null && (data['additionalInfo'] != null)) {
-                _model.onAddExistUser();
-              } else {
-                _model.onCreateNewUser();
-              }
-            } else {
-              if (kDebugMode) {
-                print("User document does not exist.");
-              }
-            }
-          }
-          if (state is LoginErrorState) {
-            errorNoti(state.error.code);
-          }
-          if (state is LoginSuccessState) {
-            _model.navigateToHome();
-          }
-        });
+    return BlocBuilder<EventsBloc, AppStates>(
+      builder: (context, state) => getScaffold(),
+    );
   }
 
   Widget getScaffold() => Scaffold(

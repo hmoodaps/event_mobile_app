@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +65,7 @@ class StartFetchFirebaseEvent extends AppEvents {}
 
 class FetchFirebaseResultEvent extends AppEvents {
   final String? error;
-  Either<FailureClass, List<String>> result;
+  Either<FirebaseFailureClass, List<String>> result;
 
   FetchFirebaseResultEvent(this.result, {this.error});
 }
@@ -116,7 +117,7 @@ class MoviesLoadedErrorEvent extends AppEvents {
 class MoviesLoadedSuccessEvent extends AppEvents {}
 
 class FetchFirebaseErrorEvent extends AppEvents {
-  final String fail;
+  final FirebaseException fail;
 
   FetchFirebaseErrorEvent(this.fail);
 }
@@ -124,7 +125,7 @@ class FetchFirebaseErrorEvent extends AppEvents {
 class FetchFirebaseSuccessEvent extends AppEvents {}
 
 class UserCreatedErrorEvent extends AppEvents {
-  final FirebaseFailureClass fail;
+  final FirebaseException fail;
 
   UserCreatedErrorEvent(this.fail);
 }
@@ -136,7 +137,7 @@ class UserCreatedSuccessEvent extends AppEvents {
 }
 
 class LoginErrorEvent extends AppEvents {
-  final FirebaseFailureClass fail;
+  final FirebaseException fail;
 
   LoginErrorEvent(this.fail);
 }
@@ -167,14 +168,18 @@ class SignInWithGoogleEventSuccess extends AppEvents {
 
 class ChangeColorModeEvent extends AppEvents {
   AppColorsTheme appColorsTheme;
+  int selectedColorIndex;
 
-  ChangeColorModeEvent(this.appColorsTheme);
+  ChangeColorModeEvent(
+      {required this.appColorsTheme, required this.selectedColorIndex});
 }
 
 class ChangeLanguageEvent extends AppEvents {
   ApplicationLanguage applicationLanguage;
+  int selectedLanguageIndex;
 
-  ChangeLanguageEvent(this.applicationLanguage);
+  ChangeLanguageEvent(
+      {required this.applicationLanguage, required this.selectedLanguageIndex});
 }
 
 //forget password
@@ -190,4 +195,30 @@ class ResetPasswordErrorEvent extends AppEvents {
   FirebaseException error;
 
   ResetPasswordErrorEvent(this.error);
+}
+
+class LoadPreferencesEvent extends AppEvents {
+  int selectedLanguageIndex;
+  int selectedColorIndex;
+  int? selectedModeIndex;
+
+  LoadPreferencesEvent(
+      {required this.selectedColorIndex,
+      this.selectedModeIndex,
+      required this.selectedLanguageIndex});
+}
+
+class ToLogoutEvent extends AppEvents {}
+class ExtractDominantColorEvent extends AppEvents {}
+
+
+class ChangeModeEvent extends AppEvents {
+  AppTheme appMode;
+  ChangeModeEvent(this.appMode,);
+}
+
+class ChangeModeThemeEvent extends AppEvents {
+  bool isManual;
+
+  ChangeModeThemeEvent(this.isManual);
 }

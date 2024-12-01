@@ -22,7 +22,7 @@ class InitRepositoryImplementer implements InitRepository {
 
   // Initialize Firebase and fetch user IDs
   @override
-  Future<Either<FailureClass, List<String>>> initFirebase() async {
+  Future<Either<FirebaseFailureClass, List<String>>> initFirebase() async {
     return await isolateHelper.initFirebase();
   }
 }

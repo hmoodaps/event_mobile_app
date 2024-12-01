@@ -22,118 +22,136 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutUs": MessageLookupByLibrary.simpleMessage(" معلومات عنا"),
         "accountCreated":
-            MessageLookupByLibrary.simpleMessage("تم إنشاء الحساب بنجاح!"),
+            MessageLookupByLibrary.simpleMessage(" تم إنشاء الحساب بنجاح!"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
-                "يوجد حساب بالفعل باستخدام عنوان البريد الإلكتروني هذا ولكن مع بيانات اعتماد مختلفة."),
-        "additinalInfo": MessageLookupByLibrary.simpleMessage("معلومات اضافية"),
-        "ahmadKhalid": MessageLookupByLibrary.simpleMessage("أحمد خالد"),
+                " يوجد حساب بالفعل باستخدام عنوان البريد الإلكتروني هذا ولكن مع بيانات اعتماد مختلفة."),
+        "additinalInfo":
+            MessageLookupByLibrary.simpleMessage(" معلومات اضافية"),
+        "address": MessageLookupByLibrary.simpleMessage(" العنوان"),
+        "ahmadKhalid": MessageLookupByLibrary.simpleMessage(" أحمد خالد"),
         "allInvesting": MessageLookupByLibrary.simpleMessage(
-            "جميع الاستثمارات تنطوي على مخاطر"),
-        "allMovies": MessageLookupByLibrary.simpleMessage("جميع الأفلام"),
-        "beTheFirstOne": MessageLookupByLibrary.simpleMessage("كن الأول!"),
-        "byPress": MessageLookupByLibrary.simpleMessage("عند الضغط"),
-        "city": MessageLookupByLibrary.simpleMessage("المدينة"),
-        "continueString": MessageLookupByLibrary.simpleMessage("متابعة "),
-        "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
-        "dateOfBirth": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
-        "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+            " جميع الاستثمارات تنطوي على مخاطر"),
+        "allMovies": MessageLookupByLibrary.simpleMessage(" جميع الأفلام"),
+        "beTheFirstOne": MessageLookupByLibrary.simpleMessage(" كن الأول!"),
+        "byPress": MessageLookupByLibrary.simpleMessage(" عند الضغط"),
+        "city": MessageLookupByLibrary.simpleMessage(" المدينة"),
+        "colorThemeApp":
+            MessageLookupByLibrary.simpleMessage(" الثيمات اللونية"),
+        "continueString": MessageLookupByLibrary.simpleMessage(" متابعة "),
+        "coupons": MessageLookupByLibrary.simpleMessage(" الكوبونات"),
+        "createAccount": MessageLookupByLibrary.simpleMessage(" إنشاء حساب"),
+        "dateOfBirth": MessageLookupByLibrary.simpleMessage(" تاريخ الميلاد"),
+        "email": MessageLookupByLibrary.simpleMessage(" البريد الإلكتروني"),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
-            "البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر."),
-        "error": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
+            " البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر."),
+        "error": MessageLookupByLibrary.simpleMessage(" حدث خطأ"),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
-            "انتهت صلاحية رمز OTP في رابط البريد الإلكتروني."),
-        "fee": MessageLookupByLibrary.simpleMessage("جدول الرسوم"),
+            " انتهت صلاحية رمز OTP في رابط البريد الإلكتروني."),
+        "fee": MessageLookupByLibrary.simpleMessage(" جدول الرسوم"),
+        "feedback": MessageLookupByLibrary.simpleMessage(" الملاحظات والشكاوى"),
         "fewData":
-            MessageLookupByLibrary.simpleMessage("فقط بعض البيانات الإضافية!"),
+            MessageLookupByLibrary.simpleMessage(" فقط بعض البيانات الإضافية!"),
         "fieldRequired":
-            MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب"),
+            MessageLookupByLibrary.simpleMessage(" هذا الحقل مطلوب"),
         "forgetPassword":
-            MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
-        "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
-        "guest": MessageLookupByLibrary.simpleMessage("كزائر"),
+            MessageLookupByLibrary.simpleMessage(" هل نسيت كلمة المرور؟"),
+        "fullName": MessageLookupByLibrary.simpleMessage(" الاسم الكامل"),
+        "guest": MessageLookupByLibrary.simpleMessage(" كزائر"),
         "haveAccount":
-            MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
+            MessageLookupByLibrary.simpleMessage(" هل لديك حساب بالفعل؟"),
         "heightIMDBRate":
-            MessageLookupByLibrary.simpleMessage("تصنيف IMDB المرتفع:"),
-        "houseNumber": MessageLookupByLibrary.simpleMessage("رقم المنزل"),
-        "hurry": MessageLookupByLibrary.simpleMessage("أسرع !"),
+            MessageLookupByLibrary.simpleMessage(" تصنيف IMDB المرتفع:"),
+        "houseNumber": MessageLookupByLibrary.simpleMessage(" رقم المنزل"),
+        "hurry": MessageLookupByLibrary.simpleMessage(" أسرع !"),
         "invalidCredential": MessageLookupByLibrary.simpleMessage(
-            "المعتمد غير صالح أو انتهت صلاحيته."),
+            " المعتمد غير صالح أو انتهت صلاحيته."),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
-            "عنوان البريد الإلكتروني غير صالح."),
+            " عنوان البريد الإلكتروني غير صالح."),
         "invalidVerificationCode":
-            MessageLookupByLibrary.simpleMessage("رمز التحقق غير صالح."),
+            MessageLookupByLibrary.simpleMessage(" رمز التحقق غير صالح."),
         "invalidVerificationId":
-            MessageLookupByLibrary.simpleMessage("معرف التحقق غير صالح."),
-        "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
+            MessageLookupByLibrary.simpleMessage(" معرف التحقق غير صالح."),
+        "language": MessageLookupByLibrary.simpleMessage(" اللغة"),
+        "lastName": MessageLookupByLibrary.simpleMessage(" اسم العائلة"),
         "lastTicketAvailable":
-            MessageLookupByLibrary.simpleMessage("التذكرة الأخيرة متاحة!"),
-        "learnMore": MessageLookupByLibrary.simpleMessage("للتفاصيل"),
+            MessageLookupByLibrary.simpleMessage(" التذكرة الأخيرة متاحة!"),
+        "learnMore": MessageLookupByLibrary.simpleMessage(" للتفاصيل"),
         "letsCreateAccount": MessageLookupByLibrary.simpleMessage(
-            "دعنا نساعدك في إنشاء حسابك بسرعة"),
-        "letsStart": MessageLookupByLibrary.simpleMessage("لنبدأ الآن"),
-        "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+            " دعنا نساعدك في إنشاء حسابك بسرعة"),
+        "letsStart": MessageLookupByLibrary.simpleMessage(" لنبدأ الآن"),
+        "login": MessageLookupByLibrary.simpleMessage(" تسجيل الدخول"),
+        "loginOrRegister":
+            MessageLookupByLibrary.simpleMessage(" التسجيل او تسجيل الدخول"),
+        "logout": MessageLookupByLibrary.simpleMessage(" تسجيل الخروج"),
         "lostConnection":
-            MessageLookupByLibrary.simpleMessage("تم قطع الاتصال بالإنترنت"),
+            MessageLookupByLibrary.simpleMessage(" تم قطع الاتصال بالإنترنت"),
         "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
-            "يرجى التحقق من اتصال الإنترنت. \nستختفي هذه الرسالة تلقائيًا عندما يتم استعادة الاتصال."),
-        "lowPrice": MessageLookupByLibrary.simpleMessage("سعر منخفض:"),
+            " يرجى التحقق من اتصال الإنترنت. \nستختفي هذه الرسالة تلقائيًا عندما يتم استعادة الاتصال."),
+        "lowPrice": MessageLookupByLibrary.simpleMessage(" سعر منخفض:"),
         "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
-            "دعنا نحاول اعادة تعيين كلمة المرور الخاصة بك . سنقوم بارسال رابط \nلتعيين كلمة المرور الى البريد الالكتروني الخاص بكم"),
-        "mobileNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
-        "newMovies": MessageLookupByLibrary.simpleMessage("أفلام جديدة"),
+            " دعنا نحاول اعادة تعيين كلمة المرور الخاصة بك . سنقوم بارسال رابط \nلتعيين كلمة المرور الى البريد الالكتروني الخاص بكم"),
+        "mobileNumber": MessageLookupByLibrary.simpleMessage(" رقم الهاتف"),
+        "myAppBalance": MessageLookupByLibrary.simpleMessage(" رصيد الحساب"),
+        "newMovies": MessageLookupByLibrary.simpleMessage(" أفلام جديدة"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
-            "العملية غير مسموح بها. الرجاء تمكين هذا الخيار في Firebase Console."),
-        "or": MessageLookupByLibrary.simpleMessage("أو"),
+            " العملية غير مسموح بها. الرجاء تمكين هذا الخيار في Firebase Console."),
+        "or": MessageLookupByLibrary.simpleMessage(" أو"),
+        "orders": MessageLookupByLibrary.simpleMessage(" الطلبات"),
         "otherFees":
-            MessageLookupByLibrary.simpleMessage("قد تنطبق رسوم إضافية"),
-        "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+            MessageLookupByLibrary.simpleMessage(" قد تنطبق رسوم إضافية"),
+        "password": MessageLookupByLibrary.simpleMessage(" كلمة المرور"),
         "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
-            "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. تحقق من صندوق الوارد الخاص بك."),
-        "postalCode": MessageLookupByLibrary.simpleMessage("الرمز البريدي"),
-        "privacy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
+            " تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. تحقق من صندوق الوارد الخاص بك."),
+        "paymentMethods": MessageLookupByLibrary.simpleMessage(" طرق الدفع"),
+        "postalCode": MessageLookupByLibrary.simpleMessage(" الرمز البريدي"),
+        "privacy": MessageLookupByLibrary.simpleMessage(" سياسة الخصوصية"),
+        "privacyPolicy":
+            MessageLookupByLibrary.simpleMessage(" سياسة الخصوصية"),
         "question":
-            MessageLookupByLibrary.simpleMessage("هل ترغب في الاستمرار؟"),
-        "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
+            MessageLookupByLibrary.simpleMessage(" هل ترغب في الاستمرار؟"),
+        "register": MessageLookupByLibrary.simpleMessage(" تسجيل"),
         "resetPassword":
-            MessageLookupByLibrary.simpleMessage("اعادة تعيين كلمة المرور"),
-        "search": MessageLookupByLibrary.simpleMessage("بحث"),
-        "seats": MessageLookupByLibrary.simpleMessage("المقاعد"),
+            MessageLookupByLibrary.simpleMessage(" اعادة تعيين كلمة المرور"),
+        "search": MessageLookupByLibrary.simpleMessage(" بحث"),
+        "seats": MessageLookupByLibrary.simpleMessage(" المقاعد"),
         "seatsAvailable":
-            MessageLookupByLibrary.simpleMessage("المقاعد المتاحة"),
-        "signWithApple":
-            MessageLookupByLibrary.simpleMessage("تسجيل الدخول باستخدام Apple"),
+            MessageLookupByLibrary.simpleMessage(" المقاعد المتاحة"),
+        "signWithApple": MessageLookupByLibrary.simpleMessage(
+            " تسجيل الدخول باستخدام Apple"),
         "signWithGoogle": MessageLookupByLibrary.simpleMessage(
-            "تسجيل الدخول باستخدام Google"),
+            " تسجيل الدخول باستخدام Google"),
+        "skip": MessageLookupByLibrary.simpleMessage(" تخطى"),
         "someInfo": MessageLookupByLibrary.simpleMessage(
-            "سناخذ القليل من المعلومات لتعزيز التجربة الشخصية ثواني قليله فقط"),
+            " سناخذ القليل من المعلومات لتعزيز التجربة الشخصية ثواني قليله فقط"),
         "startInvesting":
-            MessageLookupByLibrary.simpleMessage("ابدأ الاستثمار بدون عمولة"),
-        "street": MessageLookupByLibrary.simpleMessage("الشارع"),
-        "success": MessageLookupByLibrary.simpleMessage("تم بنجاح"),
+            MessageLookupByLibrary.simpleMessage(" ابدأ الاستثمار بدون عمولة"),
+        "street": MessageLookupByLibrary.simpleMessage(" الشارع"),
+        "success": MessageLookupByLibrary.simpleMessage(" تم بنجاح"),
         "termsAndConditions":
-            MessageLookupByLibrary.simpleMessage("الشروط والأحكام"),
-        "ticketsLeft": MessageLookupByLibrary.simpleMessage("تذاكر متبقية!"),
-        "topMovies": MessageLookupByLibrary.simpleMessage("أفضل الأفلام"),
+            MessageLookupByLibrary.simpleMessage(" الشروط والأحكام"),
+        "themeMode": MessageLookupByLibrary.simpleMessage(" السطوع"),
+        "ticketsLeft": MessageLookupByLibrary.simpleMessage(" تذاكر متبقية!"),
+        "topMovies": MessageLookupByLibrary.simpleMessage(" أفضل الأفلام"),
         "unknownError":
-            MessageLookupByLibrary.simpleMessage("حدث خطأ غير معروف."),
+            MessageLookupByLibrary.simpleMessage(" حدث خطأ غير معروف."),
         "userDisabled":
-            MessageLookupByLibrary.simpleMessage("تم تعطيل المستخدم."),
+            MessageLookupByLibrary.simpleMessage(" تم تعطيل المستخدم."),
         "userMismatch": MessageLookupByLibrary.simpleMessage(
-            "المعتمد لا يتطابق مع المستخدم."),
+            " المعتمد لا يتطابق مع المستخدم."),
         "userNotFound": MessageLookupByLibrary.simpleMessage(
-            "لم يتم العثور على مستخدم مع بيانات الاعتماد المقدمة."),
-        "viewOur": MessageLookupByLibrary.simpleMessage("اطلع على"),
+            " لم يتم العثور على مستخدم مع بيانات الاعتماد المقدمة."),
+        "viewOur": MessageLookupByLibrary.simpleMessage(" اطلع على"),
         "weakPassword":
-            MessageLookupByLibrary.simpleMessage("كلمة المرور ضعيفة جدًا."),
+            MessageLookupByLibrary.simpleMessage(" كلمة المرور ضعيفة جدًا."),
         "welcome":
-            MessageLookupByLibrary.simpleMessage("مرحباً بك في تذاكر السينما"),
+            MessageLookupByLibrary.simpleMessage(" مرحباً بك في تذاكر السينما"),
         "welcomeBack":
-            MessageLookupByLibrary.simpleMessage("أهلاً وسهلاً بعودتك!"),
+            MessageLookupByLibrary.simpleMessage(" أهلاً وسهلاً بعودتك!"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "كلمة المرور غير صحيحة أو أن الحساب ليس به كلمة مرور."),
-        "youAccept": MessageLookupByLibrary.simpleMessage("أنت تقبل")
+            " كلمة المرور غير صحيحة أو أن الحساب ليس به كلمة مرور."),
+        "youAccept": MessageLookupByLibrary.simpleMessage(" أنت تقبل")
       };
 }

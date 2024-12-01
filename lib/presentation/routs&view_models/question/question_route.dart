@@ -26,9 +26,9 @@ class _QuestionRouteState extends State<QuestionRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventsBloc, AppStates>(
-        builder: (context, state) => getScaffold(),
-        listener: (context, state) {});
+    return BlocBuilder<EventsBloc, AppStates>(
+      builder: (context, state) => getScaffold(),
+    );
   }
 
   Widget getScaffold() => Scaffold(
@@ -46,8 +46,8 @@ class _QuestionRouteState extends State<QuestionRoute> {
                       AssetsManager.getStartAsset,
                       color:
                           VariablesManager.isDark ? Colors.white : Colors.black,
-                      width: SizeManager.screenSize(context).width / 10,
-                      height: SizeManager.screenSize(context).width / 10,
+                      width: SizeManager.screenSize(context).width / 8,
+                      height: SizeManager.screenSize(context).width / 8,
                     )),
                 SizedBox(
                   height: SizeManager.d8,
@@ -100,7 +100,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               Expanded(
                                 child: Container(
                                   height: 1,
-                                  color: ColorManager.primary,
+                                  color: ColorManager.primarySecond,
                                 ),
                               ),
                               SizedBox(
@@ -116,7 +116,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               Expanded(
                                 child: Container(
                                   height: 1,
-                                  color: ColorManager.primary,
+                                  color: ColorManager.primarySecond,
                                 ),
                               ),
                             ],
@@ -146,7 +146,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               Expanded(
                                 child: Container(
                                   height: 1,
-                                  color: ColorManager.primary,
+                                  color: ColorManager.primarySecond,
                                 ),
                               ),
                               SizedBox(
@@ -162,7 +162,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                               Expanded(
                                 child: Container(
                                   height: 1,
-                                  color: ColorManager.primary,
+                                  color: ColorManager.primarySecond,
                                 ),
                               ),
                             ],

@@ -30,28 +30,29 @@ import 'events.dart';
 class EventsBloc extends Bloc<AppEvents, AppStates> {
   // ======== Auth Handler ==========
   // Object for handling authentication=related operations
-  final AuthRepository auth = instance();
+  final AuthRepository _auth = instance();
 
   // ======== Login Handler ==========
   // Object for managing login operations in Firebase
-  final LoginToFirebaseRepo login = instance();
+  final LoginToFirebaseRepo _login = instance();
 
   // ======== Register Handler ==========
   // Object for handling user registration operations
-  final RegisterInFirebaseRepo register = instance();
+  final RegisterInFirebaseRepo _register = instance();
 
   // ======== Repository Handler ==========
   // Main injected_repository object for data management and access across the app
-  final InitRepository repository = instance();
+  final InitRepository _repository = instance();
 
   // ======== Add user Handler ==========
   // Main injected_repository object for data management and access across the app
-  final AddUserDetailsRepo addUserDetailsRepo = instance();
+  final AddUserDetailsRepo _addUserDetailsRepo = instance();
 
   EventsBloc() : super(InitialState()) {
     // Registering event handlers to listen and respond to various events
     on<StartCreateUserEvent>(_onCreateUserEvent);
     on<CreatingUserResultEvent>(_onCreatingUserResultEvent);
+    on<ExtractDominantColorEvent>(_onExtractDominantColorEvent);
     on<LoginEvent>(_onLoginEvent);
     on<LoginResultEvent>(_onLoginResultEvent);
     on<SignInWithGoogleEvent>(_onSignInWithGoogleEvent);
@@ -85,13 +86,20 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<ResetPasswordEvent>(_onResetPasswordEvent);
     on<ResetPasswordErrorEvent>(_onResetPasswordErrorEvent);
     on<ResetPasswordSuccessEvent>(_onResetPasswordSuccessEvent);
+    on<LoadPreferencesEvent>(_onLoadPreferencesEvent);
+    on<ToLogoutEvent>(_onToLogoutEvent);
+    on<ChangeModeEvent>(_onChangeModeEvent);
+    on<ChangeModeThemeEvent>(_onChangeModeThemeEvent);
   }
+
+  //create instance from Event bloc if we need new instance and cant use it from DI
+  static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
 
 //====================Add User Details Handler=============================
   _onAddUserDetailsEvent(
       AddUserDetailsEvent event, Emitter<AppStates> emit) async {
     emit(AddUsersDetailsState());
-    await addUserDetailsRepo.addUserDetails(req: event.req).then((result) {
+    await _addUserDetailsRepo.addUserDetails(req: event.req).then((result) {
       add(AddUserDetailsResultEvent(result));
     });
   }
@@ -99,7 +107,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   _onAddUserDetailsResultEvent(
       AddUserDetailsResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold((error) {
-      add(AddUserDetailsErrorEvent(error.firebaseException!));
+      add(AddUserDetailsErrorEvent(error.firebaseException));
     }, (success) {
       add(AddUserDetailsSuccessEvent());
     });
@@ -107,7 +115,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onAddUserDetailsErrorEvent(
       AddUserDetailsErrorEvent event, Emitter<AppStates> emit) async {
-    emit(AddUserDetailsErrorState(event.error));
+    firebaseAuthErrorsHandler(
+      state: (error) => AddUserDetailsErrorState(error),
+      emit: emit,
+      failure: event.error,
+    );
   }
 
   Future<void> _onAddUserDetailsSuccessEvent(
@@ -115,32 +127,35 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(AddUserDetailsSuccessState());
   }
 
-  //create instance from Event bloc if we need new instance and cant use it from DI
-
-  static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
-
 //====================Log OUT=============================
 
   Future<void> _onLogoutEvent(
       LogoutEvent event, Emitter<AppStates> emit) async {
-    await login.logout().then((_) {
-      emit(LogoutState());
-    });
+    await _login.logout();
+
+    SharedPref.prefs.remove(GeneralStrings.currentUser);
+    add(ToLogoutEvent());
+  }
+
+  Future<void> _onToLogoutEvent(
+      ToLogoutEvent event, Emitter<AppStates> emit) async {
+    emit(LoginState());
   }
 
   // ======== StartFetchMoviesEvent Handler ==========
+
   // Initiates fetching of movies, emits loading state, then fetches movies
   // from the injected_repository and triggers FetchMoviesResultEvent with the result
+  // Processes the result of fetching movies, handling success and failure
   Future<void> _onStartFetchMoviesEvent(
       StartFetchMoviesEvent event, Emitter<AppStates> emit) async {
+    VariablesManager.movies.clear();
     emit(StartFetchMoviesState());
-    await repository.fetchMovies().then((result) {
+    await _repository.fetchMovies().then((result) {
       add(FetchMoviesResultEvent(result));
     });
   }
 
-  // ======== FetchMoviesResultEvent Handler ==========
-  // Processes the result of fetching movies, handling success and failure
   Future<void> _onFetchMoviesResultEvent(
       FetchMoviesResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
@@ -173,13 +188,15 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   }
 
   // ======== StartFetchFirebaseEvent Handler ==========
+
   // Starts Firebase initialization and adds the FetchFirebaseResultEvent
   // with the outcome of the injected_repository's initFirebase call
 
   Future<void> _onStartFetchFirebaseEvent(
       StartFetchFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(StartFetchFirebaseState());
-    Either<FailureClass, List<String>> result = await repository.initFirebase();
+    Either<FirebaseFailureClass, List<String>> result =
+        await _repository.initFirebase();
     add(FetchFirebaseResultEvent(result));
   }
 
@@ -187,7 +204,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       FetchFirebaseResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(FetchFirebaseErrorEvent(fail.error));
+        add(FetchFirebaseErrorEvent(fail.firebaseException));
       },
       (success) {
         if (VariablesManager.userIds.isNotEmpty) {
@@ -204,7 +221,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onFetchFirebaseErrorEvent(
       FetchFirebaseErrorEvent event, Emitter<AppStates> emit) async {
-    emit(FetchFirebaseErrorState(event.fail.toString()));
+    firebaseAuthErrorsHandler(
+      state: (error) => FetchFirebaseErrorState(error),
+      emit: emit,
+      failure: event.fail,
+    );
   }
 
   Future<void> _onFetchFirebaseSuccessEvent(
@@ -212,28 +233,29 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(FetchFirebaseSuccessState());
   }
 
-  // ======== CreateUserEvent Handler ==========
   // Starts user creation by calling createUserAtFirebase and triggers
   // CreatingUserResultEvent with the result for further processing
+  // Processes user creation result, handling success by moving to add user
+  // to Firebase, or failure by showing error state
+
   Future<void> _onCreateUserEvent(
       StartCreateUserEvent event, Emitter<AppStates> emit) async {
     emit(StartUserCreateState());
+
     Either<FirebaseFailureClass, UserCredential> result =
-        await register.createUserAtFirebase(req: event.req);
+        await _register.createUserAtFirebase(req: event.req);
+
     if (kDebugMode) {
       print(result.toString());
     }
     add(CreatingUserResultEvent(event.req, result));
   }
 
-  // ======== CreatingUserResultEvent Handler ==========
-  // Processes user creation result, handling success by moving to add user
-  // to Firebase, or failure by showing error state
   Future<void> _onCreatingUserResultEvent(
       CreatingUserResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(UserCreatedErrorEvent(fail));
+        add(UserCreatedErrorEvent(fail.firebaseException));
       },
       (success) {
         if (success.user != null) {
@@ -250,14 +272,13 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.fail,
-      state: (String error) =>
-          UserCreatedErrorState(event.fail.firebaseException!),
+      state: (String error) => UserCreatedErrorState(error),
     );
   }
 
   Future<void> _onUserCreatedSuccessEvent(
       UserCreatedSuccessEvent event, Emitter<AppStates> emit) async {
-    register
+    _register
         .addUserToFirebase(
             req: CreateUserRequirements(
       fullName: event.user.displayName,
@@ -268,6 +289,9 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
+  // ======== Add User To Firebase Handler ==========
+//adding user to firebase will be incloded with creation user
+  //whether normal register or with google register
   Future<void> _onAddUserToFirebaseEvent(
       AddUserToFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(UserCreatedSuccessState());
@@ -276,20 +300,20 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // ======== LoginEvent Handler ==========
   // Initiates login process, emits loading state, performs login, and triggers
   // LoginResultEvent with result to proceed with login outcome handling
+  // Handles result of login, emitting success state or showing error state upon failure
+
   Future<void> _onLoginEvent(LoginEvent event, Emitter<AppStates> emit) async {
     emit(LoginState());
     Either<FirebaseFailureClass, String> result =
-        await login.loginToFirebase(req: event.req);
+        await _login.loginToFirebase(req: event.req);
     add(LoginResultEvent(result));
   }
 
-  // ======== LoginResultEvent Handler ==========
-  // Handles result of login, emitting success state or showing error state upon failure
   Future<void> _onLoginResultEvent(
       LoginResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(LoginErrorEvent(fail));
+        add(LoginErrorEvent(fail.firebaseException));
       },
       (success) {
         add(LoginSuccessEvent());
@@ -302,7 +326,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.fail,
-      state: (String error) => LoginErrorState(event.fail.firebaseException!),
+      state: (String error) => LoginErrorState(error),
     );
   }
 
@@ -314,16 +338,16 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // ======== SignInWithGoogleEvent Handler ==========
   // Initiates Google sign=in, emits loading state, performs sign=in, and triggers
   // SignInWithGoogleResultEvent with the result for further handling
+  // Processes result of Google sign=in, checking if the user exists or not,
+  // and emits respective states based on the outcome
+//also after creatting user by google automatiklly will add to firebase
   Future<void> _onSignInWithGoogleEvent(
       SignInWithGoogleEvent event, Emitter<AppStates> emit) async {
     emit(StartSignInWithGoogleState());
-    Either<FailureClass, User> result = await auth.signInWithGoogle();
+    Either<FailureClass, User> result = await _auth.signInWithGoogle();
     add(SignInWithGoogleResultEvent(result));
   }
 
-  // ======== SignInWithGoogleResultEvent Handler ==========
-  // Processes result of Google sign=in, checking if the user exists or not,
-  // and emits respective states based on the outcome
   Future<void> _onSignInWithGoogleResultEvent(
       SignInWithGoogleResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
@@ -353,22 +377,83 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(SignInWithGoogleUserExistState());
   }
 
+//============ on Change Color and language mode ============
+  //i can handle both of them in one event but after i tried
+  // i found like this its will be better for handling both of them
+  //to concern missions
   Future<void> _onChangeColorModeEvent(
       ChangeColorModeEvent event, Emitter<AppStates> emit) async {
+    // Change the color theme using the helper
     AppColorHelper.changeColorTheme(event);
-    emit(ChangeColorThemeState());
+
+    // Use switch to handle setting the color theme
+    switch (event.appColorsTheme) {
+      case AppColorsTheme.green:
+        SharedPref.prefs.setString(GeneralStrings.colorTheme, 'green');
+        break;
+
+      case AppColorsTheme.blue:
+        SharedPref.prefs.setString(GeneralStrings.colorTheme, 'blue');
+        break;
+
+      case AppColorsTheme.purple:
+        SharedPref.prefs.setString(GeneralStrings.colorTheme, 'purple');
+        break;
+
+      default:
+        // Optional: handle unknown themes if needed
+        break;
+    }
+
+    // Emit the state change
+    emit(ChangeColorThemeState(selectedColorIndex: event.selectedColorIndex));
   }
 
   Future<void> _onChangeLanguageEvent(
       ChangeLanguageEvent event, Emitter<AppStates> emit) async {
     HandleAppLanguage.changeAppLanguage(event);
-    emit(ChangeAppLanguageState());
+    // Use switch to handle setting the color theme
+    switch (event.applicationLanguage) {
+      case ApplicationLanguage.en:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'en');
+        break;
+        case ApplicationLanguage.tr:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'tr');
+        break;
+      case ApplicationLanguage.fr:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'fr');
+        break;
+      case ApplicationLanguage.es:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'es');
+        break;
+      case ApplicationLanguage.nl:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'nl');
+        break;
+      case ApplicationLanguage.ar:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'ar');
+        break;
+
+      default:
+        // Optional: handle unknown themes if needed
+        break;
+    }
+    emit(ChangeAppLanguageState(
+        selectedLanguageIndex: event.selectedLanguageIndex));
   }
 
-  // ======== add user info Handler ==========
+  // ======== lode color language and mode frm preferences ==========
+  // to load the prefernces from shared_prefernce
+  _onLoadPreferencesEvent(LoadPreferencesEvent event, Emitter<AppStates> emit) {
+    emit(LoadPreferencesState(
+        selectedColorIndex: event.selectedColorIndex,
+        selectedLanguageIndex: event.selectedLanguageIndex,
+        selectedModeIndex: event.selectedModeIndex));
+  }
+
   // ======== InternetStatusChangeEvent Handler ==========
   // Listens to internet connectivity status changes and emits either ConnectedState
   // or DisconnectedState based on the current connectivity status
+  //i didn't handle with the internet is weak or stable >>
   Future<void> _onInternetStatusChangeEvent(
       InternetStatusChangeEvent event, Emitter<AppStates> emit) async {
     await for (var status in InternetConnection().onStatusChange) {
@@ -380,11 +465,14 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     }
   }
 
+  // ======== reset password Handler ==========
+// i made it just to sent an email to user to reset the password
+  //by firebase .
   Future<void> _onResetPasswordEvent(
       ResetPasswordEvent event, Emitter<AppStates> emit) async {
-    final result = await login.forgetPassword(event.email);
+    final result = await _login.forgetPassword(event.email);
     result.fold((error) {
-      add(ResetPasswordErrorEvent(error.firebaseException!));
+      add(ResetPasswordErrorEvent(error.firebaseException));
     }, (success) {
       add(ResetPasswordSuccessEvent());
     });
@@ -392,7 +480,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onResetPasswordErrorEvent(
       ResetPasswordErrorEvent event, Emitter<AppStates> emit) async {
-    emit(ResetPasswordErrorState(event.error));
+    firebaseAuthErrorsHandler(
+      emit: emit,
+      failure: event.error,
+      state: (String error) => ResetPasswordErrorState(error),
+    );
   }
 
   Future<void> _onResetPasswordSuccessEvent(
@@ -407,28 +499,151 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(ChangeNavigationBarIndexState());
   }
 
-  // ======== ToggleLightAndDarkEvent Handler ==========
-  // Switches between light and dark themes, updates the theme state accordingly,
-  // and checks device theme mode to adjust the theme dynamically
+// ======== ToggleLightAndDarkEvent Handler ==========
+// This method is responsible for switching between light and dark themes.
+// It first checks whether the theme is set to manual or automatic (based on device settings).
+// If manual mode is enabled, it uses the theme saved in `TheAppMode`.
+// If not, it checks the device's brightness to dynamically set the theme (light or dark).
   ThemeData? toggleLightAndDark(context) {
-    ThemeData themeData = lightThemeData();
-    Brightness brightness = MediaQuery.of(context).platformBrightness;
-    brightness == Brightness.dark
-        ? (themeData = AppTheme.dark.themeData)
-        : (themeData = AppTheme.light.themeData);
-    if (kDebugMode) {
-      print(VariablesManager.isDark ? "dark" : 'light');
+    ThemeData themeData ; // Default to light theme if not set.
+    // Check if the user is in manual mode
+    if (SharedPref.getBool(GeneralStrings.isManual)!) {
+      themeData = TheAppMode.appMode; // Use the saved theme mode (light or dark).
+      // Check if the event's theme is dark or light, and update the dark mode flag accordingly.
+      if(  themeData == AppTheme.dark.themeData){
+        VariablesManager.isDark = true;
+      }else{
+        VariablesManager.isDark = false;
+      }
+      add(ChangeModeThemeEvent(SharedPref.getBool(GeneralStrings.isManual)!));
+      // Trigger event to update theme in the app state
+      add(ToggleLightAndDarkEvent(themeData));
+
+    } else {
+      // Automatically set the theme based on device's current brightness (light/dark mode)
+      Brightness brightness = MediaQuery.of(context).platformBrightness;
+      brightness == Brightness.dark
+          ? (themeData =
+              AppTheme.dark.themeData) // Set dark theme if device is dark mode.
+          : (themeData =
+              AppTheme.light.themeData); // Otherwise, set light theme.
+
+      // For debugging, print the current theme
+      if (kDebugMode) {
+        print(VariablesManager.isDark ? "dark" : 'light');
+      }
+      if(  themeData == AppTheme.dark.themeData){
+        VariablesManager.isDark = true;
+      }else{
+        VariablesManager.isDark = false;
+      }
+      // Trigger event to update theme in the app state
+      add(ToggleLightAndDarkEvent(themeData));
+
     }
-    add(ToggleLightAndDarkEvent(themeData));
+    // Return the selected theme (either light, dark, or based on user settings)
     return themeData;
   }
 
+// ======== ToggleLightAndDarkEvent Handler =========
+// This method handles the event when the theme is toggled between light and dark modes.
+// It updates the app state by setting a flag (VariablesManager.isDark) based on the selected theme.
   void _onToggleLightAndDarkEvent(
       ToggleLightAndDarkEvent event, Emitter<AppStates> emit) {
-    event.themeData == AppTheme.dark.themeData
-        ? VariablesManager.isDark = true
-        : VariablesManager.isDark = false;
+    // Emit the updated theme state to notify the app to rebuild with the new theme.
+
     emit(ToggleLightAndDarkState());
+
+  }
+
+
+
+  void _onExtractDominantColorEvent(
+      ExtractDominantColorEvent event, Emitter<AppStates> emit) {
+
+    emit(ExtractDominantColorState());
+
+  }
+
+
+// ======== ChangeModeEvent Handler ==========
+// This method updates the theme mode (light/dark) in the app preferences
+// and stores it in `SharedPref` for persistence across app launches.
+  Future<void> _onChangeModeEvent(
+      ChangeModeEvent event, Emitter<AppStates> emit) async {
+    // Update the app theme mode based on the event.
+    TheAppMode.updateMode(event.appMode);
+
+    // Store the selected theme in shared preferences (for persistence)
+    switch (event.appMode) {
+      case AppTheme.light:
+        SharedPref.prefs
+            .setString(GeneralStrings.appMode, 'light'); // Save light mode.
+        break;
+      case AppTheme.dark:
+        SharedPref.prefs
+            .setString(GeneralStrings.appMode, 'dark'); // Save dark mode.
+        break;
+      default:
+        // Handle unknown theme modes (optional, if required).
+        break;
+    }
+
+    // Emit the state to notify the app about the updated theme mode.
+    emit(ChangeModeState());
+  }
+
+// ======== ChangeModeThemeEvent Handler ==========
+// This method saves the "manual" setting in SharedPreferences,
+// and updates the app theme according to the stored preference (light or dark).
+  Future<void> _onChangeModeThemeEvent(
+      ChangeModeThemeEvent event, Emitter<AppStates> emit) async {
+    // Save the manual theme preference in SharedPreferences
+    await SharedPref.saveBool(
+        key: GeneralStrings.isManual, value: event.isManual);
+
+    // Update the theme based on the stored preference (light or dark)
+    switch (SharedPref.prefs.getString(GeneralStrings.appMode)) {
+      case 'light':
+        TheAppMode.updateMode(
+            AppTheme.light); // Set light theme if saved mode is light.
+        break;
+      case 'dark':
+        TheAppMode.updateMode(
+            AppTheme.dark); // Set dark theme if saved mode is dark.
+        break;
+      default:
+        // Handle the default case if the theme mode is unknown (optional).
+        break;
+    }
+
+    // For debugging, print the current theme being applied.
+    if (kDebugMode) {
+      print(TheAppMode.appMode);
+    }
+
+    // Emit the state to notify the app about the "manual" setting change.
+    emit(ChangeModeThemeState(event.isManual));
+  }
+
+  // Caches images associated with movies
+// This function is used to cache the images of movies by initializing CachedNetworkImageProvider instances
+// for each movie's image (both the main and vertical images).
+  Future<void> getPhotos(List<MovieResponse> movies) async {
+    // Preload images into cache using precacheImage
+    // The images are first wrapped in CachedNetworkImageProvider, then they are stored in memory.
+    // Preload the images without displaying them to the user (in the background)
+    // This ensures the images are cached and ready to be shown without delay.
+
+    final moviesCopy = List<MovieResponse>.from(movies); // Create a copy
+    if (VariablesManager.isFirstTimeOpened) {
+      for (MovieResponse movie in moviesCopy) {
+        await precacheImage(CachedNetworkImageProvider(movie.photo!),
+            navigatorKey.currentContext!);
+        await precacheImage(CachedNetworkImageProvider(movie.verticalPhoto!),
+            navigatorKey.currentContext!);
+      }
+    }
   }
 
   // ======== Light Theme Text Styles ========
@@ -457,24 +672,4 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       .textTheme
       .labelSmall
       ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
-
-  // Caches images associated with movies
-// This function is used to cache the images of movies by initializing CachedNetworkImageProvider instances
-// for each movie's image (both the main and vertical images).
-  Future<void> getPhotos(List<MovieResponse> movies) async {
-    // Preload images into cache using precacheImage
-    // The images are first wrapped in CachedNetworkImageProvider, then they are stored in memory.
-    // Preload the images without displaying them to the user (in the background)
-    // This ensures the images are cached and ready to be shown without delay.
-
-    final moviesCopy = List<MovieResponse>.from(movies); // Create a copy
-    if (VariablesManager.isFirstTimeOpened) {
-      for (MovieResponse movie in moviesCopy) {
-        await precacheImage(CachedNetworkImageProvider(movie.photo!),
-            navigatorKey.currentContext!);
-        await precacheImage(CachedNetworkImageProvider(movie.verticalPhoto!),
-            navigatorKey.currentContext!);
-      }
-    }
-  }
 }

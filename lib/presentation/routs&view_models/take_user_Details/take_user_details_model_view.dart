@@ -1,9 +1,15 @@
+import 'dart:async';
+
+import 'package:event_mobile_app/app/components/constants/route_strings_manager.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../app/components/constants/notification_handler.dart';
+import '../../../app/components/tranlate_massages/translate_massage.dart';
 import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/events.dart';
+import '../../bloc_state_managment/states.dart';
 
 class TakeUserDetailsModelView extends BaseViewModel
     with TakeUserDetailsFunctions {
@@ -14,6 +20,8 @@ class TakeUserDetailsModelView extends BaseViewModel
   TextEditingController city = TextEditingController();
   TextEditingController additinalInfo = TextEditingController();
   TextEditingController street = TextEditingController();
+  late final StreamSubscription blocStreamSubscription;
+
   late final BuildContext context;
 
   final formKey = GlobalKey<FormState>();
@@ -30,20 +38,57 @@ class TakeUserDetailsModelView extends BaseViewModel
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    blocStreamSubscription.cancel();
+    dateOfBirth.dispose();
+    houseNumber.dispose();
+    mobileNumber.dispose();
+    postalCode.dispose();
+    city.dispose();
+    additinalInfo.dispose();
+    street.dispose();
   }
 
   @override
   void start() {
     _bloc = EventsBloc.get(context);
+    startListin();
   }
 
   @override
   onContinueTap({required CreateUserRequirements req}) {
     _bloc.add(AddUserDetailsEvent(req: req));
   }
+
+  @override
+  onSkipTap() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteStringsManager.mainRoute, (route) => false);
+  }
+
+  navigateToMain() {
+    Navigator.pushReplacementNamed(
+      context,
+      RouteStringsManager.mainRoute,
+    );
+  }
+
+  errorNoti(String msg) => errorNotification(
+      context: context, description: translateErrorMessage(msg, context));
+
+  startListin() {
+    blocStreamSubscription = _bloc.stream.listen((state) async {
+      if (state is AddUserDetailsSuccessState) {
+        navigateToMain();
+      }
+      if (state is AddUserDetailsErrorState) {
+        errorNoti(state.error);
+      }
+    });
+  }
 }
 
 mixin TakeUserDetailsFunctions {
   onContinueTap({required CreateUserRequirements req});
+
+  onSkipTap();
 }
