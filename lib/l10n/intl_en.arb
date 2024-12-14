@@ -65,13 +65,13 @@
   "fewData": "Just more few data! ",
   "someInfo": "We'll take a bit of information to enhance the \npersonalized experience, just a few seconds. ",
   "mobileNumber": "Phone Number ",
-  "additinalInfo": "Additional Information ",
+  "additionalInfo": "Additional Information ",
   "city": "city ",
   "byPress": "by press ",
   "youAccept": "You Accept our ",
   "termsAndConditions": "Terms and Conditions ",
   "resetPassword": "Reset Password ",
-  "passwordResetSuccess": "password reset link was sent to your emain\n .Check your inbox ",
+  "passwordResetSuccess": "password reset link was sent to your email\n .Check your inbox ",
   "ltsResetPassword": "Let's try resetting your password. We will send a link to \nset your password to your email address. ",
   "orders": "Orders ",
   "coupons": "Coupons ",
@@ -86,5 +86,16 @@
   "privacyPolicy": "Privacy Policy ",
   "logout": "Logout ",
   "loginOrRegister": "login Or Register ",
-  "skip": "skip "
+  "skip": "skip ",
+
+  "noFaveItems": "No favorites here yet!",
+  "favorites": "Favorites",
+  "notLoggedIn": "You're not logged in yet. Please log in to continue to your cart!",
+  "cancel": "Cancel",
+  "urNotLogin": "You’re not logged in!",
+  "uCantAddItemToCart": "You need to log in before adding items to your cart!",
+  "noCartItems": "Your cart is empty for now!",
+  "cart": "Cart",
+  "chooseSeat": "Choose your seat"
+
 }

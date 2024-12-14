@@ -15,6 +15,8 @@ class OnboardingModelView extends BaseViewModel
   late BuildContext? context;
   late List<Widget> pages;
 
+  OnboardingModelView(this.context);
+
   @override
   void start() {}
 
@@ -37,7 +39,7 @@ class OnboardingModelView extends BaseViewModel
 
   @override
   void onContinuePressed() {
-    SharedPref.saveBool(key: GeneralStrings.isFirstTimeOpened, value: false);
+    SharedPref.prefs.setBool(GeneralStrings.isFirstTimeOpened, false);
     navigateTo(context!, RouteStringsManager.questionRoute);
   }
 }

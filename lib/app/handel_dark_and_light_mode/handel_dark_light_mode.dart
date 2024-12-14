@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/local_storage/shared_local.dart';
-import '../../presentation/bloc_state_managment/events.dart';
 import '../components/constants/general_strings.dart';
 import '../components/constants/theme_manager.dart';
 
@@ -53,6 +52,4 @@ class HandleAppMode {
       print("Initial theme set.");
     }
   }
-
-
 }

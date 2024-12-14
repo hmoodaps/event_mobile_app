@@ -138,8 +138,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _model = OnboardingModelView();
-    _model.context = context;
+    _model = OnboardingModelView(context);
     _model.pages = _onboardingList(context);
     _model.start();
   }

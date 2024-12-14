@@ -6,27 +6,26 @@ import '../../../domain/repository/main_repositories/repositories.dart';
 import '../failure_class/failure_class.dart';
 
 class LoginToFirebaseImplementer implements LoginToFirebaseRepo {
-  final Repositories isolateHelper;
+  final Repositories repo;
 
   LoginToFirebaseImplementer({
-    required this.isolateHelper,
+    required this.repo,
   });
 
   // Log in to Firebase
   @override
-  Future<Either<FirebaseFailureClass, String>> loginToFirebase(
+  Future<Either<FailureClass, String>> loginToFirebase(
       {required CreateUserRequirements req}) async {
-    return await isolateHelper.loginToFirebase(req: req);
+    return await repo.loginToFirebase(req: req);
   }
 
   @override
-  Future<Either<FirebaseFailureClass, void>> logout() async {
-    return await isolateHelper.logout();
+  Future<Either<FailureClass, void>> logout() async {
+    return await repo.logout();
   }
 
   @override
-  Future<Either<FirebaseFailureClass, void>> forgetPassword(
-      String email) async {
-    return await isolateHelper.forgetPassword(email);
+  Future<Either<FailureClass, void>> forgetPassword(String email) async {
+    return await repo.forgetPassword(email);
   }
 }

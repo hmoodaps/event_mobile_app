@@ -24,6 +24,8 @@ class UserCreatedErrorState extends AppStates {
 class AddUsersDetailsState extends AppStates {}
 
 class AddUserDetailsSuccessState extends AppStates {}
+class StartRemovingItemFromFavesState extends AppStates {}
+class StartAddingItemToFavesState extends AppStates {}
 
 class AddUserDetailsErrorState extends AppStates {
   String error;
@@ -106,7 +108,6 @@ class ChangeAppLanguageState extends AppStates {
 }
 
 class ChangeModeState extends AppStates {
-
   ChangeModeState();
 }
 
@@ -134,8 +135,33 @@ class LoadPreferencesState extends AppStates {
 
 class ChangeModeThemeState extends AppStates {
   bool isManual;
+
   ChangeModeThemeState(this.isManual);
 }
 
-class StartChangingMode extends AppStates{}
-class ExtractDominantColorState extends AppStates{}
+class StartChangingMode extends AppStates {}
+
+class ShowNoInternetDialogState extends AppStates {}
+
+class ExtractDominantColorState extends AppStates {}
+
+class GetCurrentUserResponseState extends AppStates {}
+
+class AddFilmToFavState extends AppStates {}
+
+class GetFavesItemsState extends AppStates {}
+
+class RemoveFilmFromFavState extends AppStates {}
+
+class GetFavesItemsStateSuccessState extends AppStates {}
+class RemoveFilmFromFav22State extends AppStates {}
+
+class AddFilmToCartState extends AppStates {}
+
+class GetCartItemsState extends AppStates {}
+
+class RemoveFilmFromCartState extends AppStates {}
+
+class GetCartItemsStateSuccessState extends AppStates {}
+
+class FetchMoviesResultState extends AppStates {}

@@ -8,4 +8,6 @@ class AssetsManager {
   static const String cuteAnimation = '$_asset/cuteAnimation.gif';
   static const String continueSvg = '$_asset/continue.svg';
   static const String just4prog = '$_asset/just4prog.png';
+  static const String screen = '$_asset/Screen.svg';
+  static const String seat = '$_asset/seat.png';
 }

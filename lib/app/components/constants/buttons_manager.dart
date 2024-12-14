@@ -14,15 +14,15 @@ class ButtonManager {
     IconData? suffixIcon,
     required void Function() onTap,
     required Color color,
-     Color ?     shadowColor,
-     Color ?     textColor,
-     double ?     height,
+    Color? shadowColor,
+    Color? textColor,
+    double? height,
   }) =>
       GestureDetector(
         onTap: onTap,
         child: ContainerManager.myContainer(
-          height: height,
-shadowColor: shadowColor,
+            height: height,
+            shadowColor: shadowColor,
             color: color,
             child: Center(
               child: Padding(
@@ -33,7 +33,8 @@ shadowColor: shadowColor,
                     Spacer(),
                     Text(
                       buttonName,
-                      style: TextStyleManager.titleStyle(context)?.copyWith(color: textColor ),
+                      style: TextStyleManager.titleStyle(context)
+                          ?.copyWith(color: textColor),
                     ),
                     Spacer(),
                     Icon(suffixIcon, color: ColorManager.privateGrey),
@@ -61,7 +62,7 @@ class ContainerManager {
         ),
         color: color ?? Colors.red,
         boxShadow: [
-          myShadow( shadowColor : shadowColor),
+          myShadow(shadowColor: shadowColor),
         ],
       ),
       child: child,

@@ -8,9 +8,9 @@ import '../../../domain/repository/main_repositories/repositories.dart';
 import '../failure_class/failure_class.dart';
 
 class AuthImplementer implements AuthRepository {
-  final Repositories isolateHelper;
+  final Repositories repo;
 
-  AuthImplementer({required this.isolateHelper});
+  AuthImplementer({required this.repo});
 
   // Sign in with Google
   @override
@@ -32,8 +32,8 @@ class AuthImplementer implements AuthRepository {
       );
 
       // Call the method that handles the actual sign in and Firebase operations
-      final response = await isolateHelper.createUserAtFirebaseWithCredential(
-          credential: credential);
+      final response =
+          await repo.createUserAtFirebaseWithCredential(credential: credential);
 
       // Use fold to handle the response and return a bool
       return response.fold(

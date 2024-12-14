@@ -1,5 +1,5 @@
-import '../../../app/components/constants/dio_and_mapper_constants.dart';
 import '../../../app/extensions/null_safety_extensions.dart';
+import '../../app/components/constants/dio_and_mapper_constants.dart';
 import '../models/movie_model.dart';
 import '../models/user_model.dart';
 
@@ -50,7 +50,7 @@ extension UserResponseMapper on UserResponse? {
         additionalInfo: this?.additionalInfo ?? AppConstants.emptyText,
         fullName: this?.fullName ?? AppConstants.emptyText,
         email: this?.email ?? AppConstants.emptyText,
-        dateOfBirth: this?.dateOfBirth ?? AppConstants.defaultDate,
+        dateOfBirth: this?.dateOfBirth ?? AppConstants.emptyText,
         mobileNumber: this?.mobileNumber ?? AppConstants.emptyText,
         cart: this?.cart ?? AppConstants.emptyIntList,
         favorites: this?.favorites ?? AppConstants.emptyIntList,

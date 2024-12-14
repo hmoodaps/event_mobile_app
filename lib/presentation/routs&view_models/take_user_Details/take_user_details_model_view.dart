@@ -13,12 +13,14 @@ import '../../bloc_state_managment/states.dart';
 
 class TakeUserDetailsModelView extends BaseViewModel
     with TakeUserDetailsFunctions {
+  TakeUserDetailsModelView(this.context);
+
   TextEditingController dateOfBirth = TextEditingController();
   TextEditingController houseNumber = TextEditingController();
   TextEditingController mobileNumber = TextEditingController();
   TextEditingController postalCode = TextEditingController();
   TextEditingController city = TextEditingController();
-  TextEditingController additinalInfo = TextEditingController();
+  TextEditingController additionalInfo = TextEditingController();
   TextEditingController street = TextEditingController();
   late final StreamSubscription blocStreamSubscription;
 
@@ -44,7 +46,7 @@ class TakeUserDetailsModelView extends BaseViewModel
     mobileNumber.dispose();
     postalCode.dispose();
     city.dispose();
-    additinalInfo.dispose();
+    additionalInfo.dispose();
     street.dispose();
   }
 

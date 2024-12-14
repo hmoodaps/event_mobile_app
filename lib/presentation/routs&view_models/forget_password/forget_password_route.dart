@@ -27,8 +27,7 @@ class _ForgetPasswordRouteState extends State<ForgetPasswordRoute> {
   @override
   void initState() {
     super.initState();
-    _model = ForgetPasswordModelView();
-    _model.context = context;
+    _model = ForgetPasswordModelView(context);
     _model.start();
   }
 

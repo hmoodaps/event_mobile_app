@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Ya existe una cuenta con esta dirección de correo electrónico, pero con credenciales diferentes."),
-        "additinalInfo":
+        "additionalInfo":
             MessageLookupByLibrary.simpleMessage("Información adicional"),
         "address": MessageLookupByLibrary.simpleMessage("Dirección"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid"),
@@ -39,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("¡Sé el primero!"),
         "byPress": MessageLookupByLibrary.simpleMessage("por presión"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
+        "cart": MessageLookupByLibrary.simpleMessage("Carrito"),
         "city": MessageLookupByLibrary.simpleMessage("ciudad"),
         "colorThemeApp": MessageLookupByLibrary.simpleMessage("Temas de color"),
         "continueString": MessageLookupByLibrary.simpleMessage("Continuar"),
@@ -54,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Error"),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
             "El código OTP en el enlace de correo electrónico ha caducado."),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "fee": MessageLookupByLibrary.simpleMessage("tarifa"),
         "feedback":
             MessageLookupByLibrary.simpleMessage("Comentarios y quejas"),
@@ -104,6 +107,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "myAppBalance":
             MessageLookupByLibrary.simpleMessage("Mi saldo de cuenta"),
         "newMovies": MessageLookupByLibrary.simpleMessage("Películas nuevas"),
+        "noCartItems": MessageLookupByLibrary.simpleMessage(
+            "¡Tu carrito está vacío por ahora!"),
+        "noFaveItems":
+            MessageLookupByLibrary.simpleMessage("¡No hay favoritos todavía!"),
+        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+            "¡Aún no has iniciado sesión! Por favor, inicia sesión para continuar al carrito."),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Operación no permitida. \nHabilita esta opción en la consola de Firebase."),
         "or": MessageLookupByLibrary.simpleMessage("o"),
@@ -146,8 +155,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("¡Entradas restantes!"),
         "topMovies":
             MessageLookupByLibrary.simpleMessage("Películas principales"),
+        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+            "¡Inicia sesión primero para agregar artículos al carrito!"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Ocurrió un error desconocido."),
+        "urNotLogin":
+            MessageLookupByLibrary.simpleMessage("¡No has iniciado sesión!"),
         "userDisabled": MessageLookupByLibrary.simpleMessage(
             "El usuario ha sido desactivado."),
         "userMismatch": MessageLookupByLibrary.simpleMessage(

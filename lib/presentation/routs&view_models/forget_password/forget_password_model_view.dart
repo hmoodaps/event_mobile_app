@@ -20,6 +20,8 @@ class ForgetPasswordModelView extends BaseViewModel
   late StreamSubscription blocStreamSubscription;
   late final BuildContext context;
 
+  ForgetPasswordModelView(this.context);
+
   @override
   void dispose() {
     emailController.dispose();

@@ -6,16 +6,16 @@ import '../../../domain/repository/main_repositories/repositories.dart';
 import '../failure_class/failure_class.dart';
 
 class AddUserDetailsImplementer implements AddUserDetailsRepo {
-  final Repositories isolateHelper;
+  final Repositories repo;
 
   AddUserDetailsImplementer({
-    required this.isolateHelper,
+    required this.repo,
   });
 
   @override
-  Future<Either<FirebaseFailureClass, void>> addUserDetails({
+  Future<Either<FailureClass, void>> addUserDetails({
     required CreateUserRequirements req,
   }) {
-    return isolateHelper.addUserDetails(req: req);
+    return repo.addUserDetails(req: req);
   }
 }

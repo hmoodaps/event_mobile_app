@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_mobile_app/app/components/constants/buttons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/color_manager.dart';
@@ -6,13 +5,18 @@ import 'package:event_mobile_app/app/components/constants/font_manager.dart';
 import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage'
+    '.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_model_view.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/choos_seat_route/choos_seat_route.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_'
+    'model_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
+
+import '../../../domain/local_models/models.dart';
 
 class MovieRoute extends StatefulWidget {
   final MovieResponse movie;
@@ -24,20 +28,21 @@ class MovieRoute extends StatefulWidget {
 }
 
 class _MovieRouteState extends State<MovieRoute> {
-late MovieModelView _movieModelView ;
+  late MovieModelView _model;
 
   @override
   void initState() {
     super.initState();
-    _movieModelView = MovieModelView(movie: widget.movie, context: context);
-    _movieModelView.start();
+    _model = MovieModelView(movie: widget.movie, context: context);
+    _model.start();
   }
 
   @override
   void dispose() {
-    _movieModelView.dispose();
+    _model.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventsBloc, AppStates>(
@@ -70,7 +75,7 @@ late MovieModelView _movieModelView ;
                     colors: [
                       Colors.transparent,
                       Colors.transparent,
-                      _movieModelView.dominantColor,
+                      _model.dominantColor,
                     ],
                     begin: AlignmentDirectional.topCenter,
                     end: AlignmentDirectional.bottomCenter,
@@ -89,7 +94,7 @@ late MovieModelView _movieModelView ;
                         child: Text(
                           widget.movie.name!,
                           style: TextStyleManager.header(context)!
-                              .copyWith(color: _movieModelView.textColor),
+                              .copyWith(color: _model.textColor),
                         ),
                       ),
                     ),
@@ -103,7 +108,7 @@ late MovieModelView _movieModelView ;
                           child: Text(
                             widget.movie.shortDescription!,
                             style: TextStyleManager.bodyStyle(context)!
-                                .copyWith(color: _movieModelView.textColor),
+                                .copyWith(color: _model.textColor),
                           ),
                         ),
                       ),
@@ -134,6 +139,37 @@ late MovieModelView _movieModelView ;
               ),
             ),
           ),
+          StaggeredAnimatedWidget(
+            delay: 1000,
+            child: GestureDetector(
+              onTap: () {
+                if (!isItemInFaves(filmId: widget.movie.id!)) {
+                  _model.addFilmToFavEvent(widget.movie);
+                } else {
+                  _model.removeFilmFromFavEvent(widget.movie);
+                }
+              },
+              child: Padding(
+                padding: EdgeInsets.all(SizeManager.d20),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: CircleAvatar(
+                    backgroundColor: isItemInFaves(
+                      filmId: widget.movie.id!,
+                    )
+                        ? Colors.green
+                        : ColorManager.privateGrey,
+                    child: Center(
+                      child: Icon(IconsManager.favorite,
+                          color: isItemInFaves(filmId: widget.movie.id!)
+                              ? Colors.red
+                              : Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           Align(
             alignment: Alignment.bottomLeft,
             child: Row(
@@ -144,7 +180,7 @@ late MovieModelView _movieModelView ;
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       boxShadow: [
-                        ContainerManager.myShadow(shadowColor: _movieModelView.textColor)
+                        ContainerManager.myShadow(shadowColor: _model.textColor)
                       ],
                     ),
                     child: CircleAvatar(
@@ -163,9 +199,11 @@ late MovieModelView _movieModelView ;
                       context: context,
                       height: SizeManager.d50,
                       buttonName: 'More Details',
-                      shadowColor: _movieModelView.textColor,
+                      shadowColor: _model.textColor,
                       textColor: Colors.black,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Seat(movie: widget.movie),),);
+                      },
                       color: ColorManager.primary,
                     ),
                   ),

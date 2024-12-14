@@ -22,6 +22,8 @@ class ProfileModelView extends BaseViewModel with ProfileModelViewFunctions {
   late final BuildContext context;
   late final StreamSubscription blocStreamSubscription;
 
+  ProfileModelView(this.context);
+
   int? selectedLanguageIndex;
   int? selectedColorIndex;
   int? selectedModeIndex;
@@ -60,11 +62,11 @@ class ProfileModelView extends BaseViewModel with ProfileModelViewFunctions {
     String currentColor =
         SharedPref.prefs.getString(GeneralStrings.colorTheme) ?? 'green';
     selectedColorIndex = _getColorIndex(currentColor);
-bool isManual = SharedPref.getBool(GeneralStrings.isManual)!;
+    bool isManual = SharedPref.prefs.getBool(GeneralStrings.isManual)!;
     selectedModeIndex = _getModeIndex(isManual);
 
     bloc.add(LoadPreferencesEvent(
-      selectedModeIndex:selectedModeIndex ,
+      selectedModeIndex: selectedModeIndex,
       selectedLanguageIndex: selectedLanguageIndex!,
       selectedColorIndex: selectedColorIndex!,
     ));
@@ -80,7 +82,7 @@ bool isManual = SharedPref.getBool(GeneralStrings.isManual)!;
         return SizeManager.i2;
       case 'ar':
         return SizeManager.i3;
-        case 'tr':
+      case 'tr':
         return SizeManager.i5;
       case 'en':
       default:
@@ -100,6 +102,7 @@ bool isManual = SharedPref.getBool(GeneralStrings.isManual)!;
         return AppConstants.intZero;
     }
   }
+
   int _getModeIndex(bool isManual) {
     switch (isManual) {
       case false:
@@ -185,6 +188,7 @@ bool isManual = SharedPref.getBool(GeneralStrings.isManual)!;
   @override
   void onChangeLanguageNetherlands() =>
       _changeLanguage(ApplicationLanguage.nl, AppConstants.intZero);
+
   void onChangeLanguageTurkish() =>
       _changeLanguage(ApplicationLanguage.tr, SizeManager.i5);
 
@@ -207,17 +211,19 @@ bool isManual = SharedPref.getBool(GeneralStrings.isManual)!;
   // Theme and color change methods
   @override
   void onChangeThemeBasedOnPhone() {
-  bloc.add(ChangeModeThemeEvent(false));
+    bloc.add(ChangeModeThemeEvent(false));
   }
 
   @override
   void onChangeThemeManual() {
     bloc.add(ChangeModeThemeEvent(true));
   }
+
   @override
   void onChangeThemeManualToDark() {
     bloc.add(ChangeModeEvent(AppTheme.dark));
   }
+
   @override
   void onChangeThemeManualToLight() {
     bloc.add(ChangeModeEvent(AppTheme.light));
@@ -277,6 +283,8 @@ mixin ProfileModelViewFunctions {
   void onChangeColorBlue();
 
   void onChangeColorPurple();
+
   void onChangeThemeManualToDark();
+
   void onChangeThemeManualToLight();
 }

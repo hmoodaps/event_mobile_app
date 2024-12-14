@@ -8,21 +8,21 @@ import '../../models/movie_model.dart';
 import '../failure_class/failure_class.dart';
 
 class InitRepositoryImplementer implements InitRepository {
-  final Repositories isolateHelper;
+  final Repositories repo;
 
   InitRepositoryImplementer({
-    required this.isolateHelper,
+    required this.repo,
   });
 
   // Fetch movies from the API
   @override
   Future<Either<FailureClass, List<MovieResponse>>> fetchMovies() async {
-    return await isolateHelper.fetchMovies();
+    return await repo.fetchMovies();
   }
 
   // Initialize Firebase and fetch user IDs
   @override
-  Future<Either<FirebaseFailureClass, List<String>>> initFirebase() async {
-    return await isolateHelper.initFirebase();
+  Future<Either<FailureClass, List<String>>> initFirebase() async {
+    return await repo.initFirebase();
   }
 }

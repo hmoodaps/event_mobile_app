@@ -7,30 +7,30 @@ import '../../../domain/repository/register_in_firebase_repo.dart';
 import '../failure_class/failure_class.dart';
 
 class RegisterImplementer implements RegisterInFirebaseRepo {
-  Repositories isolateHelper;
+  Repositories repo;
 
   RegisterImplementer({
-    required this.isolateHelper,
+    required this.repo,
   });
 
   // Create a new user in Firebase
   @override
-  Future<Either<FirebaseFailureClass, UserCredential>> createUserAtFirebase(
+  Future<Either<FailureClass, UserCredential>> createUserAtFirebase(
       {required CreateUserRequirements req}) async {
-    return await isolateHelper.createUserAtFirebase(req: req);
+    return await repo.createUserAtFirebase(req: req);
   }
 
   // Add user details to Firestore
   @override
-  Future<Either<FirebaseFailureClass, void>> addUserToFirebase(
+  Future<Either<FailureClass, void>> addUserToFirebase(
       {required CreateUserRequirements req}) async {
-    return await isolateHelper.addUserToFirebase(req: req);
+    return await repo.addUserToFirebase(req: req);
   }
 
   @override
-  Future<Either<FirebaseFailureClass, void>> createUserAtFirebaseWithCredential(
+  Future<Either<FailureClass, void>> createUserAtFirebaseWithCredential(
       {required AuthCredential credential}) async {
-    return await isolateHelper.createUserAtFirebaseWithCredential(
+    return await repo.createUserAtFirebaseWithCredential(
         credential: credential);
   }
 }

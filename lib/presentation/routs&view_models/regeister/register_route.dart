@@ -32,8 +32,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
   @override
   void initState() {
     super.initState();
-    _model = RegisterModelView();
-    _model.context = context;
+    _model = RegisterModelView(context);
     _model.start();
   }
 

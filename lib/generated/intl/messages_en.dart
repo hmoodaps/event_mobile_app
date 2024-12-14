@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "An account already exists with this email address\n but with different credentials. "),
-        "additinalInfo":
+        "additionalInfo":
             MessageLookupByLibrary.simpleMessage("Additional Information "),
         "address": MessageLookupByLibrary.simpleMessage("Address "),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid "),
@@ -38,6 +38,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Be the first one! "),
         "byPress": MessageLookupByLibrary.simpleMessage("by press "),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cart": MessageLookupByLibrary.simpleMessage("Cart"),
+        "chooseSeat": MessageLookupByLibrary.simpleMessage("Choose your seat"),
         "city": MessageLookupByLibrary.simpleMessage("city "),
         "colorThemeApp": MessageLookupByLibrary.simpleMessage("Color Themes "),
         "continueString": MessageLookupByLibrary.simpleMessage("Continue "),
@@ -51,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Error "),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
             "The OTP in the email link has expired. "),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "fee": MessageLookupByLibrary.simpleMessage("fee schedule "),
         "feedback":
             MessageLookupByLibrary.simpleMessage("Feedback & Complaints "),
@@ -98,6 +102,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "myAppBalance":
             MessageLookupByLibrary.simpleMessage("My Account Balance "),
         "newMovies": MessageLookupByLibrary.simpleMessage("New Movies "),
+        "noCartItems":
+            MessageLookupByLibrary.simpleMessage("Your cart is empty for now!"),
+        "noFaveItems":
+            MessageLookupByLibrary.simpleMessage("No favorites here yet!"),
+        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+            "You\'re not logged in yet. Please log in to continue to your cart!"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Operation not allowed. \nPlease enable this option in Firebase Console. "),
         "or": MessageLookupByLibrary.simpleMessage("or "),
@@ -106,7 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Other fees may apply "),
         "password": MessageLookupByLibrary.simpleMessage("Password "),
         "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
-            "password reset link was sent to your emain\n .Check your inbox "),
+            "password reset link was sent to your email\n .Check your inbox "),
         "paymentMethods":
             MessageLookupByLibrary.simpleMessage("Payment Methods "),
         "postalCode": MessageLookupByLibrary.simpleMessage("Postal Code "),
@@ -138,8 +148,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeMode": MessageLookupByLibrary.simpleMessage("Theme Mode "),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage("tickets left! "),
         "topMovies": MessageLookupByLibrary.simpleMessage("Top Movies "),
+        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+            "You need to log in before adding items to your cart!"),
         "unknownError":
             MessageLookupByLibrary.simpleMessage("An unknown error occurred. "),
+        "urNotLogin":
+            MessageLookupByLibrary.simpleMessage("You’re not logged in!"),
         "userDisabled": MessageLookupByLibrary.simpleMessage(
             "The user has been disabled. "),
         "userMismatch": MessageLookupByLibrary.simpleMessage(

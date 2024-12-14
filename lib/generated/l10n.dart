@@ -711,10 +711,10 @@ class S {
   }
 
   /// `Additional Information `
-  String get additinalInfo {
+  String get additionalInfo {
     return Intl.message(
       'Additional Information ',
-      name: 'additinalInfo',
+      name: 'additionalInfo',
       desc: '',
       args: [],
     );
@@ -770,10 +770,10 @@ class S {
     );
   }
 
-  /// `password reset link was sent to your emain\n .Check your inbox `
+  /// `password reset link was sent to your email\n .Check your inbox `
   String get passwordResetSuccess {
     return Intl.message(
-      'password reset link was sent to your emain\n .Check your inbox ',
+      'password reset link was sent to your email\n .Check your inbox ',
       name: 'passwordResetSuccess',
       desc: '',
       args: [],
@@ -925,6 +925,96 @@ class S {
     return Intl.message(
       'skip ',
       name: 'skip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favorites here yet!`
+  String get noFaveItems {
+    return Intl.message(
+      'No favorites here yet!',
+      name: 'noFaveItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get favorites {
+    return Intl.message(
+      'Favorites',
+      name: 'favorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You're not logged in yet. Please log in to continue to your cart!`
+  String get notLoggedIn {
+    return Intl.message(
+      'You\'re not logged in yet. Please log in to continue to your cart!',
+      name: 'notLoggedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’re not logged in!`
+  String get urNotLogin {
+    return Intl.message(
+      'You’re not logged in!',
+      name: 'urNotLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You need to log in before adding items to your cart!`
+  String get uCantAddItemToCart {
+    return Intl.message(
+      'You need to log in before adding items to your cart!',
+      name: 'uCantAddItemToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your cart is empty for now!`
+  String get noCartItems {
+    return Intl.message(
+      'Your cart is empty for now!',
+      name: 'noCartItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cart`
+  String get cart {
+    return Intl.message(
+      'Cart',
+      name: 'cart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose your seat`
+  String get chooseSeat {
+    return Intl.message(
+      'Choose your seat',
+      name: 'chooseSeat',
       desc: '',
       args: [],
     );

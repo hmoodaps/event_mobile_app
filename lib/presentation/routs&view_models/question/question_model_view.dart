@@ -6,14 +6,18 @@ import '../../../app/components/constants/routs_manager.dart';
 import '../../../data/local_storage/shared_local.dart';
 
 class QuestionModelView extends QuestionNavigateFunctions {
+  BuildContext context;
+
+  QuestionModelView(this.context);
+
   @override
-  navigateToLogin({required BuildContext context}) {
+  navigateToLogin() {
     navigateTo(context, RouteStringsManager.loginRoute);
   }
 
   @override
-  navigateToMain({required BuildContext context}) {
-    SharedPref.saveBool(key: GeneralStrings.isGuest, value: true);
+  navigateToMain() {
+    SharedPref.prefs.setBool(GeneralStrings.isGuest, true);
     Navigator.pushReplacementNamed(
       context,
       RouteStringsManager.mainRoute,
@@ -21,15 +25,15 @@ class QuestionModelView extends QuestionNavigateFunctions {
   }
 
   @override
-  navigateToRegister({required BuildContext context}) {
+  navigateToRegister() {
     navigateTo(context, RouteStringsManager.registerRoute);
   }
 }
 
 abstract class QuestionNavigateFunctions {
-  navigateToMain({required BuildContext context});
+  navigateToMain();
 
-  navigateToRegister({required BuildContext context});
+  navigateToRegister();
 
-  navigateToLogin({required BuildContext context});
+  navigateToLogin();
 }

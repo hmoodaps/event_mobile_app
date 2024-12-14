@@ -23,8 +23,20 @@ class GeneralStrings {
   static const String appLanguage = 'appLanguage';
   static const String appMode = 'appMode';
   static const String isManual = 'isManual';
+  static const String listFaves = 'listFaves';
 
   static String ticketsLeft(BuildContext context) => S.of(context).ticketsLeft;
+  static String chooseSeat(BuildContext context) => S.of(context).chooseSeat;
+  static String cart(BuildContext context) => S.of(context).cart;
+  static String noCartItems(BuildContext context) => S.of(context).noCartItems;
+  static String uCantAddItemToCart(BuildContext context) => S.of(context).uCantAddItemToCart;
+  static String urNotLogin(BuildContext context) => S.of(context).urNotLogin;
+  static String cancel(BuildContext context) => S.of(context).cancel;
+  static String notLoggedIn(BuildContext context) => S.of(context).notLoggedIn;
+
+  static String noFaveItems(BuildContext context) => S.of(context).noFaveItems;
+
+  static String favorites(BuildContext context) => S.of(context).favorites;
 
   static String ltsResetPassword(BuildContext context) =>
       S.of(context).ltsResetPassword;
@@ -36,8 +48,8 @@ class GeneralStrings {
 
   static String skip(BuildContext context) => S.of(context).skip;
 
-  static String additinalInfo(BuildContext context) =>
-      S.of(context).additinalInfo;
+  static String additionalInfo(BuildContext context) =>
+      S.of(context).additionalInfo;
 
   static String resetPassword(BuildContext context) =>
       S.of(context).resetPassword;

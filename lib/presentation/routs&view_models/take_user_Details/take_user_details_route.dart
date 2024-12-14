@@ -34,8 +34,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
   @override
   void initState() {
     super.initState();
-    _modelView = TakeUserDetailsModelView();
-    _modelView.context = context;
+    _modelView = TakeUserDetailsModelView(context);
     _modelView.start();
   }
 
@@ -202,13 +201,13 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                             SizedBox(width: 10),
                             Expanded(
                               child: textFormField(
-                                controller: _modelView.additinalInfo,
+                                controller: _modelView.additionalInfo,
                                 prefix: Padding(
                                   padding: const EdgeInsets.all(0.0),
                                   child: Icon(IconsManager.info),
                                 ),
                                 labelText:
-                                    GeneralStrings.additinalInfo(context),
+                                    GeneralStrings.additionalInfo(context),
                                 onFieldSubmitted: (p0) => toNextField,
                                 validator: (p0) => validator(p0, context),
                                 context: context,
@@ -273,8 +272,8 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                                           _modelView.mobileNumber.text,
                                       street: _modelView.street.text,
                                       houseNumber: _modelView.houseNumber.text,
-                                      additinalInfo:
-                                          _modelView.additinalInfo.text,
+                                      additionalInfo:
+                                          _modelView.additionalInfo.text,
                                       postalCode: _modelView.postalCode.text,
                                       city: _modelView.city.text,
                                     ),

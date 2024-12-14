@@ -1,6 +1,4 @@
-
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
@@ -11,23 +9,26 @@ import 'package:palette_generator/palette_generator.dart';
 
 import '../../bloc_state_managment/events.dart';
 
-class MovieModelView extends BaseViewModel with MoviesModelViewFunctions{
+class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   Color dominantColor = Colors.transparent;
   Color textColor = Colors.black;
- late EventsBloc _bloc ;
- late BuildContext context;
+  late EventsBloc bloc;
+
+  late BuildContext context;
   final MovieResponse movie;
-  MovieModelView({required this.movie , required this.context});
+
+  MovieModelView({required this.movie, required this.context});
 
   @override
-  void dispose() {
-  }
+  void dispose() {}
 
   @override
   void start() {
-    _bloc = EventsBloc.get(context);
+    bloc = EventsBloc.get(context);
+
     extractDominantColor();
   }
+
   /// Determines the contrasting color for a given color based on brightness.
   /// The brightness calculation follows the standard luminance formula:
   /// brightness = 0.299 * red + 0.587 * green + 0.114 * blue.
@@ -57,10 +58,10 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions{
 
     // Resolve the image and attach a listener to capture its dimensions.
     final ImageStream imageStream =
-    imageProvider.resolve(const ImageConfiguration());
+        imageProvider.resolve(const ImageConfiguration());
     imageStream.addListener(
       ImageStreamListener(
-            (ImageInfo info, bool _) {
+        (ImageInfo info, bool _) {
           // When the image is loaded, retrieve its width and height.
           completer.complete(
             Size(
@@ -82,7 +83,7 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions{
 
     // Define the region of the image to analyze using a rectangular area.
     // - The region spans the full width of the image.
-    // - The top and bottom are clamped to ensure they remain within the image's bounds.
+    // - The top and bottom are clamped to ensure they remail within the image's bounds.
     final region = Rect.fromLTRB(
       0, // Start at the very left (X-axis).
       regionTop.clamp(0, imageSize.height), // Clamp top boundary.
@@ -100,14 +101,25 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions{
     );
 
     // Update the state with the extracted dominant color.
-      // If a dominant color is found, use it; otherwise, default to black.
-      dominantColor = paletteGenerator.dominantColor?.color ?? Colors.black;
-      // Determine the contrasting text color for the dominant color.
-      textColor = getContrastingColor(dominantColor);
-      _bloc.add(ExtractDominantColorEvent());
+    // If a dominant color is found, use it; otherwise, default to black.
+    dominantColor = paletteGenerator.dominantColor?.color ?? Colors.black;
+    // Determine the contrasting text color for the dominant color.
+    textColor = getContrastingColor(dominantColor);
+    bloc.add(ExtractDominantColorEvent());
   }
+
+  addFilmToFavEvent(MovieResponse movie) {
+    bloc.add(AddFilmToFavEvent(movie));
+  }
+
+  removeFilmFromFavEvent(MovieResponse movie) {
+    bloc.add(RemoveFilmFromFavEvent(movie));
+  }
+
 }
-mixin MoviesModelViewFunctions{
+
+mixin MoviesModelViewFunctions {
   getContrastingColor(Color color);
+
   extractDominantColor();
 }

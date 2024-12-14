@@ -5,16 +5,15 @@ import '../../data/implementer/failure_class/failure_class.dart';
 import '../local_models/models.dart';
 
 abstract class RegisterInFirebaseRepo {
-  Future<Either<FirebaseFailureClass, UserCredential>> createUserAtFirebase({
+  Future<Either<FailureClass, UserCredential>> createUserAtFirebase({
     required CreateUserRequirements req,
   });
 
-  Future<Either<FirebaseFailureClass, void>> addUserToFirebase({
+  Future<Either<FailureClass, void>> addUserToFirebase({
     required CreateUserRequirements req,
   });
 
-  Future<Either<FirebaseFailureClass, void>>
-      createUserAtFirebaseWithCredential({
+  Future<Either<FailureClass, void>> createUserAtFirebaseWithCredential({
     required AuthCredential credential,
   });
 }

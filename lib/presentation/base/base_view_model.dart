@@ -1,5 +1,4 @@
-abstract class BaseViewModel extends BaseViewModelInputs
-    with BaseViewModelOutputs {}
+abstract class BaseViewModel extends BaseViewModelInputs {}
 
 abstract class BaseViewModelInputs {
   void start(//TODO : BRING DATA FROM MODEL
@@ -7,5 +6,3 @@ abstract class BaseViewModelInputs {
 
   void dispose();
 }
-
-mixin BaseViewModelOutputs {}

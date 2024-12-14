@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Bu e-posta adresiyle başka bir hesap mevcut, ancak farklı kimlik bilgileriyle."),
-        "additinalInfo": MessageLookupByLibrary.simpleMessage("Ek bilgi"),
+        "additionalInfo": MessageLookupByLibrary.simpleMessage("Ek bilgi"),
         "address": MessageLookupByLibrary.simpleMessage("Adres"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmet Khalid"),
         "allInvesting":
@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "allMovies": MessageLookupByLibrary.simpleMessage("Tüm filmler"),
         "beTheFirstOne": MessageLookupByLibrary.simpleMessage("İlk ol!"),
         "byPress": MessageLookupByLibrary.simpleMessage("Tıklayarak"),
+        "cancel": MessageLookupByLibrary.simpleMessage("İptal"),
+        "cart": MessageLookupByLibrary.simpleMessage("Sepet"),
         "city": MessageLookupByLibrary.simpleMessage("Şehir"),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage("Uygulama teması"),
@@ -49,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Bir hata oluştu"),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
             "E-posta linkindeki OTP kodu süresi dolmuş."),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favoriler"),
         "fee": MessageLookupByLibrary.simpleMessage("Ücret tablosu"),
         "feedback":
             MessageLookupByLibrary.simpleMessage("Geri bildirim ve şikayetler"),
@@ -97,6 +100,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Telefon numarası"),
         "myAppBalance": MessageLookupByLibrary.simpleMessage("Hesap bakiyeniz"),
         "newMovies": MessageLookupByLibrary.simpleMessage("Yeni filmler"),
+        "noCartItems":
+            MessageLookupByLibrary.simpleMessage("Sepetiniz şimdilik boş!"),
+        "noFaveItems":
+            MessageLookupByLibrary.simpleMessage("Henüz favoriniz yok!"),
+        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+            "Henüz giriş yapmadınız. Lütfen sepetinize devam etmek için giriş yapın!"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Bu işlem izin verilmiyor. Lütfen Firebase Console\'dan etkinleştirin."),
         "or": MessageLookupByLibrary.simpleMessage("Veya"),
@@ -137,8 +146,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeMode": MessageLookupByLibrary.simpleMessage("Işık modu"),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage("Bilet kaldı!"),
         "topMovies": MessageLookupByLibrary.simpleMessage("En iyi filmler"),
+        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+            "Sepete ürün eklemek için önce giriş yapmanız gerekiyor!"),
         "unknownError":
             MessageLookupByLibrary.simpleMessage("Bilinmeyen bir hata oluştu."),
+        "urNotLogin":
+            MessageLookupByLibrary.simpleMessage("Henüz giriş yapmadınız!"),
         "userDisabled": MessageLookupByLibrary.simpleMessage(
             "Kullanıcı devre dışı bırakıldı."),
         "userMismatch": MessageLookupByLibrary.simpleMessage(

@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Un compte existe déjà avec cette adresse e-mail, mais avec des informations d\'identification différentes."),
-        "additinalInfo": MessageLookupByLibrary.simpleMessage(
+        "additionalInfo": MessageLookupByLibrary.simpleMessage(
             "Informations supplémentaires"),
         "address": MessageLookupByLibrary.simpleMessage("Adresse"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid"),
@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Soyez le premier!"),
         "byPress": MessageLookupByLibrary.simpleMessage("par pression"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
+        "cart": MessageLookupByLibrary.simpleMessage("Panier"),
         "city": MessageLookupByLibrary.simpleMessage("ville"),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage("Thèmes de couleur"),
@@ -53,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Erreur"),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
             "Le code OTP dans le lien email a expiré."),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favoris"),
         "fee": MessageLookupByLibrary.simpleMessage("tarification"),
         "feedback":
             MessageLookupByLibrary.simpleMessage("Commentaires & Réclamations"),
@@ -105,6 +108,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "myAppBalance":
             MessageLookupByLibrary.simpleMessage("Mon solde de compte"),
         "newMovies": MessageLookupByLibrary.simpleMessage("Nouveaux films"),
+        "noCartItems": MessageLookupByLibrary.simpleMessage(
+            "Votre panier est vide pour l’instant !"),
+        "noFaveItems":
+            MessageLookupByLibrary.simpleMessage("Pas encore de favoris ici !"),
+        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+            "Vous n’êtes pas encore connecté. Connectez-vous pour accéder à votre panier !"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Opération non autorisée. \nActivez cette option dans la console Firebase."),
         "or": MessageLookupByLibrary.simpleMessage("ou"),
@@ -147,8 +156,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "ticketsLeft":
             MessageLookupByLibrary.simpleMessage("billets restants!"),
         "topMovies": MessageLookupByLibrary.simpleMessage("Films principaux"),
+        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+            "Connectez-vous d’abord pour ajouter des articles au panier !"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Une erreur inconnue s\'est produite."),
+        "urNotLogin":
+            MessageLookupByLibrary.simpleMessage("Vous n’êtes pas connecté !"),
         "userDisabled": MessageLookupByLibrary.simpleMessage(
             "L\'utilisateur a été désactivé."),
         "userMismatch": MessageLookupByLibrary.simpleMessage(

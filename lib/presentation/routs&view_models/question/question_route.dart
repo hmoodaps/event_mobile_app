@@ -22,7 +22,14 @@ class QuestionRoute extends StatefulWidget {
 }
 
 class _QuestionRouteState extends State<QuestionRoute> {
-  final _modelView = QuestionModelView();
+  late final QuestionModelView _modelView;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _modelView = QuestionModelView(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +92,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                 suffixIcon: IconsManager.home,
                                 context: context,
                                 buttonName: GeneralStrings.guest(context),
-                                onTap: () =>
-                                    _modelView.navigateToMain(context: context),
+                                onTap: () => _modelView.navigateToMain(),
                                 color: ColorManager.primarySecond)),
                         SizedBox(
                           height: SizeManager.d12,
@@ -131,8 +137,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                 suffixIcon: IconsManager.register,
                                 context: context,
                                 buttonName: GeneralStrings.register(context),
-                                onTap: () => _modelView.navigateToRegister(
-                                    context: context),
+                                onTap: () => _modelView.navigateToRegister(),
                                 color: ColorManager.privateYalow)),
                         SizedBox(
                           height: SizeManager.d12,
@@ -177,8 +182,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                 suffixIcon: IconsManager.login,
                                 context: context,
                                 buttonName: GeneralStrings.login(context),
-                                onTap: () => _modelView.navigateToLogin(
-                                    context: context),
+                                onTap: () => _modelView.navigateToLogin(),
                                 color: ColorManager.privateBlue)),
                       ],
                     ),

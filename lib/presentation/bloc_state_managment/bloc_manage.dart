@@ -1,10 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
-import 'package:event_mobile_app/app/handle_app_language/handle_app_language.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
+import 'package:event_mobile_app/domain/repository/operators_repository.dart';
+import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_functions.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -12,25 +14,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
-import '../../app/components/constants/theme_manager.dart';
 import '../../app/components/constants/variables_manager.dart';
 import '../../app/components/firebase_error_handler/firebase_error_handler.dart';
 import '../../app/dependencies_injection/dependency_injection.dart';
-import '../../app/handle_app_theme/handle_app_theme_colors.dart';
 import '../../data/implementer/failure_class/failure_class.dart';
 import '../../data/models/movie_model.dart';
+import '../../data/network_data_handler/http_requests/http_requests_handller.dart';
 import '../../domain/repository/add_user_details.dart';
 import '../../domain/repository/auth_repository.dart';
 import '../../domain/repository/init_repository.dart';
 import '../../domain/repository/login_to_firebase_repo.dart';
 import '../../domain/repository/register_in_firebase_repo.dart';
-import '../../main.dart';
 import 'events.dart';
 
 class EventsBloc extends Bloc<AppEvents, AppStates> {
   // ======== Auth Handler ==========
   // Object for handling authentication=related operations
   final AuthRepository _auth = instance();
+  final BlocFunctions _functions = BlocFunctions();
+
+  final OperatorsRepository _operators = instance();
 
   // ======== Login Handler ==========
   // Object for managing login operations in Firebase
@@ -51,6 +54,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   EventsBloc() : super(InitialState()) {
     // Registering event handlers to listen and respond to various events
     on<StartCreateUserEvent>(_onCreateUserEvent);
+    on<GetFavesItemsStateSuccessEvent>(_onGetFavesItemsStateSuccessEvent);
+    on<AddFilmToFavEvent>(_onAddFilmToFavEvent);
     on<CreatingUserResultEvent>(_onCreatingUserResultEvent);
     on<ExtractDominantColorEvent>(_onExtractDominantColorEvent);
     on<LoginEvent>(_onLoginEvent);
@@ -90,10 +95,163 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<ToLogoutEvent>(_onToLogoutEvent);
     on<ChangeModeEvent>(_onChangeModeEvent);
     on<ChangeModeThemeEvent>(_onChangeModeThemeEvent);
+    on<ShowNoInternetDialog>(_onShowNoInternetDialog);
+    on<GetCurrentUserResponseEvent>(_onGetCurrentUserResponseEvent);
+    on<RemoveFilmFromFavEvent>(_onRemoveFilmFromFavEvent);
+    on<GetFavesItemsEvent>(_onGetFavesItemsEvent);
+    on<AddFilmToCartEvent>(_onAddFilmToCartEvent);
+    on<RemoveFilmFromCartEvent>(_onRemoveFilmFromCartEvent);
+    on<GetCartItemsEvent>(_onGetCartItemsEvent);
   }
 
   //create instance from Event bloc if we need new instance and cant use it from DI
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
+
+  //============= Get Current User Response Event===========================
+  _onGetCurrentUserResponseEvent(
+      GetCurrentUserResponseEvent event, Emitter<AppStates> emit) async {
+    await _operators.getCurrentUserResponse().then((value) {
+      value.fold((fail) {
+        if (kDebugMode) {
+          print(fail.error);
+        }
+      }, (success) {
+        VariablesManager.currentUserRespon = success;
+        add(GetFavesItemsEvent());
+        add(GetCartItemsEvent());
+        emit(GetCurrentUserResponseState());
+      });
+    });
+  }
+
+  // ============= adding or remove CART ==========================
+  _onAddFilmToCartEvent(
+      AddFilmToCartEvent event, Emitter<AppStates> emit) async {
+    await _operators.addFilmToCart(movie: event.movie).then((value) {
+      value.fold((fail) {
+        if (kDebugMode) {
+          print(fail.error);
+        }
+      }, (success) {
+        add(GetCurrentUserResponseEvent());
+        add(GetCartItemsEvent());
+      });
+    });
+  }
+
+  _onRemoveFilmFromCartEvent(
+      RemoveFilmFromCartEvent event, Emitter<AppStates> emit) async {
+    await _operators.removeFilmFromCart(movie: event.movie).then((value) {
+      value.fold((fail) {
+        if (kDebugMode) {
+          print(fail.error);
+        }
+      }, (success) {
+        emit(RemoveFilmFromCartState());
+        add(GetCurrentUserResponseEvent());
+        add(GetCartItemsEvent());
+      });
+    });
+  }
+
+  Future<void> _onGetCartItemsEvent(
+      GetCartItemsEvent event, Emitter<AppStates> emit) async {
+    try {
+      final cartItems = VariablesManager.currentUserRespon.cart ?? [];
+
+      final movieIds = cartItems.map((movieId) {
+        return int.tryParse(movieId.toString()) ?? 0;
+      }).toList();
+
+      final responses = await Future.wait(movieIds.map((movieId) async {
+        final result = await HttpHelper.getData(
+            methodUrl: 'viewsets/movies/$movieId',
+            headers: {
+              'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
+            });
+
+        return result.fold((fail) => null,
+                (success) => MovieResponse.fromJson(jsonDecode(success.body)));
+      }));
+      VariablesManager.cartMovies.clear();
+      VariablesManager.cartMovies.addAll(responses.whereType<MovieResponse>());
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
+    emit(GetCartItemsState());
+  }
+
+  // ============= adding or remove FAVORITE ==========================
+
+  _onAddFilmToFavEvent(AddFilmToFavEvent event, Emitter<AppStates> emit) async {
+    emit(StartAddingItemToFavesState());
+
+    await _operators.addFilmToFavorites(movie: event.movie).then((value) {
+      value.fold((fail) {
+        if (kDebugMode) {
+          print(fail.error);
+        }
+      }, (success) {
+        SharedPref.prefs.getString(GeneralStrings.currentUser) == null
+            ? emit(AddFilmToFavState())
+            : add(GetCurrentUserResponseEvent());
+        add(GetFavesItemsEvent());
+      });
+    });
+  }
+
+  _onRemoveFilmFromFavEvent(
+      RemoveFilmFromFavEvent event, Emitter<AppStates> emit) async {
+emit(StartRemovingItemFromFavesState());
+    await _operators
+        .removeFilmFromFavorites(movie: event.movie)
+        .then((value) {
+      value.fold((fail) {
+        if (kDebugMode) {
+          print(fail.error);
+        }
+      }, (success) {
+        if (SharedPref.prefs.getString(GeneralStrings.currentUser) != null) {
+          add(GetCurrentUserResponseEvent());
+        }
+        emit(RemoveFilmFromFavState());
+        add(GetFavesItemsEvent());
+      });
+    });
+  }
+
+  Future<void> _onGetFavesItemsEvent(
+      GetFavesItemsEvent event, Emitter<AppStates> emit) async {
+    try {
+      final favorites = FirebaseAuth.instance.currentUser == null
+          ? (SharedPref.prefs.getStringList(GeneralStrings.listFaves)!)
+          : (VariablesManager.currentUserRespon.favorites ?? []);
+      final movieIds = favorites.map((movieId) {
+        return int.tryParse(movieId.toString()) ?? 0;
+      }).toList();
+      final responses = await Future.wait(movieIds.map((movieId) async {
+        final result = await HttpHelper.getData(
+            methodUrl: 'viewsets/movies/$movieId',
+            headers: {
+              'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
+            });
+
+        return result.fold((fail) => null, (success) {
+          return MovieResponse.fromJson(jsonDecode(success.body));
+        });
+      }));
+      VariablesManager.favesMovies.clear();
+      VariablesManager.favesMovies.addAll(responses.whereType<MovieResponse>());
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
+    emit(GetFavesItemsState());
+  }
+
+  _onGetFavesItemsStateSuccessEvent(
+      GetFavesItemsStateSuccessEvent event, Emitter<AppStates> emit) {
+    emit(GetFavesItemsStateSuccessState());
+  }
 
 //====================Add User Details Handler=============================
   _onAddUserDetailsEvent(
@@ -107,7 +265,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   _onAddUserDetailsResultEvent(
       AddUserDetailsResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold((error) {
-      add(AddUserDetailsErrorEvent(error.firebaseException));
+      add(AddUserDetailsErrorEvent(error.firebaseException!));
     }, (success) {
       add(AddUserDetailsSuccessEvent());
     });
@@ -160,14 +318,15 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       FetchMoviesResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(MoviesLoadedErrorEvent(fail.toString()));
+        add(MoviesLoadedErrorEvent(fail.error!));
       },
       (movies) {
         if (VariablesManager.movies.isNotEmpty) {
           VariablesManager.movies.clear();
         }
         VariablesManager.movies.addAll(movies);
-        getPhotos(VariablesManager.movies).then((value) {
+        emit(FetchMoviesResultState());
+        _functions.getPhotos(VariablesManager.movies).then((value) {
           if (kDebugMode) {
             print("done!");
           }
@@ -180,6 +339,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onMoviesLoadedErrorEvent(
       MoviesLoadedErrorEvent event, Emitter<AppStates> emit) async {
     emit(MoviesLoadedErrorState(event.fail));
+    add(StartFetchMoviesEvent());
   }
 
   Future<void> _onMoviesLoadedSuccessEvent(
@@ -195,7 +355,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onStartFetchFirebaseEvent(
       StartFetchFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(StartFetchFirebaseState());
-    Either<FirebaseFailureClass, List<String>> result =
+    Either<FailureClass, List<String>> result =
         await _repository.initFirebase();
     add(FetchFirebaseResultEvent(result));
   }
@@ -204,7 +364,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       FetchFirebaseResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(FetchFirebaseErrorEvent(fail.firebaseException));
+        add(FetchFirebaseErrorEvent(fail.firebaseException!));
       },
       (success) {
         if (VariablesManager.userIds.isNotEmpty) {
@@ -215,6 +375,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           print(VariablesManager.userIds);
         }
         add(FetchFirebaseSuccessEvent());
+        add(GetCurrentUserResponseEvent());
       },
     );
   }
@@ -242,7 +403,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       StartCreateUserEvent event, Emitter<AppStates> emit) async {
     emit(StartUserCreateState());
 
-    Either<FirebaseFailureClass, UserCredential> result =
+    Either<FailureClass, UserCredential> result =
         await _register.createUserAtFirebase(req: event.req);
 
     if (kDebugMode) {
@@ -255,7 +416,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       CreatingUserResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(UserCreatedErrorEvent(fail.firebaseException));
+        add(UserCreatedErrorEvent(fail.firebaseException!));
       },
       (success) {
         if (success.user != null) {
@@ -290,11 +451,12 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   }
 
   // ======== Add User To Firebase Handler ==========
-//adding user to firebase will be incloded with creation user
+//adding user to firebase will be included with creation user
   //whether normal register or with google register
   Future<void> _onAddUserToFirebaseEvent(
       AddUserToFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(UserCreatedSuccessState());
+    add(GetCurrentUserResponseEvent());
   }
 
   // ======== LoginEvent Handler ==========
@@ -304,7 +466,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onLoginEvent(LoginEvent event, Emitter<AppStates> emit) async {
     emit(LoginState());
-    Either<FirebaseFailureClass, String> result =
+    Either<FailureClass, String> result =
         await _login.loginToFirebase(req: event.req);
     add(LoginResultEvent(result));
   }
@@ -313,7 +475,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       LoginResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
       (fail) {
-        add(LoginErrorEvent(fail.firebaseException));
+        add(LoginErrorEvent(fail.firebaseException!));
       },
       (success) {
         add(LoginSuccessEvent());
@@ -333,6 +495,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onLoginSuccessEvent(
       LoginSuccessEvent event, Emitter<AppStates> emit) async {
     emit(LoginSuccessState());
+    add(GetCurrentUserResponseEvent());
   }
 
   // ======== SignInWithGoogleEvent Handler ==========
@@ -356,6 +519,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       },
       (user) {
         add(SignInWithGoogleEventSuccess(user));
+        add(GetCurrentUserResponseEvent());
       },
     );
   }
@@ -383,60 +547,14 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   //to concern missions
   Future<void> _onChangeColorModeEvent(
       ChangeColorModeEvent event, Emitter<AppStates> emit) async {
-    // Change the color theme using the helper
-    AppColorHelper.changeColorTheme(event);
-
-    // Use switch to handle setting the color theme
-    switch (event.appColorsTheme) {
-      case AppColorsTheme.green:
-        SharedPref.prefs.setString(GeneralStrings.colorTheme, 'green');
-        break;
-
-      case AppColorsTheme.blue:
-        SharedPref.prefs.setString(GeneralStrings.colorTheme, 'blue');
-        break;
-
-      case AppColorsTheme.purple:
-        SharedPref.prefs.setString(GeneralStrings.colorTheme, 'purple');
-        break;
-
-      default:
-        // Optional: handle unknown themes if needed
-        break;
-    }
-
+    _functions.changeColorMode(event);
     // Emit the state change
     emit(ChangeColorThemeState(selectedColorIndex: event.selectedColorIndex));
   }
 
   Future<void> _onChangeLanguageEvent(
       ChangeLanguageEvent event, Emitter<AppStates> emit) async {
-    HandleAppLanguage.changeAppLanguage(event);
-    // Use switch to handle setting the color theme
-    switch (event.applicationLanguage) {
-      case ApplicationLanguage.en:
-        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'en');
-        break;
-        case ApplicationLanguage.tr:
-        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'tr');
-        break;
-      case ApplicationLanguage.fr:
-        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'fr');
-        break;
-      case ApplicationLanguage.es:
-        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'es');
-        break;
-      case ApplicationLanguage.nl:
-        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'nl');
-        break;
-      case ApplicationLanguage.ar:
-        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'ar');
-        break;
-
-      default:
-        // Optional: handle unknown themes if needed
-        break;
-    }
+    _functions.changeLanguage(event);
     emit(ChangeAppLanguageState(
         selectedLanguageIndex: event.selectedLanguageIndex));
   }
@@ -465,6 +583,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     }
   }
 
+  _onShowNoInternetDialog(
+      ShowNoInternetDialog event, Emitter<AppStates> emit) async {
+    emit(ShowNoInternetDialogState());
+  }
+
   // ======== reset password Handler ==========
 // i made it just to sent an email to user to reset the password
   //by firebase .
@@ -472,7 +595,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       ResetPasswordEvent event, Emitter<AppStates> emit) async {
     final result = await _login.forgetPassword(event.email);
     result.fold((error) {
-      add(ResetPasswordErrorEvent(error.firebaseException));
+      add(ResetPasswordErrorEvent(error.firebaseException!));
     }, (success) {
       add(ResetPasswordSuccessEvent());
     });
@@ -504,90 +627,39 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 // It first checks whether the theme is set to manual or automatic (based on device settings).
 // If manual mode is enabled, it uses the theme saved in `TheAppMode`.
 // If not, it checks the device's brightness to dynamically set the theme (light or dark).
+// This method handles the event when the theme is toggled between light and dark modes.
+// It updates the app state by setting a flag (VariablesManager.isDark) based on the selected theme.
+
   ThemeData? toggleLightAndDark(context) {
-    ThemeData themeData ; // Default to light theme if not set.
+    ThemeData themeData; // Default to light theme if not set.
     // Check if the user is in manual mode
-    if (SharedPref.getBool(GeneralStrings.isManual)!) {
-      themeData = TheAppMode.appMode; // Use the saved theme mode (light or dark).
-      // Check if the event's theme is dark or light, and update the dark mode flag accordingly.
-      if(  themeData == AppTheme.dark.themeData){
-        VariablesManager.isDark = true;
-      }else{
-        VariablesManager.isDark = false;
-      }
-      add(ChangeModeThemeEvent(SharedPref.getBool(GeneralStrings.isManual)!));
+    if (SharedPref.prefs.getBool(GeneralStrings.isManual)!) {
+      themeData = _functions.checkIfModeManual();
+      add(ChangeModeThemeEvent(
+          SharedPref.prefs.getBool(GeneralStrings.isManual)!));
       // Trigger event to update theme in the app state
       add(ToggleLightAndDarkEvent(themeData));
-
     } else {
-      // Automatically set the theme based on device's current brightness (light/dark mode)
-      Brightness brightness = MediaQuery.of(context).platformBrightness;
-      brightness == Brightness.dark
-          ? (themeData =
-              AppTheme.dark.themeData) // Set dark theme if device is dark mode.
-          : (themeData =
-              AppTheme.light.themeData); // Otherwise, set light theme.
-
-      // For debugging, print the current theme
-      if (kDebugMode) {
-        print(VariablesManager.isDark ? "dark" : 'light');
-      }
-      if(  themeData == AppTheme.dark.themeData){
-        VariablesManager.isDark = true;
-      }else{
-        VariablesManager.isDark = false;
-      }
+      themeData = _functions.checkLightAndDarkMode(context);
       // Trigger event to update theme in the app state
       add(ToggleLightAndDarkEvent(themeData));
-
     }
     // Return the selected theme (either light, dark, or based on user settings)
     return themeData;
   }
 
-// ======== ToggleLightAndDarkEvent Handler =========
-// This method handles the event when the theme is toggled between light and dark modes.
-// It updates the app state by setting a flag (VariablesManager.isDark) based on the selected theme.
   void _onToggleLightAndDarkEvent(
       ToggleLightAndDarkEvent event, Emitter<AppStates> emit) {
     // Emit the updated theme state to notify the app to rebuild with the new theme.
-
     emit(ToggleLightAndDarkState());
-
   }
-
-
-
-  void _onExtractDominantColorEvent(
-      ExtractDominantColorEvent event, Emitter<AppStates> emit) {
-
-    emit(ExtractDominantColorState());
-
-  }
-
 
 // ======== ChangeModeEvent Handler ==========
 // This method updates the theme mode (light/dark) in the app preferences
 // and stores it in `SharedPref` for persistence across app launches.
   Future<void> _onChangeModeEvent(
       ChangeModeEvent event, Emitter<AppStates> emit) async {
-    // Update the app theme mode based on the event.
-    TheAppMode.updateMode(event.appMode);
-
-    // Store the selected theme in shared preferences (for persistence)
-    switch (event.appMode) {
-      case AppTheme.light:
-        SharedPref.prefs
-            .setString(GeneralStrings.appMode, 'light'); // Save light mode.
-        break;
-      case AppTheme.dark:
-        SharedPref.prefs
-            .setString(GeneralStrings.appMode, 'dark'); // Save dark mode.
-        break;
-      default:
-        // Handle unknown theme modes (optional, if required).
-        break;
-    }
+    _functions.changeMode(event);
 
     // Emit the state to notify the app about the updated theme mode.
     emit(ChangeModeState());
@@ -599,8 +671,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onChangeModeThemeEvent(
       ChangeModeThemeEvent event, Emitter<AppStates> emit) async {
     // Save the manual theme preference in SharedPreferences
-    await SharedPref.saveBool(
-        key: GeneralStrings.isManual, value: event.isManual);
+    await SharedPref.prefs.setBool(GeneralStrings.isManual, event.isManual);
 
     // Update the theme based on the stored preference (light or dark)
     switch (SharedPref.prefs.getString(GeneralStrings.appMode)) {
@@ -626,24 +697,10 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(ChangeModeThemeState(event.isManual));
   }
 
-  // Caches images associated with movies
-// This function is used to cache the images of movies by initializing CachedNetworkImageProvider instances
-// for each movie's image (both the main and vertical images).
-  Future<void> getPhotos(List<MovieResponse> movies) async {
-    // Preload images into cache using precacheImage
-    // The images are first wrapped in CachedNetworkImageProvider, then they are stored in memory.
-    // Preload the images without displaying them to the user (in the background)
-    // This ensures the images are cached and ready to be shown without delay.
-
-    final moviesCopy = List<MovieResponse>.from(movies); // Create a copy
-    if (VariablesManager.isFirstTimeOpened) {
-      for (MovieResponse movie in moviesCopy) {
-        await precacheImage(CachedNetworkImageProvider(movie.photo!),
-            navigatorKey.currentContext!);
-        await precacheImage(CachedNetworkImageProvider(movie.verticalPhoto!),
-            navigatorKey.currentContext!);
-      }
-    }
+  //==============ExtractDominantColorEvent=========
+  void _onExtractDominantColorEvent(
+      ExtractDominantColorEvent event, Emitter<AppStates> emit) {
+    emit(ExtractDominantColorState());
   }
 
   // ======== Light Theme Text Styles ========

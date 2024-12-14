@@ -65,7 +65,7 @@
   "fewData": "Gewoon wat meer gegevens! ",
   "someInfo": "We nemen een beetje informatie om de gepersonaliseerde\n ervaring te verbeteren, slechts een paar seconden. ",
   "mobileNumber": "Telefoonnummer ",
-  "additinalInfo": "Aanvullende informatie ",
+  "additionalInfo": "Aanvullende informatie ",
   "city": "stad ",
   "byPress": "door druk ",
   "youAccept": "je accepteert ",
@@ -86,5 +86,14 @@
   "privacyPolicy": "Privacybeleid ",
   "logout": "Uitloggen ",
   "loginOrRegister": "Inloggen of registreren ",
-  "skip": "overslaan "
+  "skip": "overslaan ",
+  "noFaveItems": "Nog geen favorieten hier!",
+  "favorites": "Favorieten",
+  "notLoggedIn": "Je bent nog niet ingelogd. Log in om verder te gaan naar je winkelwagen!",
+  "cancel": "Annuleren",
+  "urNotLogin": "Je bent niet ingelogd!",
+  "uCantAddItemToCart": "Je moet inloggen voordat je items aan de winkelwagen kunt toevoegen!",
+  "noCartItems": "Je winkelwagen is voorlopig leeg!",
+  "cart": "Winkelwagen"
+
 }

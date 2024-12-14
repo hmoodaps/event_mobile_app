@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 " يوجد حساب بالفعل باستخدام عنوان البريد الإلكتروني هذا ولكن مع بيانات اعتماد مختلفة."),
-        "additinalInfo":
+        "additionalInfo":
             MessageLookupByLibrary.simpleMessage(" معلومات اضافية"),
         "address": MessageLookupByLibrary.simpleMessage(" العنوان"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage(" أحمد خالد"),
@@ -37,6 +37,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "allMovies": MessageLookupByLibrary.simpleMessage(" جميع الأفلام"),
         "beTheFirstOne": MessageLookupByLibrary.simpleMessage(" كن الأول!"),
         "byPress": MessageLookupByLibrary.simpleMessage(" عند الضغط"),
+        "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+        "cart": MessageLookupByLibrary.simpleMessage("السلة"),
         "city": MessageLookupByLibrary.simpleMessage(" المدينة"),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage(" الثيمات اللونية"),
@@ -50,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage(" حدث خطأ"),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
             " انتهت صلاحية رمز OTP في رابط البريد الإلكتروني."),
+        "favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "fee": MessageLookupByLibrary.simpleMessage(" جدول الرسوم"),
         "feedback": MessageLookupByLibrary.simpleMessage(" الملاحظات والشكاوى"),
         "fewData":
@@ -96,6 +99,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "mobileNumber": MessageLookupByLibrary.simpleMessage(" رقم الهاتف"),
         "myAppBalance": MessageLookupByLibrary.simpleMessage(" رصيد الحساب"),
         "newMovies": MessageLookupByLibrary.simpleMessage(" أفلام جديدة"),
+        "noCartItems":
+            MessageLookupByLibrary.simpleMessage("سلتك فاضية حالياً!"),
+        "noFaveItems":
+            MessageLookupByLibrary.simpleMessage("ما في عناصر مفضلة حالياً!"),
+        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+            "لسا ما سجلت دخولك، سجل دخولك عشان تكمل للسلة!"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             " العملية غير مسموح بها. الرجاء تمكين هذا الخيار في Firebase Console."),
         "or": MessageLookupByLibrary.simpleMessage(" أو"),
@@ -135,8 +144,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeMode": MessageLookupByLibrary.simpleMessage(" السطوع"),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage(" تذاكر متبقية!"),
         "topMovies": MessageLookupByLibrary.simpleMessage(" أفضل الأفلام"),
+        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+            "لازم تسجل دخولك عشان تضيف منتجات للسلة!"),
         "unknownError":
             MessageLookupByLibrary.simpleMessage(" حدث خطأ غير معروف."),
+        "urNotLogin": MessageLookupByLibrary.simpleMessage("انت مش مسجل دخول!"),
         "userDisabled":
             MessageLookupByLibrary.simpleMessage(" تم تعطيل المستخدم."),
         "userMismatch": MessageLookupByLibrary.simpleMessage(

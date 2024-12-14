@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +22,8 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
   late final BuildContext context;
   late EventsBloc _bloc;
   late final StreamSubscription blocStreamSubscription;
+
+  RegisterModelView(this.context);
 
   @override
   void dispose() {
@@ -60,9 +60,9 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
       }
 
       if (state is SignInWithGoogleUserExistState) {
-        final docSnapshot = await FirebaseFirestore.instance
+        final docSnapshot = await VariablesManager.firestoreInstance
             .collection(GeneralStrings.users)
-            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .doc(VariablesManager.firebaseAuthInstance.currentUser!.uid)
             .get();
 
         if (docSnapshot.exists) {

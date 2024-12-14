@@ -21,7 +21,9 @@ abstract class AppLanguage {
 class EnglishLanguage implements AppLanguage {
   @override
   String appLanguage = 'en';
-}class TurkishLanguage implements AppLanguage {
+}
+
+class TurkishLanguage implements AppLanguage {
   @override
   String appLanguage = 'tr';
 }
@@ -47,7 +49,7 @@ class SpanishLanguage implements AppLanguage {
 }
 
 // Enum to define the available color themes.
-enum ApplicationLanguage { en, nl, ar, fr, es , tr }
+enum ApplicationLanguage { en, nl, ar, fr, es, tr }
 
 // Extension to retrieve the color manager based on the selected theme.
 extension ApplicationLanguageExtension on ApplicationLanguage {
@@ -55,7 +57,7 @@ extension ApplicationLanguageExtension on ApplicationLanguage {
     switch (this) {
       case ApplicationLanguage.nl:
         return NetherlandsLanguage();
-        case ApplicationLanguage.tr:
+      case ApplicationLanguage.tr:
         return TurkishLanguage();
       case ApplicationLanguage.fr:
         return FranchLanguage();
@@ -96,7 +98,7 @@ class HandleAppLanguage {
     } else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'es') {
       AppLanguage language = ApplicationLanguage.es.applanguage;
       TheAppLanguage.updateLanguage(language);
-    }else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'tr') {
+    } else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'tr') {
       AppLanguage language = ApplicationLanguage.tr.applanguage;
       TheAppLanguage.updateLanguage(language);
     }

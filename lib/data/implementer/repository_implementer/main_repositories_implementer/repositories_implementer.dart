@@ -4,10 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
+import 'package:event_mobile_app/data/mapper/mapper.dart';
 import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 
+import '../../../../app/components/constants/variables_manager.dart';
 import '../../../../domain/local_models/models.dart';
 import '../../../../domain/repository/main_repositories/repositories.dart';
 import '../../../models/movie_model.dart';
@@ -19,80 +20,77 @@ class RepositoriesImplementer implements Repositories {
 
   RepositoriesImplementer(this.dioClient);
 
+  // -------Getter to get the userId dynamically-------
+  String? get userId => VariablesManager.firebaseAuthInstance.currentUser?.uid;
+
   // ----------------------- Firebase Functions -----------------------
 
   // -------Function: Login to Firebase -------
   @override
-  Future<Either<FirebaseFailureClass, String>> loginToFirebase(
+  Future<Either<FailureClass, String>> loginToFirebase(
       {required CreateUserRequirements req}) async {
-    try {
-      final userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+    return handleFirebaseOperation(() async {
+      final userCredential = await VariablesManager.firebaseAuthInstance
+          .signInWithEmailAndPassword(
         email: req.email!,
         password: req.password!,
       );
-      return Right(userCredential.user!.uid);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+      SharedPref.prefs.setString(GeneralStrings.currentUser, userCredential.user!.uid);
+      await _addFavesFromGuestToUser ();
+
+      return userCredential.user!.uid;
+    });
   }
 
   // -------Function: Create a user in Firebase -------
   @override
-  Future<Either<FirebaseFailureClass, UserCredential>> createUserAtFirebase(
+  Future<Either<FailureClass, UserCredential>> createUserAtFirebase(
       {required CreateUserRequirements req}) async {
-    try {
-      final userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    return handleFirebaseOperation(() async {
+      final userCredential = await VariablesManager.firebaseAuthInstance
+          .createUserWithEmailAndPassword(
         email: req.email!,
         password: req.password!,
       );
-
-      return Right(userCredential);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+      return userCredential;
+    });
   }
 
   // -------Function: Add user to Firebase -------
   @override
-  Future<Either<FirebaseFailureClass, void>> addUserToFirebase(
+  Future<Either<FailureClass, void>> addUserToFirebase(
       {required CreateUserRequirements req}) async {
-    try {
+    return handleFirebaseOperation(() async {
+      List<int> favorites = [];
+      for (String favorite
+          in SharedPref.prefs.getStringList(GeneralStrings.listFaves)!) {
+        int favoriteItem = int.parse(favorite);
+        favorites.add(favoriteItem);
+      }
       final userResponse = UserResponse(
         email: req.email,
         fullName: req.fullName,
-        id: FirebaseAuth.instance.currentUser!.uid,
+        id: userId,
+        favorites: favorites,
       );
 
-      await FirebaseFirestore.instance
+      await VariablesManager.firestoreInstance
           .collection(GeneralStrings.users)
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .set(userResponse.toJson());
-      return Right(null);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+          .doc(userId)
+          .set(userResponse.toDomain().toJson());
+    });
   }
 
   // -------Function: Initialize Firebase and fetch user IDs -------
   @override
-  Future<Either<FirebaseFailureClass, List<String>>> initFirebase() async {
-    try {
-      final snapshot = await FirebaseFirestore.instance
+  Future<Either<FailureClass, List<String>>> initFirebase() async {
+    return handleFirebaseOperation(() async {
+      final snapshot = await VariablesManager.firestoreInstance
           .collection(GeneralStrings.users)
           .get();
       final userIds = snapshot.docs.map((doc) => doc.id).toList();
-      if (kDebugMode) {
-        print(userIds);
-      }
-      return Right(userIds);
-    } on FirebaseException catch (error) {
-      if (kDebugMode) {
-        print("fetch firebase uids ${error.toString()}");
-      }
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+      return userIds;
+    });
   }
 
   // -------Function: Fetch movies -------
@@ -102,7 +100,6 @@ class RepositoriesImplementer implements Repositories {
       final response = await Isolate.run(() async {
         return await dioClient.getMovies();
       });
-
       return Right(response);
     } catch (error) {
       return Left(FailureClass(error: error.toString()));
@@ -111,12 +108,12 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Function: Add user details -------
   @override
-  Future<Either<FirebaseFailureClass, void>> addUserDetails(
+  Future<Either<FailureClass, void>> addUserDetails(
       {required CreateUserRequirements req}) async {
-    try {
-      final userDoc = FirebaseFirestore.instance
+    return handleFirebaseOperation(() async {
+      final userDoc = VariablesManager.firestoreInstance
           .collection(GeneralStrings.users)
-          .doc(FirebaseAuth.instance.currentUser!.uid);
+          .doc(userId);
 
       await userDoc.update({
         'street': req.street,
@@ -124,49 +121,204 @@ class RepositoriesImplementer implements Repositories {
         'postalCode': req.postalCode,
         'city': req.city,
         'dateOfBirth': req.dateOfBirth,
-        'additionalInfo': req.additinalInfo,
+        'additionalInfo': req.additionalInfo,
       });
+      SharedPref.prefs.setString(GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
 
-      return Right(null);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+      await _addFavesFromGuestToUser();
+    });
   }
 
   // -------Function: Create user with credentials -------
   @override
-  Future<Either<FirebaseFailureClass, User>> createUserAtFirebaseWithCredential(
+  Future<Either<FailureClass, User>> createUserAtFirebaseWithCredential(
       {required AuthCredential credential}) async {
-    try {
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+    return handleFirebaseOperation(() async {
+      final userCredential = await VariablesManager.firebaseAuthInstance
+          .signInWithCredential(credential);
       SharedPref.prefs
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
 
-      return Right(userCredential.user!);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+      await _addFavesFromGuestToUser();
+      SharedPref.prefs.setString(GeneralStrings.currentUser, userCredential.user!.uid);
+
+      return userCredential.user!;
+    });
   }
 
+  // -------Log out -------
   @override
-  Future<Either<FirebaseFailureClass, void>> logout() async {
-    try {
-      FirebaseAuth.instance.signOut();
-      return Right(null);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
-    }
+  Future<Either<FailureClass, void>> logout() async {
+    return handleFirebaseOperation(() async {
+      await VariablesManager.firebaseAuthInstance.signOut();
+    });
   }
 
+  // -------Forget password -------
   @override
-  Future<Either<FirebaseFailureClass, void>> forgetPassword(
-      String email) async {
-    try {
-      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      return Right(null);
-    } on FirebaseException catch (error) {
-      return Left(FirebaseFailureClass(firebaseException: error));
+  Future<Either<FailureClass, void>> forgetPassword(String email) async {
+    return handleFirebaseOperation(() async {
+      await VariablesManager.firebaseAuthInstance
+          .sendPasswordResetEmail(email: email);
+    });
+  }
+
+  // -------Get Current User Response -------
+  @override
+  Future<Either<FailureClass, UserResponse>> getCurrentUserResponse() async {
+    if (userId == null) {
+      return Left(FailureClass(error: "User not authenticated"));
     }
+
+    return handleFirebaseOperation(() async {
+      final userDoc = await VariablesManager.firestoreInstance
+          .collection(GeneralStrings.users)
+          .doc(userId)
+          .get();
+      SharedPref.prefs.setString(GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
+
+      if (userDoc.exists) {
+        final userResponse = UserResponse.fromJson(userDoc.data()!);
+        return userResponse.toDomain();
+      } else {
+        throw Exception('User document not found.');
+      }
+    });
+  }
+
+  // -------Add Film To Favorites -------
+  @override
+  Future<Either<FailureClass, void>> addFilmToFavorites(
+      {required MovieResponse movie}) async {
+    return handleFirebaseOperation(() async {
+      if (userId == null) {
+        List<String> faves =
+            SharedPref.prefs.getStringList(GeneralStrings.listFaves) ?? [];
+
+        if (!faves.contains(movie.id.toString())) {
+          faves.add(movie.id.toString());
+        }
+        VariablesManager.favesMovies.add(movie);
+
+        SharedPref.prefs.setStringList(GeneralStrings.listFaves, faves);
+      } else {
+        final userRef = VariablesManager.firestoreInstance
+            .collection(GeneralStrings.users)
+            .doc(userId);
+
+        await VariablesManager.firestoreInstance
+            .runTransaction((transaction) async {
+          final docSnapshot = await transaction.get(userRef);
+          if (docSnapshot.exists) {
+            transaction.update(userRef, {
+              'favorites': FieldValue.arrayUnion([movie.id])
+            });
+          }
+        });
+      }
+    });
+  }
+
+  // -------Remove Film From Favorites -------
+  @override
+  Future<Either<FailureClass, void>> removeFilmFromFavorites(
+      {required MovieResponse movie}) async {
+    return handleFirebaseOperation(() async {
+      if (userId == null) {
+        List<String> faves =
+            SharedPref.prefs.getStringList(GeneralStrings.listFaves) ?? [];
+
+        faves.remove(movie.id.toString());
+        VariablesManager.favesMovies.remove(movie);
+        SharedPref.prefs.setStringList(GeneralStrings.listFaves, faves);
+      } else {
+        final userRef = VariablesManager.firestoreInstance
+            .collection(GeneralStrings.users)
+            .doc(userId);
+
+        final docSnapshot = await userRef.get();
+        if (docSnapshot.exists) {
+          await userRef.update({
+            'favorites': FieldValue.arrayRemove([movie.id])
+          });
+        }
+      }
+    });
+  }
+
+  // -------Add Film To Cart -------
+  @override
+  Future<Either<FailureClass, void>> addFilmToCart(
+      {required MovieResponse movie}) async {
+    return handleFirebaseOperation(() async {
+      if (userId != null) {
+        final userRef = VariablesManager.firestoreInstance
+            .collection(GeneralStrings.users)
+            .doc(userId);
+        VariablesManager.cartMovies.add(movie);
+        await VariablesManager.firestoreInstance
+            .runTransaction((transaction) async {
+          final docSnapshot = await transaction.get(userRef);
+          if (docSnapshot.exists) {
+            transaction.update(userRef, {
+              'cart': FieldValue.arrayUnion([movie.id!])
+            });
+          }
+        });
+      }
+    });
+  }
+
+  // -------Remove Film From Favorites -------
+  @override
+  Future<Either<FailureClass, void>> removeFilmFromCart(
+      {required MovieResponse movie}) async {
+    return handleFirebaseOperation(() async {
+      final userRef = VariablesManager.firestoreInstance
+          .collection(GeneralStrings.users)
+          .doc(userId);
+      VariablesManager.cartMovies.remove(movie);
+      final docSnapshot = await userRef.get();
+      if (docSnapshot.exists) {
+        await userRef.update({
+          'cart': FieldValue.arrayRemove([movie.id])
+        });
+      }
+    });
+  }
+
+  _addFavesFromGuestToUser()async{
+    final currentUser = await VariablesManager.firestoreInstance
+        .collection(GeneralStrings.users)
+        .doc(VariablesManager.firebaseAuthInstance.currentUser!.uid)
+        .get();
+
+    if (currentUser.exists) {
+      List<int> firebaseFavorites =
+      List<int>.from(currentUser.data()?['favorites'] ?? []);
+
+      List<String> sharedPrefFavorites =
+          SharedPref.prefs.getStringList(GeneralStrings.listFaves) ?? [];
+
+      List<int> sharedPrefFavoritesInt =
+      sharedPrefFavorites.map(int.parse).toList();
+
+      for (int filmId in sharedPrefFavoritesInt) {
+        if (!firebaseFavorites.contains(filmId)) {
+          firebaseFavorites.add(filmId);
+        }
+      }
+
+      await FirebaseFirestore.instance
+          .collection(GeneralStrings.users)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'favorites': firebaseFavorites,
+      }).then((_){
+        SharedPref.prefs.setStringList(GeneralStrings.listFaves , []);
+        VariablesManager.favesMovies = [];
+      });
+    }
+
   }
 }

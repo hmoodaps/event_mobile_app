@@ -4,10 +4,10 @@ import '../../data/implementer/failure_class/failure_class.dart';
 import '../local_models/models.dart';
 
 abstract class LoginToFirebaseRepo {
-  Future<Either<FirebaseFailureClass, String>> loginToFirebase(
+  Future<Either<FailureClass, String>> loginToFirebase(
       {required CreateUserRequirements req});
 
-  Future<Either<FirebaseFailureClass, void>> logout();
+  Future<Either<FailureClass, void>> logout();
 
-  Future<Either<FirebaseFailureClass, void>> forgetPassword(String email);
+  Future<Either<FailureClass, void>> forgetPassword(String email);
 }

@@ -10,22 +10,23 @@ import '../../../data/models/movie_model.dart';
 class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   TextEditingController searchController = TextEditingController();
   List<MovieResponse> shuffledMovies = [];
-  late EventsBloc _bloc;
-
+  late EventsBloc bloc;
   late BuildContext context;
+
+  MoviesModelView(this.context);
 
   @override
   void dispose() {}
 
   @override
   void start() {
+    bloc = EventsBloc.get(context);
     shuffledMovies = shuffleMovies();
-    _bloc = EventsBloc.get(context);
   }
 
   @override
   Future<void> getMovies() async {
-    _bloc.add(StartFetchMoviesEvent());
+    bloc.add(StartFetchMoviesEvent());
   }
 
   @override
@@ -50,6 +51,23 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
     }
 
     return uniqueMovies;
+  }
+
+ void addFilmToFavEvent(MovieResponse movie) {
+    bloc.add(AddFilmToFavEvent(movie));
+  }
+
+ void removeFilmFromFavEvent(MovieResponse movie) {
+
+    bloc.add(RemoveFilmFromFavEvent(movie));
+  }
+
+  void addFilmToCartEvent(MovieResponse movie) {
+    bloc.add(AddFilmToCartEvent(movie));
+  }
+
+ void removeFilmFromCartEvent(MovieResponse movie) {
+    bloc.add(RemoveFilmFromCartEvent(movie));
   }
 }
 

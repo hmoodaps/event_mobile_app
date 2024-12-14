@@ -23,8 +23,7 @@ class _MainRouteState extends State<MainRoute> {
   @override
   void initState() {
     super.initState();
-    _model = MainRouteModelView();
-    _model.context = context;
+    _model = MainRouteModelView(context);
     _model.start();
   }
 

@@ -10,11 +10,14 @@ import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/route_strings_manager.dart';
+import '../../../app/components/constants/routs_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../../data/models/movie_model.dart';
+import '../../../domain/local_models/models.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
 import '../movie/movie_route.dart';
@@ -28,14 +31,13 @@ class MoviesRoute extends StatefulWidget {
 }
 
 class _MoviesRouteState extends State<MoviesRoute> {
-  late final MoviesModelView _modelView;
+  late final MoviesModelView _model;
 
   @override
   void initState() {
     super.initState();
-    _modelView = MoviesModelView();
-    _modelView.context = context;
-    _modelView.start();
+    _model = MoviesModelView(context);
+    _model.start();
   }
 
   @override
@@ -58,7 +60,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
             springAnimationDurationInMilliseconds: SizeManager.i1400,
             color: ColorManager.primarySecond,
             showChildOpacityTransition: true,
-            onRefresh: () => _modelView.getMovies(),
+            onRefresh: () => _model.getMovies(),
             child: Visibility(
               visible: VariablesManager.movies.isNotEmpty,
               child: SingleChildScrollView(
@@ -76,7 +78,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                             height: SizeManager.d50,
                             child: searchFormField(
                               context: context,
-                              controller: _modelView.searchController,
+                              controller: _model.searchController,
                               suffix: Icon(
                                 IconsManager.search,
                               ),
@@ -97,7 +99,8 @@ class _MoviesRouteState extends State<MoviesRoute> {
                         CarouselSlider.builder(
                           itemCount: VariablesManager.movies.length,
                           itemBuilder: (context, dx, index) => RepaintBoundary(
-                            child: _newMovies(dx: dx , movies: VariablesManager.movies),
+                            child: _newMovies(
+                                dx: dx, movies: VariablesManager.movies),
                           ),
                           options: CarouselOptions(
                             scrollDirection: Axis.horizontal,
@@ -121,7 +124,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                           child: ListView.separated(
                             itemBuilder: (context, index) => RepaintBoundary(
                               child: _topMovie(
-                                  dx: index , movies: VariablesManager.movies),
+                                  dx: index, movies: VariablesManager.movies),
                             ),
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -163,7 +166,8 @@ class _MoviesRouteState extends State<MoviesRoute> {
                                 child: ScaleAnimation(
                                   child: FadeInAnimation(
                                     child: RepaintBoundary(
-                                      child: _movieCard(dx: index , movies: _modelView.shuffledMovies),
+                                      child: _movieCard(
+                                          movie: _model.shuffledMovies[index]),
                                     ),
                                   ),
                                 ),
@@ -181,10 +185,16 @@ class _MoviesRouteState extends State<MoviesRoute> {
         ),
       ];
 
-  Widget _newMovies({required int dx , required List<MovieResponse> movies}) {
+
+  Widget _newMovies({required int dx, required List<MovieResponse> movies}) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieRoute(movie: movies[dx],)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MovieRoute(
+                      movie: movies[dx],
+                    )));
       },
       child: SizedBox(
         child: CachedNetworkImage(
@@ -198,10 +208,15 @@ class _MoviesRouteState extends State<MoviesRoute> {
     );
   }
 
-  Widget _topMovie({required int dx , required List<MovieResponse> movies}) {
+  Widget _topMovie({required int dx, required List<MovieResponse> movies}) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieRoute(movie: movies[dx],)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MovieRoute(
+                      movie: movies[dx],
+                    )));
       },
       child: Stack(
         alignment: Alignment.center,
@@ -243,10 +258,15 @@ class _MoviesRouteState extends State<MoviesRoute> {
     );
   }
 
-  Widget _movieCard({required int dx, required List<MovieResponse> movies}) {
+  Widget _movieCard({required MovieResponse movie}) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieRoute(movie: movies[dx],)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MovieRoute(
+                      movie: movie,
+                    )));
       },
       child: Column(
         children: [
@@ -256,7 +276,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
               child: Stack(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: movies[dx].photo!,
+                    imageUrl: movie.photo!,
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) => Icon(Icons.error),
                     imageBuilder: (context, imageProvider) {
@@ -273,179 +293,23 @@ class _MoviesRouteState extends State<MoviesRoute> {
                   ),
                   Align(
                     alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: ColorManager.privateGrey,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            IconsManager.favorite,
-                            size: 20,
-                            color: Colors.red,
-                          ),
-                          padding: EdgeInsets.zero,
-                        ),
-                      ),
-                    ),
+                    child: favoriteIcon(context, movie, _model.addFilmToFavEvent, _model.removeFilmFromFavEvent)
                   ),
                 ],
               ),
             ),
           ),
-          Text(movies[dx].name!, style: TextStyleManager.bodyStyle(context)),
-          _featuresSlider(movies[dx]),
+          Text(movie.name!, style: TextStyleManager.bodyStyle(context)),
+          featuresSlider(movie, context),
           Row(
             children: [
-              Text("${movies[dx].ticketPrice.toString()} €",
+              Text("${movie.ticketPrice.toString()} €",
                   style: TextStyleManager.bodyStyle(context)),
               Spacer(),
-              CircleAvatar(
-                radius: 15,
-                backgroundColor: ColorManager.privateGrey,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      IconsManager.cart,
-                      size: 20,
-                      color: ColorManager.primarySecond,
-                    ),
-                    padding: EdgeInsets.zero,
-                  ),
-                ),
-              ),
+              cartIcon(context, movie, _model.addFilmToCartEvent, _model.removeFilmFromCartEvent),
             ],
           )
         ],
-      ),
-    );
-  }
-
-  Widget _featuresSlider(MovieResponse movie) {
-    List<Widget> features = [];
-
-    Widget buildTextWithVariable(
-        String label, dynamic value, String suffixLabel) {
-      return Row(
-        children: [
-          Text(
-            label,
-            style: TextStyleManager.smallParagraphStyle(context),
-          ),
-          Text(
-            ' $value',
-            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              color: VariablesManager.isDark
-                  ? Colors.white
-                  : ColorManager.primarySecond,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            ' $suffixLabel',
-            style: TextStyleManager.smallParagraphStyle(context),
-          ),
-        ],
-      );
-    }
-
-    double oldTicketPrice = movie.ticketPrice! * 2.4;
-
-    features.add(
-      Row(
-        children: [
-          Text(
-            GeneralStrings.lowPrice(context),
-            style: TextStyleManager.smallParagraphStyle(context),
-          ),
-          Text(
-            ' ${oldTicketPrice.toStringAsFixed(2)}',
-            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              decoration: TextDecoration.lineThrough,
-              color: Colors.grey,
-            ),
-          ),
-          Text(
-            ' ${movie.ticketPrice}',
-            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              color: VariablesManager.isDark
-                  ? Colors.white
-                  : ColorManager.primarySecond,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    features.add(buildTextWithVariable(
-        GeneralStrings.heightIMDBRate(context), movie.imdbRating, ''));
-    features.add(buildTextWithVariable(
-        '', movie.availableSeats, GeneralStrings.seatsAvailable(context)));
-    features.add(
-        buildTextWithVariable('', movie.seats, GeneralStrings.seats(context)));
-
-    if (movie.availableSeats == movie.seats) {
-      features.add(
-        Text(
-          GeneralStrings.beTheFirstOne(context),
-          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-            fontStyle: FontStyle.italic,
-            color: Colors.blue,
-          ),
-        ),
-      );
-    } else if (movie.availableSeats == 1) {
-      features.add(
-        Text(
-          GeneralStrings.lastTicketAvailable(context),
-          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-            fontStyle: FontStyle.italic,
-            color: Colors.red,
-          ),
-        ),
-      );
-    } else if (movie.availableSeats! <= 5) {
-      features.add(
-        Row(
-          children: [
-            Text(
-              GeneralStrings.hurry(context),
-              style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-                fontStyle: FontStyle.italic,
-                color: Colors.orange,
-              ),
-            ),
-            Text(
-              " ${movie.availableSeats}",
-              style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-                fontStyle: FontStyle.italic,
-                color: Colors.blue,
-              ),
-            ),
-            Text(
-              " ${GeneralStrings.ticketsLeft(context)}",
-              style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-                fontStyle: FontStyle.italic,
-                color: Colors.orange,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return CarouselSlider(
-      items: features,
-      options: CarouselOptions(
-        autoPlay: true,
-        scrollDirection: Axis.vertical,
-        height: SizeManager.d14,
-        padEnds: true,
-        viewportFraction: 1.0,
       ),
     );
   }

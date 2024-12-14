@@ -22,10 +22,8 @@ class _SplashRouteState extends State<SplashRoute> {
   @override
   void initState() {
     super.initState();
-    _model = SplashModelView();
-    _model.context = context;
+    _model = SplashModelView(context);
     _model.start();
-    _model.startDelay();
   }
 
   @override

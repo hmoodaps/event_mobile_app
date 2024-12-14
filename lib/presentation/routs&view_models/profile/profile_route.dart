@@ -5,7 +5,6 @@ import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/profile/profile_model_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,8 +28,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
   @override
   void initState() {
     super.initState();
-    _model = ProfileModelView();
-    _model.context = context;
+    _model = ProfileModelView(context);
     _model.start();
   }
 
@@ -60,7 +58,9 @@ class _ProfileRouteState extends State<ProfileRoute> {
                     ..._buildUserSpecificItems(
                       context: context,
                       bloc: bloc,
-                      isLoggedIn: FirebaseAuth.instance.currentUser != null,
+                      isLoggedIn:
+                          VariablesManager.firebaseAuthInstance.currentUser !=
+                              null,
                     ),
                     ..._buildExpandableItems(
                       context: context,
@@ -94,7 +94,9 @@ class _ProfileRouteState extends State<ProfileRoute> {
                     ),
                     const SizedBox(height: 14),
                     Visibility(
-                      visible: FirebaseAuth.instance.currentUser != null,
+                      visible:
+                          VariablesManager.firebaseAuthInstance.currentUser !=
+                              null,
                       child: _buildCustomListTileCard(
                         context: context,
                         leadingIcon: Icons.logout,
@@ -104,8 +106,6 @@ class _ProfileRouteState extends State<ProfileRoute> {
                         },
                       ),
                     ),
-
-
                     SizedBox(
                       height: SizeManager.d20,
                     ),
@@ -152,7 +152,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
                   colorFilter: ColorFilter.mode(
                     ColorManager.lightBlue,
                     //TODO : ...
-                    BlendMode.srcATop, // مزج اللون مع الصورة
+                    BlendMode.srcATop,
                   ),
                 ),
               ),
@@ -195,7 +195,6 @@ class _ProfileRouteState extends State<ProfileRoute> {
           onTap: () => _model.onPaymentMethodsButtonPressed(),
         ),
         const SizedBox(height: 14),
-
       ];
     } else {
       return [
@@ -303,8 +302,8 @@ class _ProfileRouteState extends State<ProfileRoute> {
                 : SizedBox(),
           ),
         ],
-        suffixText:Text( SharedPref.prefs.getString(GeneralStrings.appLanguage) ?? 'en')
-           ,
+        suffixText: Text(
+            SharedPref.prefs.getString(GeneralStrings.appLanguage) ?? 'en'),
       ),
       const SizedBox(height: 14),
       _buildCustomExpandableCard(
@@ -323,7 +322,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
               _model.onChangeThemeBasedOnPhone();
             },
             dense: true,
-            trailing: SharedPref.getBool(GeneralStrings.isManual)!
+            trailing: SharedPref.prefs.getBool(GeneralStrings.isManual)!
                 ? SizedBox()
                 : Icon(IconsManager.trueIcon),
           ),
@@ -333,7 +332,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
               style: TextStyleManager.paragraphStyle(context)
                   ?.copyWith(color: Colors.black),
             ),
-            trailing: SharedPref.getBool(GeneralStrings.isManual)!
+            trailing: SharedPref.prefs.getBool(GeneralStrings.isManual)!
                 ? Icon(IconsManager.trueIcon)
                 : SizedBox(),
             onExpansionChanged: (bool expanded) {
@@ -343,13 +342,19 @@ class _ProfileRouteState extends State<ProfileRoute> {
             },
             children: [
               ListTile(
-                title: Text('Dark Mode',style: TextStyleManager.smallParagraphStyle(context)?.copyWith(color: Colors.black),),
+                title: Text(
+                  'Dark Mode',
+                  style: TextStyleManager.smallParagraphStyle(context)
+                      ?.copyWith(color: Colors.black),
+                ),
                 onTap: () {
                   _model.onChangeThemeManualToDark();
                 },
               ),
               ListTile(
-                title: Text('Light Mode',style: TextStyleManager.smallParagraphStyle(context)?.copyWith(color: Colors.black)),
+                title: Text('Light Mode',
+                    style: TextStyleManager.smallParagraphStyle(context)
+                        ?.copyWith(color: Colors.black)),
                 onTap: () {
                   _model.onChangeThemeManualToLight();
                 },
@@ -357,7 +362,9 @@ class _ProfileRouteState extends State<ProfileRoute> {
             ],
           ),
         ],
-        suffixText:Text(SharedPref.getBool(GeneralStrings.isManual) !?SharedPref.prefs.getString(GeneralStrings.appMode)! : 'BOPM' ),
+        suffixText: Text(SharedPref.prefs.getBool(GeneralStrings.isManual)!
+            ? SharedPref.prefs.getString(GeneralStrings.appMode)!
+            : 'BOPM'),
       ),
       const SizedBox(height: 14),
       _buildCustomExpandableCard(
@@ -408,8 +415,8 @@ class _ProfileRouteState extends State<ProfileRoute> {
                 : SizedBox(),
           ),
         ],
-        suffixText:Text(   SharedPref.prefs.getString(GeneralStrings.colorTheme) ?? 'green')
-         ,
+        suffixText: Text(
+            SharedPref.prefs.getString(GeneralStrings.colorTheme) ?? 'green'),
       ),
       const SizedBox(height: 14),
     ];

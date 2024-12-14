@@ -34,8 +34,7 @@ class _LoginRouteState extends State<LoginRoute> {
   @override
   void initState() {
     super.initState();
-    _model = LoginModelView();
-    _model.context = context;
+    _model = LoginModelView(context);
     _model.start();
   }
 

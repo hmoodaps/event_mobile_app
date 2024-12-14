@@ -6,5 +6,5 @@ import '../../data/models/movie_model.dart';
 abstract class InitRepository {
   Future<Either<FailureClass, List<MovieResponse>>> fetchMovies();
 
-  Future<Either<FirebaseFailureClass, List<String>>> initFirebase();
+  Future<Either<FailureClass, List<String>>> initFirebase();
 }

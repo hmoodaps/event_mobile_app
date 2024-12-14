@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Er bestaat al een account met dit \ne-mailadres, maar met andere referenties. "),
-        "additinalInfo":
+        "additionalInfo":
             MessageLookupByLibrary.simpleMessage("Aanvullende informatie "),
         "address": MessageLookupByLibrary.simpleMessage("Adres "),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid "),
@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Wees de eerste! "),
         "byPress": MessageLookupByLibrary.simpleMessage("door druk "),
+        "cancel": MessageLookupByLibrary.simpleMessage("Annuleren"),
+        "cart": MessageLookupByLibrary.simpleMessage("Winkelwagen"),
         "city": MessageLookupByLibrary.simpleMessage("stad "),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage("Kleurenthema\'s "),
@@ -52,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("Fout "),
         "expiredActionCode": MessageLookupByLibrary.simpleMessage(
             "De OTP in de e-maillink is verlopen. "),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favorieten"),
         "fee": MessageLookupByLibrary.simpleMessage("kostenoverzicht "),
         "feedback":
             MessageLookupByLibrary.simpleMessage("Feedback & Klachten "),
@@ -100,6 +103,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "myAppBalance":
             MessageLookupByLibrary.simpleMessage("Mijn Account Saldo "),
         "newMovies": MessageLookupByLibrary.simpleMessage("Nieuwe films "),
+        "noCartItems": MessageLookupByLibrary.simpleMessage(
+            "Je winkelwagen is voorlopig leeg!"),
+        "noFaveItems":
+            MessageLookupByLibrary.simpleMessage("Nog geen favorieten hier!"),
+        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+            "Je bent nog niet ingelogd. Log in om verder te gaan naar je winkelwagen!"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "De bewerking is niet toegestaan. Schakel deze optie in de Firebase Console in. "),
         "or": MessageLookupByLibrary.simpleMessage("of "),
@@ -138,8 +147,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeMode": MessageLookupByLibrary.simpleMessage("Themamodus "),
         "ticketsLeft": MessageLookupByLibrary.simpleMessage("tickets over! "),
         "topMovies": MessageLookupByLibrary.simpleMessage("Topfilms "),
+        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+            "Je moet inloggen voordat je items aan de winkelwagen kunt toevoegen!"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Er is een onbekende fout opgetreden. "),
+        "urNotLogin":
+            MessageLookupByLibrary.simpleMessage("Je bent niet ingelogd!"),
         "userDisabled": MessageLookupByLibrary.simpleMessage(
             "De gebruiker is uitgeschakeld. "),
         "userMismatch": MessageLookupByLibrary.simpleMessage(

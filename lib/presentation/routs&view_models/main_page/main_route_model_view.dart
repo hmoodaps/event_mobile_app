@@ -1,17 +1,25 @@
+import 'package:event_mobile_app/app/components/constants/color_manager.dart';
+import 'package:event_mobile_app/app/components/constants/font_manager.dart';
+import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/app/components/constants/route_strings_manager.dart';
+import 'package:event_mobile_app/app/components/constants/routs_manager.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/cart/cart_route.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/variables_manager.dart';
 import '../../base/base_view_model.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/events.dart';
 import '../favorit/favorite_route.dart';
 import '../movies/movies_route.dart';
 import '../profile/profile_route.dart';
-import '../search/search_route.dart';
 
-class MainRouteModelView extends BaseViewModel with MainRouteFunctions {
+class MainRouteModelView extends BaseViewModel {
   late BuildContext context;
   int newIndex = 0;
+
+  MainRouteModelView(this.context);
 
   late final EventsBloc _bloc;
 
@@ -35,7 +43,7 @@ class MainRouteModelView extends BaseViewModel with MainRouteFunctions {
       case 1:
         return FavoriteRoute();
       case 2:
-        return SearchRoute();
+        return _forCartIsLoginOrNot();
       case 3:
         return ProfileRoute();
       default:
@@ -57,6 +65,60 @@ class MainRouteModelView extends BaseViewModel with MainRouteFunctions {
     //profile
     Icon(IconsManager.profile, color: CupertinoColors.black),
   ];
-}
 
-mixin MainRouteFunctions {}
+  Widget _forCartIsLoginOrNot() {
+    if (VariablesManager.currentUser == null) {
+      return Padding(
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              GeneralStrings.notLoggedIn(context),
+              style: TextStyleManager.titleStyle(context),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () =>
+                      navigateTo(context, RouteStringsManager.registerRoute),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: ColorManager.green4,
+                        borderRadius: BorderRadius.circular(30)),
+                    height: 60,
+                    width: 120,
+                    child: Center(
+                      child: Text(GeneralStrings.login(context)),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () =>
+                      navigateTo(context, RouteStringsManager.loginRoute),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: ColorManager.green4,
+                        borderRadius: BorderRadius.circular(30)),
+                    height: 60,
+                    width: 120,
+                    child: Center(
+                      child: Text(GeneralStrings.register(context)),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      return CartRoute();
+    }
+  }
+}

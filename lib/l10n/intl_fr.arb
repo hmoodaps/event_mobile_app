@@ -65,7 +65,7 @@
   "fewData": "Encore quelques données!",
   "someInfo": "Nous allons prendre quelques informations pour améliorer\n votre expérience personnalisée, seulement quelques secondes.",
   "mobileNumber": "Numéro de téléphone",
-  "additinalInfo": "Informations supplémentaires",
+  "additionalInfo": "Informations supplémentaires",
   "city": "ville",
   "byPress": "par pression",
   "youAccept": "Vous acceptez nos",
@@ -86,5 +86,14 @@
   "privacyPolicy": "Politique de confidentialité",
   "logout": "Se déconnecter",
   "loginOrRegister": "Se connecter ou s'inscrire",
-  "skip": "Passer"
+  "skip": "Passer",
+  "noFaveItems": "Pas encore de favoris ici !",
+  "favorites": "Favoris",
+  "notLoggedIn": "Vous n’êtes pas encore connecté. Connectez-vous pour accéder à votre panier !",
+  "cancel": "Annuler",
+  "urNotLogin": "Vous n’êtes pas connecté !",
+  "uCantAddItemToCart": "Connectez-vous d’abord pour ajouter des articles au panier !",
+  "noCartItems": "Votre panier est vide pour l’instant !",
+  "cart": "Panier"
+
 }

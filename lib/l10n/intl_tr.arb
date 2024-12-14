@@ -65,7 +65,7 @@
   "fewData": "Sadece biraz ek bilgi!",
   "someInfo": "Kişisel deneyimi geliştirmek için birkaç bilgi alacağız, sadece birkaç saniye!",
   "mobileNumber": "Telefon numarası",
-  "additinalInfo": "Ek bilgi",
+  "additionalInfo": "Ek bilgi",
   "city": "Şehir",
   "byPress": "Tıklayarak",
   "youAccept": "Kabul ediyorsunuz",
@@ -86,5 +86,13 @@
   "privacyPolicy": "Gizlilik politikası",
   "logout": "Çıkış yap",
   "loginOrRegister": "Giriş yap veya kaydol",
-  "skip": "Atla"
+  "skip": "Atla",
+  "noFaveItems": "Henüz favoriniz yok!",
+  "favorites": "Favoriler",
+  "notLoggedIn": "Henüz giriş yapmadınız. Lütfen sepetinize devam etmek için giriş yapın!",
+  "cancel": "İptal",
+  "urNotLogin": "Henüz giriş yapmadınız!",
+  "uCantAddItemToCart": "Sepete ürün eklemek için önce giriş yapmanız gerekiyor!",
+  "noCartItems": "Sepetiniz şimdilik boş!",
+  "cart": "Sepet"
 }

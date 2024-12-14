@@ -9,7 +9,7 @@ class UserResponse with _$UserResponse {
     String? id,
     String? fullName,
     String? email,
-    DateTime? dateOfBirth,
+    String? dateOfBirth,
     String? mobileNumber,
     List<int>? cart,
     List<int>? favorites,

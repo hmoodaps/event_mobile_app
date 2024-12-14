@@ -1,18 +1,26 @@
-import 'dart:math';
-
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:event_mobile_app/data/local_storage/shared_local.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../app/components/constants/assets_manager.dart';
 import '../../app/components/constants/color_manager.dart';
+import '../../app/components/constants/font_manager.dart';
 import '../../app/components/constants/general_strings.dart';
+import '../../app/components/constants/icons_manager.dart';
 import '../../app/components/constants/route_strings_manager.dart';
+import '../../app/components/constants/routs_manager.dart';
+import '../../app/components/constants/size_manager.dart';
 import '../../app/components/constants/variables_manager.dart';
+import '../../data/models/movie_model.dart';
 
 class CreateUserRequirements {
   String? dateOfBirth;
   String? mobileNumber;
   String? street;
   String? houseNumber;
-  String? additinalInfo;
+  String? additionalInfo;
   String? postalCode;
   String? city;
   String? password;
@@ -27,7 +35,7 @@ class CreateUserRequirements {
     this.mobileNumber,
     this.street,
     this.houseNumber,
-    this.additinalInfo,
+    this.additionalInfo,
     this.postalCode,
     this.city,
   });
@@ -39,7 +47,7 @@ class CreateUserRequirements {
       'mobileNumber': mobileNumber,
       'street': street,
       'houseNumber': houseNumber,
-      'additinalInfo': additinalInfo,
+      'additionalInfo': additionalInfo,
       'postalCode': postalCode,
       'city': city,
       'password': password,
@@ -55,7 +63,7 @@ class CreateUserRequirements {
       mobileNumber: map['mobileNumber'],
       street: map['street'],
       houseNumber: map['houseNumber'],
-      additinalInfo: map['additinalInfo'],
+      additionalInfo: map['additionalInfo'],
       postalCode: map['postalCode'],
       city: map['city'],
       password: map['password'],
@@ -165,6 +173,354 @@ class CustomExpandableCard extends StatelessWidget {
     );
   }
 }
+
+bool isItemInFaves({required int filmId}) {
+  if (SharedPref.prefs.getString(GeneralStrings.currentUser) != null) {
+    return VariablesManager.currentUserRespon.favorites?.contains(filmId) ??
+        false;
+  } else {
+    return SharedPref.prefs
+        .getStringList(GeneralStrings.listFaves)!
+        .map((item) => int.tryParse(item))
+        .where((id) => id != null)
+        .contains(filmId);
+  }
+}
+
+bool isItemInCart({required int filmId}) {
+  return VariablesManager.currentUserRespon.cart?.contains(filmId) ?? false;
+}
+
+Widget featuresSlider(MovieResponse movie, BuildContext context) {
+  List<Widget> features = [];
+
+  Widget buildTextWithVariable(
+      String label, dynamic value, String suffixLabel) {
+    return Row(
+      children: [
+        Text(
+          label,
+          style: TextStyleManager.smallParagraphStyle(context),
+        ),
+        Text(
+          ' $value',
+          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+            color: VariablesManager.isDark
+                ? Colors.white
+                : ColorManager.primarySecond,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          ' $suffixLabel',
+          style: TextStyleManager.smallParagraphStyle(context),
+        ),
+      ],
+    );
+  }
+
+  double oldTicketPrice = movie.ticketPrice! * 2.4;
+
+  features.add(
+    Row(
+      children: [
+        Text(
+          GeneralStrings.lowPrice(context),
+          style: TextStyleManager.smallParagraphStyle(context),
+        ),
+        Text(
+          ' ${oldTicketPrice.toStringAsFixed(2)}',
+          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+            decoration: TextDecoration.lineThrough,
+            color: Colors.grey,
+          ),
+        ),
+        Text(
+          ' ${movie.ticketPrice}',
+          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+            color: VariablesManager.isDark
+                ? Colors.white
+                : ColorManager.primarySecond,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
+  );
+  for (var movieTag in movie.tags!) {
+    features
+        .add(buildTextWithVariable(movieTag.toString().toUpperCase(), '', ''));
+  }
+  features.add(buildTextWithVariable(
+      GeneralStrings.heightIMDBRate(context), movie.imdbRating, ''));
+  features.add(buildTextWithVariable(
+      '', movie.availableSeats, GeneralStrings.seatsAvailable(context)));
+  features.add(
+      buildTextWithVariable('', movie.seats, GeneralStrings.seats(context)));
+
+  if (movie.availableSeats == movie.seats) {
+    features.add(
+      Text(
+        GeneralStrings.beTheFirstOne(context),
+        style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+          fontStyle: FontStyle.italic,
+          color: Colors.blue,
+        ),
+      ),
+    );
+  } else if (movie.availableSeats == 1) {
+    features.add(
+      Text(
+        GeneralStrings.lastTicketAvailable(context),
+        style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+          fontStyle: FontStyle.italic,
+          color: Colors.red,
+        ),
+      ),
+    );
+  } else if (movie.availableSeats! <= 5) {
+    features.add(
+      Row(
+        children: [
+          Text(
+            GeneralStrings.hurry(context),
+            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+              fontStyle: FontStyle.italic,
+              color: Colors.orange,
+            ),
+          ),
+          Text(
+            " ${movie.availableSeats}",
+            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+              fontStyle: FontStyle.italic,
+              color: Colors.blue,
+            ),
+          ),
+          Text(
+            " ${GeneralStrings.ticketsLeft(context)}",
+            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+              fontStyle: FontStyle.italic,
+              color: Colors.orange,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  return CarouselSlider(
+    items: features,
+    options: CarouselOptions(
+      autoPlay: true,
+      scrollDirection: Axis.vertical,
+      height: SizeManager.d14,
+      padEnds: true,
+      viewportFraction: 1.0,
+    ),
+  );
+}
+
+class NotificationDialog extends StatelessWidget {
+  final String title;
+  final String message;
+  final String button1Text;
+  final VoidCallback button1Action;
+  final String button2Text;
+  final VoidCallback button2Action;
+  final String button3Text;
+  final VoidCallback button3Action;
+
+  const NotificationDialog({
+    super.key,
+    required this.title,
+    required this.message,
+    required this.button1Text,
+    required this.button1Action,
+    required this.button2Text,
+    required this.button2Action,
+    required this.button3Text,
+    required this.button3Action,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      actions: [
+        TextButton(
+          onPressed: button1Action,
+          child: Text(button1Text),
+        ),
+        TextButton(
+          onPressed: button2Action,
+          child: Text(button2Text),
+        ),
+        TextButton(
+          onPressed: button3Action,
+          child: Text(button3Text),
+        ),
+      ],
+    );
+  }
+}
+
+Widget cartIcon(
+    BuildContext context,
+    MovieResponse movie,
+    void Function(MovieResponse) addToCart,
+    void Function(MovieResponse) removeFromCart) {
+  return CircleAvatar(
+    radius: 15,
+    backgroundColor: isItemInCart(filmId: movie.id!)
+        ? Colors.green
+        : ColorManager.privateGrey,
+    child: Align(
+      alignment: Alignment.center,
+      child: IconButton(
+        onPressed: () {
+          if (FirebaseAuth.instance.currentUser?.uid == null) {
+            showDialog(
+                context: context,
+                builder: (context) => NotificationDialog(
+                    title: GeneralStrings.urNotLogin(context),
+                    message: GeneralStrings.uCantAddItemToCart(context),
+                    button1Action: () {
+                      navigateTo(context, RouteStringsManager.loginRoute);
+                    },
+                    button1Text: GeneralStrings.login(
+                      context,
+                    ),
+                    button2Action: () {
+                      navigateTo(context, RouteStringsManager.registerRoute);
+                    },
+                    button2Text: GeneralStrings.register(context),
+                    button3Action: () {
+                      Navigator.pop(context);
+                    },
+                    button3Text: GeneralStrings.cancel(context)));
+          } else {
+            if (!isItemInCart(filmId: movie.id!)) {
+              addToCart(movie);
+            } else {
+              removeFromCart(movie);
+            }
+          }
+        },
+        icon: Icon(
+          IconsManager.cart,
+          size: 20,
+          color: isItemInCart(filmId: movie.id!) ? Colors.red : Colors.black,
+        ),
+        padding: EdgeInsets.zero,
+      ),
+    ),
+  );
+}
+
+Widget favoriteIcon(
+    BuildContext context,
+    MovieResponse movie,
+    void Function(MovieResponse) addToCart,
+    void Function(MovieResponse) removeFromCart) {
+  return CircleAvatar(
+    radius: 15,
+    backgroundColor: isItemInFaves(filmId: movie.id!)
+        ? Colors.green
+        : ColorManager.privateGrey,
+    child: Align(
+      alignment: Alignment.center,
+      child: IconButton(
+        onPressed: () {
+          if (!isItemInFaves(filmId: movie.id!)) {
+            addToCart(movie);
+          } else {
+            removeFromCart(movie);
+          }
+        },
+        icon: Icon(
+          IconsManager.favorite,
+          size: 20,
+          color: isItemInFaves(filmId: movie.id!) ? Colors.red : Colors.black,
+        ),
+        padding: EdgeInsets.zero,
+      ),
+    ),
+  );
+}
+
+
+class GradientLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..shader = LinearGradient(
+        colors: [Colors.black,Colors.white70, ColorManager.green3,Colors.white70 ,Colors.black],
+        stops: [0.0,0.15 ,0.5,0.90 ,1.0],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..style = PaintingStyle.fill;
+
+    Path path = Path();
+
+    // رسم خط مدبب من الجانبين
+    path.moveTo(0, size.height / 2);
+    path.quadraticBezierTo(
+        size.width / 2, -size.height / 2, size.width, size.height / 2);
+    path.lineTo(size.width, size.height / 2);
+    path.quadraticBezierTo(
+        size.width / 2, size.height * 1.5, 0, size.height / 2);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+// Future<Color> extractDominantColorIsolate(String imageUrl) async {
+//   return await compute(_processImageForDominantColor, imageUrl);
+// }
+//
+// Future<Color> _processImageForDominantColor(String imageUrl) {
+//   final imageProvider = CachedNetworkImageProvider(imageUrl);
+//   final Completer<Color> completer = Completer();
+//
+//   final ImageStream imageStream = imageProvider.resolve(const ImageConfiguration());
+//   imageStream.addListener(
+//     ImageStreamListener(
+//           (ImageInfo info, bool _) async {
+//         final imageSize = Size(
+//           info.image.width.toDouble(),
+//           info.image.height.toDouble(),
+//         );
+//
+//         final double regionTop = imageSize.height * 0.65;
+//         final double regionBottom = imageSize.height * 0.7;
+//
+//         final region = Rect.fromLTRB(
+//           0,
+//           regionTop.clamp(0, imageSize.height),
+//           imageSize.width,
+//           regionBottom.clamp(0, imageSize.height),
+//         );
+//
+//         final paletteGenerator = await PaletteGenerator.fromImage(
+//           info.image,
+//           region: region, // استخدم فقط المعاملات المتوفرة.
+//         );
+//
+//         final dominantColor = paletteGenerator.dominantColor?.color ?? Colors.black;
+//         completer.complete(dominantColor);
+//       },
+//     ),
+//   );
+//
+//   return completer.future;
+// }
 
 //movie show models
 // class MovieCard extends StatefulWidget {
@@ -463,12 +819,6 @@ class CustomExpandableCard extends StatelessWidget {
 //   ],
 // )],
 
-
-
-
-
-
-
 class ArcItemSelector extends StatefulWidget {
   final List<Widget> items; // قائمة العناصر التي سيتم عرضها.
   final ValueChanged<int> onItemSelected; // دالة يتم استدعاؤها عند تحديد عنصر.
@@ -476,7 +826,6 @@ class ArcItemSelector extends StatefulWidget {
   final double spacing; // المسافة بين العناصر.
   final Color selectedItemColor; // لون العنصر المحدد.
   final Color unselectedItemColor; // لون العناصر غير المحددة.
-
 
   const ArcItemSelector({
     super.key,
@@ -498,12 +847,14 @@ class _ArcItemSelectorState extends State<ArcItemSelector> {
   @override
   void initState() {
     super.initState();
-    selectedIndex = (widget.items.length / 2).round(); // العنصر الافتراضي في المنتصف.
+    selectedIndex =
+        (widget.items.length / 2).round(); // العنصر الافتراضي في المنتصف.
   }
 
   Widget _buildArcItem(int index) {
     final double offset = (index - selectedIndex).toDouble();
-    final double top = widget.height / 2 - (90 * (1 - offset.abs())); // تحديد الموقع الرأسي.
+    final double top =
+        widget.height / 2 - (90 * (1 - offset.abs())); // تحديد الموقع الرأسي.
 
     // ضبط العنصر المختار ليكون في منتصف الشاشة.
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -554,6 +905,3 @@ class _ArcItemSelectorState extends State<ArcItemSelector> {
     );
   }
 }
-
-
-

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Manages and updates the application's colors.
@@ -27,14 +28,18 @@ class ColorManager {
 
   // Updates the app's colors based on the selected theme.
   static void updateColors(AppColorManager appColorManager) {
-    print("Updating colors...");
+    if (kDebugMode) {
+      print("Updating colors...");
+    }
     primary = appColorManager.primary;
     primarySecond = appColorManager.primarySecond;
     green1 = appColorManager.green1;
     green2 = appColorManager.green2;
     green3 = appColorManager.green3;
     green4 = appColorManager.green4;
-    print("Colors updated: $primary, $primarySecond, $green1");
+    if (kDebugMode) {
+      print("Colors updated: $primary, $primarySecond, $green1");
+    }
   }
 }
 

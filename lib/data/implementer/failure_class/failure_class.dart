@@ -1,15 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FailureClass {
-  String error;
+  FirebaseException? firebaseException;
+  String? error;
 
-  FailureClass({required this.error});
+  FailureClass({
+    this.firebaseException,
+    this.error,
+  });
 }
 
-class FirebaseFailureClass {
-  final FirebaseException firebaseException;
-
-  FirebaseFailureClass({
-    required this.firebaseException,
-  });
+Future<Either<FailureClass, T>> handleFirebaseOperation<T>(
+    Future<T> Function() firebaseOperation) async {
+  try {
+    final result = await firebaseOperation();
+    return Right(result);
+  } on FirebaseException catch (error) {
+    return Left(
+      FailureClass(firebaseException: error),
+    );
+  } catch (e) {
+    return Left(
+      FailureClass(error: e.toString(), firebaseException: null),
+    );
+  }
 }

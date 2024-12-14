@@ -21,7 +21,7 @@ class StartCreateUserEvent extends AppEvents {
 class CreatingUserResultEvent extends AppEvents {
   final String? error;
   final CreateUserRequirements req;
-  final Either<FirebaseFailureClass, UserCredential> result;
+  final Either<FailureClass, UserCredential> result;
 
   CreatingUserResultEvent(this.req, this.result, {this.error});
 }
@@ -35,7 +35,7 @@ class LoginEvent extends AppEvents {
 
 class LoginResultEvent extends AppEvents {
   final String? error;
-  final Either<FirebaseFailureClass, String> result;
+  final Either<FailureClass, String> result;
 
   LoginResultEvent(this.result, {this.error});
 }
@@ -65,7 +65,7 @@ class StartFetchFirebaseEvent extends AppEvents {}
 
 class FetchFirebaseResultEvent extends AppEvents {
   final String? error;
-  Either<FirebaseFailureClass, List<String>> result;
+  Either<FailureClass, List<String>> result;
 
   FetchFirebaseResultEvent(this.result, {this.error});
 }
@@ -78,7 +78,7 @@ class AddUserDetailsEvent extends AppEvents {
 }
 
 class AddUserDetailsResultEvent extends AppEvents {
-  final Either<FirebaseFailureClass, void> result;
+  final Either<FailureClass, void> result;
 
   AddUserDetailsResultEvent(this.result);
 }
@@ -209,12 +209,19 @@ class LoadPreferencesEvent extends AppEvents {
 }
 
 class ToLogoutEvent extends AppEvents {}
+
 class ExtractDominantColorEvent extends AppEvents {}
 
+class ShowNoInternetDialog extends AppEvents {}
+
+class GetCurrentUserResponseEvent extends AppEvents {}
 
 class ChangeModeEvent extends AppEvents {
   AppTheme appMode;
-  ChangeModeEvent(this.appMode,);
+
+  ChangeModeEvent(
+    this.appMode,
+  );
 }
 
 class ChangeModeThemeEvent extends AppEvents {
@@ -222,3 +229,35 @@ class ChangeModeThemeEvent extends AppEvents {
 
   ChangeModeThemeEvent(this.isManual);
 }
+
+class RemoveFilmFromFavEvent extends AppEvents {
+  MovieResponse movie;
+
+  RemoveFilmFromFavEvent(this.movie);
+}
+
+class AddFilmToFavEvent extends AppEvents {
+  MovieResponse movie;
+
+  AddFilmToFavEvent(this.movie);
+}
+
+class GetFavesItemsEvent extends AppEvents {}
+
+class GetFavesItemsStateSuccessEvent extends AppEvents {}
+
+class RemoveFilmFromCartEvent extends AppEvents {
+  MovieResponse movie;
+
+  RemoveFilmFromCartEvent(this.movie);
+}
+
+class AddFilmToCartEvent extends AppEvents {
+  MovieResponse movie;
+
+  AddFilmToCartEvent(this.movie);
+}
+
+class GetCartItemsEvent extends AppEvents {}
+
+class GetCartItemsStateSuccessEvent extends AppEvents {}
