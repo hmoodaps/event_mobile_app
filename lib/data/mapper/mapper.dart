@@ -59,9 +59,17 @@ extension UserResponseMapper on UserResponse? {
         town: this?.town ?? AppConstants.emptyText,
         street: this?.street ?? AppConstants.emptyText,
         userPhotoUrl: this?.userPhotoUrl ?? AppConstants.emptyText,
-        reservedMovies: this?.reservedMovies ?? AppConstants.emptyIntList,
-        movieSeats: this?.movieSeats ?? AppConstants.emptyIntListMap,
-        movieTotalPayment:
-            this?.movieTotalPayment ?? AppConstants.emptyIntDoubleMap,
+        billingInfo: this
+                ?.billingInfo
+                ?.map((billing) => BillingInfo(
+                      numberOfSeats: billing.numberOfSeats.orZero(),
+                      reservedSeats: billing.reservedSeats.orEmptyIntList(),
+                      seatPrice: billing.seatPrice.orZero(),
+                      totalBill: billing.totalBill.orZero(),
+                      reservedMovies: billing.reservedMovies.orEmptyIntList(),
+                      isPaid: billing.isPaid.orFalse(),
+                    ))
+                .toList() ??
+            [],
       );
 }

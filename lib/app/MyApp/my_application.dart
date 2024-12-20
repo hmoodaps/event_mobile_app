@@ -1,4 +1,3 @@
-import 'package:event_mobile_app/app/components/constants/assets_manager.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/handle_app_language/handle_app_language.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
@@ -7,16 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../data/local_storage/shared_local.dart';
-import '../../domain/local_models/models.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../presentation/bloc_state_managment/events.dart';
-import '../../presentation/routs&view_models/choos_seat_route/choos_seat_route.dart';
 import '../components/constants/routs_manager.dart';
-import '../components/constants/size_manager.dart';
 import '../dependencies_injection/dependency_injection.dart';
 
 class Application extends StatefulWidget {
@@ -77,6 +72,7 @@ class _ApplicationState extends State<Application> {
           onGenerateRoute: Routes.onGenerateRoute,
           debugShowCheckedModeBanner: false,
           theme: bloc.toggleLightAndDark(context),
+
           // SharedPref.getBool(GeneralStrings.isManual)!
           //   ? TheAppMode.appMode
           //   : bloc.toggleLightAndDark(context),
@@ -96,6 +92,3 @@ class _ApplicationState extends State<Application> {
     );
   }
 }
-
-
-

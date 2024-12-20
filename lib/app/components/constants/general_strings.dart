@@ -25,13 +25,41 @@ class GeneralStrings {
   static const String isManual = 'isManual';
   static const String listFaves = 'listFaves';
 
+  static String available(BuildContext context) => S.of(context).available;
+
+  static String selected(BuildContext context) => S.of(context).selected;
+
+  static String reserved(BuildContext context) => S.of(context).reserved;
+
+  static String seatPrice(BuildContext context) => S.of(context).seatPrice;
+
+  static String seatsChosen(BuildContext context) => S.of(context).seatsChosen;
+
+  static String selectedSeats(BuildContext context) =>
+      S.of(context).selectedSeats;
+
+  static String finalPrice(BuildContext context) => S.of(context).finalPrice;
+
   static String ticketsLeft(BuildContext context) => S.of(context).ticketsLeft;
+
+  static String uDidnotSelectSeat(BuildContext context) =>
+      S.of(context).uDidnotSelectSeat;
+
+  static String go(BuildContext context) => S.of(context).go;
+
   static String chooseSeat(BuildContext context) => S.of(context).chooseSeat;
+
   static String cart(BuildContext context) => S.of(context).cart;
+
   static String noCartItems(BuildContext context) => S.of(context).noCartItems;
-  static String uCantAddItemToCart(BuildContext context) => S.of(context).uCantAddItemToCart;
+
+  static String uCantAddItemToCart(BuildContext context) =>
+      S.of(context).uCantAddItemToCart;
+
   static String urNotLogin(BuildContext context) => S.of(context).urNotLogin;
+
   static String cancel(BuildContext context) => S.of(context).cancel;
+
   static String notLoggedIn(BuildContext context) => S.of(context).notLoggedIn;
 
   static String noFaveItems(BuildContext context) => S.of(context).noFaveItems;

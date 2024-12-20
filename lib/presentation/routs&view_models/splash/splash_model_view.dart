@@ -21,7 +21,7 @@ class SplashModelView extends BaseViewModel with SplashRouteMethods {
   void start() async {
     _bloc = EventsBloc.get(context);
     _bloc.add(StartFetchMoviesEvent());
-    if(VariablesManager.currentUser!=null){
+    if (VariablesManager.currentUser != null) {
       _bloc.add(GetCurrentUserResponseEvent());
     }
     startDelay();

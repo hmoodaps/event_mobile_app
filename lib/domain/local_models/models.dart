@@ -2,9 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../app/components/constants/assets_manager.dart';
 import '../../app/components/constants/color_manager.dart';
 import '../../app/components/constants/font_manager.dart';
 import '../../app/components/constants/general_strings.dart';
@@ -449,14 +447,19 @@ Widget favoriteIcon(
   );
 }
 
-
 class GradientLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.black,Colors.white70, ColorManager.green3,Colors.white70 ,Colors.black],
-        stops: [0.0,0.15 ,0.5,0.90 ,1.0],
+        colors: [
+          Colors.black,
+          Colors.white70,
+          ColorManager.green3,
+          Colors.white70,
+          Colors.black
+        ],
+        stops: [0.0, 0.15, 0.5, 0.90, 1.0],
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))

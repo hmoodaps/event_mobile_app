@@ -202,7 +202,12 @@ class _MovieRouteState extends State<MovieRoute> {
                       shadowColor: _model.textColor,
                       textColor: Colors.black,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Seat(movie: widget.movie),),);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Seat(movie: widget.movie),
+                          ),
+                        );
                       },
                       color: ColorManager.primary,
                     ),

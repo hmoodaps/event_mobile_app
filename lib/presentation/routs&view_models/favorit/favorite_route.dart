@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../bloc_state_managment/states.dart';
@@ -61,49 +60,47 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
         ),
       );
 
-  List<Widget> _screenWidgets(AppStates state) =>
-      [
+  List<Widget> _screenWidgets(AppStates state) => [
         SafeArea(
           child: ConditionalBuilder(
             builder: (context) {
               return Visibility(
-                  visible: (VariablesManager.favesMovies.isNotEmpty && _model.isLoaded),
-                  child: AnimationLimiter(
-                    child:
-                    ListView.separated(
-                      itemBuilder: (context, index) {
-                        return AnimationConfiguration.staggeredGrid(
-                          position: index,
-                          duration: const Duration(milliseconds: 1000),
-                          columnCount: SizeManager.i2,
-                          child: ScaleAnimation(
-                            child: FadeInAnimation(
-                              child: RepaintBoundary(
-                                child: favoriteItem(
-                                    VariablesManager.favesMovies[index]),
-                              ),
+                visible: state is GetFavesItemsStateSuccessState,
+                child: AnimationLimiter(
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      print(VariablesManager.favesMovies[index].id);
+                      return AnimationConfiguration.staggeredGrid(
+                        position: index,
+                        duration: const Duration(milliseconds: 1000),
+                        columnCount: SizeManager.i2,
+                        child: ScaleAnimation(
+                          child: FadeInAnimation(
+                            child: RepaintBoundary(
+                              child: favoriteItem(
+                                  VariablesManager.favesMovies[index]),
                             ),
                           ),
-                        );
-                      },
-                      itemCount: VariablesManager.favesMovies.length,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(
-                            height: 10,
-                          ),
-                      reverse: true,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(20),
+                        ),
+                      );
+                    },
+                    itemCount: VariablesManager.favesMovies.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 10,
                     ),
+                    reverse: true,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(20),
                   ),
-                );
+                ),
+              );
             },
-            condition: (VariablesManager.favesMovies.isNotEmpty && _model.isLoaded),
+            condition: state is GetFavesItemsStateSuccessState,
             fallback: (context) {
               if (SharedPref.prefs.getString(GeneralStrings.currentUser) ==
                   null) {
                 List<String> prefFav =
-                SharedPref.prefs.getStringList(GeneralStrings.listFaves)!;
+                    SharedPref.prefs.getStringList(GeneralStrings.listFaves)!;
                 if (prefFav.isEmpty) {
                   return Center(
                     child: Text(
@@ -117,7 +114,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                   );
                 }
               } else {
-                if (VariablesManager.currentUserRespon.favorites!.isEmpty ) {
+                if (VariablesManager.currentUserRespon.favorites!.isEmpty) {
                   return Center(
                     child: Text(
                       GeneralStrings.noFaveItems(context),
@@ -145,9 +142,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
         shadowColor: Colors.white,
         child: Container(
           padding: EdgeInsets.all(SizeManager.d8),
-          height: SizeManager
-              .screenSize(context)
-              .height / 7,
+          height: SizeManager.screenSize(context).height / 7,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -159,9 +154,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 imageBuilder: (context, imageProvider) {
                   return Container(
-                    height: SizeManager
-                        .screenSize(context)
-                        .height / 7.5,
+                    height: SizeManager.screenSize(context).height / 7.5,
                     width: SizeManager.d100,
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -190,13 +183,16 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           style:
-                          TextStyleManager.titleStyle(context)?.copyWith(),
+                              TextStyleManager.titleStyle(context)?.copyWith(),
                         ),
                         Spacer(),
                         Align(
-                          alignment: Alignment.topRight,
-                          child:favoriteIcon(context, movie, _model.addFilmToFavEvent, _model.removeFilmFromFavEvent)
-                        ),
+                            alignment: Alignment.topRight,
+                            child: favoriteIcon(
+                                context,
+                                movie,
+                                _model.addFilmToFavEvent,
+                                _model.removeFilmFromFavEvent)),
                       ],
                     ),
                     SizedBox(
@@ -211,7 +207,8 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                         alignment: Alignment.bottomRight,
                         child: Row(
                           children: [
-                            cartIcon(context, movie, _model.addFilmToCartEvent, _model.removeFilmFromCartEvent),
+                            cartIcon(context, movie, _model.addFilmToCartEvent,
+                                _model.removeFilmFromCartEvent),
                             Spacer(),
                             Text(
                               "${movie.ticketPrice!.toString()} €",

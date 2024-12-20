@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
+import 'package:event_mobile_app/data/mapper/mapper.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/domain/repository/operators_repository.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_functions.dart';
@@ -169,14 +170,21 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
             headers: {
               'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
             });
-
-        return result.fold((fail) => null,
-                (success) => MovieResponse.fromJson(jsonDecode(success.body)));
+        return result.fold((fail) => null, (success) {
+          var body = jsonDecode(success.body);
+          body['ticket_price'] =
+              double.tryParse(body['ticket_price']?.toString() ?? '0') ?? 0.0;
+          body['rating'] =
+              double.tryParse(body['rating']?.toString() ?? '0') ?? 0.0;
+          body['imdb_rating'] =
+              double.tryParse(body['imdb_rating']?.toString() ?? '0') ?? 0.0;
+          return MovieResponse.fromJson(body).toDomain();
+        });
       }));
       VariablesManager.cartMovies.clear();
       VariablesManager.cartMovies.addAll(responses.whereType<MovieResponse>());
     } catch (e) {
-      if (kDebugMode) print(e);
+      if (kDebugMode) print('the error : $e ');
     }
     emit(GetCartItemsState());
   }
@@ -185,7 +193,6 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   _onAddFilmToFavEvent(AddFilmToFavEvent event, Emitter<AppStates> emit) async {
     emit(StartAddingItemToFavesState());
-
     await _operators.addFilmToFavorites(movie: event.movie).then((value) {
       value.fold((fail) {
         if (kDebugMode) {
@@ -202,10 +209,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   _onRemoveFilmFromFavEvent(
       RemoveFilmFromFavEvent event, Emitter<AppStates> emit) async {
-emit(StartRemovingItemFromFavesState());
-    await _operators
-        .removeFilmFromFavorites(movie: event.movie)
-        .then((value) {
+    emit(StartRemovingItemFromFavesState());
+    await _operators.removeFilmFromFavorites(movie: event.movie).then((value) {
       value.fold((fail) {
         if (kDebugMode) {
           print(fail.error);
@@ -226,20 +231,37 @@ emit(StartRemovingItemFromFavesState());
       final favorites = FirebaseAuth.instance.currentUser == null
           ? (SharedPref.prefs.getStringList(GeneralStrings.listFaves)!)
           : (VariablesManager.currentUserRespon.favorites ?? []);
+
       final movieIds = favorites.map((movieId) {
         return int.tryParse(movieId.toString()) ?? 0;
       }).toList();
-      final responses = await Future.wait(movieIds.map((movieId) async {
-        final result = await HttpHelper.getData(
-            methodUrl: 'viewsets/movies/$movieId',
-            headers: {
-              'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
-            });
 
-        return result.fold((fail) => null, (success) {
-          return MovieResponse.fromJson(jsonDecode(success.body));
-        });
-      }));
+      final responses = await Future.wait(
+        movieIds.map(
+          (movieId) async {
+            final result = await HttpHelper.getData(
+                methodUrl: 'viewsets/movies/$movieId',
+                headers: {
+                  'Authorization':
+                      'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
+                });
+
+            return result.fold((fail) => null, (success) {
+              var body = jsonDecode(success.body);
+              body['ticket_price'] =
+                  double.tryParse(body['ticket_price']?.toString() ?? '0') ??
+                      0.0;
+              body['rating'] =
+                  double.tryParse(body['rating']?.toString() ?? '0') ?? 0.0;
+              body['imdb_rating'] =
+                  double.tryParse(body['imdb_rating']?.toString() ?? '0') ??
+                      0.0;
+              return MovieResponse.fromJson(body).toDomain();
+            });
+          },
+        ),
+      );
+
       VariablesManager.favesMovies.clear();
       VariablesManager.favesMovies.addAll(responses.whereType<MovieResponse>());
     } catch (e) {

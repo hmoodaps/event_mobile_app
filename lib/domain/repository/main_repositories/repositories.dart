@@ -40,7 +40,8 @@ abstract class Repositories {
   Future<Either<FailureClass, void>> forgetPassword(String email);
 
   // Adds a film to the user's list of favorites
-  Future<Either<FailureClass, void>> addFilmToFavorites({required MovieResponse movie});
+  Future<Either<FailureClass, void>> addFilmToFavorites(
+      {required MovieResponse movie});
 
   // Removes a film from the user's list of favorites
   Future<Either<FailureClass, void>> removeFilmFromFavorites(
@@ -50,8 +51,10 @@ abstract class Repositories {
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse();
 
   // Adds a film to the user's cart
-  Future<Either<FailureClass, void>> addFilmToCart({required MovieResponse movie});
+  Future<Either<FailureClass, void>> addFilmToCart(
+      {required MovieResponse movie});
 
   // Removes a film from the user's cart
-  Future<Either<FailureClass, void>> removeFilmFromCart({required MovieResponse movie});
+  Future<Either<FailureClass, void>> removeFilmFromCart(
+      {required MovieResponse movie});
 }

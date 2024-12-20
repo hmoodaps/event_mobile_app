@@ -20,7 +20,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.event_mobile_app"  // Ensure this matches the package name in google-services.json
+        applicationId = "com.example.event_mobile_app"
+        // Ensure this matches the package name in google-services.json
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

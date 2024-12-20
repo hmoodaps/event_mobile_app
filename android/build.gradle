@@ -6,7 +6,8 @@ buildscript {
     dependencies {
         // Ensure this line is included in your buildscript dependencies
         classpath 'com.google.gms:google-services:4.4.2'  // Ensure the latest version is used
-        classpath 'com.android.tools.build:gradle:7.4.2'  // Your Gradle plugin version (ensure it’s correct for your project)
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        // Your Gradle plugin version (ensure it’s correct for your project)
     }
 }
 
