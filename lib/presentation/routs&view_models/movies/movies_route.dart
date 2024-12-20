@@ -80,7 +80,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
                               suffix: Icon(
                                 IconsManager.search,
                               ),
-
                               labelText: GeneralStrings.search(context),
                               filled: true,
                               fillColor: Colors.white.withOpacity(0.2),

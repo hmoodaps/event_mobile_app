@@ -46,26 +46,30 @@ extension ShowTimesResponseMapper on ShowTimesResponse? {
 
 extension UserResponseMapper on UserResponse? {
   UserResponse toDomain() => UserResponse(
-    id: this?.id ?? AppConstants.emptyText,
-    additionalInfo: this?.additionalInfo ?? AppConstants.emptyText,
-    fullName: this?.fullName ?? AppConstants.emptyText,
-    email: this?.email ?? AppConstants.emptyText,
-    dateOfBirth: this?.dateOfBirth ?? AppConstants.emptyText,
-    mobileNumber: this?.mobileNumber ?? AppConstants.emptyText,
-    cart: this?.cart ?? AppConstants.emptyIntList,
-    favorites: this?.favorites ?? AppConstants.emptyIntList,
-    postalCode: this?.postalCode ?? AppConstants.emptyText,
-    houseNumber: this?.houseNumber ?? AppConstants.emptyText,
-    town: this?.town ?? AppConstants.emptyText,
-    street: this?.street ?? AppConstants.emptyText,
-    userPhotoUrl: this?.userPhotoUrl ?? AppConstants.emptyText,
-    billingInfo: this?.billingInfo?.map((billing) => BillingInfo(
-      numberOfSeats: billing.numberOfSeats.orZero(),
-      reservedSeats: billing.reservedSeats.orEmptyIntList(),
-      seatPrice: billing.seatPrice.orZero(),
-      totalBill: billing.totalBill.orZero(),
-      reservedMovies: billing.reservedMovies.orEmptyIntList(),
-      isPaid: billing.isPaid.orFalse(),
-    )).toList() ?? [],
-  );
+        id: this?.id ?? AppConstants.emptyText,
+        additionalInfo: this?.additionalInfo ?? AppConstants.emptyText,
+        fullName: this?.fullName ?? AppConstants.emptyText,
+        email: this?.email ?? AppConstants.emptyText,
+        dateOfBirth: this?.dateOfBirth ?? AppConstants.emptyText,
+        mobileNumber: this?.mobileNumber ?? AppConstants.emptyText,
+        cart: this?.cart ?? AppConstants.emptyIntList,
+        favorites: this?.favorites ?? AppConstants.emptyIntList,
+        postalCode: this?.postalCode ?? AppConstants.emptyText,
+        houseNumber: this?.houseNumber ?? AppConstants.emptyText,
+        town: this?.town ?? AppConstants.emptyText,
+        street: this?.street ?? AppConstants.emptyText,
+        userPhotoUrl: this?.userPhotoUrl ?? AppConstants.emptyText,
+        billingInfo: this
+                ?.billingInfo
+                ?.map((billing) => BillingInfo(
+                      numberOfSeats: billing.numberOfSeats.orZero(),
+                      reservedSeats: billing.reservedSeats.orEmptyIntList(),
+                      seatPrice: billing.seatPrice.orZero(),
+                      totalBill: billing.totalBill.orZero(),
+                      reservedMovies: billing.reservedMovies.orEmptyIntList(),
+                      isPaid: billing.isPaid.orFalse(),
+                    ))
+                .toList() ??
+            [],
+      );
 }

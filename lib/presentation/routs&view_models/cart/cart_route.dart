@@ -63,7 +63,7 @@ class _CartRouteState extends State<CartRoute> {
     return ConditionalBuilder(
       builder: (context) {
         return Visibility(
-          visible:  _model.isLoaded,
+          visible: _model.isLoaded,
           child: AnimationLimiter(
             child: ListView.separated(
               itemBuilder: (context, index) {

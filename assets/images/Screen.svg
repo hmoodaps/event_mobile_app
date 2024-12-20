@@ -6,8 +6,8 @@
         d="M175 5.0146C106.876 4.5048 1 17.5146 1 17.5146L16 40.5146C16 40.5146 112.732 28.0281 175 28.5146C231.429 28.9555 319 40.5146 319 40.5146L332.5 17.5146C332.5 17.5146 236.699 5.47632 175 5.0146Z"
         fill="url(#paint0_linear_4_47)" />
     <defs>
-        <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_4_47" x1="1" x2="345" y1="41"
-            y2="41">
+        <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_4_47" x1="1" x2="345"
+            y1="41" y2="41">
             <stop stop-color="#FEF6FF" />
             <stop offset="1" stop-color="#EAFEF9" />
         </linearGradient>

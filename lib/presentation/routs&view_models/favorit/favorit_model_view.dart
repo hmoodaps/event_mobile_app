@@ -7,9 +7,7 @@ import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/variables_manager.dart';
-import '../../../data/local_storage/shared_local.dart';
 import '../../bloc_state_managment/events.dart';
 
 class FavoriteModelView extends BaseViewModel {
@@ -18,7 +16,7 @@ class FavoriteModelView extends BaseViewModel {
   FavoriteModelView(this.context);
 
   late EventsBloc _bloc;
-  late bool isLoaded ;
+  late bool isLoaded;
 
   late final StreamSubscription blocStreamSubscription;
 

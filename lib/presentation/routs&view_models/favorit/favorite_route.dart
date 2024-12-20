@@ -65,7 +65,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
           child: ConditionalBuilder(
             builder: (context) {
               return Visibility(
-                visible:  state is GetFavesItemsStateSuccessState,
+                visible: state is GetFavesItemsStateSuccessState,
                 child: AnimationLimiter(
                   child: ListView.separated(
                     itemBuilder: (context, index) {
@@ -95,8 +95,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                 ),
               );
             },
-            condition:
-           state is GetFavesItemsStateSuccessState,
+            condition: state is GetFavesItemsStateSuccessState,
             fallback: (context) {
               if (SharedPref.prefs.getString(GeneralStrings.currentUser) ==
                   null) {

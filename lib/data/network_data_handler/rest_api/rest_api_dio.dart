@@ -8,7 +8,6 @@
 // (http & dio) will be used in other parts of the app where needed.
 
 import 'package:dio/dio.dart';
-import 'package:event_mobile_app/data/implementer/repository_implementer/main_repositories_implementer/repositories_implementer.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 

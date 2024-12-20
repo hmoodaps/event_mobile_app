@@ -79,22 +79,23 @@ class _ForCartIsLoginOrNot extends StatefulWidget {
 }
 
 class _ForCartIsLoginOrNotState extends State<_ForCartIsLoginOrNot> {
-  bool isCurrentUser = false ;
+  bool isCurrentUser = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (VariablesManager.currentUser == null){
+    if (VariablesManager.currentUser == null) {
       setState(() {
-        isCurrentUser = false ;
+        isCurrentUser = false;
       });
-    }else{
+    } else {
       setState(() {
-        isCurrentUser = true ;
+        isCurrentUser = true;
       });
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventsBloc, AppStates>(builder: (context, state) {

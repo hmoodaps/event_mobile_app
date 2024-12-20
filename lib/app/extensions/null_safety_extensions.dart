@@ -54,7 +54,6 @@ extension NonNullIntList on List<int>? {
   }
 }
 
-
 extension StringExtensions on String? {
   /// Tries to parse a [String] to a [double]. Returns `0.0` if null or invalid.
   double toDoubleOrZero() => this == null ? 0.0 : double.tryParse(this!) ?? 0.0;

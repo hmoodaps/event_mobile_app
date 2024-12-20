@@ -109,8 +109,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
 
   //============= Get Current User Response Event===========================
-  _onGetCurrentUserResponseEvent(GetCurrentUserResponseEvent event,
-      Emitter<AppStates> emit) async {
+  _onGetCurrentUserResponseEvent(
+      GetCurrentUserResponseEvent event, Emitter<AppStates> emit) async {
     await _operators.getCurrentUserResponse().then((value) {
       value.fold((fail) {
         if (kDebugMode) {
@@ -126,8 +126,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   }
 
   // ============= adding or remove CART ==========================
-  _onAddFilmToCartEvent(AddFilmToCartEvent event,
-      Emitter<AppStates> emit) async {
+  _onAddFilmToCartEvent(
+      AddFilmToCartEvent event, Emitter<AppStates> emit) async {
     await _operators.addFilmToCart(movie: event.movie).then((value) {
       value.fold((fail) {
         if (kDebugMode) {
@@ -140,8 +140,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  _onRemoveFilmFromCartEvent(RemoveFilmFromCartEvent event,
-      Emitter<AppStates> emit) async {
+  _onRemoveFilmFromCartEvent(
+      RemoveFilmFromCartEvent event, Emitter<AppStates> emit) async {
     await _operators.removeFilmFromCart(movie: event.movie).then((value) {
       value.fold((fail) {
         if (kDebugMode) {
@@ -155,8 +155,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  Future<void> _onGetCartItemsEvent(GetCartItemsEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onGetCartItemsEvent(
+      GetCartItemsEvent event, Emitter<AppStates> emit) async {
     try {
       final cartItems = VariablesManager.currentUserRespon.cart ?? [];
 
@@ -207,8 +207,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  _onRemoveFilmFromFavEvent(RemoveFilmFromFavEvent event,
-      Emitter<AppStates> emit) async {
+  _onRemoveFilmFromFavEvent(
+      RemoveFilmFromFavEvent event, Emitter<AppStates> emit) async {
     emit(StartRemovingItemFromFavesState());
     await _operators.removeFilmFromFavorites(movie: event.movie).then((value) {
       value.fold((fail) {
@@ -225,8 +225,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  Future<void> _onGetFavesItemsEvent(GetFavesItemsEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onGetFavesItemsEvent(
+      GetFavesItemsEvent event, Emitter<AppStates> emit) async {
     try {
       final favorites = FirebaseAuth.instance.currentUser == null
           ? (SharedPref.prefs.getStringList(GeneralStrings.listFaves)!)
@@ -236,24 +236,31 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
         return int.tryParse(movieId.toString()) ?? 0;
       }).toList();
 
-      final responses = await Future.wait(movieIds.map((movieId) async {
-        final result = await HttpHelper.getData(
-            methodUrl: 'viewsets/movies/$movieId',
-            headers: {
-              'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
-            });
+      final responses = await Future.wait(
+        movieIds.map(
+          (movieId) async {
+            final result = await HttpHelper.getData(
+                methodUrl: 'viewsets/movies/$movieId',
+                headers: {
+                  'Authorization':
+                      'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
+                });
 
-        return result.fold((fail) => null, (success) {
-          var body = jsonDecode(success.body);
-          body['ticket_price'] =
-              double.tryParse(body['ticket_price']?.toString() ?? '0') ?? 0.0;
-          body['rating'] =
-              double.tryParse(body['rating']?.toString() ?? '0') ?? 0.0;
-          body['imdb_rating'] =
-              double.tryParse(body['imdb_rating']?.toString() ?? '0') ?? 0.0;
-          return MovieResponse.fromJson(body).toDomain();
-        });
-      },),);
+            return result.fold((fail) => null, (success) {
+              var body = jsonDecode(success.body);
+              body['ticket_price'] =
+                  double.tryParse(body['ticket_price']?.toString() ?? '0') ??
+                      0.0;
+              body['rating'] =
+                  double.tryParse(body['rating']?.toString() ?? '0') ?? 0.0;
+              body['imdb_rating'] =
+                  double.tryParse(body['imdb_rating']?.toString() ?? '0') ??
+                      0.0;
+              return MovieResponse.fromJson(body).toDomain();
+            });
+          },
+        ),
+      );
 
       VariablesManager.favesMovies.clear();
       VariablesManager.favesMovies.addAll(responses.whereType<MovieResponse>());
@@ -263,23 +270,22 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     emit(GetFavesItemsState());
   }
 
-
-  _onGetFavesItemsStateSuccessEvent(GetFavesItemsStateSuccessEvent event,
-      Emitter<AppStates> emit) {
+  _onGetFavesItemsStateSuccessEvent(
+      GetFavesItemsStateSuccessEvent event, Emitter<AppStates> emit) {
     emit(GetFavesItemsStateSuccessState());
   }
 
 //====================Add User Details Handler=============================
-  _onAddUserDetailsEvent(AddUserDetailsEvent event,
-      Emitter<AppStates> emit) async {
+  _onAddUserDetailsEvent(
+      AddUserDetailsEvent event, Emitter<AppStates> emit) async {
     emit(AddUsersDetailsState());
     await _addUserDetailsRepo.addUserDetails(req: event.req).then((result) {
       add(AddUserDetailsResultEvent(result));
     });
   }
 
-  _onAddUserDetailsResultEvent(AddUserDetailsResultEvent event,
-      Emitter<AppStates> emit) async {
+  _onAddUserDetailsResultEvent(
+      AddUserDetailsResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold((error) {
       add(AddUserDetailsErrorEvent(error.firebaseException!));
     }, (success) {
@@ -287,8 +293,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  Future<void> _onAddUserDetailsErrorEvent(AddUserDetailsErrorEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onAddUserDetailsErrorEvent(
+      AddUserDetailsErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       state: (error) => AddUserDetailsErrorState(error),
       emit: emit,
@@ -296,23 +302,23 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onAddUserDetailsSuccessEvent(AddUserDetailsSuccessEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onAddUserDetailsSuccessEvent(
+      AddUserDetailsSuccessEvent event, Emitter<AppStates> emit) async {
     emit(AddUserDetailsSuccessState());
   }
 
 //====================Log OUT=============================
 
-  Future<void> _onLogoutEvent(LogoutEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onLogoutEvent(
+      LogoutEvent event, Emitter<AppStates> emit) async {
     await _login.logout();
 
     SharedPref.prefs.remove(GeneralStrings.currentUser);
     add(ToLogoutEvent());
   }
 
-  Future<void> _onToLogoutEvent(ToLogoutEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onToLogoutEvent(
+      ToLogoutEvent event, Emitter<AppStates> emit) async {
     emit(LoginState());
   }
 
@@ -321,8 +327,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Initiates fetching of movies, emits loading state, then fetches movies
   // from the injected_repository and triggers FetchMoviesResultEvent with the result
   // Processes the result of fetching movies, handling success and failure
-  Future<void> _onStartFetchMoviesEvent(StartFetchMoviesEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onStartFetchMoviesEvent(
+      StartFetchMoviesEvent event, Emitter<AppStates> emit) async {
     VariablesManager.movies.clear();
     emit(StartFetchMoviesState());
     await _repository.fetchMovies().then((result) {
@@ -330,13 +336,13 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  Future<void> _onFetchMoviesResultEvent(FetchMoviesResultEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onFetchMoviesResultEvent(
+      FetchMoviesResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
-          (fail) {
+      (fail) {
         add(MoviesLoadedErrorEvent(fail.error!));
       },
-          (movies) {
+      (movies) {
         if (VariablesManager.movies.isNotEmpty) {
           VariablesManager.movies.clear();
         }
@@ -352,14 +358,14 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onMoviesLoadedErrorEvent(MoviesLoadedErrorEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onMoviesLoadedErrorEvent(
+      MoviesLoadedErrorEvent event, Emitter<AppStates> emit) async {
     emit(MoviesLoadedErrorState(event.fail));
     add(StartFetchMoviesEvent());
   }
 
-  Future<void> _onMoviesLoadedSuccessEvent(MoviesLoadedSuccessEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onMoviesLoadedSuccessEvent(
+      MoviesLoadedSuccessEvent event, Emitter<AppStates> emit) async {
     emit(MoviesLoadedSuccessState());
   }
 
@@ -368,21 +374,21 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Starts Firebase initialization and adds the FetchFirebaseResultEvent
   // with the outcome of the injected_repository's initFirebase call
 
-  Future<void> _onStartFetchFirebaseEvent(StartFetchFirebaseEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onStartFetchFirebaseEvent(
+      StartFetchFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(StartFetchFirebaseState());
     Either<FailureClass, List<String>> result =
-    await _repository.initFirebase();
+        await _repository.initFirebase();
     add(FetchFirebaseResultEvent(result));
   }
 
-  Future<void> _onStartFetchFirebaseEventResult(FetchFirebaseResultEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onStartFetchFirebaseEventResult(
+      FetchFirebaseResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
-          (fail) {
+      (fail) {
         add(FetchFirebaseErrorEvent(fail.firebaseException!));
       },
-          (success) {
+      (success) {
         if (VariablesManager.userIds.isNotEmpty) {
           VariablesManager.userIds.clear();
         }
@@ -396,8 +402,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onFetchFirebaseErrorEvent(FetchFirebaseErrorEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onFetchFirebaseErrorEvent(
+      FetchFirebaseErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       state: (error) => FetchFirebaseErrorState(error),
       emit: emit,
@@ -405,8 +411,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onFetchFirebaseSuccessEvent(FetchFirebaseSuccessEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onFetchFirebaseSuccessEvent(
+      FetchFirebaseSuccessEvent event, Emitter<AppStates> emit) async {
     emit(FetchFirebaseSuccessState());
   }
 
@@ -415,12 +421,12 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Processes user creation result, handling success by moving to add user
   // to Firebase, or failure by showing error state
 
-  Future<void> _onCreateUserEvent(StartCreateUserEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onCreateUserEvent(
+      StartCreateUserEvent event, Emitter<AppStates> emit) async {
     emit(StartUserCreateState());
 
     Either<FailureClass, UserCredential> result =
-    await _register.createUserAtFirebase(req: event.req);
+        await _register.createUserAtFirebase(req: event.req);
 
     if (kDebugMode) {
       print(result.toString());
@@ -428,13 +434,13 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     add(CreatingUserResultEvent(event.req, result));
   }
 
-  Future<void> _onCreatingUserResultEvent(CreatingUserResultEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onCreatingUserResultEvent(
+      CreatingUserResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
-          (fail) {
+      (fail) {
         add(UserCreatedErrorEvent(fail.firebaseException!));
       },
-          (success) {
+      (success) {
         if (success.user != null) {
           SharedPref.prefs
               .setString(GeneralStrings.currentUser, success.user!.uid);
@@ -444,8 +450,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onUserCreatedErrorEvent(UserCreatedErrorEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onUserCreatedErrorEvent(
+      UserCreatedErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.fail,
@@ -453,14 +459,14 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onUserCreatedSuccessEvent(UserCreatedSuccessEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onUserCreatedSuccessEvent(
+      UserCreatedSuccessEvent event, Emitter<AppStates> emit) async {
     _register
         .addUserToFirebase(
-        req: CreateUserRequirements(
-          fullName: event.user.displayName,
-          email: event.user.email,
-        ))
+            req: CreateUserRequirements(
+      fullName: event.user.displayName,
+      email: event.user.email,
+    ))
         .then((_) {
       add(AddUserToFirebaseEvent());
     });
@@ -469,8 +475,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // ======== Add User To Firebase Handler ==========
 //adding user to firebase will be included with creation user
   //whether normal register or with google register
-  Future<void> _onAddUserToFirebaseEvent(AddUserToFirebaseEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onAddUserToFirebaseEvent(
+      AddUserToFirebaseEvent event, Emitter<AppStates> emit) async {
     emit(UserCreatedSuccessState());
     add(GetCurrentUserResponseEvent());
   }
@@ -483,24 +489,24 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onLoginEvent(LoginEvent event, Emitter<AppStates> emit) async {
     emit(LoginState());
     Either<FailureClass, String> result =
-    await _login.loginToFirebase(req: event.req);
+        await _login.loginToFirebase(req: event.req);
     add(LoginResultEvent(result));
   }
 
-  Future<void> _onLoginResultEvent(LoginResultEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onLoginResultEvent(
+      LoginResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
-          (fail) {
+      (fail) {
         add(LoginErrorEvent(fail.firebaseException!));
       },
-          (success) {
+      (success) {
         add(LoginSuccessEvent());
       },
     );
   }
 
-  Future<void> _onLoginErrorEvent(LoginErrorEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onLoginErrorEvent(
+      LoginErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.fail,
@@ -508,8 +514,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onLoginSuccessEvent(LoginSuccessEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onLoginSuccessEvent(
+      LoginSuccessEvent event, Emitter<AppStates> emit) async {
     emit(LoginSuccessState());
     add(GetCurrentUserResponseEvent());
   }
@@ -520,28 +526,28 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Processes result of Google sign=in, checking if the user exists or not,
   // and emits respective states based on the outcome
 //also after creatting user by google automatiklly will add to firebase
-  Future<void> _onSignInWithGoogleEvent(SignInWithGoogleEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onSignInWithGoogleEvent(
+      SignInWithGoogleEvent event, Emitter<AppStates> emit) async {
     emit(StartSignInWithGoogleState());
     Either<FailureClass, User> result = await _auth.signInWithGoogle();
     add(SignInWithGoogleResultEvent(result));
   }
 
-  Future<void> _onSignInWithGoogleResultEvent(SignInWithGoogleResultEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onSignInWithGoogleResultEvent(
+      SignInWithGoogleResultEvent event, Emitter<AppStates> emit) async {
     event.result.fold(
-          (fail) {
+      (fail) {
         add(SignInWithGoogleEventError(fail.toString()));
       },
-          (user) {
+      (user) {
         add(SignInWithGoogleEventSuccess(user));
         add(GetCurrentUserResponseEvent());
       },
     );
   }
 
-  Future<void> _onSignInWithGoogleEventError(SignInWithGoogleEventError event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onSignInWithGoogleEventError(
+      SignInWithGoogleEventError event, Emitter<AppStates> emit) async {
     emit(SignInWithGoogleStateError(event.fail.toString()));
   }
 
@@ -561,15 +567,15 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   //i can handle both of them in one event but after i tried
   // i found like this its will be better for handling both of them
   //to concern missions
-  Future<void> _onChangeColorModeEvent(ChangeColorModeEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onChangeColorModeEvent(
+      ChangeColorModeEvent event, Emitter<AppStates> emit) async {
     _functions.changeColorMode(event);
     // Emit the state change
     emit(ChangeColorThemeState(selectedColorIndex: event.selectedColorIndex));
   }
 
-  Future<void> _onChangeLanguageEvent(ChangeLanguageEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onChangeLanguageEvent(
+      ChangeLanguageEvent event, Emitter<AppStates> emit) async {
     _functions.changeLanguage(event);
     emit(ChangeAppLanguageState(
         selectedLanguageIndex: event.selectedLanguageIndex));
@@ -588,8 +594,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   // Listens to internet connectivity status changes and emits either ConnectedState
   // or DisconnectedState based on the current connectivity status
   //i didn't handle with the internet is weak or stable >>
-  Future<void> _onInternetStatusChangeEvent(InternetStatusChangeEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onInternetStatusChangeEvent(
+      InternetStatusChangeEvent event, Emitter<AppStates> emit) async {
     await for (var status in InternetConnection().onStatusChange) {
       if (status == InternetStatus.connected) {
         emit(ConnectedState());
@@ -599,16 +605,16 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     }
   }
 
-  _onShowNoInternetDialog(ShowNoInternetDialog event,
-      Emitter<AppStates> emit) async {
+  _onShowNoInternetDialog(
+      ShowNoInternetDialog event, Emitter<AppStates> emit) async {
     emit(ShowNoInternetDialogState());
   }
 
   // ======== reset password Handler ==========
 // i made it just to sent an email to user to reset the password
   //by firebase .
-  Future<void> _onResetPasswordEvent(ResetPasswordEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onResetPasswordEvent(
+      ResetPasswordEvent event, Emitter<AppStates> emit) async {
     final result = await _login.forgetPassword(event.email);
     result.fold((error) {
       add(ResetPasswordErrorEvent(error.firebaseException!));
@@ -617,8 +623,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     });
   }
 
-  Future<void> _onResetPasswordErrorEvent(ResetPasswordErrorEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onResetPasswordErrorEvent(
+      ResetPasswordErrorEvent event, Emitter<AppStates> emit) async {
     firebaseAuthErrorsHandler(
       emit: emit,
       failure: event.error,
@@ -626,8 +632,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     );
   }
 
-  Future<void> _onResetPasswordSuccessEvent(ResetPasswordSuccessEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onResetPasswordSuccessEvent(
+      ResetPasswordSuccessEvent event, Emitter<AppStates> emit) async {
     emit(ResetPasswordSuccessState());
   }
 
@@ -664,8 +670,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     return themeData;
   }
 
-  void _onToggleLightAndDarkEvent(ToggleLightAndDarkEvent event,
-      Emitter<AppStates> emit) {
+  void _onToggleLightAndDarkEvent(
+      ToggleLightAndDarkEvent event, Emitter<AppStates> emit) {
     // Emit the updated theme state to notify the app to rebuild with the new theme.
     emit(ToggleLightAndDarkState());
   }
@@ -673,8 +679,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 // ======== ChangeModeEvent Handler ==========
 // This method updates the theme mode (light/dark) in the app preferences
 // and stores it in `SharedPref` for persistence across app launches.
-  Future<void> _onChangeModeEvent(ChangeModeEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onChangeModeEvent(
+      ChangeModeEvent event, Emitter<AppStates> emit) async {
     _functions.changeMode(event);
 
     // Emit the state to notify the app about the updated theme mode.
@@ -684,8 +690,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 // ======== ChangeModeThemeEvent Handler ==========
 // This method saves the "manual" setting in SharedPreferences,
 // and updates the app theme according to the stored preference (light or dark).
-  Future<void> _onChangeModeThemeEvent(ChangeModeThemeEvent event,
-      Emitter<AppStates> emit) async {
+  Future<void> _onChangeModeThemeEvent(
+      ChangeModeThemeEvent event, Emitter<AppStates> emit) async {
     // Save the manual theme preference in SharedPreferences
     await SharedPref.prefs.setBool(GeneralStrings.isManual, event.isManual);
 
@@ -700,7 +706,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
             AppTheme.dark); // Set dark theme if saved mode is dark.
         break;
       default:
-      // Handle the default case if the theme mode is unknown (optional).
+        // Handle the default case if the theme mode is unknown (optional).
         break;
     }
 
@@ -714,50 +720,35 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   }
 
   //==============ExtractDominantColorEvent=========
-  void _onExtractDominantColorEvent(ExtractDominantColorEvent event,
-      Emitter<AppStates> emit) {
+  void _onExtractDominantColorEvent(
+      ExtractDominantColorEvent event, Emitter<AppStates> emit) {
     emit(ExtractDominantColorState());
   }
 
   // ======== Light Theme Text Styles ========
   // Helper methods to set text styles for various text elements
-  static headerStyle(BuildContext context) =>
-      Theme
-          .of(context)
-          .textTheme
-          .headlineLarge
-          ?.copyWith(
-          color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static headerStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .headlineLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-  static titleStyle(BuildContext context) =>
-      Theme
-          .of(context)
-          .textTheme
-          .titleLarge
-          ?.copyWith(
-          color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static titleStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .titleLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-  static bodyStyle(BuildContext context) =>
-      Theme
-          .of(context)
-          .textTheme
-          .bodyLarge
-          ?.copyWith(
-          color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static bodyStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .bodyLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-  static paragraphStyle(BuildContext context) =>
-      Theme
-          .of(context)
-          .textTheme
-          .labelLarge
-          ?.copyWith(
-          color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static paragraphStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .labelLarge
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 
-  static smallParagraphStyle(BuildContext context) =>
-      Theme
-          .of(context)
-          .textTheme
-          .labelSmall
-          ?.copyWith(
-          color: VariablesManager.isDark ? Colors.white : Colors.black);
+  static smallParagraphStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .labelSmall
+      ?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black);
 }
