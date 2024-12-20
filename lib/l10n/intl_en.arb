@@ -87,7 +87,6 @@
   "logout": "Logout ",
   "loginOrRegister": "login Or Register ",
   "skip": "skip ",
-
   "noFaveItems": "No favorites here yet!",
   "favorites": "Favorites",
   "notLoggedIn": "You're not logged in yet. Please log in to continue to your cart!",
@@ -96,6 +95,14 @@
   "uCantAddItemToCart": "You need to log in before adding items to your cart!",
   "noCartItems": "Your cart is empty for now!",
   "cart": "Cart",
-  "chooseSeat": "Choose your seat"
-
+  "chooseSeat": "Choose your seat",
+  "uDidnotSelectSeat": "you didn't select any seat :(",
+  "available": "Available",
+  "go": "Go !",
+  "selected": "Selected",
+  "reserved": "Reserved",
+  "seatPrice": "seat price : ",
+  "seatsChosen": "seats chosen : ",
+  "selectedSeats": "selected seats : ",
+  "finalPrice": "final price : "
 }

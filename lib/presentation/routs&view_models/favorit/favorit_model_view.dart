@@ -18,7 +18,7 @@ class FavoriteModelView extends BaseViewModel {
   FavoriteModelView(this.context);
 
   late EventsBloc _bloc;
-  late bool isLoaded = false;
+  late bool isLoaded ;
 
   late final StreamSubscription blocStreamSubscription;
 
@@ -29,6 +29,7 @@ class FavoriteModelView extends BaseViewModel {
 
   @override
   void start() {
+    isLoaded = false;
     _bloc = EventsBloc.get(context);
     startListen();
     if (VariablesManager.currentUser != null) {
@@ -39,20 +40,9 @@ class FavoriteModelView extends BaseViewModel {
 
   startListen() {
     blocStreamSubscription = _bloc.stream.listen((state) async {
-      if (state is GetFavesItemsState
-          &&
-          (SharedPref.prefs.getString(GeneralStrings.currentUser) == null
-              ? SharedPref.prefs
-                  .getStringList(GeneralStrings.listFaves)!
-                  .isNotEmpty
-              : VariablesManager.currentUserRespon.favorites!.isNotEmpty)
-      ) {
+      if (state is GetFavesItemsState) {
         isLoaded = true;
         _bloc.add(GetFavesItemsStateSuccessEvent());
-      }
-      if(state is StartRemovingItemFromFavesState ||state is StartAddingItemToFavesState ){
-        isLoaded = false;
-        _bloc.add(GetFavesItemsEvent());
       }
     });
   }
@@ -66,7 +56,6 @@ class FavoriteModelView extends BaseViewModel {
   }
 
   removeFilmFromFavEvent(MovieResponse movie) {
-
     _bloc.add(RemoveFilmFromFavEvent(movie));
   }
 

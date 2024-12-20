@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "allInvesting":
             MessageLookupByLibrary.simpleMessage("All investing have risks "),
         "allMovies": MessageLookupByLibrary.simpleMessage("All Movies "),
+        "available": MessageLookupByLibrary.simpleMessage("Available"),
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Be the first one! "),
         "byPress": MessageLookupByLibrary.simpleMessage("by press "),
@@ -61,9 +62,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "fewData": MessageLookupByLibrary.simpleMessage("Just more few data! "),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required "),
+        "finalPrice": MessageLookupByLibrary.simpleMessage("final price : "),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage("Forget Password? "),
         "fullName": MessageLookupByLibrary.simpleMessage("Full Name "),
+        "go": MessageLookupByLibrary.simpleMessage("Go !"),
         "guest": MessageLookupByLibrary.simpleMessage("as a guest "),
         "haveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
@@ -126,12 +129,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "question":
             MessageLookupByLibrary.simpleMessage("Do you want to continue? "),
         "register": MessageLookupByLibrary.simpleMessage("Register "),
+        "reserved": MessageLookupByLibrary.simpleMessage("Reserved"),
         "resetPassword":
             MessageLookupByLibrary.simpleMessage("Reset Password "),
         "search": MessageLookupByLibrary.simpleMessage("search "),
+        "seatPrice": MessageLookupByLibrary.simpleMessage("seat price : "),
         "seats": MessageLookupByLibrary.simpleMessage("seats "),
         "seatsAvailable":
             MessageLookupByLibrary.simpleMessage("seats available "),
+        "seatsChosen": MessageLookupByLibrary.simpleMessage("seats chosen : "),
+        "selected": MessageLookupByLibrary.simpleMessage("Selected"),
+        "selectedSeats":
+            MessageLookupByLibrary.simpleMessage("selected seats : "),
         "signWithApple":
             MessageLookupByLibrary.simpleMessage("Sign in With Apple "),
         "signWithGoogle":
@@ -150,6 +159,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "topMovies": MessageLookupByLibrary.simpleMessage("Top Movies "),
         "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
             "You need to log in before adding items to your cart!"),
+        "uDidnotSelectSeat": MessageLookupByLibrary.simpleMessage(
+            "you didn\'t select any seat :("),
         "unknownError":
             MessageLookupByLibrary.simpleMessage("An unknown error occurred. "),
         "urNotLogin":

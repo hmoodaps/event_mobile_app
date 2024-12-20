@@ -1019,6 +1019,96 @@ class S {
       args: [],
     );
   }
+
+  /// `you didn't select any seat :(`
+  String get uDidnotSelectSeat {
+    return Intl.message(
+      'you didn\'t select any seat :(',
+      name: 'uDidnotSelectSeat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available`
+  String get available {
+    return Intl.message(
+      'Available',
+      name: 'available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go !`
+  String get go {
+    return Intl.message(
+      'Go !',
+      name: 'go',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selected`
+  String get selected {
+    return Intl.message(
+      'Selected',
+      name: 'selected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reserved`
+  String get reserved {
+    return Intl.message(
+      'Reserved',
+      name: 'reserved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `seat price : `
+  String get seatPrice {
+    return Intl.message(
+      'seat price : ',
+      name: 'seatPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `seats chosen : `
+  String get seatsChosen {
+    return Intl.message(
+      'seats chosen : ',
+      name: 'seatsChosen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `selected seats : `
+  String get selectedSeats {
+    return Intl.message(
+      'selected seats : ',
+      name: 'selectedSeats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `final price : `
+  String get finalPrice {
+    return Intl.message(
+      'final price : ',
+      name: 'finalPrice',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

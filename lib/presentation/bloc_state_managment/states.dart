@@ -24,7 +24,9 @@ class UserCreatedErrorState extends AppStates {
 class AddUsersDetailsState extends AppStates {}
 
 class AddUserDetailsSuccessState extends AppStates {}
+
 class StartRemovingItemFromFavesState extends AppStates {}
+
 class StartAddingItemToFavesState extends AppStates {}
 
 class AddUserDetailsErrorState extends AppStates {
@@ -154,6 +156,7 @@ class GetFavesItemsState extends AppStates {}
 class RemoveFilmFromFavState extends AppStates {}
 
 class GetFavesItemsStateSuccessState extends AppStates {}
+
 class RemoveFilmFromFav22State extends AppStates {}
 
 class AddFilmToCartState extends AppStates {}

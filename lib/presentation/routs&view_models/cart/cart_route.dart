@@ -1,6 +1,5 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:event_mobile_app/app/components/constants/font_manager.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
@@ -8,10 +7,10 @@ import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../bloc_state_managment/states.dart';
@@ -60,59 +59,54 @@ class _CartRouteState extends State<CartRoute> {
         ),
       );
 
-
   Widget pageBuilder() {
-      return         ConditionalBuilder(
-        builder: (context) {
-          return Visibility(
-            visible: (VariablesManager.cartMovies.isNotEmpty && _model.isLoaded),
-            child: AnimationLimiter(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return AnimationConfiguration.staggeredGrid(
-                    position: index,
-                    duration: const Duration(milliseconds: 1000),
-                    columnCount: SizeManager.i2,
-                    child: ScaleAnimation(
-                      child: FadeInAnimation(
-                        child: RepaintBoundary(
-                          child: cartItem(
-                              VariablesManager.cartMovies[index]),
-                        ),
+    return ConditionalBuilder(
+      builder: (context) {
+        return Visibility(
+          visible:  _model.isLoaded,
+          child: AnimationLimiter(
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                return AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  duration: const Duration(milliseconds: 1000),
+                  columnCount: SizeManager.i2,
+                  child: ScaleAnimation(
+                    child: FadeInAnimation(
+                      child: RepaintBoundary(
+                        child: cartItem(VariablesManager.cartMovies[index]),
                       ),
                     ),
-                  );
-                },
-                itemCount: VariablesManager.cartMovies.length,
-                separatorBuilder: (context, index) =>
-                    SizedBox(
-                      height: 10,
-                    ),
-                reverse: true,
-                shrinkWrap: true,
-                padding: EdgeInsets.all(20),
+                  ),
+                );
+              },
+              itemCount: VariablesManager.cartMovies.length,
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10,
               ),
+              reverse: true,
+              shrinkWrap: true,
+              padding: EdgeInsets.all(20),
             ),
-          );
-        },
-        condition: (VariablesManager.cartMovies.isNotEmpty && _model.isLoaded),
-        fallback: (context) {
-         if(VariablesManager.currentUserRespon.cart!.isEmpty){
-           return Center(child: Text(GeneralStrings.noCartItems(context)));
-         }else{
-           return Center(child: CircularProgressIndicator());
-         }
-        },
-      );
-
-
+          ),
+        );
+      },
+      condition: _model.isLoaded,
+      fallback: (context) {
+        if (VariablesManager.currentUserRespon.cart!.isEmpty) {
+          return Center(child: Text(GeneralStrings.noCartItems(context)));
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   List<Widget> _screenWidgets(AppStates state) => [
-    SafeArea(
-      child: pageBuilder(),
-    ),
-  ];
+        SafeArea(
+          child: pageBuilder(),
+        ),
+      ];
 
   Widget cartItem(MovieResponse movie) {
     return GestureDetector(
@@ -166,14 +160,16 @@ class _CartRouteState extends State<CartRoute> {
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           style:
-                          TextStyleManager.titleStyle(context)?.copyWith(),
+                              TextStyleManager.titleStyle(context)?.copyWith(),
                         ),
                         Spacer(),
                         Align(
                             alignment: Alignment.topRight,
-                            child:favoriteIcon(context, movie, _model.addFilmToFavEvent, _model.removeFilmFromFavEvent)
-                        ),
-
+                            child: favoriteIcon(
+                                context,
+                                movie,
+                                _model.addFilmToFavEvent,
+                                _model.removeFilmFromFavEvent)),
                       ],
                     ),
                     SizedBox(
@@ -188,7 +184,8 @@ class _CartRouteState extends State<CartRoute> {
                         alignment: Alignment.bottomRight,
                         child: Row(
                           children: [
-                            cartIcon(context, movie, _model.addFilmToCartEvent, _model.removeFilmFromCartEvent),
+                            cartIcon(context, movie, _model.addFilmToCartEvent,
+                                _model.removeFilmFromCartEvent),
                             Spacer(),
                             Text(
                               "${movie.ticketPrice!.toString()} €",

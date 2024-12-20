@@ -12,52 +12,50 @@
 // To fulfill dependencies or method parameters, allowing the test to focus on other behaviors.
 // To ensure that the code can execute without requiring fully functional objects in scenarios where they are not critical for the test.
 
+extension NonNullDoubleParse on String? {
+  double toDoubleOrZero() {
+    return this == null ? 0.0 : double.tryParse(this!) ?? 0.0;
+  }
+}
+
 extension NonNullString on String? {
   String orEmpty() {
-    if (this == null) {
-      return '';
-    } else {
-      return this!;
-    }
+    return this ?? '';
+  }
+}
+
+extension NonNullBool on bool? {
+  bool orFalse() {
+    return this ?? false;
   }
 }
 
 extension NonNullInt on int? {
   int orZero() {
-    if (this == null) {
-      return 0;
-    } else {
-      return this!;
-    }
+    return this ?? 0;
   }
 }
 
 extension NonNullDouble on double? {
   double orZero() {
-    if (this == null) {
-      return 0.0;
-    } else {
-      return this!;
-    }
+    return this ?? 0.0;
   }
 }
 
 extension NonNullList on List? {
   List orEmptyList() {
-    if (this == null) {
-      return [];
-    } else {
-      return this!;
-    }
+    return this ?? [];
   }
 }
 
 extension NonNullIntList on List<int>? {
   List<int> orEmptyIntList() {
-    if (this == null) {
-      return [];
-    } else {
-      return this!;
-    }
+    return this ?? [];
   }
+}
+
+
+extension StringExtensions on String? {
+  /// Tries to parse a [String] to a [double]. Returns `0.0` if null or invalid.
+  double toDoubleOrZero() => this == null ? 0.0 : double.tryParse(this!) ?? 0.0;
 }

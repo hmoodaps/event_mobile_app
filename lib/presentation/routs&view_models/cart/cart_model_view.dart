@@ -18,7 +18,7 @@ class CartModelView extends BaseViewModel {
   CartModelView(this.context);
 
   late EventsBloc _bloc;
-  late bool isLoaded = false;
+  late bool isLoaded ;
 
   late final StreamSubscription blocStreamSubscription;
 
@@ -29,6 +29,7 @@ class CartModelView extends BaseViewModel {
 
   @override
   void start() {
+    isLoaded = false;
     _bloc = EventsBloc.get(context);
     startListen();
     if (VariablesManager.currentUser != null) {
@@ -39,17 +40,13 @@ class CartModelView extends BaseViewModel {
 
   startListen() {
     blocStreamSubscription = _bloc.stream.listen((state) async {
-      if (state is GetFavesItemsState &&
-          (SharedPref.prefs.getString(GeneralStrings.currentUser) == null
-              ? SharedPref.prefs
-                  .getStringList(GeneralStrings.listFaves)!
-                  .isNotEmpty
-              : VariablesManager.currentUserRespon.favorites!.isNotEmpty)) {
+      if (state is GetCartItemsState) {
         isLoaded = true;
-        _bloc.add(GetFavesItemsStateSuccessEvent());
+        _bloc.add(GetCartItemsStateSuccessEvent());
       }
     });
   }
+
 
   getCartItems() {
     _bloc.add(GetCurrentUserResponseEvent());
@@ -71,7 +68,6 @@ class CartModelView extends BaseViewModel {
       ),
     );
   }
-
 
   void addFilmToFavEvent(MovieResponse movie) {
     _bloc.add(AddFilmToFavEvent(movie));

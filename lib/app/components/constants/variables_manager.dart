@@ -17,8 +17,9 @@ class VariablesManager {
   static final firebaseAuthInstance = FirebaseAuth.instance;
   static final firestoreInstance = FirebaseFirestore.instance;
 
-  static String ? currentUser =
-      SharedPref.prefs.getString(GeneralStrings.currentUser) ?? FirebaseAuth.instance.currentUser?.uid;
+  static String? currentUser =
+      SharedPref.prefs.getString(GeneralStrings.currentUser) ??
+          FirebaseAuth.instance.currentUser?.uid;
 
 //sign in with google .>>
   static final GoogleSignIn googleSignIn = GoogleSignIn(

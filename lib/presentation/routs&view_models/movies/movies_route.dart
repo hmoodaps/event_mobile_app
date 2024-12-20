@@ -10,8 +10,6 @@ import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
 import '../../../app/components/constants/icons_manager.dart';
-import '../../../app/components/constants/route_strings_manager.dart';
-import '../../../app/components/constants/routs_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
@@ -82,6 +80,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                               suffix: Icon(
                                 IconsManager.search,
                               ),
+
                               labelText: GeneralStrings.search(context),
                               filled: true,
                               fillColor: Colors.white.withOpacity(0.2),
@@ -184,7 +183,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
           ),
         ),
       ];
-
 
   Widget _newMovies({required int dx, required List<MovieResponse> movies}) {
     return GestureDetector(
@@ -292,9 +290,12 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     },
                   ),
                   Align(
-                    alignment: Alignment.topRight,
-                    child: favoriteIcon(context, movie, _model.addFilmToFavEvent, _model.removeFilmFromFavEvent)
-                  ),
+                      alignment: Alignment.topRight,
+                      child: favoriteIcon(
+                          context,
+                          movie,
+                          _model.addFilmToFavEvent,
+                          _model.removeFilmFromFavEvent)),
                 ],
               ),
             ),
@@ -306,7 +307,8 @@ class _MoviesRouteState extends State<MoviesRoute> {
               Text("${movie.ticketPrice.toString()} €",
                   style: TextStyleManager.bodyStyle(context)),
               Spacer(),
-              cartIcon(context, movie, _model.addFilmToCartEvent, _model.removeFilmFromCartEvent),
+              cartIcon(context, movie, _model.addFilmToCartEvent,
+                  _model.removeFilmFromCartEvent),
             ],
           )
         ],

@@ -115,7 +115,6 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   removeFilmFromFavEvent(MovieResponse movie) {
     bloc.add(RemoveFilmFromFavEvent(movie));
   }
-
 }
 
 mixin MoviesModelViewFunctions {

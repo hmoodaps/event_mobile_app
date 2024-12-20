@@ -35,8 +35,9 @@ class RepositoriesImplementer implements Repositories {
         email: req.email!,
         password: req.password!,
       );
-      SharedPref.prefs.setString(GeneralStrings.currentUser, userCredential.user!.uid);
-      await _addFavesFromGuestToUser ();
+      SharedPref.prefs
+          .setString(GeneralStrings.currentUser, userCredential.user!.uid);
+      await _addFavesFromGuestToUser();
 
       return userCredential.user!.uid;
     });
@@ -123,7 +124,8 @@ class RepositoriesImplementer implements Repositories {
         'dateOfBirth': req.dateOfBirth,
         'additionalInfo': req.additionalInfo,
       });
-      SharedPref.prefs.setString(GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
+      SharedPref.prefs.setString(
+          GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
 
       await _addFavesFromGuestToUser();
     });
@@ -140,7 +142,8 @@ class RepositoriesImplementer implements Repositories {
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
 
       await _addFavesFromGuestToUser();
-      SharedPref.prefs.setString(GeneralStrings.currentUser, userCredential.user!.uid);
+      SharedPref.prefs
+          .setString(GeneralStrings.currentUser, userCredential.user!.uid);
 
       return userCredential.user!;
     });
@@ -175,11 +178,11 @@ class RepositoriesImplementer implements Repositories {
           .collection(GeneralStrings.users)
           .doc(userId)
           .get();
-      SharedPref.prefs.setString(GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
+      SharedPref.prefs.setString(
+          GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
 
       if (userDoc.exists) {
-        final userResponse = UserResponse.fromJson(userDoc.data()!);
-        return userResponse.toDomain();
+        return UserResponse.fromJson(userDoc.data()!).toDomain();
       } else {
         throw Exception('User document not found.');
       }
@@ -287,7 +290,7 @@ class RepositoriesImplementer implements Repositories {
     });
   }
 
-  _addFavesFromGuestToUser()async{
+  _addFavesFromGuestToUser() async {
     final currentUser = await VariablesManager.firestoreInstance
         .collection(GeneralStrings.users)
         .doc(VariablesManager.firebaseAuthInstance.currentUser!.uid)
@@ -295,13 +298,13 @@ class RepositoriesImplementer implements Repositories {
 
     if (currentUser.exists) {
       List<int> firebaseFavorites =
-      List<int>.from(currentUser.data()?['favorites'] ?? []);
+          List<int>.from(currentUser.data()?['favorites'] ?? []);
 
       List<String> sharedPrefFavorites =
           SharedPref.prefs.getStringList(GeneralStrings.listFaves) ?? [];
 
       List<int> sharedPrefFavoritesInt =
-      sharedPrefFavorites.map(int.parse).toList();
+          sharedPrefFavorites.map(int.parse).toList();
 
       for (int filmId in sharedPrefFavoritesInt) {
         if (!firebaseFavorites.contains(filmId)) {
@@ -314,11 +317,10 @@ class RepositoriesImplementer implements Repositories {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
         'favorites': firebaseFavorites,
-      }).then((_){
-        SharedPref.prefs.setStringList(GeneralStrings.listFaves , []);
+      }).then((_) {
+        SharedPref.prefs.setStringList(GeneralStrings.listFaves, []);
         VariablesManager.favesMovies = [];
       });
     }
-
   }
 }

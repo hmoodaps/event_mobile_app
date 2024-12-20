@@ -53,12 +53,11 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
     return uniqueMovies;
   }
 
- void addFilmToFavEvent(MovieResponse movie) {
+  void addFilmToFavEvent(MovieResponse movie) {
     bloc.add(AddFilmToFavEvent(movie));
   }
 
- void removeFilmFromFavEvent(MovieResponse movie) {
-
+  void removeFilmFromFavEvent(MovieResponse movie) {
     bloc.add(RemoveFilmFromFavEvent(movie));
   }
 
@@ -66,7 +65,7 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
     bloc.add(AddFilmToCartEvent(movie));
   }
 
- void removeFilmFromCartEvent(MovieResponse movie) {
+  void removeFilmFromCartEvent(MovieResponse movie) {
     bloc.add(RemoveFilmFromCartEvent(movie));
   }
 }
