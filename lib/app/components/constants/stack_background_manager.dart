@@ -21,7 +21,7 @@ Widget stackBackGroundManager(
                         ColorManager.green3,
                         ColorManager.green4,
                       ]
-                    : [ColorManager.privateGrey, ColorManager.primary]),
+                    : [ColorManager.green4, Colors.white]),
           ),
         ),
         ...otherWidget ??

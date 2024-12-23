@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../domain/local_models/models.dart';
 
 class MovieRoute extends StatefulWidget {
@@ -87,7 +88,8 @@ class _MovieRouteState extends State<MovieRoute> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: SizeManager.d70),
+                    SizedBox(
+                        height: GetSize.heightValue(SizeManager.d70, context)),
                     Center(
                       child: StaggeredAnimatedWidget(
                         delay: SizeManager.i900,
@@ -98,7 +100,8 @@ class _MovieRouteState extends State<MovieRoute> {
                         ),
                       ),
                     ),
-                    SizedBox(height: SizeManager.d10),
+                    SizedBox(
+                        height: GetSize.heightValue(SizeManager.d10, context)),
                     Padding(
                       padding: EdgeInsets.all(SizeManager.d20),
                       child: Align(
@@ -197,7 +200,7 @@ class _MovieRouteState extends State<MovieRoute> {
                     padding: EdgeInsets.only(right: SizeManager.d20),
                     child: ButtonManager.myButton(
                       context: context,
-                      height: SizeManager.d50,
+                      height: GetSize.heightValue(SizeManager.d50, context),
                       buttonName: 'More Details',
                       shadowColor: _model.textColor,
                       textColor: Colors.black,

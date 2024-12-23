@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCFpDpV0GJLCSsTx7YQQXQGHqK6teCLhlg',
-    appId: '1:369796753935:android:907f88d7991aca64c7117a',
+    appId: '1:369796753935:android:ec2919a76aa189a0c7117a',
     messagingSenderId: '369796753935',
     projectId: 'eventsmobile-2c4b1',
     storageBucket: 'eventsmobile-2c4b1.firebasestorage.app',
@@ -59,14 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDNtYxFjxooeZyf6RQ_7y_GDWq38D0MTHs',
-    appId: '1:369796753935:ios:9b7ced432cc9bdf4c7117a',
+    appId: '1:369796753935:ios:b0409ccccc1f3d8ac7117a',
     messagingSenderId: '369796753935',
     projectId: 'eventsmobile-2c4b1',
     storageBucket: 'eventsmobile-2c4b1.firebasestorage.app',
-    androidClientId:
-        '369796753935-okqeaehfbkm18f9ul07dvq10m2inmgau.apps.googleusercontent.com',
-    iosClientId:
-        '369796753935-70td8p55uhljav5tmcgb2vuchcfv76fq.apps.googleusercontent.com',
+    androidClientId: '369796753935-okqeaehfbkm18f9ul07dvq10m2inmgau.apps.googleusercontent.com',
+    iosClientId: '369796753935-70td8p55uhljav5tmcgb2vuchcfv76fq.apps.googleusercontent.com',
     iosBundleId: 'com.example.eventMobileApp',
   );
 }

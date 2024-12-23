@@ -73,8 +73,6 @@ extension AppColorsThemeExtension on AppColorsTheme {
         return PurpleAppColor();
       case AppColorsTheme.blue:
         return BlueAppColor();
-      default:
-        return GreenAppColor();
     }
   }
 }

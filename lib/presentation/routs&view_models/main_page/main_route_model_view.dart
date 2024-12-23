@@ -9,7 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/icons_manager.dart';
+import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../base/base_view_model.dart';
@@ -71,35 +73,13 @@ class MainRouteModelView extends BaseViewModel {
   ];
 }
 
-class _ForCartIsLoginOrNot extends StatefulWidget {
+class _ForCartIsLoginOrNot extends StatelessWidget {
   const _ForCartIsLoginOrNot();
-
-  @override
-  State<_ForCartIsLoginOrNot> createState() => _ForCartIsLoginOrNotState();
-}
-
-class _ForCartIsLoginOrNotState extends State<_ForCartIsLoginOrNot> {
-  bool isCurrentUser = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (VariablesManager.currentUser == null) {
-      setState(() {
-        isCurrentUser = false;
-      });
-    } else {
-      setState(() {
-        isCurrentUser = true;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventsBloc, AppStates>(builder: (context, state) {
-      if (!isCurrentUser) {
+      if (VariablesManager.firebaseAuthInstance.currentUser == null) {
         return Scaffold(
           body: stackBackGroundManager(
               otherWidget: _screenWidgets(context),
@@ -124,7 +104,7 @@ class _ForCartIsLoginOrNotState extends State<_ForCartIsLoginOrNot> {
               style: TextStyleManager.titleStyle(context),
             ),
             SizedBox(
-              height: 10,
+              height: GetSize.heightValue(SizeManager.d10, context),
             ),
             Row(
               children: [
@@ -135,8 +115,8 @@ class _ForCartIsLoginOrNotState extends State<_ForCartIsLoginOrNot> {
                     decoration: BoxDecoration(
                         color: ColorManager.green4,
                         borderRadius: BorderRadius.circular(30)),
-                    height: 60,
-                    width: 120,
+                    height: GetSize.heightValue(SizeManager.d60, context),
+                    width: GetSize.widthValue(SizeManager.d120, context),
                     child: Center(
                       child: Text(GeneralStrings.login(context)),
                     ),
@@ -150,8 +130,8 @@ class _ForCartIsLoginOrNotState extends State<_ForCartIsLoginOrNot> {
                     decoration: BoxDecoration(
                         color: ColorManager.green4,
                         borderRadius: BorderRadius.circular(30)),
-                    height: 60,
-                    width: 120,
+                    height: GetSize.heightValue(SizeManager.d60, context),
+                    width: GetSize.widthValue(SizeManager.d120, context),
                     child: Center(
                       child: Text(GeneralStrings.register(context)),
                     ),

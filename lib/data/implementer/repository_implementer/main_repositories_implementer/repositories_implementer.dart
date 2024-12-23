@@ -144,8 +144,7 @@ class RepositoriesImplementer implements Repositories {
       await _addFavesFromGuestToUser();
       SharedPref.prefs
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
-
-      return userCredential.user!;
+      return userCredential.user! ;
     });
   }
 

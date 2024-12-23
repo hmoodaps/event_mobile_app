@@ -11,6 +11,7 @@ import '../../../app/components/constants/buttons_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
@@ -100,7 +101,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                               style: TextStyleManager.titleStyle(context),
                             ))),
                     SizedBox(
-                      height: SizeManager.d70,
+                      height: GetSize.heightValue(SizeManager.d70, context),
                     ),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i200,
@@ -111,7 +112,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d50,
+                      height: GetSize.heightValue(SizeManager.d50, context),
                     ),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i400,
@@ -120,7 +121,8 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                         style: TextStyleManager.paragraphStyle(context),
                       ),
                     ),
-                    SizedBox(height: SizeManager.d20),
+                    SizedBox(
+                        height: GetSize.heightValue(SizeManager.d20, context)),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i600,
                       child: textFormField(
@@ -141,7 +143,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d14,
+                      height: GetSize.heightValue(SizeManager.d14, context),
                     ),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i800,
@@ -159,7 +161,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d14,
+                      height: GetSize.heightValue(SizeManager.d14, context),
                     ),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i1000,
@@ -176,7 +178,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d14,
+                      height: GetSize.heightValue(SizeManager.d14, context),
                     ),
                     SizedBox(
                       width: double.infinity,
@@ -198,7 +200,9 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                                 context: context,
                               ),
                             ),
-                            SizedBox(width: 10),
+                            SizedBox(
+                                width: GetSize.widthValue(
+                                    SizeManager.d10, context)),
                             Expanded(
                               child: textFormField(
                                 controller: _modelView.additionalInfo,
@@ -218,7 +222,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d14,
+                      height: GetSize.heightValue(SizeManager.d14, context),
                     ),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i1400,
@@ -235,7 +239,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d14,
+                      height: GetSize.heightValue(SizeManager.d14, context),
                     ),
                     StaggeredAnimatedWidget(
                       delay: SizeManager.i1600,
@@ -252,7 +256,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d14,
+                      height: GetSize.heightValue(SizeManager.d14, context),
                     ),
                     _isContinuePressed
                         ? Center(child: CircularProgressIndicator())
@@ -292,7 +296,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                             ),
                           ),
                     SizedBox(
-                      height: SizeManager.d50,
+                      height: GetSize.heightValue(SizeManager.d50, context),
                     ),
                   ],
                 ),
@@ -398,13 +402,13 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
       ),
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 6,
-        height: 180.0,
+        height: GetSize.heightValue(SizeManager.d180, context),
         child: SelectorWheel(
           childCount: values.length,
-          childHeight: 48.0,
+          childHeight: GetSize.heightValue(SizeManager.d48, context),
           highlightBorderRadius: BorderRadius.circular(32.0),
-          highlightHeight: 48.0,
-          highlightWidth: 100.0,
+          highlightHeight: GetSize.heightValue(SizeManager.d48, context),
+          highlightWidth: GetSize.widthValue(SizeManager.d100, context),
           fadeOutHeightFraction: 0.33,
           convertIndexToValue: (int index) {
             return SelectorWheelValue(

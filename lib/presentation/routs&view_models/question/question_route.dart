@@ -8,6 +8,7 @@ import '../../../app/components/constants/buttons_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
@@ -57,7 +58,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                       height: SizeManager.screenSize(context).width / 8,
                     )),
                 SizedBox(
-                  height: SizeManager.d8,
+                  height: GetSize.heightValue(SizeManager.d8, context),
                 ),
                 StaggeredAnimatedWidget(
                   delay: SizeManager.i400,
@@ -84,7 +85,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeManager.d24,
+                          height: GetSize.heightValue(SizeManager.d24, context),
                         ),
                         StaggeredAnimatedWidget(
                             delay: SizeManager.i800,
@@ -95,7 +96,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                 onTap: () => _modelView.navigateToMain(),
                                 color: ColorManager.primarySecond)),
                         SizedBox(
-                          height: SizeManager.d12,
+                          height: GetSize.heightValue(SizeManager.d12, context),
                         ),
                         StaggeredAnimatedWidget(
                           delay: SizeManager.i1000,
@@ -105,23 +106,27 @@ class _QuestionRouteState extends State<QuestionRoute> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  height: 1,
+                                  height: GetSize.heightValue(
+                                      SizeManager.d1, context),
                                   color: ColorManager.primarySecond,
                                 ),
                               ),
                               SizedBox(
-                                width: SizeManager.d2,
+                                width:
+                                    GetSize.widthValue(SizeManager.d2, context),
                               ),
                               Text(
                                 GeneralStrings.or(context),
                                 style: TextStyleManager.titleStyle(context),
                               ),
                               SizedBox(
-                                width: SizeManager.d2,
+                                width:
+                                    GetSize.widthValue(SizeManager.d2, context),
                               ),
                               Expanded(
                                 child: Container(
-                                  height: 1,
+                                  height: GetSize.heightValue(
+                                      SizeManager.d1, context),
                                   color: ColorManager.primarySecond,
                                 ),
                               ),
@@ -129,7 +134,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeManager.d12,
+                          height: GetSize.heightValue(SizeManager.d12, context),
                         ),
                         StaggeredAnimatedWidget(
                             delay: SizeManager.i1200,
@@ -140,7 +145,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                                 onTap: () => _modelView.navigateToRegister(),
                                 color: ColorManager.privateYalow)),
                         SizedBox(
-                          height: SizeManager.d12,
+                          height: GetSize.heightValue(SizeManager.d12, context),
                         ),
                         StaggeredAnimatedWidget(
                           delay: SizeManager.i1400,
@@ -150,23 +155,27 @@ class _QuestionRouteState extends State<QuestionRoute> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  height: 1,
+                                  height: GetSize.heightValue(
+                                      SizeManager.d1, context),
                                   color: ColorManager.primarySecond,
                                 ),
                               ),
                               SizedBox(
-                                width: SizeManager.d2,
+                                width:
+                                    GetSize.widthValue(SizeManager.d2, context),
                               ),
                               Text(
                                 GeneralStrings.haveAccount(context),
                                 style: TextStyleManager.titleStyle(context),
                               ),
                               SizedBox(
-                                width: SizeManager.d2,
+                                width:
+                                    GetSize.widthValue(SizeManager.d2, context),
                               ),
                               Expanded(
                                 child: Container(
-                                  height: 1,
+                                  height: GetSize.heightValue(
+                                      SizeManager.d1, context),
                                   color: ColorManager.primarySecond,
                                 ),
                               ),
@@ -174,7 +183,7 @@ class _QuestionRouteState extends State<QuestionRoute> {
                           ),
                         ),
                         SizedBox(
-                          height: SizeManager.d12,
+                          height: GetSize.heightValue(SizeManager.d12, context),
                         ),
                         StaggeredAnimatedWidget(
                             delay: SizeManager.i1600,

@@ -21,7 +21,7 @@ class DioHelper {
     );
 
     // Add PrettyDioLogger interceptor in debug mode
-    if (!kReleaseMode) {
+    if (kDebugMode) {
       dio?.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -36,61 +36,36 @@ class DioHelper {
   }
 
   /// Handles GET requests with Either
-  static Future<Either<FailureClass, Response>> getData({
+  static Future<Either<FailureClass, Response>> request({
+    required String method,
     required String methodUrl,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final response =
-          await dio!.get(methodUrl, queryParameters: queryParameters);
-      return Right(response); // Return response on success
+      Response response;
+      switch (method) {
+        case 'GET':
+          response =
+              await dio!.get(methodUrl, queryParameters: queryParameters);
+          break;
+        case 'POST':
+          response = await dio!
+              .post(methodUrl, data: data, queryParameters: queryParameters);
+          break;
+        case 'PUT':
+          response = await dio!
+              .put(methodUrl, data: data, queryParameters: queryParameters);
+          break;
+        case 'DELETE':
+          response = await dio!.delete(methodUrl);
+          break;
+        default:
+          throw UnsupportedError('Method not supported');
+      }
+      return Right(response);
     } on DioException catch (e) {
-      return Left(
-          FailureClass(error: e.toString())); // Return error as FailureClass
-    }
-  }
-
-  /// Handles POST requests with Either
-  static Future<Either<FailureClass, Response>> postData({
-    required String methodUrl,
-    required Map<String, dynamic> data,
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final response = await dio!
-          .post(methodUrl, data: data, queryParameters: queryParameters);
-      return Right(response); // Return response on success
-    } on DioException catch (e) {
-      return Left(
-          FailureClass(error: e.toString())); // Return error as FailureClass
-    }
-  }
-
-  /// Handles PUT requests with Either
-  static Future<Either<FailureClass, Response>> putData({
-    required String methodUrl,
-    required Map<String, dynamic> data,
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    try {
-      final response = await dio!
-          .put(methodUrl, data: data, queryParameters: queryParameters);
-      return Right(response); // Return response on success
-    } on DioException catch (e) {
-      return Left(
-          FailureClass(error: e.toString())); // Return error as FailureClass
-    }
-  }
-
-  /// Handles DELETE requests with Either
-  static Future<Either<FailureClass, Response>> deleteData(
-      String methodUrl) async {
-    try {
-      final response = await dio!.delete(methodUrl);
-      return Right(response); // Return response on success
-    } on DioException catch (e) {
-      return Left(
-          FailureClass(error: e.toString())); // Return error as FailureClass
+      return Left(FailureClass(error: e.toString()));
     }
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:event_mobile_app/app/components/constants/getSize/getSize.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -39,6 +42,12 @@ class _MoviesRouteState extends State<MoviesRoute> {
   }
 
   @override
+  void dispose() {
+    _model.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventsBloc, AppStates>(
       builder: (context, state) => _getScaffold(),
@@ -46,173 +55,252 @@ class _MoviesRouteState extends State<MoviesRoute> {
   }
 
   Widget _getScaffold() => Scaffold(
-        body: stackBackGroundManager(
-            otherWidget: _screenWidgets(), isDark: VariablesManager.isDark),
+        body: LiquidPullToRefresh(
+          backgroundColor: ColorManager.primary,
+          height: MediaQuery.sizeOf(context).height / 5,
+          springAnimationDurationInMilliseconds: SizeManager.i1400,
+          color: ColorManager.primarySecond,
+          showChildOpacityTransition: true,
+          onRefresh: () => _model.getMovies(),
+          child: stackBackGroundManager(
+              otherWidget: _screenWidgets(), isDark: VariablesManager.isDark),
+        ),
       );
 
   List<Widget> _screenWidgets() => [
-        LayoutBuilder(
-          builder: (context, constraints) => LiquidPullToRefresh(
-            backgroundColor: ColorManager.primary,
-            height: constraints.maxHeight / 5,
-            springAnimationDurationInMilliseconds: SizeManager.i1400,
-            color: ColorManager.primarySecond,
-            showChildOpacityTransition: true,
-            onRefresh: () => _model.getMovies(),
-            child: Visibility(
-              visible: VariablesManager.movies.isNotEmpty,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.all(SizeManager.d18),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: SizeManager.d50,
-                            child: searchFormField(
-                              context: context,
-                              controller: _model.searchController,
-                              suffix: Icon(
-                                IconsManager.search,
-                              ),
-                              labelText: GeneralStrings.search(context),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.2),
-                            ),
+        Platform.isIOS
+            ? NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  CupertinoSliverNavigationBar(
+                    largeTitle: Text('Explore'),
+                    backgroundColor: Colors.transparent,
+                    border: null,
+                    padding: EdgeInsetsDirectional.zero,
+                    trailing: CupertinoButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.all(0),
+                      child: Icon(
+                        IconsManager.search,
+                        size: 24,
+                        color: VariablesManager.isDark
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+                body: screenBuilder(),
+              )
+            : screenBuilder(),
+      ];
+
+  Widget screenBuilder() {
+    return LayoutBuilder(
+      builder: (context, constraints) => Visibility(
+        visible: VariablesManager.movies.isNotEmpty,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Visibility(
+                  visible: !Platform.isIOS,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(SizeManager.d18),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: GetSize.heightValue(SizeManager.d50, context),
+                        child: searchFormField(
+                          context: context,
+                          controller: _model.searchController,
+                          suffix: Icon(
+                            IconsManager.search,
                           ),
+                          labelText: GeneralStrings.search(context),
+                          filled: true,
+                          fillColor: Colors.white.withValues(alpha: 0.3),
                         ),
-                        SizedBox(
-                          height: SizeManager.d20,
-                        ),
-                        Text(GeneralStrings.newMovies(context),
-                            style: TextStyleManager.titleStyle(context)),
-                        SizedBox(
-                          height: SizeManager.d10,
-                        ),
-                        CarouselSlider.builder(
-                          itemCount: VariablesManager.movies.length,
-                          itemBuilder: (context, dx, index) => RepaintBoundary(
-                            child: _newMovies(
-                                dx: dx, movies: VariablesManager.movies),
-                          ),
-                          options: CarouselOptions(
-                            scrollDirection: Axis.horizontal,
-                            height: SizeManager.screenSize(context).height / 3,
-                            padEnds: true,
-                            viewportFraction: 1.0,
-                            autoPlay: true,
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeManager.d10,
-                        ),
-                        Text(GeneralStrings.topMovies(context),
-                            style: TextStyleManager.titleStyle(context)),
-                        SizedBox(
-                          height: SizeManager.d10,
-                        ),
-                        SizedBox(
-                          height: SizeManager.d180,
-                          width: double.infinity,
-                          child: ListView.separated(
-                            itemBuilder: (context, index) => RepaintBoundary(
-                              child: _topMovie(
-                                  dx: index, movies: VariablesManager.movies),
-                            ),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: VariablesManager.movies.length,
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    SizedBox(width: SizeManager.d14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: SizeManager.d10,
-                        ),
-                        Text(
-                          GeneralStrings.allMovies(context),
-                          style: TextStyleManager.titleStyle(context),
-                        ),
-                        SizedBox(
-                          height: SizeManager.d10,
-                        ),
-                        AnimationLimiter(
-                          child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: VariablesManager.movies.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: SizeManager.i2,
-                              mainAxisSpacing: SizeManager.d30,
-                              mainAxisExtent:
-                                  SizeManager.screenSize(context).height /
-                                      SizeManager.d4,
-                              crossAxisSpacing: SizeManager.d30,
-                            ),
-                            itemBuilder: (context, index) {
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                duration: const Duration(milliseconds: 375),
-                                columnCount: SizeManager.i2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    child: RepaintBoundary(
-                                      child: _movieCard(
-                                          movie: _model.shuffledMovies[index]),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: GetSize.heightValue(SizeManager.d20, context),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: SizeManager.d18),
+                  child: Row(
+                    children: [
+                      Text(GeneralStrings.newMovies(context),
+                          style: TextStyleManager.titleStyle(context)),
+                      Spacer(),
+                      Row(
+                        children: [
+                          Switch.adaptive(
+                            value: _model.isAuto,
+                            onChanged: (value) => setState(() {
+                              _model.isAuto = value;
+                              if (_model.isAuto) {
+                                _model.startAutoPlay();
+                              } else {
+                                _model.stopAutoPlay();
+                              }
+                            }),
+                          ),
+                          Text("Auto Play",
+                              style: TextStyleManager.titleStyle(context)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: GetSize.heightValue(SizeManager.d10, context),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: MediaQuery.sizeOf(context).height / 3.2,
+                  child: CarouselView(
+                    controller: !_model.isAuto
+                        ? _model.carouselControllerIfNotAuto
+                        : _model.carouselController,
+
+                    itemExtent:
+                        MediaQuery.sizeOf(context).width - SizeManager.d85,
+                    // shape: CircleBorder(),
+                    elevation: 6,
+                    enableSplash: true,
+                    shrinkExtent: 200,
+                    itemSnapping: true,
+                    backgroundColor: Colors.transparent,
+                    children: List.generate(
+                      VariablesManager.movies.length,
+                      (index) => RepaintBoundary(
+                        child:
+                            _newMovies(movie: VariablesManager.movies[index]),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: GetSize.heightValue(SizeManager.d10, context),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: SizeManager.d18),
+                  child: Text(GeneralStrings.topMovies(context),
+                      style: TextStyleManager.titleStyle(context)),
+                ),
+                SizedBox(
+                  height: GetSize.heightValue(SizeManager.d10, context),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: SizeManager.d18),
+                  child: SizedBox(
+                    height: GetSize.heightValue(SizeManager.d180, context),
+                    width: double.infinity,
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => RepaintBoundary(
+                        child: _topMovie(movie: VariablesManager.movies[index]),
+                      ),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: VariablesManager.movies.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(width: SizeManager.d14),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: GetSize.heightValue(SizeManager.d10, context),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(SizeManager.d18),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        GeneralStrings.allMovies(context),
+                        style: TextStyleManager.titleStyle(context),
+                      ),
+                      SizedBox(
+                        height: GetSize.heightValue(SizeManager.d10, context),
+                      ),
+                      AnimationLimiter(
+                        child: GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: VariablesManager.movies.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: SizeManager.i2,
+                            mainAxisSpacing: SizeManager.d30,
+                            mainAxisExtent:
+                                SizeManager.screenSize(context).height /
+                                    SizeManager.d4,
+                            crossAxisSpacing: SizeManager.d30,
+                          ),
+                          itemBuilder: (context, index) {
+                            return AnimationConfiguration.staggeredGrid(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              columnCount: SizeManager.i2,
+                              child: ScaleAnimation(
+                                child: FadeInAnimation(
+                                  child: RepaintBoundary(
+                                    child: _movieCard(
+                                        movie: _model.shuffledMovies[index]),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
-        ),
-      ];
-
-  Widget _newMovies({required int dx, required List<MovieResponse> movies}) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MovieRoute(
-                      movie: movies[dx],
-                    )));
-      },
-      child: SizedBox(
-        child: CachedNetworkImage(
-          imageUrl: movies[dx].photo!,
-          // placeholder: (context, url) => CircularProgressIndicator(), // Placeholder while loading
-          errorWidget: (context, url, error) => Icon(Icons.error),
-          // Error widget in case of failure
-          fit: BoxFit.cover, // Adjust image to cover the container
         ),
       ),
     );
   }
 
-  Widget _topMovie({required int dx, required List<MovieResponse> movies}) {
+  Widget _newMovies({required MovieResponse movie}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieRoute(
+              movie: movie,
+            ),
+          ),
+        );
+      },
+      child: SizedBox(
+        child: CachedNetworkImage(
+          imageUrl: movie.photo!,
+          errorWidget: (context, url, error) => Icon(Icons.error),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _topMovie({required MovieResponse movie}) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => MovieRoute(
-                      movie: movies[dx],
+                      movie: movie,
                     )));
       },
       child: Stack(
@@ -224,8 +312,8 @@ class _MoviesRouteState extends State<MoviesRoute> {
                 ? Color(0xFFFFD700)
                 : ColorManager.primarySecond,
             child: Container(
-              height: SizeManager.d160,
-              width: SizeManager.d110,
+              height: GetSize.heightValue(SizeManager.d160, context),
+              width: GetSize.widthValue(SizeManager.d110, context),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(SizeManager.d20),
@@ -233,9 +321,9 @@ class _MoviesRouteState extends State<MoviesRoute> {
             ),
           ),
           CachedNetworkImage(
-            imageUrl: movies[dx].verticalPhoto!,
-            height: SizeManager.d150,
-            width: SizeManager.d100,
+            imageUrl: movie.verticalPhoto!,
+            height: GetSize.heightValue(SizeManager.d150, context),
+            width: GetSize.widthValue(SizeManager.d100, context),
             fit: BoxFit.cover,
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) {

@@ -109,8 +109,6 @@ class ProfileModelView extends BaseViewModel with ProfileModelViewFunctions {
         return AppConstants.intZero;
       case true:
         return SizeManager.i1;
-      default:
-        return AppConstants.intZero;
     }
   }
 
@@ -125,6 +123,7 @@ class ProfileModelView extends BaseViewModel with ProfileModelViewFunctions {
     bloc.add(ChangeColorModeEvent(
       appColorsTheme: color,
       selectedColorIndex: index,
+      context: context,
     ));
   }
 

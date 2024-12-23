@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/dio_and_mapper_constants.dart';
 import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../domain/local_models/models.dart';
@@ -74,7 +75,8 @@ class _ProfileRouteState extends State<ProfileRoute> {
                         _model.onFeedbackButtonPressed();
                       },
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(
+                        height: GetSize.heightValue(SizeManager.d14, context)),
                     _buildCustomListTileCard(
                       context: context,
                       leadingIcon: Icons.info,
@@ -83,7 +85,8 @@ class _ProfileRouteState extends State<ProfileRoute> {
                         _model.onAboutUsButtonPressed();
                       },
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(
+                        height: GetSize.heightValue(SizeManager.d14, context)),
                     _buildCustomListTileCard(
                       context: context,
                       leadingIcon: Icons.privacy_tip,
@@ -92,7 +95,8 @@ class _ProfileRouteState extends State<ProfileRoute> {
                         _model.onPrivacyButtonPressed();
                       },
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(
+                        height: GetSize.heightValue(SizeManager.d14, context)),
                     Visibility(
                       visible:
                           VariablesManager.firebaseAuthInstance.currentUser !=
@@ -107,7 +111,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
                       ),
                     ),
                     SizedBox(
-                      height: SizeManager.d20,
+                      height: GetSize.heightValue(SizeManager.d20, context),
                     ),
                   ],
                 ),
@@ -165,14 +169,14 @@ class _ProfileRouteState extends State<ProfileRoute> {
           title: GeneralStrings.orders(context),
           onTap: () => _model.onOrdersButtonPressed(),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
         _buildCustomListTileCard(
           context: context,
           leadingIcon: Icons.local_offer,
           title: GeneralStrings.coupons(context),
           onTap: () => _model.onCouponsButtonPressed(),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
         _buildCustomListTileCard(
           context: context,
           leadingIcon: Icons.monetization_on,
@@ -180,21 +184,21 @@ class _ProfileRouteState extends State<ProfileRoute> {
           onTap: () => _model.onMyAppBalanceButtonPressed(),
           suffix: Text('0,0 €'),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
         _buildCustomListTileCard(
           context: context,
           leadingIcon: Icons.my_location,
           title: GeneralStrings.address(context),
           onTap: () => _model.onAddressButtonPressed(),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
         _buildCustomListTileCard(
           context: context,
           leadingIcon: Icons.credit_card,
           title: GeneralStrings.paymentMethods(context),
           onTap: () => _model.onPaymentMethodsButtonPressed(),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
       ];
     } else {
       return [
@@ -204,7 +208,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
           title: GeneralStrings.loginOrRegister(context),
           onTap: () => _model.onLoginOrRegister(),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
       ];
     }
   }
@@ -305,7 +309,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
         suffixText: Text(
             SharedPref.prefs.getString(GeneralStrings.appLanguage) ?? 'en'),
       ),
-      const SizedBox(height: 14),
+      SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
       _buildCustomExpandableCard(
         context: context,
         leadingIcon: Icons.light_mode,
@@ -366,7 +370,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
             ? SharedPref.prefs.getString(GeneralStrings.appMode)!
             : 'BOPM'),
       ),
-      const SizedBox(height: 14),
+      SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
       _buildCustomExpandableCard(
         context: context,
         leadingIcon: Icons.color_lens,
@@ -418,7 +422,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
         suffixText: Text(
             SharedPref.prefs.getString(GeneralStrings.colorTheme) ?? 'green'),
       ),
-      const SizedBox(height: 14),
+      SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
     ];
   }
 

@@ -11,6 +11,7 @@ import '../../../app/components/constants/buttons_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
@@ -89,7 +90,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         ),
                       ),
                       SizedBox(
-                        height: SizeManager.d14,
+                        height: GetSize.heightValue(SizeManager.d14, context),
                       ),
                       StaggeredAnimatedWidget(
                         delay: SizeManager.i300,
@@ -103,7 +104,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         ),
                       ),
                       SizedBox(
-                        height: SizeManager.d30,
+                        height: GetSize.heightValue(SizeManager.d30, context),
                       ),
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i400,
@@ -117,7 +118,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             validator: (p0) => validator(p0, context),
                           )),
                       SizedBox(
-                        height: SizeManager.d20,
+                        height: GetSize.heightValue(SizeManager.d20, context),
                       ),
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i600,
@@ -131,7 +132,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                             validator: (p0) => validator(p0, context),
                           )),
                       SizedBox(
-                        height: SizeManager.d20,
+                        height: GetSize.heightValue(SizeManager.d20, context),
                       ),
                       StaggeredAnimatedWidget(
                           delay: SizeManager.i800,
@@ -144,7 +145,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                               validator: (p0) => validator(p0, context),
                               suffix: Icon(IconsManager.hide))),
                       SizedBox(
-                        height: SizeManager.d20,
+                        height: GetSize.heightValue(SizeManager.d20, context),
                       ),
                       !isPressed
                           ? googleAndAppleButton(
@@ -165,7 +166,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                               context: context)
                           : CircularProgressIndicator(),
                       SizedBox(
-                        height: SizeManager.d30,
+                        height: GetSize.heightValue(SizeManager.d30, context),
                       ),
                       StaggeredAnimatedWidget(
                         delay: SizeManager.i1200,
@@ -175,23 +176,27 @@ class _RegisterRouteState extends State<RegisterRoute> {
                           children: [
                             Expanded(
                               child: Container(
-                                height: 1,
+                                height: GetSize.heightValue(
+                                    SizeManager.d1, context),
                                 color: ColorManager.primary,
                               ),
                             ),
                             SizedBox(
-                              width: SizeManager.d2,
+                              width:
+                                  GetSize.widthValue(SizeManager.d2, context),
                             ),
                             Text(
                               GeneralStrings.or(context),
                               style: TextStyleManager.titleStyle(context),
                             ),
                             SizedBox(
-                              width: SizeManager.d2,
+                              width:
+                                  GetSize.widthValue(SizeManager.d2, context),
                             ),
                             Expanded(
                               child: Container(
-                                height: 1,
+                                height: GetSize.heightValue(
+                                    SizeManager.d1, context),
                                 color: ColorManager.primary,
                               ),
                             ),
@@ -199,7 +204,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
                         ),
                       ),
                       SizedBox(
-                        height: SizeManager.d20,
+                        height: GetSize.heightValue(SizeManager.d20, context),
                       ),
                       googleAndAppleButton(
                           delay: SizeManager.i1400,
@@ -207,7 +212,9 @@ class _RegisterRouteState extends State<RegisterRoute> {
                           nameOfButton: GeneralStrings.signWithGoogle(context),
                           prefixSvgAssetPath: AssetsManager.google,
                           context: context),
-                      SizedBox(height: SizeManager.d30),
+                      SizedBox(
+                          height:
+                              GetSize.heightValue(SizeManager.d30, context)),
                       Visibility(
                         visible: Platform.isIOS,
                         child: googleAndAppleButton(

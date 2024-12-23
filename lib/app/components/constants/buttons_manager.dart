@@ -1,3 +1,4 @@
+import 'package:event_mobile_app/app/components/constants/getSize/getSize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
@@ -21,7 +22,9 @@ class ButtonManager {
       GestureDetector(
         onTap: onTap,
         child: ContainerManager.myContainer(
-            height: height,
+            height: height != null
+                ? GetSize.heightValue(height, context)
+                : GetSize.heightValue(SizeManager.d70, context),
             shadowColor: shadowColor,
             color: color,
             child: Center(
@@ -54,7 +57,9 @@ class ContainerManager {
       Color? shadowColor,
       double? height}) {
     return Container(
-      height: height ?? SizeManager.d70,
+      height: height != null
+          ? GetSize.heightValue(height, context)
+          : GetSize.heightValue(SizeManager.d70, context),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -114,10 +119,10 @@ Widget googleAndAppleButton({
                   if (prefixSvgAssetPath != null)
                     SvgPicture.asset(
                       prefixSvgAssetPath,
-                      height: SizeManager.d50,
-                      width: SizeManager.d70,
+                      height: GetSize.heightValue(SizeManager.d50, context),
+                      width: GetSize.widthValue(SizeManager.d70, context),
                     ),
-                  SizedBox(width: SizeManager.d20),
+                  SizedBox(width: GetSize.widthValue(SizeManager.d20, context)),
                   Text(nameOfButton,
                       style: TextStyleManager.titleStyle(context)),
                   Spacer(),
@@ -125,8 +130,8 @@ Widget googleAndAppleButton({
                     SvgPicture.asset(
                       sufixSvgAssetPath,
                       color: suffixSvgColor ?? Colors.black,
-                      height: SizeManager.d50,
-                      width: SizeManager.d70,
+                      height: GetSize.heightValue(SizeManager.d50, context),
+                      width: GetSize.widthValue(SizeManager.d70, context),
                     ),
                 ],
               ),

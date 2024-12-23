@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
+import '../../../app/components/constants/getSize/getSize.dart';
+
 class ForgetPasswordRoute extends StatefulWidget {
   const ForgetPasswordRoute({super.key});
 
@@ -22,7 +24,7 @@ class ForgetPasswordRoute extends StatefulWidget {
 
 class _ForgetPasswordRouteState extends State<ForgetPasswordRoute> {
   late ForgetPasswordModelView _model;
-  final formkey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _ForgetPasswordRouteState extends State<ForgetPasswordRoute> {
             child: Padding(
               padding: EdgeInsets.all(SizeManager.d24),
               child: Form(
-                key: formkey,
+                key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +65,7 @@ class _ForgetPasswordRouteState extends State<ForgetPasswordRoute> {
                                 ?.copyWith(fontSize: SizeManager.d24),
                           )),
                       SizedBox(
-                        height: SizeManager.d50,
+                        height: GetSize.heightValue(SizeManager.d50, context),
                       ),
                       StaggeredAnimatedWidget(
                         delay: SizeManager.i400,
@@ -89,14 +91,14 @@ class _ForgetPasswordRouteState extends State<ForgetPasswordRoute> {
                         ),
                       ),
                       SizedBox(
-                        height: SizeManager.d50,
+                        height: GetSize.heightValue(SizeManager.d50, context),
                       ),
                       googleAndAppleButton(
                         nameOfButton: GeneralStrings.resetPassword(context),
                         context: context,
                         delay: SizeManager.i800,
                         onTap: () {
-                          if (formkey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             _model.resetPassword(
                                 _model.emailController.text.trim());
                           }

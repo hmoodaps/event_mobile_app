@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/components/constants/general_strings.dart';
@@ -17,7 +16,7 @@ class BlocFunctions {
 
   getFavesItems() async {}
 
-  changeColorMode(ChangeColorModeEvent event) {
+  changeColorMode(ChangeColorModeEvent event, BuildContext context) {
     // Change the color theme using the helper
     AppColorHelper.changeColorTheme(event);
 
@@ -33,10 +32,6 @@ class BlocFunctions {
 
       case AppColorsTheme.purple:
         SharedPref.prefs.setString(GeneralStrings.colorTheme, 'purple');
-        break;
-
-      default:
-        // Optional: handle unknown themes if needed
         break;
     }
   }
@@ -63,44 +58,7 @@ class BlocFunctions {
       case ApplicationLanguage.ar:
         SharedPref.prefs.setString(GeneralStrings.appLanguage, 'ar');
         break;
-
-      default:
-        // Optional: handle unknown themes if needed
-        break;
     }
-  }
-
-  ThemeData checkIfModeManual() {
-    ThemeData themeData =
-        TheAppMode.appMode; // Use the saved theme mode (light or dark).
-    // Check if the event's theme is dark or light, and update the dark mode flag accordingly.
-    if (themeData == AppTheme.dark.themeData) {
-      VariablesManager.isDark = true;
-    } else {
-      VariablesManager.isDark = false;
-    }
-    return themeData;
-  }
-
-  ThemeData checkLightAndDarkMode(BuildContext context) {
-    ThemeData? themeData;
-    // Automatically set the theme based on device's current brightness (light/dark mode)
-    Brightness brightness = MediaQuery.of(context).platformBrightness;
-    brightness == Brightness.dark
-        ? (themeData =
-            AppTheme.dark.themeData) // Set dark theme if device is dark mode.
-        : (themeData = AppTheme.light.themeData); // Otherwise, set light theme.
-
-    // For debugging, print the current theme
-    if (kDebugMode) {
-      print(VariablesManager.isDark ? "dark" : 'light');
-    }
-    if (themeData == AppTheme.dark.themeData) {
-      VariablesManager.isDark = true;
-    } else {
-      VariablesManager.isDark = false;
-    }
-    return themeData;
   }
 
   changeMode(ChangeModeEvent event) {
@@ -116,9 +74,6 @@ class BlocFunctions {
       case AppTheme.dark:
         SharedPref.prefs
             .setString(GeneralStrings.appMode, 'dark'); // Save dark mode.
-        break;
-      default:
-        // Handle unknown theme modes (optional, if required).
         break;
     }
   }

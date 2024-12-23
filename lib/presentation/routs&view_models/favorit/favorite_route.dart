@@ -8,10 +8,12 @@ import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../bloc_state_managment/states.dart';
@@ -64,38 +66,37 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
         SafeArea(
           child: ConditionalBuilder(
             builder: (context) {
-              return Visibility(
-                visible: state is GetFavesItemsStateSuccessState,
-                child: AnimationLimiter(
-                  child: ListView.separated(
-                    itemBuilder: (context, index) {
+              return AnimationLimiter(
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    if (kDebugMode) {
                       print(VariablesManager.favesMovies[index].id);
-                      return AnimationConfiguration.staggeredGrid(
-                        position: index,
-                        duration: const Duration(milliseconds: 1000),
-                        columnCount: SizeManager.i2,
-                        child: ScaleAnimation(
-                          child: FadeInAnimation(
-                            child: RepaintBoundary(
-                              child: favoriteItem(
-                                  VariablesManager.favesMovies[index]),
-                            ),
+                    }
+                    return AnimationConfiguration.staggeredGrid(
+                      position: index,
+                      duration: const Duration(milliseconds: 1000),
+                      columnCount: SizeManager.i2,
+                      child: ScaleAnimation(
+                        child: FadeInAnimation(
+                          child: RepaintBoundary(
+                            child: favoriteItem(
+                                VariablesManager.favesMovies[index]),
                           ),
                         ),
-                      );
-                    },
-                    itemCount: VariablesManager.favesMovies.length,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: 10,
-                    ),
-                    reverse: true,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(20),
+                      ),
+                    );
+                  },
+                  itemCount: VariablesManager.favesMovies.length,
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: GetSize.heightValue(SizeManager.d10, context),
                   ),
+                  reverse: true,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(20),
                 ),
               );
             },
-            condition: state is GetFavesItemsStateSuccessState,
+            condition: VariablesManager.favesMovies.isNotEmpty,
             fallback: (context) {
               if (SharedPref.prefs.getString(GeneralStrings.currentUser) ==
                   null) {
@@ -155,7 +156,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     height: SizeManager.screenSize(context).height / 7.5,
-                    width: SizeManager.d100,
+                    width: GetSize.widthValue(SizeManager.d100, context),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: imageProvider,
@@ -167,7 +168,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                 },
               ),
               SizedBox(
-                width: SizeManager.d10,
+                width: GetSize.widthValue(SizeManager.d10, context),
               ),
               Expanded(
                 child: Column(
@@ -196,11 +197,11 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: GetSize.heightValue(SizeManager.d10, context),
                     ),
                     SizedBox(
-                        height: 15,
-                        width: 200,
+                        height: GetSize.heightValue(SizeManager.d15, context),
+                        width: GetSize.widthValue(SizeManager.d200, context),
                         child: featuresSlider(movie, context)),
                     Spacer(),
                     Align(

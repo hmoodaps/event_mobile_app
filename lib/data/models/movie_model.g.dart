@@ -57,9 +57,9 @@ Map<String, dynamic> _$MovieResponseToJson(MovieResponse instance) =>
 
 ShowTimesResponse _$ShowTimesResponseFromJson(Map<String, dynamic> json) =>
     ShowTimesResponse(
-      json['dates'] as List<dynamic>?,
-      json['halls'] as List<dynamic>?,
-      json['times'] as List<dynamic>?,
+      dates: json['dates'] as List<dynamic>?,
+      halls: json['halls'] as List<dynamic>?,
+      times: json['times'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$ShowTimesResponseToJson(ShowTimesResponse instance) =>

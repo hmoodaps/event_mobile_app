@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
@@ -40,10 +41,9 @@ class _MainRouteState extends State<MainRoute> {
 
   Widget _getScaffold({required bool isDark}) => Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
-            height: SizeManager.d50,
+            height: GetSize.heightValue(SizeManager.d50, context),
             onTap: (index) => _model.onTap(index),
-            backgroundColor:
-                isDark ? ColorManager.green4 : ColorManager.primary,
+            backgroundColor: isDark ? ColorManager.green4 : Colors.white,
             color: ColorManager.primarySecond,
             items: _model.bottomNavigationBarItems),
         body: _model.onNavigationBarIconPress(),

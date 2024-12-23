@@ -169,9 +169,12 @@ class SignInWithGoogleEventSuccess extends AppEvents {
 class ChangeColorModeEvent extends AppEvents {
   AppColorsTheme appColorsTheme;
   int selectedColorIndex;
+  BuildContext context;
 
   ChangeColorModeEvent(
-      {required this.appColorsTheme, required this.selectedColorIndex});
+      {required this.appColorsTheme,
+      required this.selectedColorIndex,
+      required this.context});
 }
 
 class ChangeLanguageEvent extends AppEvents {

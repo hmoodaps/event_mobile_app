@@ -148,6 +148,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           print(fail.error);
         }
       }, (success) {
+        VariablesManager.cartMovies.remove(event.movie);
+
         emit(RemoveFilmFromCartState());
         add(GetCurrentUserResponseEvent());
         add(GetCartItemsEvent());
@@ -160,29 +162,36 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     try {
       final cartItems = VariablesManager.currentUserRespon.cart ?? [];
 
-      final movieIds = cartItems.map((movieId) {
-        return int.tryParse(movieId.toString()) ?? 0;
-      }).toList();
+      final movieIds = cartItems
+          .map((movieId) {
+            return int.tryParse(movieId.toString()) ?? 0;
+          })
+          .toSet()
+          .toList();
+      VariablesManager.cartMovies.clear();
 
-      final responses = await Future.wait(movieIds.map((movieId) async {
-        final result = await HttpHelper.getData(
-            methodUrl: 'viewsets/movies/$movieId',
+      for (int id in movieIds) {
+        await HttpHelper.makeRequest(
+            method: 'GET',
+            methodUrl: 'viewsets/movies/$id',
             headers: {
               'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
-            });
-        return result.fold((fail) => null, (success) {
-          var body = jsonDecode(success.body);
-          body['ticket_price'] =
-              double.tryParse(body['ticket_price']?.toString() ?? '0') ?? 0.0;
-          body['rating'] =
-              double.tryParse(body['rating']?.toString() ?? '0') ?? 0.0;
-          body['imdb_rating'] =
-              double.tryParse(body['imdb_rating']?.toString() ?? '0') ?? 0.0;
-          return MovieResponse.fromJson(body).toDomain();
+            }).then((result) {
+          result.fold((fail) {
+            if (kDebugMode) {
+              print(fail.error);
+            }
+          }, (success) {
+            var body = jsonDecode(success.body);
+
+            final cartMovie = MovieResponse.fromJson(body).toDomain();
+            if (!VariablesManager.cartMovies
+                .any((movie) => movie.id == cartMovie.id)) {
+              VariablesManager.cartMovies.add(cartMovie);
+            }
+          });
         });
-      }));
-      VariablesManager.cartMovies.clear();
-      VariablesManager.cartMovies.addAll(responses.whereType<MovieResponse>());
+      }
     } catch (e) {
       if (kDebugMode) print('the error : $e ');
     }
@@ -199,9 +208,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           print(fail.error);
         }
       }, (success) {
-        SharedPref.prefs.getString(GeneralStrings.currentUser) == null
-            ? emit(AddFilmToFavState())
-            : add(GetCurrentUserResponseEvent());
+        emit(AddFilmToFavState());
+        add(GetCurrentUserResponseEvent());
         add(GetFavesItemsEvent());
       });
     });
@@ -216,10 +224,9 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           print(fail.error);
         }
       }, (success) {
-        if (SharedPref.prefs.getString(GeneralStrings.currentUser) != null) {
-          add(GetCurrentUserResponseEvent());
-        }
+        VariablesManager.favesMovies.remove(event.movie);
         emit(RemoveFilmFromFavState());
+        add(GetCurrentUserResponseEvent());
         add(GetFavesItemsEvent());
       });
     });
@@ -232,38 +239,33 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           ? (SharedPref.prefs.getStringList(GeneralStrings.listFaves)!)
           : (VariablesManager.currentUserRespon.favorites ?? []);
 
-      final movieIds = favorites.map((movieId) {
-        return int.tryParse(movieId.toString()) ?? 0;
-      }).toList();
-
-      final responses = await Future.wait(
-        movieIds.map(
-          (movieId) async {
-            final result = await HttpHelper.getData(
-                methodUrl: 'viewsets/movies/$movieId',
-                headers: {
-                  'Authorization':
-                      'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
-                });
-
-            return result.fold((fail) => null, (success) {
-              var body = jsonDecode(success.body);
-              body['ticket_price'] =
-                  double.tryParse(body['ticket_price']?.toString() ?? '0') ??
-                      0.0;
-              body['rating'] =
-                  double.tryParse(body['rating']?.toString() ?? '0') ?? 0.0;
-              body['imdb_rating'] =
-                  double.tryParse(body['imdb_rating']?.toString() ?? '0') ??
-                      0.0;
-              return MovieResponse.fromJson(body).toDomain();
-            });
-          },
-        ),
-      );
+      final movieIds = favorites
+          .map((movieId) {
+            return int.tryParse(movieId.toString()) ?? 0;
+          })
+          .toSet()
+          .toList();
 
       VariablesManager.favesMovies.clear();
-      VariablesManager.favesMovies.addAll(responses.whereType<MovieResponse>());
+
+      for (int id in movieIds) {
+        await HttpHelper.makeRequest(
+            method: 'GET',
+            methodUrl: 'viewsets/movies/$id/',
+            headers: {
+              'Authorization': 'token ba5a351eee12bdb49b245d2a74965b0722c8e5f8'
+            }).then((result) {
+          return result.fold((fail) => null, (success) {
+            var body = jsonDecode(success.body);
+
+            final faveMovie = MovieResponse.fromJson(body).toDomain();
+            if (!VariablesManager.favesMovies
+                .any((movie) => movie.id == faveMovie.id)) {
+              VariablesManager.favesMovies.add(faveMovie);
+            }
+          });
+        });
+      }
     } catch (e) {
       if (kDebugMode) print(e);
     }
@@ -319,7 +321,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onToLogoutEvent(
       ToLogoutEvent event, Emitter<AppStates> emit) async {
-    emit(LoginState());
+    emit(LogoutState());
   }
 
   // ======== StartFetchMoviesEvent Handler ==========
@@ -500,6 +502,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
         add(LoginErrorEvent(fail.firebaseException!));
       },
       (success) {
+        VariablesManager.currentUser = success;
+
         add(LoginSuccessEvent());
       },
     );
@@ -540,6 +544,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
         add(SignInWithGoogleEventError(fail.toString()));
       },
       (user) {
+        VariablesManager.currentUser = user.uid;
         add(SignInWithGoogleEventSuccess(user));
         add(GetCurrentUserResponseEvent());
       },
@@ -569,9 +574,10 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   //to concern missions
   Future<void> _onChangeColorModeEvent(
       ChangeColorModeEvent event, Emitter<AppStates> emit) async {
-    _functions.changeColorMode(event);
+    _functions.changeColorMode(event, event.context);
     // Emit the state change
     emit(ChangeColorThemeState(selectedColorIndex: event.selectedColorIndex));
+    toggleLightAndDark(event.context);
   }
 
   Future<void> _onChangeLanguageEvent(
@@ -653,21 +659,32 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 // It updates the app state by setting a flag (VariablesManager.isDark) based on the selected theme.
 
   ThemeData? toggleLightAndDark(context) {
-    ThemeData themeData; // Default to light theme if not set.
+    ThemeData themeData;
     // Check if the user is in manual mode
     if (SharedPref.prefs.getBool(GeneralStrings.isManual)!) {
-      themeData = _functions.checkIfModeManual();
+      themeData = TheAppMode.appMode;
       add(ChangeModeThemeEvent(
           SharedPref.prefs.getBool(GeneralStrings.isManual)!));
-      // Trigger event to update theme in the app state
       add(ToggleLightAndDarkEvent(themeData));
     } else {
-      themeData = _functions.checkLightAndDarkMode(context);
-      // Trigger event to update theme in the app state
+      Brightness brightness = MediaQuery.of(context).platformBrightness;
+      brightness == Brightness.dark
+          ? (themeData =
+              AppTheme.dark.themeData) // Set dark theme if device is dark mode.
+          : (themeData =
+              AppTheme.light.themeData); // Otherwise, set light theme.
+
+      if (kDebugMode) {
+        print(VariablesManager.isDark ? "dark" : 'light');
+      }
       add(ToggleLightAndDarkEvent(themeData));
     }
-    // Return the selected theme (either light, dark, or based on user settings)
-    return themeData;
+    if (themeData == AppTheme.dark.themeData) {
+      VariablesManager.isDark = true;
+    } else {
+      VariablesManager.isDark = false;
+    }
+    return themeData; // Trigger event to update theme in the app state
   }
 
   void _onToggleLightAndDarkEvent(

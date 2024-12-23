@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:event_mobile_app/data/implementer/repository_implementer/operators_repo_implementer.dart';
+import 'package:event_mobile_app/data/network_data_handler/remote_requests/dio_requests_handler.dart';
 import 'package:event_mobile_app/domain/repository/operators_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -14,7 +15,7 @@ import '../../data/implementer/repository_implementer/login_to_firebase_repo_imp
 import '../../data/implementer/repository_implementer/main_repositories_implementer/repositories_implementer.dart';
 import '../../data/implementer/repository_implementer/register_implementer.dart';
 import '../../data/local_storage/shared_local.dart';
-import '../../data/network_data_handler/remote_requests/dio_requests_handler.dart';
+import '../../data/network_data_handler/rest_api/dio_logger.dart';
 import '../../data/network_data_handler/rest_api/rest_api_dio.dart';
 import '../../domain/repository/add_user_details.dart';
 import '../../domain/repository/auth_repository.dart';
@@ -48,9 +49,11 @@ Future<void> initAppModules() async {
       pref); // Register SharedPref as a singleton.
 
   // ------ Initialize Dio for Network Operations ------
+  DioHelper.init();
+
+  // ------ Initialize Dio for get Movies Operator ------
   // This section sets up Dio for network requests, which is used across the app for handling HTTP requests.
-  final Dio dio = Dio(); // Create an instance of Dio.
-  DioHelper.init(); // Initialize DioHelper to manage Dio configurations.
+  final dio = createDio();
   instance.registerSingleton<Dio>(
       dio); // Register the Dio instance globally for HTTP requests.
   instance.registerLazySingleton<DioClient>(() => DioClient(instance<
@@ -66,6 +69,35 @@ Future<void> initAppModules() async {
   // ------ Register Repository Implementations ------
   // This section registers all repository implementations that handle interactions with Firebase and other data sources.
 
+  _initRepositories();
+
+  // ------ Register EventsBloc for State Management ------
+  // This section registers the BLoC to manage the state of events throughout the app.
+  instance.registerLazySingleton<EventsBloc>(() =>
+      EventsBloc()); // Register EventsBloc to manage event-related states.
+
+  // ------ Register App Theme Management ------
+  // This section registers the theme management service to handle dark and light mode functionality.
+  AppColorHelper.setInitialTheme();
+  HandleAppMode.setInitialmode();
+  HandleAppLanguage.setInitialLanguage();
+  _setPrefs();
+}
+
+void _setPrefs() {
+  if (SharedPref.prefs.getBool(GeneralStrings.isManual) == null) {
+    SharedPref.prefs.setBool(GeneralStrings.isManual, false);
+  }
+  if (SharedPref.prefs.getString(GeneralStrings.appMode) == null) {
+    SharedPref.prefs.setString(GeneralStrings.appMode, 'dark');
+  }
+  if (SharedPref.prefs.getString(GeneralStrings.currentUser) == null &&
+      SharedPref.prefs.getStringList(GeneralStrings.listFaves) == null) {
+    SharedPref.prefs.setStringList(GeneralStrings.listFaves, []);
+  }
+}
+
+void _initRepositories() {
   // Register the repository for handling user registration.
   instance.registerLazySingleton<RegisterInFirebaseRepo>(
       () => RegisterImplementer(repo: instance()));
@@ -88,29 +120,4 @@ Future<void> initAppModules() async {
 
   instance.registerLazySingleton<OperatorsRepository>(
       () => OperatorsRepoImplemeter(instance()));
-
-  // ------ Register EventsBloc for State Management ------
-  // This section registers the BLoC to manage the state of events throughout the app.
-  instance.registerLazySingleton<EventsBloc>(() =>
-      EventsBloc()); // Register EventsBloc to manage event-related states.
-
-  // ------ Register App Theme Management ------
-  // This section registers the theme management service to handle dark and light mode functionality.
-  AppColorHelper.setInitialTheme();
-  HandleAppMode.setInitialmode();
-  HandleAppLanguage.setInitialLanguage();
-  setPrefs();
-}
-
-void setPrefs() {
-  if (SharedPref.prefs.getBool(GeneralStrings.isManual) == null) {
-    SharedPref.prefs.setBool(GeneralStrings.isManual, false);
-  }
-  if (SharedPref.prefs.getString(GeneralStrings.appMode) == null) {
-    SharedPref.prefs.setString(GeneralStrings.appMode, 'dark');
-  }
-  if (SharedPref.prefs.getString(GeneralStrings.currentUser) == null &&
-      SharedPref.prefs.getStringList(GeneralStrings.listFaves) == null) {
-    SharedPref.prefs.setStringList(GeneralStrings.listFaves, []);
-  }
 }

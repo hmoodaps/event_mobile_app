@@ -6,6 +6,7 @@ import '../../../app/components/constants/assets_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/size_manager.dart';
 import 'onboarding_model_view.dart';
 
@@ -17,7 +18,17 @@ class OnboardingRoute extends StatefulWidget {
 }
 
 class _OnboardingRouteState extends State<OnboardingRoute> {
-  List<Widget> _onboardingList(context) {
+  late final OnboardingModelView _model;
+  final PageController _pageController = PageController();
+
+  @override
+  initState() {
+    super.initState();
+    _model = OnboardingModelView(context);
+    _model.start();
+  }
+
+  List<Widget> _onboardingList() {
     List<Widget> onboardingWidgetsList = [
       _onboardingPageBuilder(SizeManager.i300, context),
       _onboardingPageBuilder(SizeManager.i600, context),
@@ -36,7 +47,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
               delay: delay, child: Image.asset(AssetsManager.cinemaAsset)),
         ),
         SizedBox(
-          height: SizeManager.d100,
+          height: GetSize.heightValue(SizeManager.d100, context),
         ),
         Center(
           child: StaggeredAnimatedWidget(
@@ -56,7 +67,7 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
               )),
         ),
         SizedBox(
-          height: SizeManager.d20,
+          height: GetSize.heightValue(SizeManager.d20, context),
         ),
         StaggeredAnimatedWidget(
             delay: delay,
@@ -113,14 +124,14 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
       count: count,
       effect: CustomizableEffect(
         activeDotDecoration: DotDecoration(
-          width: SizeManager.d12,
-          height: SizeManager.d12,
+          width: GetSize.widthValue(SizeManager.d12, context),
+          height: GetSize.heightValue(SizeManager.d12, context),
           color: ColorManager.primarySecond,
           borderRadius: BorderRadius.circular(SizeManager.d24),
         ),
         dotDecoration: DotDecoration(
-          width: SizeManager.d20,
-          height: SizeManager.d16,
+          width: GetSize.widthValue(SizeManager.d20, context),
+          height: GetSize.heightValue(SizeManager.d16, context),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.elliptical(SizeManager.d20, SizeManager.d20),
             topRight: Radius.circular(SizeManager.d20),
@@ -132,25 +143,10 @@ class _OnboardingRouteState extends State<OnboardingRoute> {
     );
   }
 
-  late final OnboardingModelView _model;
-  final PageController _pageController = PageController();
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _model = OnboardingModelView(context);
-    _model.pages = _onboardingList(context);
-    _model.start();
-  }
-
-  //
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
+    _model.pages = _onboardingList();
+
     return StreamBuilder<bool>(
       stream: _model.lastPageStream,
       builder: (context, snapshot) {

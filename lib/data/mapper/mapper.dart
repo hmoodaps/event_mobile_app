@@ -4,44 +4,41 @@ import '../models/movie_model.dart';
 import '../models/user_model.dart';
 
 extension MovieResponseMapper on MovieResponse? {
-  Map<String, dynamic> toDomain() => {
-        'tags': this?.tags.orEmptyList() ?? AppConstants.emptyList,
-        'sponsor_video': this?.sponsorVideo.orEmpty() ?? AppConstants.emptyText,
-        'show_times': this?.showTimes?.toDomain() ??
-            {
-              'dates': AppConstants.emptyList,
-              'halls': AppConstants.emptyList,
-              'times': AppConstants.emptyList,
-            },
-        'short_description':
+  MovieResponse toDomain() => MovieResponse(
+        tags: this?.tags.orEmptyList() ?? AppConstants.emptyList,
+        actors: this?.actors.orEmptyList() ?? AppConstants.emptyList,
+        sponsorVideo: this?.sponsorVideo.orEmpty() ?? AppConstants.emptyText,
+        showTimes: this?.showTimes?.toDomain() ??
+            ShowTimesResponse(
+                dates: AppConstants.emptyList,
+                halls: AppConstants.emptyList,
+                times: AppConstants.emptyList),
+        shortDescription:
             this?.shortDescription.orEmpty() ?? AppConstants.emptyText,
-        'release_date': this?.releaseDate.orEmpty() ?? AppConstants.emptyText,
-        'rating': this?.rating.orZero() ?? AppConstants.doubleZero,
-        'imdb_rating': this?.imdbRating.orZero() ?? AppConstants.doubleZero,
-        'duration': this?.duration.orEmpty() ?? AppConstants.emptyText,
-        'actors': this?.actors.orEmptyList() ?? AppConstants.emptyList,
-        'available_seats':
-            this?.availableSeats.orZero() ?? AppConstants.intZero,
-        'reservations': this?.reservations.orZero() ?? AppConstants.intZero,
-        'vertical_photo':
-            this?.verticalPhoto.orEmpty() ?? AppConstants.emptyText,
-        'ticket_price': this?.ticketPrice.orZero() ?? AppConstants.doubleZero,
-        'seats': this?.seats.orZero() ?? AppConstants.intZero,
-        'reserved_seats':
+        releaseDate: this?.releaseDate.orEmpty() ?? AppConstants.emptyText,
+        rating: this?.rating.orZero() ?? AppConstants.doubleZero,
+        imdbRating: this?.imdbRating.orZero() ?? AppConstants.doubleZero,
+        duration: this?.duration.orEmpty() ?? AppConstants.emptyText,
+        availableSeats: this?.availableSeats.orZero() ?? AppConstants.intZero,
+        reservations: this?.reservations.orZero() ?? AppConstants.intZero,
+        verticalPhoto: this?.verticalPhoto.orEmpty() ?? AppConstants.emptyText,
+        ticketPrice: this?.ticketPrice.orZero() ?? AppConstants.doubleZero,
+        seats: this?.seats.orZero() ?? AppConstants.intZero,
+        reservedSeats:
             this?.reservedSeats.orEmptyList() ?? AppConstants.emptyList,
-        'description': this?.description.orEmpty() ?? AppConstants.emptyText,
-        'name': this?.name.orEmpty() ?? AppConstants.emptyText,
-        'id': this?.id.orZero() ?? AppConstants.intZero,
-        'photo': this?.photo.orEmpty() ?? AppConstants.emptyText,
-      };
+        description: this?.description.orEmpty() ?? AppConstants.emptyText,
+        name: this?.name.orEmpty() ?? AppConstants.emptyText,
+        photo: this?.photo.orEmpty() ?? AppConstants.emptyText,
+        id: this?.id.orZero() ?? AppConstants.intZero,
+      );
 }
 
 extension ShowTimesResponseMapper on ShowTimesResponse? {
-  Map<String, dynamic> toDomain() => {
-        'dates': this?.dates.orEmptyList() ?? AppConstants.emptyList,
-        'halls': this?.halls.orEmptyList() ?? AppConstants.emptyList,
-        'times': this?.times.orEmptyList() ?? AppConstants.emptyList,
-      };
+  ShowTimesResponse toDomain() => ShowTimesResponse(
+        dates: this?.dates.orEmptyList() ?? AppConstants.emptyList,
+        halls: this?.halls.orEmptyList() ?? AppConstants.emptyList,
+        times: this?.times.orEmptyList() ?? AppConstants.emptyList,
+      );
 }
 
 extension UserResponseMapper on UserResponse? {

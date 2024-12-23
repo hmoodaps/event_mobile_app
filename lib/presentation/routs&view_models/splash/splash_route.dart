@@ -5,6 +5,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 
 import '../../../app/components/constants/assets_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
@@ -45,7 +46,7 @@ class _SplashRouteState extends State<SplashRoute> {
                   width: MediaQuery.of(context).size.width / 2,
                   height: MediaQuery.of(context).size.width / 4,
                   child: Image.asset(AssetsManager.just4prog)),
-              SizedBox(height: SizeManager.d20),
+              SizedBox(height: GetSize.heightValue(SizeManager.d20, context)),
               SizedBox(
                   width: MediaQuery.of(context).size.width / 4.5,
                   height: MediaQuery.of(context).size.width / 4.5,
@@ -54,7 +55,7 @@ class _SplashRouteState extends State<SplashRoute> {
                     backgroundColor: Colors.transparent,
                     colors: ColorManager.colorsList,
                   )),
-              SizedBox(height: SizeManager.d20),
+              SizedBox(height: GetSize.heightValue(SizeManager.d20, context)),
             ],
           ),
         ),

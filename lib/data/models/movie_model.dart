@@ -82,7 +82,7 @@ class ShowTimesResponse {
   @JsonKey(name: 'times')
   List<dynamic>? times;
 
-  ShowTimesResponse(this.dates, this.halls, this.times);
+  ShowTimesResponse({this.dates, this.halls, this.times});
 
   factory ShowTimesResponse.fromJson(Map<String, dynamic> json) =>
       _$ShowTimesResponseFromJson(json);

@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../app/components/constants/assets_manager.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/size_manager.dart';
 import '../../../data/models/movie_model.dart';
 import '../../../domain/local_models/models.dart';
@@ -85,16 +86,20 @@ class _SeatState extends State<Seat> {
               padding: EdgeInsets.all(SizeManager.d20),
               child: Column(
                 children: [
-                  SizedBox(height: SizeManager.d20),
+                  SizedBox(
+                    height: GetSize.heightValue(SizeManager.d20, context),
+                  ),
                   SvgPicture.asset(
                     AssetsManager.screen,
                     colorFilter: ColorFilter.mode(
                         ColorManager.green3, BlendMode.modulate),
                     //     color: ColorManager.green3,
-                    height: SizeManager.d50,
-                    width: SizeManager.d70,
+                    height: GetSize.heightValue(SizeManager.d50, context),
+                    width: GetSize.widthValue(SizeManager.d70, context),
                   ),
-                  SizedBox(height: SizeManager.d70),
+                  SizedBox(
+                    height: GetSize.heightValue(SizeManager.d70, context),
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2.5,
                     width: MediaQuery.of(context).size.width,
@@ -139,7 +144,10 @@ class _SeatState extends State<Seat> {
                                 },
                               ),
                             ),
-                            SizedBox(width: SizeManager.d30),
+                            SizedBox(
+                              width:
+                                  GetSize.widthValue(SizeManager.d30, context),
+                            ),
                             Expanded(
                               child: GridView.builder(
                                 physics: BouncingScrollPhysics(),
@@ -193,7 +201,9 @@ class _SeatState extends State<Seat> {
                                       fontSize: SizeManager.d24),
                                   textAlign: TextAlign.center,
                                 ),
-                                SizedBox(height: 200),
+                                SizedBox(
+                                    height: GetSize.heightValue(
+                                        SizeManager.d200, context)),
                                 Transform.rotate(
                                   angle: 3.14,
                                   child: Text(
@@ -211,7 +221,9 @@ class _SeatState extends State<Seat> {
                         Transform.rotate(
                           angle: 1.58,
                           child: CustomPaint(
-                            size: Size(SizeManager.d200, SizeManager.d4),
+                            size: Size(
+                                GetSize.widthValue(SizeManager.d200, context),
+                                GetSize.heightValue(SizeManager.d4, context)),
                             painter: GradientLinePainter(),
                           ),
                         ),
@@ -219,14 +231,15 @@ class _SeatState extends State<Seat> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeManager.d20,
+                    height: GetSize.heightValue(SizeManager.d20, context),
                   ),
                   CustomPaint(
-                    size: Size(SizeManager.d300, SizeManager.d4),
+                    size: Size(GetSize.widthValue(SizeManager.d300, context),
+                        GetSize.heightValue(SizeManager.d4, context)),
                     painter: GradientLinePainter(),
                   ),
                   SizedBox(
-                    height: SizeManager.d20,
+                    height: GetSize.heightValue(SizeManager.d20, context),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -237,22 +250,22 @@ class _SeatState extends State<Seat> {
                         style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(
-                        width: 5,
+                        width: GetSize.widthValue(SizeManager.d5, context),
                       ),
                       Image.asset(AssetsManager.seat,
-                          height: SizeManager.d50,
-                          width: SizeManager.d30,
+                          height: GetSize.heightValue(SizeManager.d50, context),
+                          width: GetSize.widthValue(SizeManager.d30, context),
                           color: Colors.white),
                       Text(
                         GeneralStrings.selected(context),
                         style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(
-                        width: 5,
+                        width: GetSize.widthValue(SizeManager.d5, context),
                       ),
                       Image.asset(
-                          height: SizeManager.d50,
-                          width: SizeManager.d30,
+                          height: GetSize.heightValue(SizeManager.d50, context),
+                          width: GetSize.widthValue(SizeManager.d30, context),
                           AssetsManager.seat,
                           color: ColorManager.green3),
                       Text(
@@ -260,17 +273,17 @@ class _SeatState extends State<Seat> {
                         style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(
-                        width: 5,
+                        width: GetSize.widthValue(SizeManager.d5, context),
                       ),
                       Image.asset(
-                          height: SizeManager.d50,
-                          width: SizeManager.d30,
+                          height: GetSize.heightValue(SizeManager.d50, context),
+                          width: GetSize.widthValue(SizeManager.d30, context),
                           AssetsManager.seat,
                           color: Colors.red),
                     ],
                   ),
                   SizedBox(
-                    height: SizeManager.d30,
+                    height: GetSize.heightValue(SizeManager.d30, context),
                   ),
                   Column(
                     children: [

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
@@ -12,16 +14,27 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   List<MovieResponse> shuffledMovies = [];
   late EventsBloc bloc;
   late BuildContext context;
+  final CarouselController carouselControllerIfNotAuto = CarouselController();
+  final CarouselController carouselController = CarouselController();
+  Timer? autoPlayTimer;
+
+  bool isAuto = false;
+  int currentPage = 0;
 
   MoviesModelView(this.context);
 
   @override
-  void dispose() {}
+  void dispose() {
+    autoPlayTimer?.cancel();
+  }
 
   @override
   void start() {
     bloc = EventsBloc.get(context);
     shuffledMovies = shuffleMovies();
+    if (isAuto) {
+      startAutoPlay();
+    }
   }
 
   @override
@@ -67,6 +80,26 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
 
   void removeFilmFromCartEvent(MovieResponse movie) {
     bloc.add(RemoveFilmFromCartEvent(movie));
+  }
+
+  void startAutoPlay() {
+    autoPlayTimer?.cancel();
+    autoPlayTimer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
+      if (currentPage < VariablesManager.movies.length - 1) {
+        currentPage++;
+      } else {
+        currentPage = 0;
+      }
+      carouselController.animateTo(
+        currentPage * MediaQuery.sizeOf(context).width / 1.2,
+        duration: Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  void stopAutoPlay() {
+    autoPlayTimer?.cancel();
   }
 }
 

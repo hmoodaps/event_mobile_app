@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:event_mobile_app/app/components/constants/font_manager.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/app/components/constants/getSize/getSize.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
@@ -59,39 +60,42 @@ class _CartRouteState extends State<CartRoute> {
         ),
       );
 
-  Widget pageBuilder() {
+  List<Widget> _screenWidgets(AppStates state) => [
+        SafeArea(
+          child: pageBuilder(state),
+        ),
+      ];
+
+  Widget pageBuilder(AppStates state) {
     return ConditionalBuilder(
       builder: (context) {
-        return Visibility(
-          visible: _model.isLoaded,
-          child: AnimationLimiter(
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                return AnimationConfiguration.staggeredGrid(
-                  position: index,
-                  duration: const Duration(milliseconds: 1000),
-                  columnCount: SizeManager.i2,
-                  child: ScaleAnimation(
-                    child: FadeInAnimation(
-                      child: RepaintBoundary(
-                        child: cartItem(VariablesManager.cartMovies[index]),
-                      ),
+        return AnimationLimiter(
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              return AnimationConfiguration.staggeredGrid(
+                position: index,
+                duration: const Duration(milliseconds: 1000),
+                columnCount: SizeManager.i2,
+                child: ScaleAnimation(
+                  child: FadeInAnimation(
+                    child: RepaintBoundary(
+                      child: cartItem(VariablesManager.cartMovies[index]),
                     ),
                   ),
-                );
-              },
-              itemCount: VariablesManager.cartMovies.length,
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10,
-              ),
-              reverse: true,
-              shrinkWrap: true,
-              padding: EdgeInsets.all(20),
+                ),
+              );
+            },
+            itemCount: VariablesManager.cartMovies.length,
+            separatorBuilder: (context, index) => SizedBox(
+              height: GetSize.heightValue(SizeManager.d10, context),
             ),
+            reverse: true,
+            shrinkWrap: true,
+            padding: EdgeInsets.all(20),
           ),
         );
       },
-      condition: _model.isLoaded,
+      condition: VariablesManager.cartMovies.isNotEmpty,
       fallback: (context) {
         if (VariablesManager.currentUserRespon.cart!.isEmpty) {
           return Center(child: Text(GeneralStrings.noCartItems(context)));
@@ -101,12 +105,6 @@ class _CartRouteState extends State<CartRoute> {
       },
     );
   }
-
-  List<Widget> _screenWidgets(AppStates state) => [
-        SafeArea(
-          child: pageBuilder(),
-        ),
-      ];
 
   Widget cartItem(MovieResponse movie) {
     return GestureDetector(
@@ -132,7 +130,7 @@ class _CartRouteState extends State<CartRoute> {
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     height: SizeManager.screenSize(context).height / 7.5,
-                    width: SizeManager.d100,
+                    width: GetSize.widthValue(SizeManager.d100, context),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: imageProvider,
@@ -144,7 +142,7 @@ class _CartRouteState extends State<CartRoute> {
                 },
               ),
               SizedBox(
-                width: SizeManager.d10,
+                width: GetSize.widthValue(SizeManager.d10, context),
               ),
               Expanded(
                 child: Column(
@@ -173,11 +171,11 @@ class _CartRouteState extends State<CartRoute> {
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: GetSize.heightValue(SizeManager.d10, context),
                     ),
                     SizedBox(
-                        height: 15,
-                        width: 200,
+                        height: GetSize.heightValue(SizeManager.d15, context),
+                        width: GetSize.widthValue(SizeManager.d200, context),
                         child: featuresSlider(movie, context)),
                     Spacer(),
                     Align(

@@ -21,7 +21,6 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutUs": MessageLookupByLibrary.simpleMessage(" معلومات عنا"),
         "accountCreated":
@@ -103,7 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noCartItems":
             MessageLookupByLibrary.simpleMessage("سلتك فاضية حالياً!"),
         "noFaveItems":
-            MessageLookupByLibrary.simpleMessage("ما في عناصر مفضلة حالياً!"),
+            MessageLookupByLibrary.simpleMessage("فشي اشي هون حالياً!"),
         "notLoggedIn": MessageLookupByLibrary.simpleMessage(
             "لسا ما سجلت دخولك، سجل دخولك عشان تكمل للسلة!"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../presentation/bloc_state_managment/states.dart';
 import '../constants/error_strings.dart';

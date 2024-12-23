@@ -10,6 +10,7 @@ import '../../../app/components/constants/buttons_manager.dart';
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/icons_manager.dart';
 import '../../../app/components/constants/notification_handler.dart';
 import '../../../app/components/constants/size_manager.dart';
@@ -88,7 +89,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         )),
                   ),
                   SizedBox(
-                    height: SizeManager.d30,
+                    height: GetSize.heightValue(SizeManager.d30, context),
                   ),
                   StaggeredAnimatedWidget(
                     delay: SizeManager.i400,
@@ -100,7 +101,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeManager.d30,
+                    height: GetSize.heightValue(SizeManager.d30, context),
                   ),
                   StaggeredAnimatedWidget(
                       delay: SizeManager.i600,
@@ -114,7 +115,7 @@ class _LoginRouteState extends State<LoginRoute> {
                         context: context,
                       )),
                   SizedBox(
-                    height: SizeManager.d20,
+                    height: GetSize.heightValue(SizeManager.d20, context),
                   ),
                   StaggeredAnimatedWidget(
                       delay: SizeManager.i800,
@@ -127,7 +128,7 @@ class _LoginRouteState extends State<LoginRoute> {
                           suffix: Icon(IconsManager.hide),
                           context: context)),
                   SizedBox(
-                    height: SizeManager.d10,
+                    height: GetSize.heightValue(SizeManager.d10, context),
                   ),
                   Align(
                     alignment: Alignment.topRight,
@@ -146,7 +147,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeManager.d20,
+                    height: GetSize.heightValue(SizeManager.d20, context),
                   ),
                   googleAndAppleButton(
                       delay: SizeManager.i1000,
@@ -163,7 +164,7 @@ class _LoginRouteState extends State<LoginRoute> {
                       color: ColorManager.primarySecond,
                       context: context),
                   SizedBox(
-                    height: SizeManager.d30,
+                    height: GetSize.heightValue(SizeManager.d30, context),
                   ),
                   StaggeredAnimatedWidget(
                     delay: SizeManager.i1200,
@@ -174,21 +175,23 @@ class _LoginRouteState extends State<LoginRoute> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 1,
+                            height:
+                                GetSize.heightValue(SizeManager.d1, context),
                             color: ColorManager.primary,
                           ),
                         ),
                         SizedBox(
-                          width: SizeManager.d2,
+                          width: GetSize.widthValue(SizeManager.d2, context),
                         ),
                         Text(GeneralStrings.or(context),
                             style: TextStyleManager.titleStyle(context)),
                         SizedBox(
-                          width: SizeManager.d2,
+                          width: GetSize.widthValue(SizeManager.d2, context),
                         ),
                         Expanded(
                           child: Container(
-                            height: 1,
+                            height:
+                                GetSize.heightValue(SizeManager.d1, context),
                             color: ColorManager.primary,
                           ),
                         ),
@@ -196,7 +199,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     ),
                   ),
                   SizedBox(
-                    height: SizeManager.d20,
+                    height: GetSize.heightValue(SizeManager.d20, context),
                   ),
                   googleAndAppleButton(
                       delay: SizeManager.i1400,
@@ -204,7 +207,8 @@ class _LoginRouteState extends State<LoginRoute> {
                       nameOfButton: GeneralStrings.signWithGoogle(context),
                       prefixSvgAssetPath: AssetsManager.google,
                       context: context),
-                  SizedBox(height: SizeManager.d30),
+                  SizedBox(
+                      height: GetSize.heightValue(SizeManager.d30, context)),
                   Visibility(
                     visible: Platform.isIOS,
                     child: googleAndAppleButton(
