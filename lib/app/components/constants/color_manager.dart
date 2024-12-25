@@ -15,6 +15,7 @@ class ColorManager {
   static Color green2 = Colors.grey;
   static Color green3 = Colors.grey;
   static Color green4 = Colors.grey;
+  static Color green5 = Colors.grey;
 
   static List<Color> colorsList = [
     primary,
@@ -37,6 +38,7 @@ class ColorManager {
     green2 = appColorManager.green2;
     green3 = appColorManager.green3;
     green4 = appColorManager.green4;
+    green5 = appColorManager.green5;
     if (kDebugMode) {
       print("Colors updated: $primary, $primarySecond, $green1");
     }
@@ -52,4 +54,5 @@ abstract class AppColorManager {
   late Color green2;
   late Color green3;
   late Color green4;
+  late Color green5;
 }

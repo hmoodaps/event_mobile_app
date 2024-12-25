@@ -46,7 +46,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
       backgroundColor:
           VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
 
-  _startListin() {
+  _startListen() {
     blocStreamSubscription = _bloc.stream.listen((state) async {
       if (state is SignInWithGoogleStateError) {
         errorNoti(state.error);
@@ -96,7 +96,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
   @override
   void start() {
     _bloc = EventsBloc.get(context);
-    _startListin();
+    _startListen();
   }
 
   @override

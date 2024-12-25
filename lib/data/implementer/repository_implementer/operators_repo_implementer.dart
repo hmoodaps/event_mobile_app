@@ -1,15 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/data/models/user_model.dart';
+import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:event_mobile_app/domain/repository/main_repositories/repositories.dart';
 import 'package:event_mobile_app/domain/repository/operators_repository.dart';
 
 import '../../models/movie_model.dart';
 import '../failure_class/failure_class.dart';
 
-class OperatorsRepoImplemeter implements OperatorsRepository {
+class OperatorsRepoImplementer implements OperatorsRepository {
   Repositories repositories;
 
-  OperatorsRepoImplemeter(this.repositories);
+  OperatorsRepoImplementer(this.repositories);
 
   @override
   Future<Either<FailureClass, void>> addFilmToFavorites(
@@ -38,5 +39,11 @@ class OperatorsRepoImplemeter implements OperatorsRepository {
   @override
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse() async {
     return await repositories.getCurrentUserResponse();
+  }
+
+  @override
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors}) async {
+    return await repositories.fetchActorsData(actors: actors);
   }
 }

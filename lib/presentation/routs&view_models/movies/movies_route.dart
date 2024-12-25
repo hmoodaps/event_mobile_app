@@ -143,7 +143,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                             value: _model.isAuto,
                             onChanged: (value) => setState(() {
                               _model.isAuto = value;
-                              if (_model.isAuto) {
+                              if (value) {
                                 _model.startAutoPlay();
                               } else {
                                 _model.stopAutoPlay();
@@ -163,14 +163,9 @@ class _MoviesRouteState extends State<MoviesRoute> {
                 SizedBox(
                   width: double.infinity,
                   height: MediaQuery.sizeOf(context).height / 3.2,
-                  child: CarouselView(
-                    controller: !_model.isAuto
-                        ? _model.carouselControllerIfNotAuto
-                        : _model.carouselController,
-
-                    itemExtent:
-                        MediaQuery.sizeOf(context).width - SizeManager.d85,
-                    // shape: CircleBorder(),
+                  child: CarouselView.weighted(
+                    flexWeights: [10,2 ,1],
+                    controller:  _model.carouselController,
                     elevation: 6,
                     enableSplash: true,
                     shrinkExtent: 200,
@@ -178,10 +173,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     backgroundColor: Colors.transparent,
                     children: List.generate(
                       VariablesManager.movies.length,
-                      (index) => RepaintBoundary(
-                        child:
-                            _newMovies(movie: VariablesManager.movies[index]),
-                      ),
+                      (index) => _newMovies(movie: VariablesManager.movies[index]),
                     ),
                   ),
                 ),
@@ -272,6 +264,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
   }
 
   Widget _newMovies({required MovieResponse movie}) {
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -283,11 +276,13 @@ class _MoviesRouteState extends State<MoviesRoute> {
           ),
         );
       },
-      child: SizedBox(
-        child: CachedNetworkImage(
-          imageUrl: movie.photo!,
-          errorWidget: (context, url, error) => Icon(Icons.error),
-          fit: BoxFit.cover,
+      child: RepaintBoundary(
+        child: SizedBox(
+          child: CachedNetworkImage(
+            imageUrl: movie.photo!,
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

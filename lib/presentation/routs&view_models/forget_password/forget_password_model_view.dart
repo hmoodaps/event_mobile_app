@@ -54,10 +54,10 @@ class ForgetPasswordModelView extends BaseViewModel
   @override
   void start() {
     _bloc = EventsBloc.get(context);
-    startListin();
+    startListen();
   }
 
-  startListin() {
+  startListen() {
     blocStreamSubscription = _bloc.stream.listen(
       (state) {
         if (state is ResetPasswordSuccessState) {

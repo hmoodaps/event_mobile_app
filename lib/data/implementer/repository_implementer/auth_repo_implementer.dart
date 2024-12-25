@@ -37,11 +37,16 @@ class AuthImplementer implements AuthRepository {
 
       // Use fold to handle the response and return a bool
       return response.fold(
-        (failure) => Left(FailureClass(error: failure.toString())),
+        (failure) {
+          print(failure);
+          return Left(FailureClass(error: failure.toString()));
+        },
         // Handle failure
         (user) => Right(user), // Return bool on success
       );
     } catch (error) {
+      print(error);
+
       return Left(FailureClass(
           error: error.toString())); // Return an error wrapped in Left
     }

@@ -8,7 +8,6 @@ import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage'
     '.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/choos_seat_route/choos_seat_route.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_'
     'model_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +17,7 @@ import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
 import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../domain/local_models/models.dart';
+import '../more_detail_route/more_detail_view.dart';
 
 class MovieRoute extends StatefulWidget {
   final MovieResponse movie;
@@ -208,7 +208,8 @@ class _MovieRouteState extends State<MovieRoute> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Seat(movie: widget.movie),
+                            builder: (context) =>
+                                MoreDetailView(movie: widget.movie),
                           ),
                         );
                       },

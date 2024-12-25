@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +13,6 @@ import '../../data/models/movie_model.dart';
 import '../../main.dart';
 
 class BlocFunctions {
-  getCartItems() async {}
-
-  getFavesItems() async {}
-
   changeColorMode(ChangeColorModeEvent event, BuildContext context) {
     // Change the color theme using the helper
     AppColorHelper.changeColorTheme(event);
@@ -95,6 +92,22 @@ class BlocFunctions {
         await precacheImage(CachedNetworkImageProvider(movie.verticalPhoto!),
             navigatorKey.currentContext!);
       }
+    }
+  }
+
+  // Caches images associated with movies
+// This function is used to cache the images of movies by initializing CachedNetworkImageProvider instances
+// for each movie's image (both the main and vertical images).
+  Future<void> getActorsPhotos(List<ActorModel> actors) async {
+    // Preload images into cache using precacheImage
+    // The images are first wrapped in CachedNetworkImageProvider, then they are stored in memory.
+    // Preload the images without displaying them to the user (in the background)
+    // This ensures the images are cached and ready to be shown without delay.
+
+    final actorsCopy = List<ActorModel>.from(actors); // Create a copy
+    for (ActorModel actor in actorsCopy) {
+      await precacheImage(CachedNetworkImageProvider(actor.imageSource),
+          navigatorKey.currentContext!);
     }
   }
 }

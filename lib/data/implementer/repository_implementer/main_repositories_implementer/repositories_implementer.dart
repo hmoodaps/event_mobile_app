@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +7,10 @@ import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/data/mapper/mapper.dart';
 import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio.dart';
+import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../app/components/constants/variables_manager.dart';
 import '../../../../domain/local_models/models.dart';
@@ -144,7 +148,7 @@ class RepositoriesImplementer implements Repositories {
       await _addFavesFromGuestToUser();
       SharedPref.prefs
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
-      return userCredential.user! ;
+      return userCredential.user!;
     });
   }
 
@@ -321,5 +325,47 @@ class RepositoriesImplementer implements Repositories {
         VariablesManager.favesMovies = [];
       });
     }
+  }
+
+  @override
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors}) async {
+    return await handleFirebaseOperation(() async {
+      try {
+        // استدعاء الدالة في Isolate
+        final result = await compute(fetchActorsDataIsolate, actors);
+        return result;
+      } catch (e) {
+        throw Exception("Error in Isolate: $e");
+      }
+    });
+  }
+
+  Future<List<ActorModel>> fetchActorsDataIsolate(List<String> actors) async {
+    List<ActorModel> actorsModel = [];
+
+    for (String actor in actors) {
+      final response = await http.get(Uri.parse(
+          'https://en.wikipedia.org/w/api.php?action=query&format=json&titles=$actor&prop=extracts|pageimages&exintro=true&explaintext=true&piprop=original'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+
+        final page = data['query']['pages'].values.first;
+        if (page != null && page['title'] != null && page['original'] != null) {
+          String title = page['title'];
+
+          // التحقق إذا كان الممثل موجودًا مسبقًا
+          bool isExists =
+              actorsModel.any((existingActor) => existingActor.title == title);
+
+          if (!isExists) {
+            actorsModel.add(ActorModel.fromJson(data));
+          }
+        }
+      }
+    }
+
+    return actorsModel;
   }
 }

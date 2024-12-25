@@ -1,17 +1,23 @@
 class ActorModel {
-  String? fullName;
-  String? profilePhoto;
-  String? description;
-  String? sours;
+  final int pageId;
+  final String title;
+  final String extract;
+  final String imageSource;
 
-  ActorModel(this.fullName, this.description, this.profilePhoto);
+  ActorModel({
+    required this.pageId,
+    required this.title,
+    required this.extract,
+    required this.imageSource,
+  });
 
-  ActorModel.fromJson(Map<String, dynamic> json) {
+  factory ActorModel.fromJson(Map<String, dynamic> json) {
     final page = json['query']['pages'].values.first;
-    final pageId = page['pageid'];
-    sours = 'https://en.wikipedia.org/?curid=$pageId';
-    fullName = page['titleStyle'];
-    description = page['extract'];
-    profilePhoto = page['original']?['source'];
+    return ActorModel(
+      pageId: page['pageid'],
+      title: page['title'],
+      extract: page['extract'],
+      imageSource: page['original']['source'],
+    );
   }
 }

@@ -55,6 +55,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   EventsBloc() : super(InitialState()) {
     // Registering event handlers to listen and respond to various events
     on<StartCreateUserEvent>(_onCreateUserEvent);
+    on<FetchActorsDataEvent>(_onFetchActorsDataEvent);
     on<GetFavesItemsStateSuccessEvent>(_onGetFavesItemsStateSuccessEvent);
     on<AddFilmToFavEvent>(_onAddFilmToFavEvent);
     on<CreatingUserResultEvent>(_onCreatingUserResultEvent);
@@ -103,10 +104,36 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<AddFilmToCartEvent>(_onAddFilmToCartEvent);
     on<RemoveFilmFromCartEvent>(_onRemoveFilmFromCartEvent);
     on<GetCartItemsEvent>(_onGetCartItemsEvent);
+    on<GetActorsPhotosEvent>(_onGetActorsPhotosEvent);
   }
 
   //create instance from Event bloc if we need new instance and cant use it from DI
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
+
+  //=============Get actors Data ===============================
+  _onFetchActorsDataEvent(
+      FetchActorsDataEvent event, Emitter<AppStates> emit) async {
+    try {
+      await _operators.fetchActorsData(actors: event.actors).then((result) {
+        result.fold((fail) {}, (actors) async {
+          add(GetActorsPhotosEvent(actors: actors));
+        });
+      });
+    } catch (e) {
+      print("_onFetchActorsDataEvent $e");
+    }
+  }
+
+  _onGetActorsPhotosEvent(
+      GetActorsPhotosEvent event, Emitter<AppStates> emit) async {
+    try {
+      await _functions.getActorsPhotos(event.actors).then((_) {
+        emit(FetchActorsSuccessState(event.actors));
+      });
+    } catch (e) {
+      print("_onFetchActorsDataEvent $e");
+    }
+  }
 
   //============= Get Current User Response Event===========================
   _onGetCurrentUserResponseEvent(
@@ -175,7 +202,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
             method: 'GET',
             methodUrl: 'viewsets/movies/$id',
             headers: {
-              'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
+              'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
             }).then((result) {
           result.fold((fail) {
             if (kDebugMode) {
@@ -253,7 +280,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
             method: 'GET',
             methodUrl: 'viewsets/movies/$id/',
             headers: {
-              'Authorization': 'token ba5a351eee12bdb49b245d2a74965b0722c8e5f8'
+              'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
             }).then((result) {
           return result.fold((fail) => null, (success) {
             var body = jsonDecode(success.body);

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'mater';
+import 'package:flutter/material.dart';
+
 import 'app/MyApp/app.dart';
 import 'app/dependencies_injection/dependency_injection.dart';
 import 'firebase_options.dart';

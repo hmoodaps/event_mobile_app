@@ -36,7 +36,7 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
   @override
   void start() {
     _bloc = EventsBloc.get(context);
-    _startListin();
+    _startListen();
   }
 
   errorNoti(String error) => errorNotification(
@@ -45,7 +45,7 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
       backgroundColor:
           VariablesManager.isDark ? Colors.grey.shade400 : Colors.white);
 
-  _startListin() {
+  _startListen() {
     blocStreamSubscription = _bloc.stream.listen((state) async {
       if (state is SignInWithGoogleStateError) {
         errorNoti(state.error);

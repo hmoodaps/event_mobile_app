@@ -699,8 +699,6 @@ class GradientLinePainter extends CustomPainter {
 //   }
 // }
 
-
-
 class ArcItemSelector extends StatefulWidget {
   final List<Widget> items; // قائمة العناصر التي سيتم عرضها.
   final ValueChanged<int> onItemSelected; // دالة يتم استدعاؤها عند تحديد عنصر.

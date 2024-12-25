@@ -21,7 +21,6 @@ MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) =>
       actors: json['actors'] as List<dynamic>?,
       duration: json['duration'] as String?,
       imdbRating: (json['imdb_rating'] as num?)?.toDouble(),
-      rating: (json['rating'] as num?)?.toDouble(),
       releaseDate: json['release_date'] as String?,
       shortDescription: json['short_description'] as String?,
       showTimes: json['show_times'] == null
@@ -30,6 +29,7 @@ MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) =>
               json['show_times'] as Map<String, dynamic>),
       sponsorVideo: json['sponsor_video'] as String?,
       tags: json['tags'] as List<dynamic>?,
+      addedDate: json['added_Date'] as String?,
     );
 
 Map<String, dynamic> _$MovieResponseToJson(MovieResponse instance) =>
@@ -47,8 +47,8 @@ Map<String, dynamic> _$MovieResponseToJson(MovieResponse instance) =>
       'vertical_photo': instance.verticalPhoto,
       'sponsor_video': instance.sponsorVideo,
       'release_date': instance.releaseDate,
+      'added_Date': instance.addedDate,
       'duration': instance.duration,
-      'rating': instance.rating,
       'imdb_rating': instance.imdbRating,
       'tags': instance.tags,
       'actors': instance.actors,

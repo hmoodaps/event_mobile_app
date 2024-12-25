@@ -76,7 +76,6 @@ dependencies:
   color_palette_generator: ^2.0.1
   dependency_validator: ^4.1.1
   video_player: ^2.9.2
-  youtube_player_flutter: ^9.1.1
   loading_indicator: ^3.1.1
   retrofit: ^4.4.1
   analyzer: ^6.7.0
@@ -103,6 +102,7 @@ dependencies:
   uuid: ^4.5.1
   conditional_builder_null_safety: ^0.0.6
   http: ^1.2.2
+  youtube_player_iframe: ^5.2.1
 
 dev_dependencies:
   flutter_test:
