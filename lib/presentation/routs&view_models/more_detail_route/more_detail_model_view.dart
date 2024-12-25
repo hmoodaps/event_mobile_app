@@ -8,25 +8,29 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../../../app/handle_app_language/handle_app_language.dart';
 import '../../../domain/model_objects/actor_model.dart';
-
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/events.dart';
 
 class MoreDetailModelView extends BaseViewModel {
   final BuildContext context;
   final MovieResponse movie;
+
   MoreDetailModelView({required this.movie, required this.context});
-  late int initValue = 0 ;
-   List<ActorModel> actors = [];
+
+  late int initValue = 0;
+
+  List<ActorModel> actors = [];
   late YoutubePlayerController youtubePlayerController;
   late EventsBloc _bloc;
   late final StreamSubscription blocStreamSubscription;
-  late FixedExtentScrollController listWheelController ;
+  late FixedExtentScrollController listWheelController;
+
   int findMidpoint(int number) {
     double mid = number / 2;
     int roundedMid = mid.round();
     return roundedMid;
   }
+
   @override
   void dispose() {
     youtubePlayerController.close();
@@ -37,8 +41,7 @@ class MoreDetailModelView extends BaseViewModel {
   void start() {
     _bloc = EventsBloc.get(context);
     _startListen();
-    listWheelController =
-        FixedExtentScrollController(initialItem: initValue);
+    listWheelController = FixedExtentScrollController(initialItem: initValue);
     String? videoId =
         YoutubePlayerController.convertUrlToId(movie.sponsorVideo!);
     youtubePlayerController = YoutubePlayerController.fromVideoId(
@@ -63,17 +66,16 @@ class MoreDetailModelView extends BaseViewModel {
     );
   }
 
-  void fetchActorsData(List<String> actors)  {
-    _bloc.add(FetchActorsDataEvent(actors : actors ));
-
+  void fetchActorsData(List<String> actors) {
+    _bloc.add(FetchActorsDataEvent(actors: actors));
   }
 
   _startListen() {
     blocStreamSubscription = _bloc.stream.listen((state) {
-      if(state is FetchActorsSuccessState){
+      if (state is FetchActorsSuccessState) {
         actors.clear();
         actors.addAll(state.actors);
-       initValue =  findMidpoint(state.actors.length);
+        initValue = findMidpoint(state.actors.length);
       }
     });
   }

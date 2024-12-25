@@ -13,7 +13,6 @@ import '../../data/models/movie_model.dart';
 import '../../main.dart';
 
 class BlocFunctions {
-
   changeColorMode(ChangeColorModeEvent event, BuildContext context) {
     // Change the color theme using the helper
     AppColorHelper.changeColorTheme(event);
@@ -106,10 +105,9 @@ class BlocFunctions {
     // This ensures the images are cached and ready to be shown without delay.
 
     final actorsCopy = List<ActorModel>.from(actors); // Create a copy
-      for (ActorModel actor in actorsCopy) {
-        await precacheImage(CachedNetworkImageProvider(actor.imageSource),
-            navigatorKey.currentContext!);
-
+    for (ActorModel actor in actorsCopy) {
+      await precacheImage(CachedNetworkImageProvider(actor.imageSource),
+          navigatorKey.currentContext!);
     }
   }
 }

@@ -19,5 +19,7 @@ abstract class OperatorsRepository {
       {required MovieResponse movie});
 
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse();
-  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors});
+
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors});
 }

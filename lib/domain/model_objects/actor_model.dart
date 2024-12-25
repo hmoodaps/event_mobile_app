@@ -20,6 +20,4 @@ class ActorModel {
       imageSource: page['original']['source'],
     );
   }
-
-
 }

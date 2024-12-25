@@ -10,6 +10,7 @@ import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio
 import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../app/components/constants/variables_manager.dart';
 import '../../../../domain/local_models/models.dart';
@@ -17,8 +18,6 @@ import '../../../../domain/repository/main_repositories/repositories.dart';
 import '../../../models/movie_model.dart';
 import '../../../models/user_model.dart';
 import '../../failure_class/failure_class.dart';
-import 'package:http/http.dart' as http;
-
 
 class RepositoriesImplementer implements Repositories {
   final DioClient dioClient;
@@ -149,7 +148,7 @@ class RepositoriesImplementer implements Repositories {
       await _addFavesFromGuestToUser();
       SharedPref.prefs
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
-      return userCredential.user! ;
+      return userCredential.user!;
     });
   }
 
@@ -328,9 +327,9 @@ class RepositoriesImplementer implements Repositories {
     }
   }
 
-
   @override
-  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors}) async {
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors}) async {
     return await handleFirebaseOperation(() async {
       try {
         // استدعاء الدالة في Isolate
@@ -341,7 +340,6 @@ class RepositoriesImplementer implements Repositories {
       }
     });
   }
-
 
   Future<List<ActorModel>> fetchActorsDataIsolate(List<String> actors) async {
     List<ActorModel> actorsModel = [];
@@ -358,7 +356,8 @@ class RepositoriesImplementer implements Repositories {
           String title = page['title'];
 
           // التحقق إذا كان الممثل موجودًا مسبقًا
-          bool isExists = actorsModel.any((existingActor) => existingActor.title == title);
+          bool isExists =
+              actorsModel.any((existingActor) => existingActor.title == title);
 
           if (!isExists) {
             actorsModel.add(ActorModel.fromJson(data));
@@ -369,6 +368,4 @@ class RepositoriesImplementer implements Repositories {
 
     return actorsModel;
   }
-
-
 }

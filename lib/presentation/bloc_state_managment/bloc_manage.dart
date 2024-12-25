@@ -110,33 +110,30 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   //create instance from Event bloc if we need new instance and cant use it from DI
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
 
-
-
-
   //=============Get actors Data ===============================
-  _onFetchActorsDataEvent(FetchActorsDataEvent event , Emitter<AppStates> emit)async{
-try{
-  await _operators.fetchActorsData(actors: event.actors).then((result){
-    result.fold((fail){},(actors) async{
-      add(GetActorsPhotosEvent(actors: actors));
-    });
-  });
-}catch(e){
-  print("_onFetchActorsDataEvent $e");
-}
-  }
-    _onGetActorsPhotosEvent(GetActorsPhotosEvent event , Emitter<AppStates> emit)async{
-try{
-  await _functions.getActorsPhotos(event.actors).then((_){
-    emit(FetchActorsSuccessState(event.actors));
-  });
-
-}catch(e){
-  print("_onFetchActorsDataEvent $e");
-}
+  _onFetchActorsDataEvent(
+      FetchActorsDataEvent event, Emitter<AppStates> emit) async {
+    try {
+      await _operators.fetchActorsData(actors: event.actors).then((result) {
+        result.fold((fail) {}, (actors) async {
+          add(GetActorsPhotosEvent(actors: actors));
+        });
+      });
+    } catch (e) {
+      print("_onFetchActorsDataEvent $e");
+    }
   }
 
-
+  _onGetActorsPhotosEvent(
+      GetActorsPhotosEvent event, Emitter<AppStates> emit) async {
+    try {
+      await _functions.getActorsPhotos(event.actors).then((_) {
+        emit(FetchActorsSuccessState(event.actors));
+      });
+    } catch (e) {
+      print("_onFetchActorsDataEvent $e");
+    }
+  }
 
   //============= Get Current User Response Event===========================
   _onGetCurrentUserResponseEvent(

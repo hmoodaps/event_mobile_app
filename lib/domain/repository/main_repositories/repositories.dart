@@ -58,5 +58,7 @@ abstract class Repositories {
   // Removes a film from the user's cart
   Future<Either<FailureClass, void>> removeFilmFromCart(
       {required MovieResponse movie});
-  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors});
+
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors});
 }

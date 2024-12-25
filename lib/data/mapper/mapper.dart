@@ -16,7 +16,7 @@ extension MovieResponseMapper on MovieResponse? {
         shortDescription:
             this?.shortDescription.orEmpty() ?? AppConstants.emptyText,
         releaseDate: this?.releaseDate.orEmpty() ?? AppConstants.emptyText,
-    addedDate: this?.addedDate.orEmpty() ?? AppConstants.emptyText,
+        addedDate: this?.addedDate.orEmpty() ?? AppConstants.emptyText,
         imdbRating: this?.imdbRating.orZero() ?? AppConstants.doubleZero,
         duration: this?.duration.orEmpty() ?? AppConstants.emptyText,
         availableSeats: this?.availableSeats.orZero() ?? AppConstants.intZero,

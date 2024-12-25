@@ -11,7 +11,6 @@ import '../../data/local_storage/shared_local.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../presentation/bloc_state_managment/events.dart';
-import '../../presentation/routs&view_models/more_detail_route/more_detail_view.dart';
 import '../components/constants/routs_manager.dart';
 import '../dependencies_injection/dependency_injection.dart';
 

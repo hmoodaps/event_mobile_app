@@ -14,7 +14,6 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   List<MovieResponse> shuffledMovies = [];
   late EventsBloc bloc;
   late BuildContext context;
-  final CarouselController carouselControllerIfNotAuto = CarouselController();
   final CarouselController carouselController = CarouselController();
   Timer? autoPlayTimer;
 
@@ -85,16 +84,19 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   void startAutoPlay() {
     autoPlayTimer?.cancel();
     autoPlayTimer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
-      if (currentPage < VariablesManager.movies.length - 1) {
-        currentPage++;
-      } else {
+      if (currentPage >= VariablesManager.movies.length - 1 ) {
         currentPage = 0;
+
+      } else {
+        currentPage++;
+
       }
-      carouselController.animateTo(
-        currentPage * MediaQuery.sizeOf(context).width / 1.2,
-        duration: Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      );
+        carouselController.animateTo(
+          currentPage * MediaQuery.sizeOf(context).width / 1.2,
+          duration: Duration(milliseconds: 700),
+          curve: Curves.easeInOut,
+        );
+
     });
   }
 

@@ -8,7 +8,6 @@ import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage'
     '.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/choos_seat_route/choos_seat_route.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_'
     'model_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -209,7 +208,8 @@ class _MovieRouteState extends State<MovieRoute> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MoreDetailView(movie: widget.movie),
+                            builder: (context) =>
+                                MoreDetailView(movie: widget.movie),
                           ),
                         );
                       },

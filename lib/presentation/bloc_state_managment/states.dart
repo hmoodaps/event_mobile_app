@@ -169,7 +169,9 @@ class RemoveFilmFromCartState extends AppStates {}
 class GetCartItemsStateSuccessState extends AppStates {}
 
 class FetchMoviesResultState extends AppStates {}
+
 class FetchActorsSuccessState extends AppStates {
- final  List<ActorModel>actors ;
- FetchActorsSuccessState(this.actors);
+  final List<ActorModel> actors;
+
+  FetchActorsSuccessState(this.actors);
 }

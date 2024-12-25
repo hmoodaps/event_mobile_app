@@ -265,13 +265,15 @@ class AddFilmToCartEvent extends AppEvents {
 class GetCartItemsEvent extends AppEvents {}
 
 class GetCartItemsStateSuccessEvent extends AppEvents {}
-class GetActorsPhotosEvent extends AppEvents {
-  final List<ActorModel> actors ;
-  GetActorsPhotosEvent({required this.actors});
 
+class GetActorsPhotosEvent extends AppEvents {
+  final List<ActorModel> actors;
+
+  GetActorsPhotosEvent({required this.actors});
 }
 
 class FetchActorsDataEvent extends AppEvents {
-  final List<String> actors ;
+  final List<String> actors;
+
   FetchActorsDataEvent({required this.actors});
 }

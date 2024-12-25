@@ -42,7 +42,8 @@ class OperatorsRepoImplementer implements OperatorsRepository {
   }
 
   @override
-  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors}) async {
-    return await repositories.fetchActorsData(actors: actors) ;
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors}) async {
+    return await repositories.fetchActorsData(actors: actors);
   }
 }

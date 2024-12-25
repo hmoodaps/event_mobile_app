@@ -21,12 +21,12 @@ class GreenAppColor implements AppColorManager {
   @override
   Color green2 = const Color(0xFF164701);
   @override
-  Color green3 =const Color(0xFF2b8c01);
+  Color green3 = const Color(0xFF2b8c01);
   @override
-  Color green4 =const Color(0xFF4cf502);
+  Color green4 = const Color(0xFF4cf502);
 
   @override
-  Color green5  = const Color(0xFFb7f7ad);
+  Color green5 = const Color(0xFFb7f7ad);
 }
 
 // Defines the purple theme colors.
@@ -66,7 +66,7 @@ class BlueAppColor implements AppColorManager {
   Color green4 = const Color(0xFF0363fc);
 
   @override
-  Color green5 = const Color(0xFF99bbf0) ;
+  Color green5 = const Color(0xFF99bbf0);
 }
 
 // Enum to define the available color themes.

@@ -17,7 +17,6 @@ class ColorManager {
   static Color green4 = Colors.grey;
   static Color green5 = Colors.grey;
 
-
   static List<Color> colorsList = [
     primary,
     privateYalow,
