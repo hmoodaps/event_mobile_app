@@ -1,4 +1,5 @@
 // ======== Abstract State ========
+import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AppStates {}
@@ -168,3 +169,7 @@ class RemoveFilmFromCartState extends AppStates {}
 class GetCartItemsStateSuccessState extends AppStates {}
 
 class FetchMoviesResultState extends AppStates {}
+class FetchActorsSuccessState extends AppStates {
+ final  List<ActorModel>actors ;
+ FetchActorsSuccessState(this.actors);
+}

@@ -18,6 +18,7 @@ import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
 import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../domain/local_models/models.dart';
+import '../more_detail_route/more_detail_view.dart';
 
 class MovieRoute extends StatefulWidget {
   final MovieResponse movie;
@@ -208,7 +209,7 @@ class _MovieRouteState extends State<MovieRoute> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Seat(movie: widget.movie),
+                            builder: (context) => MoreDetailView(movie: widget.movie),
                           ),
                         );
                       },

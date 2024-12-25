@@ -53,7 +53,7 @@ class TakeUserDetailsModelView extends BaseViewModel
   @override
   void start() {
     _bloc = EventsBloc.get(context);
-    startListin();
+    startListen();
   }
 
   @override
@@ -77,7 +77,7 @@ class TakeUserDetailsModelView extends BaseViewModel
   errorNoti(String msg) => errorNotification(
       context: context, description: translateErrorMessage(msg, context));
 
-  startListin() {
+  startListen() {
     blocStreamSubscription = _bloc.stream.listen((state) async {
       if (state is AddUserDetailsSuccessState) {
         navigateToMain();

@@ -55,6 +55,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   EventsBloc() : super(InitialState()) {
     // Registering event handlers to listen and respond to various events
     on<StartCreateUserEvent>(_onCreateUserEvent);
+    on<FetchActorsDataEvent>(_onFetchActorsDataEvent);
     on<GetFavesItemsStateSuccessEvent>(_onGetFavesItemsStateSuccessEvent);
     on<AddFilmToFavEvent>(_onAddFilmToFavEvent);
     on<CreatingUserResultEvent>(_onCreatingUserResultEvent);
@@ -103,10 +104,39 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<AddFilmToCartEvent>(_onAddFilmToCartEvent);
     on<RemoveFilmFromCartEvent>(_onRemoveFilmFromCartEvent);
     on<GetCartItemsEvent>(_onGetCartItemsEvent);
+    on<GetActorsPhotosEvent>(_onGetActorsPhotosEvent);
   }
 
   //create instance from Event bloc if we need new instance and cant use it from DI
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
+
+
+
+
+  //=============Get actors Data ===============================
+  _onFetchActorsDataEvent(FetchActorsDataEvent event , Emitter<AppStates> emit)async{
+try{
+  await _operators.fetchActorsData(actors: event.actors).then((result){
+    result.fold((fail){},(actors) async{
+      add(GetActorsPhotosEvent(actors: actors));
+    });
+  });
+}catch(e){
+  print("_onFetchActorsDataEvent $e");
+}
+  }
+    _onGetActorsPhotosEvent(GetActorsPhotosEvent event , Emitter<AppStates> emit)async{
+try{
+  await _functions.getActorsPhotos(event.actors).then((_){
+    emit(FetchActorsSuccessState(event.actors));
+  });
+
+}catch(e){
+  print("_onFetchActorsDataEvent $e");
+}
+  }
+
+
 
   //============= Get Current User Response Event===========================
   _onGetCurrentUserResponseEvent(

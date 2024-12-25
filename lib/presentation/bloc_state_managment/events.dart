@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
+import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -264,3 +265,13 @@ class AddFilmToCartEvent extends AppEvents {
 class GetCartItemsEvent extends AppEvents {}
 
 class GetCartItemsStateSuccessEvent extends AppEvents {}
+class GetActorsPhotosEvent extends AppEvents {
+  final List<ActorModel> actors ;
+  GetActorsPhotosEvent({required this.actors});
+
+}
+
+class FetchActorsDataEvent extends AppEvents {
+  final List<String> actors ;
+  FetchActorsDataEvent({required this.actors});
+}

@@ -30,10 +30,10 @@ class MovieResponse {
   String? sponsorVideo;
   @JsonKey(name: 'release_date')
   String? releaseDate;
+  @JsonKey(name: 'added_Date')
+  String? addedDate;
   @JsonKey(name: 'duration')
   String? duration;
-  @JsonKey(name: 'rating')
-  double? rating;
   @JsonKey(name: 'imdb_rating')
   double? imdbRating;
   @JsonKey(name: 'tags')
@@ -58,12 +58,12 @@ class MovieResponse {
     this.actors,
     this.duration,
     this.imdbRating,
-    this.rating,
     this.releaseDate,
     this.shortDescription,
     this.showTimes,
     this.sponsorVideo,
     this.tags,
+    this.addedDate,
   });
 
   // Factory method for JSON serialization

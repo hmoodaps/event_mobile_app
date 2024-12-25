@@ -74,7 +74,6 @@ class _ApplicationState extends State<Application> {
           debugShowCheckedModeBanner: false,
           theme: bloc.toggleLightAndDark(context),
 
-          home: MoreDetailView(),
           // SharedPref.getBool(GeneralStrings.isManual)!
           //   ? TheAppMode.appMode
           //   : bloc.toggleLightAndDark(context),

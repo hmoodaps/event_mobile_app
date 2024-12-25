@@ -119,5 +119,5 @@ void _initRepositories() {
       () => AddUserDetailsImplementer(repo: instance()));
 
   instance.registerLazySingleton<OperatorsRepository>(
-      () => OperatorsRepoImplemeter(instance()));
+      () => OperatorsRepoImplementer(instance()));
 }

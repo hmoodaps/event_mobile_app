@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../data/implementer/failure_class/failure_class.dart';
 import '../../../data/models/movie_model.dart';
 import '../../local_models/models.dart';
+import '../../model_objects/actor_model.dart';
 
 abstract class Repositories {
   // Logs a user into Firebase using provided requirements
@@ -57,4 +58,5 @@ abstract class Repositories {
   // Removes a film from the user's cart
   Future<Either<FailureClass, void>> removeFilmFromCart(
       {required MovieResponse movie});
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors});
 }
