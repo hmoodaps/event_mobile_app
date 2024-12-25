@@ -202,7 +202,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
             method: 'GET',
             methodUrl: 'viewsets/movies/$id',
             headers: {
-              'Authorization': 'token a9e1b9a276b686ac5327e88068fd307bbfc564a8'
+              'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
             }).then((result) {
           result.fold((fail) {
             if (kDebugMode) {
@@ -280,7 +280,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
             method: 'GET',
             methodUrl: 'viewsets/movies/$id/',
             headers: {
-              'Authorization': 'token ba5a351eee12bdb49b245d2a74965b0722c8e5f8'
+              'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
             }).then((result) {
           return result.fold((fail) => null, (success) {
             var body = jsonDecode(success.body);
