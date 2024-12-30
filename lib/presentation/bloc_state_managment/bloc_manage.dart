@@ -116,6 +116,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     try {
       await _operators.fetchActorsData(actors: event.actors).then((result) {
         result.fold((fail) {}, (actors) async {
+          emit(FetchActorsSuccessState(actors));
           add(GetActorsPhotosEvent(actors: actors));
         });
       });
@@ -127,9 +128,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   _onGetActorsPhotosEvent(
       GetActorsPhotosEvent event, Emitter<AppStates> emit) async {
     try {
-      await _functions.getActorsPhotos(event.actors).then((_) {
-        emit(FetchActorsSuccessState(event.actors));
-      });
+      await _functions.getActorsPhotos(event.actors);
     } catch (e) {
       print("_onFetchActorsDataEvent $e");
     }

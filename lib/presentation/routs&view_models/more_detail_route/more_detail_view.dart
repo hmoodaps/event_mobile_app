@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:event_mobile_app/app/components/constants/buttons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:event_mobile_app/app/components/constants/font_manager.dart';
+import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/components/constants/getSize/getSize.dart';
 import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
@@ -27,15 +29,7 @@ class MoreDetailView extends StatefulWidget {
 
 class _MoreDetailViewState extends State<MoreDetailView> {
   late MoreDetailModelView _model;
-  // لتحديد العنصر المختار حاليًا
-  int selectedIndex = 0;
 
-  // دالة لتحديث الحالة عند الضغط على النص
-  void onTextTap(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
   @override
   void initState() {
     super.initState();
@@ -57,16 +51,72 @@ class _MoreDetailViewState extends State<MoreDetailView> {
   }
 
   Widget getScaffold({required bool isDark}) => Scaffold(
+        backgroundColor: ColorManager.primary,
+        persistentFooterButtons: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Row(
+              spacing: GetSize.widthValue(SizeManager.d10, context),
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            ColorManager.green4,
+                            ColorManager.green3,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.00001, 0.5, 1]),
+                      boxShadow: [
+                        ContainerManager.myShadow(shadowColor: Colors.black45),
+                      ],
+                      shape: BoxShape.circle,
+                      color: Colors.red),
+                  height: 70,
+                  width: 70,
+                  child: Icon(
+                    IconsManager.cart,
+                    color: Colors.black,
+                  ),
+                ),
+                Expanded(
+                  child: ContainerManager.myContainer(
+                      context: context,
+                      child: Center(
+                          child: Text(
+                        GeneralStrings.bookNow(context),
+                        style: TextStyleManager.bodyStyle(context)?.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeightManager.bold),
+                      )),
+                      colors: [
+                        Colors.white,
+                        ColorManager.green4,
+                        ColorManager.green3,
+                      ],
+                      stops: [
+                        0.00001,
+                        0.5,
+                        1
+                      ]),
+                ),
+              ],
+            ),
+          ),
+        ],
         appBar: AppBar(
           title: Text(
             widget.movie.name!,
             style: TextStyleManager.header(context),
           ),
           leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: IconsManager.arrowBack),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: IconsManager.arrowBack,
+          ),
         ),
         body:
             stackBackGroundManager(isDark: isDark, otherWidget: otherWidget()),
@@ -86,65 +136,171 @@ class _MoreDetailViewState extends State<MoreDetailView> {
       ];
 
   Widget pageBuilder() {
-    return Column(
-      children: [
-        YoutubePlayer(
-          controller: _model.youtubePlayerController,
-          aspectRatio: 16 / 9,
-          enableFullScreenOnVerticalDrag: true,
-        ),
-        SizedBox(
-          height: GetSize.heightValue(SizeManager.d10, context),
-        ),
-        Row(
-          spacing: GetSize.widthValue(SizeManager.d15, context),
-          children: [
-            Container(
-              padding: EdgeInsets.all(6),
-              decoration: BoxDecoration(color: ColorManager.privateGrey , borderRadius: BorderRadius.circular(20) , border: Border.all(color: ColorManager.green3)),
-              child: Text(
-                'about',
-                style: TextStyleManager.bodyStyle(context),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          YoutubePlayer(
+            controller: _model.youtubePlayerController,
+            aspectRatio: 16 / 9,
+            enableFullScreenOnVerticalDrag: true,
+          ),
+          SizedBox(
+            height: GetSize.heightValue(SizeManager.d24, context),
+          ),
+          Row(
+            spacing: GetSize.widthValue(SizeManager.d15, context),
+            children: List.generate(
+              2,
+              (index) => GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _model.selectedIndex = index;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: _model.isExpanded(index) ? 100 : 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: _model.selectedIndex == index
+                        ? ColorManager.primary
+                        : Colors.transparent,
+                  ),
+                  child: !_model.isExpanded(index)
+                      ? Center(child: _model.getIcons()[index])
+                      : Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            verticalDirection: VerticalDirection.up,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 4,
+                              ),
+                              _model.getIcons()[index],
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  _model.getIconsName()[index],
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                ),
               ),
             ),
-            Text('actors', style: TextStyleManager.bodyStyle(context)),
-            Text('rating', style: TextStyleManager.bodyStyle(context)),
-          ],
-        ),
-        Divider(),
-      ],
+          ),
+          Divider(),
+          AnimatedSwitcher(
+            duration: Duration(seconds: 3),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return ScaleTransition(scale: animation, child: child);
+            },
+            child: _model.selectedIndex == 1 ? _getActors() : _aboutWidget(),
+          )
+        ],
+      ),
     );
   }
 
-  Widget getActors() {
-    return SizedBox(
-      height: GetSize.heightValue(SizeManager.d120, context),
-      width: double.infinity,
-      child: RotatedBox(
-        quarterTurns: 1,
-        child: ListWheelScrollView.useDelegate(
-          controller: _model.listWheelController,
-          // 2. ربط controller مع ListWheelScrollView
-          diameterRatio: 2,
-          childDelegate: ListWheelChildBuilderDelegate(
-            builder: (context, index) {
-              return RotatedBox(
-                quarterTurns: 3,
-                child: CircleAvatar(
-                  foregroundColor: Colors.transparent,
-                  backgroundImage: CachedNetworkImageProvider(
-                    _model.actors[index].imageSource,
-                  ),
-                  radius: 50,
+  _getActors() {
+    int selectedActor = 0;
+    return StatefulBuilder(
+      builder: (context, setState) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        spacing: GetSize.heightValue(SizeManager.d10, context),
+        children: [
+          SizedBox(
+            height: GetSize.heightValue(SizeManager.d120, context),
+            width: double.infinity,
+            child: RotatedBox(
+              quarterTurns: 1,
+              child: ListWheelScrollView.useDelegate(
+                controller: _model.listWheelController,
+                diameterRatio: 2,
+                childDelegate: ListWheelChildBuilderDelegate(
+                  builder: (context, index) {
+                    return RotatedBox(
+                      quarterTurns: 3,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CircleAvatar(
+                              foregroundColor: Colors.transparent,
+                              backgroundImage: CachedNetworkImageProvider(
+                                _model.actors[index].imageSource,
+                              ),
+                              radius: 50,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                        ],
+                      ),
+                    );
+                  },
+                  childCount: _model.actors.length,
                 ),
-              );
-            },
-            childCount: _model.actors.length, // عدد العناصر
+                onSelectedItemChanged: (value) {
+                  setState(() {
+                    selectedActor = value;
+                  });
+                },
+                itemExtent: 75,
+              ),
+            ),
           ),
-          onSelectedItemChanged: (value) => print(value),
-          itemExtent: 75, // حجم العنصر
-        ),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+              text: GeneralStrings.douKnowWhoIs(context),
+              style: TextStyleManager.titleStyle(context),
+            ),
+            TextSpan(
+                text: _model.actors[selectedActor].title,
+                style: TextStyleManager.header(context)
+                    ?.copyWith(color: Colors.black)),
+          ])),
+          Text(
+            _model.actors[selectedActor].extract,
+            softWrap: true,
+            maxLines: 10,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyleManager.paragraphStyle(context),
+          ),
+          SizedBox(
+            height: SizeManager.d10,
+          ),
+          GestureDetector(
+              onTap: () {
+                _model.resourcesTap(selectedActor);
+              },
+              child: Text(
+                GeneralStrings.resources(context),
+                style: TextStyleManager.smallParagraphStyle(context)
+                    ?.copyWith(color: ColorManager.privateYalow),
+              )),
+          SizedBox(
+            height: SizeManager.d50,
+          )
+        ],
       ),
+    );
+  }
+
+  _aboutWidget() {
+    return Text(
+      _model.movie.description!,
+      style: TextStyleManager.bodyStyle(context),
     );
   }
 }

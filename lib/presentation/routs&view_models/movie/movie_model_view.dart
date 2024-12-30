@@ -12,7 +12,7 @@ import '../../bloc_state_managment/events.dart';
 class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   Color dominantColor = Colors.transparent;
   Color textColor = Colors.black;
-  late EventsBloc bloc;
+  late EventsBloc _bloc;
 
   late BuildContext context;
   final MovieResponse movie;
@@ -22,10 +22,16 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   @override
   void dispose() {}
 
+  void fetchActorsData(List<String> actors) {
+    _bloc.add(FetchActorsDataEvent(actors: actors));
+  }
+
   @override
   void start() {
-    bloc = EventsBloc.get(context);
-
+    _bloc = EventsBloc.get(context);
+    fetchActorsData(
+      movie.actors!.map((e) => e.toString()).toList(),
+    );
     extractDominantColor();
   }
 
@@ -105,15 +111,15 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
     dominantColor = paletteGenerator.dominantColor?.color ?? Colors.black;
     // Determine the contrasting text color for the dominant color.
     textColor = getContrastingColor(dominantColor);
-    bloc.add(ExtractDominantColorEvent());
+    _bloc.add(ExtractDominantColorEvent());
   }
 
   addFilmToFavEvent(MovieResponse movie) {
-    bloc.add(AddFilmToFavEvent(movie));
+    _bloc.add(AddFilmToFavEvent(movie));
   }
 
   removeFilmFromFavEvent(MovieResponse movie) {
-    bloc.add(RemoveFilmFromFavEvent(movie));
+    _bloc.add(RemoveFilmFromFavEvent(movie));
   }
 }
 

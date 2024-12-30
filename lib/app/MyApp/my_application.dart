@@ -72,7 +72,6 @@ class _ApplicationState extends State<Application> {
           onGenerateRoute: Routes.onGenerateRoute,
           debugShowCheckedModeBanner: false,
           theme: bloc.toggleLightAndDark(context),
-
           // SharedPref.getBool(GeneralStrings.isManual)!
           //   ? TheAppMode.appMode
           //   : bloc.toggleLightAndDark(context),
