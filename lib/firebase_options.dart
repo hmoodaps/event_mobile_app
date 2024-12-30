@@ -63,9 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '369796753935',
     projectId: 'eventsmobile-2c4b1',
     storageBucket: 'eventsmobile-2c4b1.firebasestorage.app',
-    androidClientId: '369796753935-il2ccgu7u99lne8cdjdpiiho9tcomv9c.apps.googleusercontent.com',
-    iosClientId: '369796753935-70td8p55uhljav5tmcgb2vuchcfv76fq.apps.googleusercontent.com',
+    androidClientId:
+        '369796753935-il2ccgu7u99lne8cdjdpiiho9tcomv9c.apps.googleusercontent.com',
+    iosClientId:
+        '369796753935-70td8p55uhljav5tmcgb2vuchcfv76fq.apps.googleusercontent.com',
     iosBundleId: 'com.example.eventMobileApp',
   );
-
 }

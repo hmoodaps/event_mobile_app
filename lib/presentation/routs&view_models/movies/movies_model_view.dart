@@ -84,19 +84,16 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   void startAutoPlay() {
     autoPlayTimer?.cancel();
     autoPlayTimer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
-      if (currentPage >= VariablesManager.movies.length - 1 ) {
+      if (currentPage >= VariablesManager.movies.length - 1) {
         currentPage = 0;
-
       } else {
         currentPage++;
-
       }
-        carouselController.animateTo(
-          currentPage * MediaQuery.sizeOf(context).width / 1.2,
-          duration: Duration(milliseconds: 700),
-          curve: Curves.easeInOut,
-        );
-
+      carouselController.animateTo(
+        currentPage * MediaQuery.sizeOf(context).width / 1.2,
+        duration: Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+      );
     });
   }
 

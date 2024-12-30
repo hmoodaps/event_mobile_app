@@ -53,8 +53,10 @@ class ContainerManager {
   static Widget myContainer(
       {required Widget child,
       required BuildContext context,
+      List<Color>? colors,
       Color? color,
       Color? shadowColor,
+      List<double>? stops,
       double? height}) {
     return Container(
       height: height != null
@@ -62,10 +64,15 @@ class ContainerManager {
           : GetSize.heightValue(SizeManager.d70, context),
       width: double.infinity,
       decoration: BoxDecoration(
+        color: color,
         borderRadius: BorderRadius.all(
           Radius.circular(SizeManager.d20),
         ),
-        color: color ?? Colors.red,
+        gradient: LinearGradient(
+            colors: colors ?? [],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: stops ?? []),
         boxShadow: [
           myShadow(shadowColor: shadowColor),
         ],

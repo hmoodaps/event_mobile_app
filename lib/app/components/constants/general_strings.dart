@@ -27,6 +27,17 @@ class GeneralStrings {
 
   static String available(BuildContext context) => S.of(context).available;
 
+  static String actors(BuildContext context) => S.of(context).actors;
+
+  static String bookNow(BuildContext context) => S.of(context).bookNow;
+
+  static String douKnowWhoIs(BuildContext context) =>
+      S.of(context).douKnowWhoIs;
+
+  static String resources(BuildContext context) => S.of(context).resources;
+
+  static String about(BuildContext context) => S.of(context).about;
+
   static String selected(BuildContext context) => S.of(context).selected;
 
   static String reserved(BuildContext context) => S.of(context).reserved;

@@ -104,6 +104,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: GetSize.heightValue(SizeManager.d12, context),
               children: [
                 Visibility(
                   visible: !Platform.isIOS,
@@ -126,9 +127,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: GetSize.heightValue(SizeManager.d20, context),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: SizeManager.d18),
@@ -158,14 +156,21 @@ class _MoviesRouteState extends State<MoviesRoute> {
                   ),
                 ),
                 SizedBox(
-                  height: GetSize.heightValue(SizeManager.d10, context),
-                ),
-                SizedBox(
                   width: double.infinity,
                   height: MediaQuery.sizeOf(context).height / 3.2,
                   child: CarouselView.weighted(
-                    flexWeights: [10,2 ,1],
-                    controller:  _model.carouselController,
+                    onTap: (index) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MovieRoute(
+                            movie: VariablesManager.movies[index],
+                          ),
+                        ),
+                      );
+                    },
+                    flexWeights: [10, 2, 1],
+                    controller: _model.carouselController,
                     elevation: 6,
                     enableSplash: true,
                     shrinkExtent: 200,
@@ -173,20 +178,15 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     backgroundColor: Colors.transparent,
                     children: List.generate(
                       VariablesManager.movies.length,
-                      (index) => _newMovies(movie: VariablesManager.movies[index]),
+                      (index) =>
+                          _newMovies(movie: VariablesManager.movies[index]),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: GetSize.heightValue(SizeManager.d10, context),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: SizeManager.d18),
                   child: Text(GeneralStrings.topMovies(context),
                       style: TextStyleManager.titleStyle(context)),
-                ),
-                SizedBox(
-                  height: GetSize.heightValue(SizeManager.d10, context),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: SizeManager.d18),
@@ -204,9 +204,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
                           SizedBox(width: SizeManager.d14),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: GetSize.heightValue(SizeManager.d10, context),
                 ),
                 Padding(
                   padding: EdgeInsets.all(SizeManager.d18),
@@ -264,25 +261,12 @@ class _MoviesRouteState extends State<MoviesRoute> {
   }
 
   Widget _newMovies({required MovieResponse movie}) {
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MovieRoute(
-              movie: movie,
-            ),
-          ),
-        );
-      },
-      child: RepaintBoundary(
-        child: SizedBox(
-          child: CachedNetworkImage(
-            imageUrl: movie.photo!,
-            errorWidget: (context, url, error) => Icon(Icons.error),
-            fit: BoxFit.cover,
-          ),
+    return RepaintBoundary(
+      child: SizedBox(
+        child: CachedNetworkImage(
+          imageUrl: movie.photo!,
+          errorWidget: (context, url, error) => Icon(Icons.error),
+          fit: BoxFit.cover,
         ),
       ),
     );

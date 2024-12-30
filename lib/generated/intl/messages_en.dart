@@ -21,14 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("about"),
         "aboutUs": MessageLookupByLibrary.simpleMessage("About Us "),
         "accountCreated": MessageLookupByLibrary.simpleMessage(
             "Account created successfully! "),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "An account already exists with this email address\n but with different credentials. "),
+        "actors": MessageLookupByLibrary.simpleMessage("actors"),
         "additionalInfo":
             MessageLookupByLibrary.simpleMessage("Additional Information "),
         "address": MessageLookupByLibrary.simpleMessage("Address "),
@@ -39,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "available": MessageLookupByLibrary.simpleMessage("Available"),
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Be the first one! "),
+        "bookNow": MessageLookupByLibrary.simpleMessage("Book NOW!"),
         "byPress": MessageLookupByLibrary.simpleMessage("by press "),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cart": MessageLookupByLibrary.simpleMessage("Cart"),
@@ -50,6 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount":
             MessageLookupByLibrary.simpleMessage("Create an account "),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date Of Birth "),
+        "douKnowWhoIs":
+            MessageLookupByLibrary.simpleMessage("Do you Know who is "),
         "email": MessageLookupByLibrary.simpleMessage("Email Address "),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             "The email is already in use by another account. "),
@@ -133,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "reserved": MessageLookupByLibrary.simpleMessage("Reserved"),
         "resetPassword":
             MessageLookupByLibrary.simpleMessage("Reset Password "),
+        "resources": MessageLookupByLibrary.simpleMessage("resources"),
         "search": MessageLookupByLibrary.simpleMessage("search "),
         "seatPrice": MessageLookupByLibrary.simpleMessage("seat price : "),
         "seats": MessageLookupByLibrary.simpleMessage("seats "),
