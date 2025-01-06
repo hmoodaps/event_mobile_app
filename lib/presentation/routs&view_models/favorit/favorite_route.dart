@@ -3,11 +3,13 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:event_mobile_app/app/components/constants/font_manager.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
+import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/more_detail_route/more_detail_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -177,14 +179,14 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          movie.name!.length >= 17
-                              ? "${movie.name!.substring(0, 18)}..."
-                              : movie.name!,
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              TextStyleManager.titleStyle(context)?.copyWith(),
+                        Expanded(
+                          child: Text(
+                                 movie.name!,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                TextStyleManager.titleStyle(context)?.copyWith(),
+                          ),
                         ),
                         Spacer(),
                         Align(
@@ -208,8 +210,17 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                         alignment: Alignment.bottomRight,
                         child: Row(
                           children: [
-                            cartIcon(context, movie, _model.addFilmToCartEvent,
-                                _model.removeFilmFromCartEvent),
+                            // cartIcon(context, movie, _model.addFilmToCartEvent,
+                            //     _model.removeFilmFromCartEvent),
+                            GestureDetector(
+                              onTap :(){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MoreDetailView(movie: movie),));
+                              },
+                              child: CircleAvatar(
+                                radius: 18,
+                                child: Icon(IconsManager.cart),
+                              ),
+                            ),
                             Spacer(),
                             Text(
                               "${movie.ticketPrice!.toString()} €",

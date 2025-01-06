@@ -30,7 +30,7 @@ class Routes {
     RouteStringsManager.editReservationRoute: (context) =>
         const EditReservationRoute(),
     RouteStringsManager.reservationRoute: (context) => const ReservationRoute(),
-    RouteStringsManager.cartRoute: (context) => const CartRoute(),
+    // RouteStringsManager.cartRoute: (context) => const CartRoute(),
     RouteStringsManager.favoriteRoute: (context) => const FavoriteRoute(),
     RouteStringsManager.pastFilmsRoute: (context) => const PastFilmsRoute(),
     RouteStringsManager.profileRoute: (context) => const ProfileRoute(),

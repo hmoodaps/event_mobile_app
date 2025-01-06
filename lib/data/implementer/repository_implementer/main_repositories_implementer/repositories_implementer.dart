@@ -194,8 +194,7 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Add Film To Favorites -------
   @override
-  Future<Either<FailureClass, void>> addFilmToFavorites(
-      {required MovieResponse movie}) async {
+  Future<Either<FailureClass, void>> addFilmToFavorites({required MovieResponse movie}) async {
     return handleFirebaseOperation(() async {
       if (userId == null) {
         List<String> faves =
@@ -227,8 +226,7 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Remove Film From Favorites -------
   @override
-  Future<Either<FailureClass, void>> removeFilmFromFavorites(
-      {required MovieResponse movie}) async {
+  Future<Either<FailureClass, void>> removeFilmFromFavorites({required MovieResponse movie}) async {
     return handleFirebaseOperation(() async {
       if (userId == null) {
         List<String> faves =
@@ -253,45 +251,45 @@ class RepositoriesImplementer implements Repositories {
   }
 
   // -------Add Film To Cart -------
-  @override
-  Future<Either<FailureClass, void>> addFilmToCart(
-      {required MovieResponse movie}) async {
-    return handleFirebaseOperation(() async {
-      if (userId != null) {
-        final userRef = VariablesManager.firestoreInstance
-            .collection(GeneralStrings.users)
-            .doc(userId);
-        VariablesManager.cartMovies.add(movie);
-        await VariablesManager.firestoreInstance
-            .runTransaction((transaction) async {
-          final docSnapshot = await transaction.get(userRef);
-          if (docSnapshot.exists) {
-            transaction.update(userRef, {
-              'cart': FieldValue.arrayUnion([movie.id!])
-            });
-          }
-        });
-      }
-    });
-  }
-
-  // -------Remove Film From Favorites -------
-  @override
-  Future<Either<FailureClass, void>> removeFilmFromCart(
-      {required MovieResponse movie}) async {
-    return handleFirebaseOperation(() async {
-      final userRef = VariablesManager.firestoreInstance
-          .collection(GeneralStrings.users)
-          .doc(userId);
-      VariablesManager.cartMovies.remove(movie);
-      final docSnapshot = await userRef.get();
-      if (docSnapshot.exists) {
-        await userRef.update({
-          'cart': FieldValue.arrayRemove([movie.id])
-        });
-      }
-    });
-  }
+  // @override
+  // Future<Either<FailureClass, void>> addFilmToCart(
+  //     {required MovieResponse movie}) async {
+  //   return handleFirebaseOperation(() async {
+  //     if (userId != null) {
+  //       final userRef = VariablesManager.firestoreInstance
+  //           .collection(GeneralStrings.users)
+  //           .doc(userId);
+  //       VariablesManager.cartMovies.add(movie);
+  //       await VariablesManager.firestoreInstance
+  //           .runTransaction((transaction) async {
+  //         final docSnapshot = await transaction.get(userRef);
+  //         if (docSnapshot.exists) {
+  //           transaction.update(userRef, {
+  //             'cart': FieldValue.arrayUnion([movie.id!])
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
+  //
+  // // -------Remove Film From Favorites -------
+  // @override
+  // Future<Either<FailureClass, void>> removeFilmFromCart(
+  //     {required MovieResponse movie}) async {
+  //   return handleFirebaseOperation(() async {
+  //     final userRef = VariablesManager.firestoreInstance
+  //         .collection(GeneralStrings.users)
+  //         .doc(userId);
+  //     VariablesManager.cartMovies.remove(movie);
+  //     final docSnapshot = await userRef.get();
+  //     if (docSnapshot.exists) {
+  //       await userRef.update({
+  //         'cart': FieldValue.arrayRemove([movie.id])
+  //       });
+  //     }
+  //   });
+  // }
 
   _addFavesFromGuestToUser() async {
     final currentUser = await VariablesManager.firestoreInstance
@@ -328,11 +326,9 @@ class RepositoriesImplementer implements Repositories {
   }
 
   @override
-  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
-      {required List<String> actors}) async {
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors}) async {
     return await handleFirebaseOperation(() async {
       try {
-        // استدعاء الدالة في Isolate
         final result = await compute(fetchActorsDataIsolate, actors);
         return result;
       } catch (e) {
@@ -354,8 +350,6 @@ class RepositoriesImplementer implements Repositories {
         final page = data['query']['pages'].values.first;
         if (page != null && page['title'] != null && page['original'] != null) {
           String title = page['title'];
-
-          // التحقق إذا كان الممثل موجودًا مسبقًا
           bool isExists =
               actorsModel.any((existingActor) => existingActor.title == title);
 

@@ -20,17 +20,13 @@ BillingInfo _$BillingInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BillingInfo {
-  int get numberOfSeats => throw _privateConstructorUsedError;
-
   List<int> get reservedSeats => throw _privateConstructorUsedError;
-
   double get seatPrice => throw _privateConstructorUsedError;
-
   double get totalBill => throw _privateConstructorUsedError;
-
-  List<int> get reservedMovies => throw _privateConstructorUsedError;
-
+  int get reservedMovie => throw _privateConstructorUsedError;
   bool get isPaid => throw _privateConstructorUsedError;
+  String get paymentMethod => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
 
   /// Serializes this BillingInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,15 +43,15 @@ abstract class $BillingInfoCopyWith<$Res> {
   factory $BillingInfoCopyWith(
           BillingInfo value, $Res Function(BillingInfo) then) =
       _$BillingInfoCopyWithImpl<$Res, BillingInfo>;
-
   @useResult
   $Res call(
-      {int numberOfSeats,
-      List<int> reservedSeats,
+      {List<int> reservedSeats,
       double seatPrice,
       double totalBill,
-      List<int> reservedMovies,
-      bool isPaid});
+      int reservedMovie,
+      bool isPaid,
+      String paymentMethod,
+      String currency});
 }
 
 /// @nodoc
@@ -65,7 +61,6 @@ class _$BillingInfoCopyWithImpl<$Res, $Val extends BillingInfo>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -74,18 +69,15 @@ class _$BillingInfoCopyWithImpl<$Res, $Val extends BillingInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? numberOfSeats = null,
     Object? reservedSeats = null,
     Object? seatPrice = null,
     Object? totalBill = null,
-    Object? reservedMovies = null,
+    Object? reservedMovie = null,
     Object? isPaid = null,
+    Object? paymentMethod = null,
+    Object? currency = null,
   }) {
     return _then(_value.copyWith(
-      numberOfSeats: null == numberOfSeats
-          ? _value.numberOfSeats
-          : numberOfSeats // ignore: cast_nullable_to_non_nullable
-              as int,
       reservedSeats: null == reservedSeats
           ? _value.reservedSeats
           : reservedSeats // ignore: cast_nullable_to_non_nullable
@@ -98,14 +90,22 @@ class _$BillingInfoCopyWithImpl<$Res, $Val extends BillingInfo>
           ? _value.totalBill
           : totalBill // ignore: cast_nullable_to_non_nullable
               as double,
-      reservedMovies: null == reservedMovies
-          ? _value.reservedMovies
-          : reservedMovies // ignore: cast_nullable_to_non_nullable
-              as List<int>,
+      reservedMovie: null == reservedMovie
+          ? _value.reservedMovie
+          : reservedMovie // ignore: cast_nullable_to_non_nullable
+              as int,
       isPaid: null == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
               as bool,
+      paymentMethod: null == paymentMethod
+          ? _value.paymentMethod
+          : paymentMethod // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -116,16 +116,16 @@ abstract class _$$BillingInfoImplCopyWith<$Res>
   factory _$$BillingInfoImplCopyWith(
           _$BillingInfoImpl value, $Res Function(_$BillingInfoImpl) then) =
       __$$BillingInfoImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
-      {int numberOfSeats,
-      List<int> reservedSeats,
+      {List<int> reservedSeats,
       double seatPrice,
       double totalBill,
-      List<int> reservedMovies,
-      bool isPaid});
+      int reservedMovie,
+      bool isPaid,
+      String paymentMethod,
+      String currency});
 }
 
 /// @nodoc
@@ -141,18 +141,15 @@ class __$$BillingInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? numberOfSeats = null,
     Object? reservedSeats = null,
     Object? seatPrice = null,
     Object? totalBill = null,
-    Object? reservedMovies = null,
+    Object? reservedMovie = null,
     Object? isPaid = null,
+    Object? paymentMethod = null,
+    Object? currency = null,
   }) {
     return _then(_$BillingInfoImpl(
-      numberOfSeats: null == numberOfSeats
-          ? _value.numberOfSeats
-          : numberOfSeats // ignore: cast_nullable_to_non_nullable
-              as int,
       reservedSeats: null == reservedSeats
           ? _value._reservedSeats
           : reservedSeats // ignore: cast_nullable_to_non_nullable
@@ -165,14 +162,22 @@ class __$$BillingInfoImplCopyWithImpl<$Res>
           ? _value.totalBill
           : totalBill // ignore: cast_nullable_to_non_nullable
               as double,
-      reservedMovies: null == reservedMovies
-          ? _value._reservedMovies
-          : reservedMovies // ignore: cast_nullable_to_non_nullable
-              as List<int>,
+      reservedMovie: null == reservedMovie
+          ? _value.reservedMovie
+          : reservedMovie // ignore: cast_nullable_to_non_nullable
+              as int,
       isPaid: null == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
               as bool,
+      paymentMethod: null == paymentMethod
+          ? _value.paymentMethod
+          : paymentMethod // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -181,22 +186,19 @@ class __$$BillingInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BillingInfoImpl implements _BillingInfo {
   const _$BillingInfoImpl(
-      {required this.numberOfSeats,
-      required final List<int> reservedSeats,
+      {required final List<int> reservedSeats,
       required this.seatPrice,
       required this.totalBill,
-      required final List<int> reservedMovies,
-      required this.isPaid})
-      : _reservedSeats = reservedSeats,
-        _reservedMovies = reservedMovies;
+      required this.reservedMovie,
+      required this.isPaid,
+      required this.paymentMethod,
+      required this.currency})
+      : _reservedSeats = reservedSeats;
 
   factory _$BillingInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$BillingInfoImplFromJson(json);
 
-  @override
-  final int numberOfSeats;
   final List<int> _reservedSeats;
-
   @override
   List<int> get reservedSeats {
     if (_reservedSeats is EqualUnmodifiableListView) return _reservedSeats;
@@ -208,21 +210,18 @@ class _$BillingInfoImpl implements _BillingInfo {
   final double seatPrice;
   @override
   final double totalBill;
-  final List<int> _reservedMovies;
-
   @override
-  List<int> get reservedMovies {
-    if (_reservedMovies is EqualUnmodifiableListView) return _reservedMovies;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_reservedMovies);
-  }
-
+  final int reservedMovie;
   @override
   final bool isPaid;
+  @override
+  final String paymentMethod;
+  @override
+  final String currency;
 
   @override
   String toString() {
-    return 'BillingInfo(numberOfSeats: $numberOfSeats, reservedSeats: $reservedSeats, seatPrice: $seatPrice, totalBill: $totalBill, reservedMovies: $reservedMovies, isPaid: $isPaid)';
+    return 'BillingInfo(reservedSeats: $reservedSeats, seatPrice: $seatPrice, totalBill: $totalBill, reservedMovie: $reservedMovie, isPaid: $isPaid, paymentMethod: $paymentMethod, currency: $currency)';
   }
 
   @override
@@ -230,29 +229,32 @@ class _$BillingInfoImpl implements _BillingInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BillingInfoImpl &&
-            (identical(other.numberOfSeats, numberOfSeats) ||
-                other.numberOfSeats == numberOfSeats) &&
             const DeepCollectionEquality()
                 .equals(other._reservedSeats, _reservedSeats) &&
             (identical(other.seatPrice, seatPrice) ||
                 other.seatPrice == seatPrice) &&
             (identical(other.totalBill, totalBill) ||
                 other.totalBill == totalBill) &&
-            const DeepCollectionEquality()
-                .equals(other._reservedMovies, _reservedMovies) &&
-            (identical(other.isPaid, isPaid) || other.isPaid == isPaid));
+            (identical(other.reservedMovie, reservedMovie) ||
+                other.reservedMovie == reservedMovie) &&
+            (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
+            (identical(other.paymentMethod, paymentMethod) ||
+                other.paymentMethod == paymentMethod) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      numberOfSeats,
       const DeepCollectionEquality().hash(_reservedSeats),
       seatPrice,
       totalBill,
-      const DeepCollectionEquality().hash(_reservedMovies),
-      isPaid);
+      reservedMovie,
+      isPaid,
+      paymentMethod,
+      currency);
 
   /// Create a copy of BillingInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -272,33 +274,31 @@ class _$BillingInfoImpl implements _BillingInfo {
 
 abstract class _BillingInfo implements BillingInfo {
   const factory _BillingInfo(
-      {required final int numberOfSeats,
-      required final List<int> reservedSeats,
+      {required final List<int> reservedSeats,
       required final double seatPrice,
       required final double totalBill,
-      required final List<int> reservedMovies,
-      required final bool isPaid}) = _$BillingInfoImpl;
+      required final int reservedMovie,
+      required final bool isPaid,
+      required final String paymentMethod,
+      required final String currency}) = _$BillingInfoImpl;
 
   factory _BillingInfo.fromJson(Map<String, dynamic> json) =
       _$BillingInfoImpl.fromJson;
 
   @override
-  int get numberOfSeats;
-
-  @override
   List<int> get reservedSeats;
-
   @override
   double get seatPrice;
-
   @override
   double get totalBill;
-
   @override
-  List<int> get reservedMovies;
-
+  int get reservedMovie;
   @override
   bool get isPaid;
+  @override
+  String get paymentMethod;
+  @override
+  String get currency;
 
   /// Create a copy of BillingInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -315,31 +315,18 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserResponse {
   String? get id => throw _privateConstructorUsedError;
-
   String? get fullName => throw _privateConstructorUsedError;
-
   String? get email => throw _privateConstructorUsedError;
-
   String? get dateOfBirth => throw _privateConstructorUsedError;
-
-  String? get mobileNumber => throw _privateConstructorUsedError;
-
-  List<int>? get cart => throw _privateConstructorUsedError;
-
+  String? get mobileNumber =>
+      throw _privateConstructorUsedError; // List<int>? cart,
   List<int>? get favorites => throw _privateConstructorUsedError;
-
   String? get postalCode => throw _privateConstructorUsedError;
-
   String? get houseNumber => throw _privateConstructorUsedError;
-
   String? get town => throw _privateConstructorUsedError;
-
   String? get additionalInfo => throw _privateConstructorUsedError;
-
   String? get street => throw _privateConstructorUsedError;
-
   String? get userPhotoUrl => throw _privateConstructorUsedError;
-
   List<BillingInfo>? get billingInfo => throw _privateConstructorUsedError;
 
   /// Serializes this UserResponse to a JSON map.
@@ -357,7 +344,6 @@ abstract class $UserResponseCopyWith<$Res> {
   factory $UserResponseCopyWith(
           UserResponse value, $Res Function(UserResponse) then) =
       _$UserResponseCopyWithImpl<$Res, UserResponse>;
-
   @useResult
   $Res call(
       {String? id,
@@ -365,7 +351,6 @@ abstract class $UserResponseCopyWith<$Res> {
       String? email,
       String? dateOfBirth,
       String? mobileNumber,
-      List<int>? cart,
       List<int>? favorites,
       String? postalCode,
       String? houseNumber,
@@ -383,7 +368,6 @@ class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -397,7 +381,6 @@ class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
     Object? email = freezed,
     Object? dateOfBirth = freezed,
     Object? mobileNumber = freezed,
-    Object? cart = freezed,
     Object? favorites = freezed,
     Object? postalCode = freezed,
     Object? houseNumber = freezed,
@@ -428,10 +411,6 @@ class _$UserResponseCopyWithImpl<$Res, $Val extends UserResponse>
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      cart: freezed == cart
-          ? _value.cart
-          : cart // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
       favorites: freezed == favorites
           ? _value.favorites
           : favorites // ignore: cast_nullable_to_non_nullable
@@ -474,7 +453,6 @@ abstract class _$$UserResponseImplCopyWith<$Res>
   factory _$$UserResponseImplCopyWith(
           _$UserResponseImpl value, $Res Function(_$UserResponseImpl) then) =
       __$$UserResponseImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
@@ -483,7 +461,6 @@ abstract class _$$UserResponseImplCopyWith<$Res>
       String? email,
       String? dateOfBirth,
       String? mobileNumber,
-      List<int>? cart,
       List<int>? favorites,
       String? postalCode,
       String? houseNumber,
@@ -512,7 +489,6 @@ class __$$UserResponseImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? dateOfBirth = freezed,
     Object? mobileNumber = freezed,
-    Object? cart = freezed,
     Object? favorites = freezed,
     Object? postalCode = freezed,
     Object? houseNumber = freezed,
@@ -543,10 +519,6 @@ class __$$UserResponseImplCopyWithImpl<$Res>
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      cart: freezed == cart
-          ? _value._cart
-          : cart // ignore: cast_nullable_to_non_nullable
-              as List<int>?,
       favorites: freezed == favorites
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
@@ -592,7 +564,6 @@ class _$UserResponseImpl implements _UserResponse {
       this.email,
       this.dateOfBirth,
       this.mobileNumber,
-      final List<int>? cart,
       final List<int>? favorites,
       this.postalCode,
       this.houseNumber,
@@ -601,8 +572,7 @@ class _$UserResponseImpl implements _UserResponse {
       this.street,
       this.userPhotoUrl,
       final List<BillingInfo>? billingInfo})
-      : _cart = cart,
-        _favorites = favorites,
+      : _favorites = favorites,
         _billingInfo = billingInfo;
 
   factory _$UserResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -618,19 +588,9 @@ class _$UserResponseImpl implements _UserResponse {
   final String? dateOfBirth;
   @override
   final String? mobileNumber;
-  final List<int>? _cart;
-
-  @override
-  List<int>? get cart {
-    final value = _cart;
-    if (value == null) return null;
-    if (_cart is EqualUnmodifiableListView) return _cart;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+// List<int>? cart,
   final List<int>? _favorites;
-
+// List<int>? cart,
   @override
   List<int>? get favorites {
     final value = _favorites;
@@ -653,7 +613,6 @@ class _$UserResponseImpl implements _UserResponse {
   @override
   final String? userPhotoUrl;
   final List<BillingInfo>? _billingInfo;
-
   @override
   List<BillingInfo>? get billingInfo {
     final value = _billingInfo;
@@ -665,7 +624,7 @@ class _$UserResponseImpl implements _UserResponse {
 
   @override
   String toString() {
-    return 'UserResponse(id: $id, fullName: $fullName, email: $email, dateOfBirth: $dateOfBirth, mobileNumber: $mobileNumber, cart: $cart, favorites: $favorites, postalCode: $postalCode, houseNumber: $houseNumber, town: $town, additionalInfo: $additionalInfo, street: $street, userPhotoUrl: $userPhotoUrl, billingInfo: $billingInfo)';
+    return 'UserResponse(id: $id, fullName: $fullName, email: $email, dateOfBirth: $dateOfBirth, mobileNumber: $mobileNumber, favorites: $favorites, postalCode: $postalCode, houseNumber: $houseNumber, town: $town, additionalInfo: $additionalInfo, street: $street, userPhotoUrl: $userPhotoUrl, billingInfo: $billingInfo)';
   }
 
   @override
@@ -681,7 +640,6 @@ class _$UserResponseImpl implements _UserResponse {
                 other.dateOfBirth == dateOfBirth) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
-            const DeepCollectionEquality().equals(other._cart, _cart) &&
             const DeepCollectionEquality()
                 .equals(other._favorites, _favorites) &&
             (identical(other.postalCode, postalCode) ||
@@ -707,7 +665,6 @@ class _$UserResponseImpl implements _UserResponse {
       email,
       dateOfBirth,
       mobileNumber,
-      const DeepCollectionEquality().hash(_cart),
       const DeepCollectionEquality().hash(_favorites),
       postalCode,
       houseNumber,
@@ -740,7 +697,6 @@ abstract class _UserResponse implements UserResponse {
       final String? email,
       final String? dateOfBirth,
       final String? mobileNumber,
-      final List<int>? cart,
       final List<int>? favorites,
       final String? postalCode,
       final String? houseNumber,
@@ -755,43 +711,28 @@ abstract class _UserResponse implements UserResponse {
 
   @override
   String? get id;
-
   @override
   String? get fullName;
-
   @override
   String? get email;
-
   @override
   String? get dateOfBirth;
-
   @override
-  String? get mobileNumber;
-
-  @override
-  List<int>? get cart;
-
+  String? get mobileNumber; // List<int>? cart,
   @override
   List<int>? get favorites;
-
   @override
   String? get postalCode;
-
   @override
   String? get houseNumber;
-
   @override
   String? get town;
-
   @override
   String? get additionalInfo;
-
   @override
   String? get street;
-
   @override
   String? get userPhotoUrl;
-
   @override
   List<BillingInfo>? get billingInfo;
 

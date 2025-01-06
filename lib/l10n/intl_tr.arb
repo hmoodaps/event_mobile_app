@@ -94,5 +94,21 @@
   "urNotLogin": "Henüz giriş yapmadınız!",
   "uCantAddItemToCart": "Sepete ürün eklemek için önce giriş yapmanız gerekiyor!",
   "noCartItems": "Sepetiniz şimdilik boş!",
-  "cart": "Sepet"
+  "cart": "Sepet",
+  "chooseSeat": "Koltuk seçin",
+  "uDidnotSelectSeat": "Hiç koltuk seçmediniz :(",
+  "available": "Mevcut",
+  "go": "Hadi!",
+  "selected": "Seçildi",
+  "reserved": "Rezerve edildi",
+  "seatPrice": "Koltuk fiyatı: ",
+  "seatsChosen": "Seçilen koltuklar: ",
+  "selectedSeats": "Seçilen koltuklar: ",
+  "finalPrice": "Son fiyat: ",
+  "actors": "Oyuncular",
+  "about": "Hakkında",
+  "douKnowWhoIs": "Biliyor musun kimdir ",
+  "resources": "Kaynaklar",
+  "bookNow": "Hemen Rezervasyon Yap!",
+  "moreDetails": "Daha fazla detay"
 }

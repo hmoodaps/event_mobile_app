@@ -12,7 +12,7 @@ import '../../../data/models/movie_model.dart';
 class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   TextEditingController searchController = TextEditingController();
   List<MovieResponse> shuffledMovies = [];
-  late EventsBloc bloc;
+  late EventsBloc _bloc;
   late BuildContext context;
   final CarouselController carouselController = CarouselController();
   Timer? autoPlayTimer;
@@ -29,16 +29,18 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
 
   @override
   void start() {
-    bloc = EventsBloc.get(context);
-    shuffledMovies = shuffleMovies();
+    _bloc = EventsBloc.get(context);
+     shuffledMovies = shuffleMovies();
     if (isAuto) {
       startAutoPlay();
     }
   }
 
+
+
   @override
   Future<void> getMovies() async {
-    bloc.add(StartFetchMoviesEvent());
+    _bloc.add(StartFetchMoviesEvent());
   }
 
   @override
@@ -66,20 +68,20 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   }
 
   void addFilmToFavEvent(MovieResponse movie) {
-    bloc.add(AddFilmToFavEvent(movie));
+    _bloc.add(AddFilmToFavEvent(movie));
   }
 
   void removeFilmFromFavEvent(MovieResponse movie) {
-    bloc.add(RemoveFilmFromFavEvent(movie));
+    _bloc.add(RemoveFilmFromFavEvent(movie));
   }
 
-  void addFilmToCartEvent(MovieResponse movie) {
-    bloc.add(AddFilmToCartEvent(movie));
-  }
-
-  void removeFilmFromCartEvent(MovieResponse movie) {
-    bloc.add(RemoveFilmFromCartEvent(movie));
-  }
+  // void addFilmToCartEvent(MovieResponse movie) {
+  //   _bloc.add(AddFilmToCartEvent(movie));
+  // }
+  //
+  // void removeFilmFromCartEvent(MovieResponse movie) {
+  //   _bloc.add(RemoveFilmFromCartEvent(movie));
+  // }
 
   void startAutoPlay() {
     autoPlayTimer?.cancel();

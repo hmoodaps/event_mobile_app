@@ -48,9 +48,9 @@ class MainRouteModelView extends BaseViewModel {
         return MoviesRoute();
       case 1:
         return FavoriteRoute();
+      // case 2:
+      //   return _ForCartIsLoginOrNot();
       case 2:
-        return _ForCartIsLoginOrNot();
-      case 3:
         return ProfileRoute();
       default:
         return MoviesRoute();
@@ -65,83 +65,83 @@ class MainRouteModelView extends BaseViewModel {
     ),
     //favorite
     Icon(IconsManager.favorite, color: CupertinoColors.black),
-    //search
-    Icon(IconsManager.cart, color: CupertinoColors.black),
+    // //search
+    // Icon(IconsManager.cart, color: CupertinoColors.black),
 
     //profile
     Icon(IconsManager.profile, color: CupertinoColors.black),
   ];
 }
 
-class _ForCartIsLoginOrNot extends StatelessWidget {
-  const _ForCartIsLoginOrNot();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<EventsBloc, AppStates>(builder: (context, state) {
-      if (VariablesManager.firebaseAuthInstance.currentUser == null) {
-        return Scaffold(
-          body: stackBackGroundManager(
-              otherWidget: _screenWidgets(context),
-              isDark: VariablesManager.isDark),
-        );
-      } else {
-        return CartRoute();
-      }
-    });
-  }
-
-  _screenWidgets(BuildContext context) {
-    return <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              GeneralStrings.notLoggedIn(context),
-              style: TextStyleManager.titleStyle(context),
-            ),
-            SizedBox(
-              height: GetSize.heightValue(SizeManager.d10, context),
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () =>
-                      navigateTo(context, RouteStringsManager.registerRoute),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: ColorManager.green4,
-                        borderRadius: BorderRadius.circular(30)),
-                    height: GetSize.heightValue(SizeManager.d60, context),
-                    width: GetSize.widthValue(SizeManager.d120, context),
-                    child: Center(
-                      child: Text(GeneralStrings.login(context)),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () =>
-                      navigateTo(context, RouteStringsManager.loginRoute),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: ColorManager.green4,
-                        borderRadius: BorderRadius.circular(30)),
-                    height: GetSize.heightValue(SizeManager.d60, context),
-                    width: GetSize.widthValue(SizeManager.d120, context),
-                    child: Center(
-                      child: Text(GeneralStrings.register(context)),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    ];
-  }
-}
+// class _ForCartIsLoginOrNot extends StatelessWidget {
+//   const _ForCartIsLoginOrNot();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<EventsBloc, AppStates>(builder: (context, state) {
+//       if (VariablesManager.firebaseAuthInstance.currentUser == null) {
+//         return Scaffold(
+//           body: stackBackGroundManager(
+//               otherWidget: _screenWidgets(context),
+//               isDark: VariablesManager.isDark),
+//         );
+//       } else {
+//         return CartRoute();
+//       }
+//     });
+//   }
+//
+//   _screenWidgets(BuildContext context) {
+//     return <Widget>[
+//       Padding(
+//         padding: const EdgeInsets.all(25),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Text(
+//               GeneralStrings.notLoggedIn(context),
+//               style: TextStyleManager.titleStyle(context),
+//             ),
+//             SizedBox(
+//               height: GetSize.heightValue(SizeManager.d10, context),
+//             ),
+//             Row(
+//               children: [
+//                 GestureDetector(
+//                   onTap: () =>
+//                       navigateTo(context, RouteStringsManager.registerRoute),
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                         color: ColorManager.green4,
+//                         borderRadius: BorderRadius.circular(30)),
+//                     height: GetSize.heightValue(SizeManager.d60, context),
+//                     width: GetSize.widthValue(SizeManager.d120, context),
+//                     child: Center(
+//                       child: Text(GeneralStrings.login(context)),
+//                     ),
+//                   ),
+//                 ),
+//                 Spacer(),
+//                 GestureDetector(
+//                   onTap: () =>
+//                       navigateTo(context, RouteStringsManager.loginRoute),
+//                   child: Container(
+//                     decoration: BoxDecoration(
+//                         color: ColorManager.green4,
+//                         borderRadius: BorderRadius.circular(30)),
+//                     height: GetSize.heightValue(SizeManager.d60, context),
+//                     width: GetSize.widthValue(SizeManager.d120, context),
+//                     child: Center(
+//                       child: Text(GeneralStrings.register(context)),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             )
+//           ],
+//         ),
+//       ),
+//     ];
+//   }
+// }

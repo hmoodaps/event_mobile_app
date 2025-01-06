@@ -94,5 +94,22 @@
   "urNotLogin": "Je bent niet ingelogd!",
   "uCantAddItemToCart": "Je moet inloggen voordat je items aan de winkelwagen kunt toevoegen!",
   "noCartItems": "Je winkelwagen is voorlopig leeg!",
-  "cart": "Winkelwagen"
+  "cart": "Winkelwagen",
+  "chooseSeat": "Kies je stoel",
+  "uDidnotSelectSeat": "Je hebt geen stoel gekozen :(",
+  "available": "Beschikbaar",
+  "go": "Ga!",
+  "selected": "Geselecteerd",
+  "reserved": "Gereseveerd",
+  "seatPrice": "Stoel prijs: ",
+  "seatsChosen": "Gekozen stoelen: ",
+  "selectedSeats": "Geselecteerde stoelen: ",
+  "finalPrice": "Eindprijs: ",
+  "actors": "Acteurs",
+  "about": "Over",
+  "douKnowWhoIs": "Weet je wie ",
+  "resources": "Hulpbronnen",
+  "bookNow": "Boek NU!",
+  "moreDetails": "Meer details"
+
 }

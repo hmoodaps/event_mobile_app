@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -1110,6 +1109,66 @@ class S {
       args: [],
     );
   }
+
+  /// `actors`
+  String get actors {
+    return Intl.message(
+      'actors',
+      name: 'actors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `about`
+  String get about {
+    return Intl.message(
+      'about',
+      name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you Know who is `
+  String get douKnowWhoIs {
+    return Intl.message(
+      'Do you Know who is ',
+      name: 'douKnowWhoIs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `resources`
+  String get resources {
+    return Intl.message(
+      'resources',
+      name: 'resources',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book NOW!`
+  String get bookNow {
+    return Intl.message(
+      'Book NOW!',
+      name: 'bookNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More Details`
+  String get moreDetails {
+    return Intl.message(
+      'More Details',
+      name: 'moreDetails',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -1128,10 +1187,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
-
   @override
   Future<S> load(Locale locale) => S.load(locale);
-
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

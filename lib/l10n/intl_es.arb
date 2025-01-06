@@ -94,5 +94,22 @@
   "urNotLogin": "¡No has iniciado sesión!",
   "uCantAddItemToCart": "¡Inicia sesión primero para agregar artículos al carrito!",
   "noCartItems": "¡Tu carrito está vacío por ahora!",
-  "cart": "Carrito"
+  "cart": "Carrito",
+  "chooseSeat": "Elige tu asiento",
+  "uDidnotSelectSeat": "No seleccionaste ningún asiento :(",
+  "available": "Disponible",
+  "go": "¡Vamos!",
+  "selected": "Seleccionado",
+  "reserved": "Reservado",
+  "seatPrice": "Precio del asiento: ",
+  "seatsChosen": "Asientos elegidos: ",
+  "selectedSeats": "Asientos seleccionados: ",
+  "finalPrice": "Precio final: ",
+  "actors": "Actores",
+  "about": "Acerca de",
+  "douKnowWhoIs": "¿Sabes quién es ",
+  "resources": "Recursos",
+  "bookNow": "¡Reserva AHORA!",
+  "moreDetails": "Más detalles"
+
 }

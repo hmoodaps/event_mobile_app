@@ -8,26 +8,26 @@ part of 'user_model.dart';
 
 _$BillingInfoImpl _$$BillingInfoImplFromJson(Map<String, dynamic> json) =>
     _$BillingInfoImpl(
-      numberOfSeats: (json['numberOfSeats'] as num).toInt(),
       reservedSeats: (json['reservedSeats'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
       seatPrice: (json['seatPrice'] as num).toDouble(),
       totalBill: (json['totalBill'] as num).toDouble(),
-      reservedMovies: (json['reservedMovies'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
+      reservedMovie: (json['reservedMovie'] as num).toInt(),
       isPaid: json['isPaid'] as bool,
+      paymentMethod: json['paymentMethod'] as String,
+      currency: json['currency'] as String,
     );
 
 Map<String, dynamic> _$$BillingInfoImplToJson(_$BillingInfoImpl instance) =>
     <String, dynamic>{
-      'numberOfSeats': instance.numberOfSeats,
       'reservedSeats': instance.reservedSeats,
       'seatPrice': instance.seatPrice,
       'totalBill': instance.totalBill,
-      'reservedMovies': instance.reservedMovies,
+      'reservedMovie': instance.reservedMovie,
       'isPaid': instance.isPaid,
+      'paymentMethod': instance.paymentMethod,
+      'currency': instance.currency,
     };
 
 _$UserResponseImpl _$$UserResponseImplFromJson(Map<String, dynamic> json) =>
@@ -37,9 +37,6 @@ _$UserResponseImpl _$$UserResponseImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       dateOfBirth: json['dateOfBirth'] as String?,
       mobileNumber: json['mobileNumber'] as String?,
-      cart: (json['cart'] as List<dynamic>?)
-          ?.map((e) => (e as num).toInt())
-          .toList(),
       favorites: (json['favorites'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
@@ -61,7 +58,6 @@ Map<String, dynamic> _$$UserResponseImplToJson(_$UserResponseImpl instance) =>
       'email': instance.email,
       'dateOfBirth': instance.dateOfBirth,
       'mobileNumber': instance.mobileNumber,
-      'cart': instance.cart,
       'favorites': instance.favorites,
       'postalCode': instance.postalCode,
       'houseNumber': instance.houseNumber,

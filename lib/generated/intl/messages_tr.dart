@@ -21,24 +21,29 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'tr';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("Hakkında"),
         "aboutUs": MessageLookupByLibrary.simpleMessage("Hakkımızda"),
         "accountCreated": MessageLookupByLibrary.simpleMessage(
             "Hesabınız başarıyla oluşturuldu!"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Bu e-posta adresiyle başka bir hesap mevcut, ancak farklı kimlik bilgileriyle."),
+        "actors": MessageLookupByLibrary.simpleMessage("Oyuncular"),
         "additionalInfo": MessageLookupByLibrary.simpleMessage("Ek bilgi"),
         "address": MessageLookupByLibrary.simpleMessage("Adres"),
         "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmet Khalid"),
         "allInvesting":
             MessageLookupByLibrary.simpleMessage("Tüm yatırımlar risk içerir"),
         "allMovies": MessageLookupByLibrary.simpleMessage("Tüm filmler"),
+        "available": MessageLookupByLibrary.simpleMessage("Mevcut"),
         "beTheFirstOne": MessageLookupByLibrary.simpleMessage("İlk ol!"),
+        "bookNow":
+            MessageLookupByLibrary.simpleMessage("Hemen Rezervasyon Yap!"),
         "byPress": MessageLookupByLibrary.simpleMessage("Tıklayarak"),
         "cancel": MessageLookupByLibrary.simpleMessage("İptal"),
         "cart": MessageLookupByLibrary.simpleMessage("Sepet"),
+        "chooseSeat": MessageLookupByLibrary.simpleMessage("Koltuk seçin"),
         "city": MessageLookupByLibrary.simpleMessage("Şehir"),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage("Uygulama teması"),
@@ -46,6 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "coupons": MessageLookupByLibrary.simpleMessage("Kuponlar"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Hesap oluştur"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Doğum tarihi"),
+        "douKnowWhoIs":
+            MessageLookupByLibrary.simpleMessage("Biliyor musun kimdir "),
         "email": MessageLookupByLibrary.simpleMessage("E-posta"),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             "E-posta zaten başka bir hesap tarafından kullanılıyor."),
@@ -60,9 +67,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sadece biraz ek bilgi!"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("Bu alan zorunludur"),
+        "finalPrice": MessageLookupByLibrary.simpleMessage("Son fiyat: "),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage("Şifrenizi mi unuttunuz?"),
         "fullName": MessageLookupByLibrary.simpleMessage("Tam adınız"),
+        "go": MessageLookupByLibrary.simpleMessage("Hadi!"),
         "guest": MessageLookupByLibrary.simpleMessage("Misafir"),
         "haveAccount":
             MessageLookupByLibrary.simpleMessage("Zaten hesabınız var mı?"),
@@ -99,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Şifrenizi sıfırlamak için deneyelim. \nBir bağlantı gönderiyoruz, e-posta adresinizi kontrol edin."),
         "mobileNumber":
             MessageLookupByLibrary.simpleMessage("Telefon numarası"),
+        "moreDetails": MessageLookupByLibrary.simpleMessage("Daha fazla detay"),
         "myAppBalance": MessageLookupByLibrary.simpleMessage("Hesap bakiyeniz"),
         "newMovies": MessageLookupByLibrary.simpleMessage("Yeni filmler"),
         "noCartItems":
@@ -125,12 +135,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "question":
             MessageLookupByLibrary.simpleMessage("Devam etmek ister misin?"),
         "register": MessageLookupByLibrary.simpleMessage("Kayıt ol"),
+        "reserved": MessageLookupByLibrary.simpleMessage("Rezerve edildi"),
         "resetPassword":
             MessageLookupByLibrary.simpleMessage("Şifreyi sıfırla"),
+        "resources": MessageLookupByLibrary.simpleMessage("Kaynaklar"),
         "search": MessageLookupByLibrary.simpleMessage("Ara"),
+        "seatPrice": MessageLookupByLibrary.simpleMessage("Koltuk fiyatı: "),
         "seats": MessageLookupByLibrary.simpleMessage("Koltuklar"),
         "seatsAvailable":
             MessageLookupByLibrary.simpleMessage("Mevcut koltuklar"),
+        "seatsChosen":
+            MessageLookupByLibrary.simpleMessage("Seçilen koltuklar: "),
+        "selected": MessageLookupByLibrary.simpleMessage("Seçildi"),
+        "selectedSeats":
+            MessageLookupByLibrary.simpleMessage("Seçilen koltuklar: "),
         "signWithApple":
             MessageLookupByLibrary.simpleMessage("Apple ile giriş yap"),
         "signWithGoogle":
@@ -149,6 +167,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "topMovies": MessageLookupByLibrary.simpleMessage("En iyi filmler"),
         "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
             "Sepete ürün eklemek için önce giriş yapmanız gerekiyor!"),
+        "uDidnotSelectSeat":
+            MessageLookupByLibrary.simpleMessage("Hiç koltuk seçmediniz :("),
         "unknownError":
             MessageLookupByLibrary.simpleMessage("Bilinmeyen bir hata oluştu."),
         "urNotLogin":

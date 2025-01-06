@@ -49,7 +49,7 @@ extension UserResponseMapper on UserResponse? {
         email: this?.email ?? AppConstants.emptyText,
         dateOfBirth: this?.dateOfBirth ?? AppConstants.emptyText,
         mobileNumber: this?.mobileNumber ?? AppConstants.emptyText,
-        cart: this?.cart ?? AppConstants.emptyIntList,
+        // cart: this?.cart ?? AppConstants.emptyIntList,
         favorites: this?.favorites ?? AppConstants.emptyIntList,
         postalCode: this?.postalCode ?? AppConstants.emptyText,
         houseNumber: this?.houseNumber ?? AppConstants.emptyText,
@@ -59,12 +59,10 @@ extension UserResponseMapper on UserResponse? {
         billingInfo: this
                 ?.billingInfo
                 ?.map((billing) => BillingInfo(
-                      numberOfSeats: billing.numberOfSeats.orZero(),
                       reservedSeats: billing.reservedSeats.orEmptyIntList(),
                       seatPrice: billing.seatPrice.orZero(),
                       totalBill: billing.totalBill.orZero(),
-                      reservedMovies: billing.reservedMovies.orEmptyIntList(),
-                      isPaid: billing.isPaid.orFalse(),
+                      isPaid: billing.isPaid.orFalse(), reservedMovie: AppConstants.intZero, paymentMethod: '', currency: '',
                     ))
                 .toList() ??
             [],

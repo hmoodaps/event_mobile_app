@@ -94,5 +94,21 @@
   "urNotLogin": "Vous n’êtes pas connecté !",
   "uCantAddItemToCart": "Connectez-vous d’abord pour ajouter des articles au panier !",
   "noCartItems": "Votre panier est vide pour l’instant !",
-  "cart": "Panier"
+  "cart": "Panier",
+  "chooseSeat": "Choisissez votre siège",
+  "uDidnotSelectSeat": "Vous n'avez pas choisi de siège :(",
+  "available": "Disponible",
+  "go": "Allez!",
+  "selected": "Sélectionné",
+  "reserved": "Réservé",
+  "seatPrice": "Prix du siège: ",
+  "seatsChosen": "Sièges choisis: ",
+  "selectedSeats": "Sièges sélectionnés: ",
+  "finalPrice": "Prix final: ",
+  "actors": "Acteurs",
+  "about": "À propos",
+  "douKnowWhoIs": "Tu sais qui est ",
+  "resources": "Ressources",
+  "bookNow": "Réservez MAINTENANT!",
+  "moreDetails": "Plus de détails"
 }

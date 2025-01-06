@@ -94,5 +94,21 @@
   "urNotLogin": "انت مش مسجل دخول!",
   "uCantAddItemToCart": "لازم تسجل دخولك عشان تضيف منتجات للسلة!",
   "noCartItems": "سلتك فاضية حالياً!",
-  "cart": "السلة"
+  "cart": "السلة",
+  "chooseSeat": "اختار مكانك",
+  "uDidnotSelectSeat": "ما اخترت مكان :(",
+  "available": "متوفر",
+  "go": "يلا !",
+  "selected": "محدد",
+  "reserved": "محجوز",
+  "seatPrice": "سعر المقعد: ",
+  "seatsChosen": "المقاعد المختارة: ",
+  "selectedSeats": "المقاعد المحددة: ",
+  "finalPrice": "السعر النهائي: ",
+  "actors": "الممثلين",
+  "about": "عن",
+  "douKnowWhoIs": "بتعرف مين هو ",
+  "resources": "الموارد",
+  "bookNow": "احجز الآن!",
+  "moreDetails": "مزيد من التفاصيل"
 }

@@ -51,13 +51,13 @@ abstract class Repositories {
   // Retrieves the details of the currently logged-in user
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse();
 
-  // Adds a film to the user's cart
-  Future<Either<FailureClass, void>> addFilmToCart(
-      {required MovieResponse movie});
-
-  // Removes a film from the user's cart
-  Future<Either<FailureClass, void>> removeFilmFromCart(
-      {required MovieResponse movie});
+  // // Adds a film to the user's cart
+  // Future<Either<FailureClass, void>> addFilmToCart(
+  //     {required MovieResponse movie});
+  //
+  // // Removes a film from the user's cart
+  // Future<Either<FailureClass, void>> removeFilmFromCart(
+  //     {required MovieResponse movie});
 
   Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
       {required List<String> actors});

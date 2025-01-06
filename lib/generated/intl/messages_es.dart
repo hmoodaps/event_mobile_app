@@ -21,14 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'es';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("Acerca de"),
         "aboutUs": MessageLookupByLibrary.simpleMessage("Acerca de nosotros"),
         "accountCreated":
             MessageLookupByLibrary.simpleMessage("¡Cuenta creada con éxito!"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Ya existe una cuenta con esta dirección de correo electrónico, pero con credenciales diferentes."),
+        "actors": MessageLookupByLibrary.simpleMessage("Actores"),
         "additionalInfo":
             MessageLookupByLibrary.simpleMessage("Información adicional"),
         "address": MessageLookupByLibrary.simpleMessage("Dirección"),
@@ -37,11 +38,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Toda inversión conlleva riesgos"),
         "allMovies":
             MessageLookupByLibrary.simpleMessage("Todas las películas"),
+        "available": MessageLookupByLibrary.simpleMessage("Disponible"),
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("¡Sé el primero!"),
+        "bookNow": MessageLookupByLibrary.simpleMessage("¡Reserva AHORA!"),
         "byPress": MessageLookupByLibrary.simpleMessage("por presión"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "cart": MessageLookupByLibrary.simpleMessage("Carrito"),
+        "chooseSeat": MessageLookupByLibrary.simpleMessage("Elige tu asiento"),
         "city": MessageLookupByLibrary.simpleMessage("ciudad"),
         "colorThemeApp": MessageLookupByLibrary.simpleMessage("Temas de color"),
         "continueString": MessageLookupByLibrary.simpleMessage("Continuar"),
@@ -50,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Crear una cuenta"),
         "dateOfBirth":
             MessageLookupByLibrary.simpleMessage("Fecha de nacimiento"),
+        "douKnowWhoIs":
+            MessageLookupByLibrary.simpleMessage("¿Sabes quién es "),
         "email": MessageLookupByLibrary.simpleMessage(
             "Dirección de correo electrónico"),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
@@ -65,9 +71,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("¡Solo unos pocos datos más!"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("Este campo es obligatorio"),
+        "finalPrice": MessageLookupByLibrary.simpleMessage("Precio final: "),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage("¿Olvidaste tu contraseña?"),
         "fullName": MessageLookupByLibrary.simpleMessage("Nombre completo"),
+        "go": MessageLookupByLibrary.simpleMessage("¡Vamos!"),
         "guest": MessageLookupByLibrary.simpleMessage("como invitado"),
         "haveAccount":
             MessageLookupByLibrary.simpleMessage("¿Ya tienes una cuenta?"),
@@ -105,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Intentemos restablecer tu contraseña. Enviaremos un enlace para establecer tu contraseña a tu dirección de correo electrónico."),
         "mobileNumber":
             MessageLookupByLibrary.simpleMessage("Número de teléfono"),
+        "moreDetails": MessageLookupByLibrary.simpleMessage("Más detalles"),
         "myAppBalance":
             MessageLookupByLibrary.simpleMessage("Mi saldo de cuenta"),
         "newMovies": MessageLookupByLibrary.simpleMessage("Películas nuevas"),
@@ -132,12 +141,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Política de privacidad"),
         "question": MessageLookupByLibrary.simpleMessage("¿Quieres continuar?"),
         "register": MessageLookupByLibrary.simpleMessage("Registrarse"),
+        "reserved": MessageLookupByLibrary.simpleMessage("Reservado"),
         "resetPassword":
             MessageLookupByLibrary.simpleMessage("Restablecer contraseña"),
+        "resources": MessageLookupByLibrary.simpleMessage("Recursos"),
         "search": MessageLookupByLibrary.simpleMessage("buscar"),
+        "seatPrice":
+            MessageLookupByLibrary.simpleMessage("Precio del asiento: "),
         "seats": MessageLookupByLibrary.simpleMessage("asientos"),
         "seatsAvailable":
             MessageLookupByLibrary.simpleMessage("asientos disponibles"),
+        "seatsChosen":
+            MessageLookupByLibrary.simpleMessage("Asientos elegidos: "),
+        "selected": MessageLookupByLibrary.simpleMessage("Seleccionado"),
+        "selectedSeats":
+            MessageLookupByLibrary.simpleMessage("Asientos seleccionados: "),
         "signWithApple":
             MessageLookupByLibrary.simpleMessage("Iniciar sesión con Apple"),
         "signWithGoogle":
@@ -158,6 +176,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Películas principales"),
         "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
             "¡Inicia sesión primero para agregar artículos al carrito!"),
+        "uDidnotSelectSeat": MessageLookupByLibrary.simpleMessage(
+            "No seleccionaste ningún asiento :("),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Ocurrió un error desconocido."),
         "urNotLogin":

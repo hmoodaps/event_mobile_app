@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_mobile_app/app/components/constants/buttons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:event_mobile_app/app/components/constants/font_manager.dart';
+import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:event_mobile_app/data/models/movie_model.dart';
@@ -173,51 +174,50 @@ class _MovieRouteState extends State<MovieRoute> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(SizeManager.d20),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MoreDetailView(movie: widget.movie),
+                ),
+              );
+            },
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: EdgeInsets.all(SizeManager.d20),
+                child: Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
                       boxShadow: [
-                        ContainerManager.myShadow(shadowColor: _model.textColor)
+                        ContainerManager.myShadow(shadowColor: Colors.black45),
                       ],
+                      borderRadius: BorderRadius.circular(SizeManager.d20),
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white,
+                          ColorManager.green4,
+                          ColorManager.green3,
+                        ],
+                        stops: [0.00001, 0.5, 1],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                     ),
-                    child: CircleAvatar(
-                      backgroundColor: ColorManager.primary,
-                      radius: SizeManager.d30,
-                      child: Center(
-                          child:
-                              Icon(IconsManager.cart, size: SizeManager.d30)),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: SizeManager.d20),
-                    child: ButtonManager.myButton(
-                      context: context,
-                      height: GetSize.heightValue(SizeManager.d50, context),
-                      buttonName: 'More Details',
-                      shadowColor: _model.textColor,
-                      textColor: Colors.black,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                MoreDetailView(movie: widget.movie),
-                          ),
-                        );
-                      },
-                      color: ColorManager.primary,
+                    height: GetSize.heightValue(SizeManager.d50, context),
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        GeneralStrings.moreDetails(context),
+                        style: TextStyleManager.bodyStyle(context)?.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeightManager.bold),
+                      ),
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],

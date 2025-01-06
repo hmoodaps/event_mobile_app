@@ -21,14 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'nl';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("Over"),
         "aboutUs": MessageLookupByLibrary.simpleMessage("Over Ons "),
         "accountCreated": MessageLookupByLibrary.simpleMessage(
             "Account succesvol aangemaakt! "),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "Er bestaat al een account met dit \ne-mailadres, maar met andere referenties. "),
+        "actors": MessageLookupByLibrary.simpleMessage("Acteurs"),
         "additionalInfo":
             MessageLookupByLibrary.simpleMessage("Aanvullende informatie "),
         "address": MessageLookupByLibrary.simpleMessage("Adres "),
@@ -36,11 +37,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "allInvesting": MessageLookupByLibrary.simpleMessage(
             "Alle beleggingen zijn risicovol "),
         "allMovies": MessageLookupByLibrary.simpleMessage("Alle films "),
+        "available": MessageLookupByLibrary.simpleMessage("Beschikbaar"),
         "beTheFirstOne":
             MessageLookupByLibrary.simpleMessage("Wees de eerste! "),
+        "bookNow": MessageLookupByLibrary.simpleMessage("Boek NU!"),
         "byPress": MessageLookupByLibrary.simpleMessage("door druk "),
         "cancel": MessageLookupByLibrary.simpleMessage("Annuleren"),
         "cart": MessageLookupByLibrary.simpleMessage("Winkelwagen"),
+        "chooseSeat": MessageLookupByLibrary.simpleMessage("Kies je stoel"),
         "city": MessageLookupByLibrary.simpleMessage("stad "),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage("Kleurenthema\'s "),
@@ -49,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount":
             MessageLookupByLibrary.simpleMessage("Maak een account aan "),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Geboortedatum "),
+        "douKnowWhoIs": MessageLookupByLibrary.simpleMessage("Weet je wie "),
         "email": MessageLookupByLibrary.simpleMessage("E-mailadres "),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             "Het e-mailadres wordt al gebruikt door een ander account. "),
@@ -63,9 +68,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Gewoon wat meer gegevens! "),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage("Dit veld is verplicht "),
+        "finalPrice": MessageLookupByLibrary.simpleMessage("Eindprijs: "),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage("Wachtwoord vergeten? "),
         "fullName": MessageLookupByLibrary.simpleMessage("Volledige naam "),
+        "go": MessageLookupByLibrary.simpleMessage("Ga!"),
         "guest": MessageLookupByLibrary.simpleMessage("als gast "),
         "haveAccount":
             MessageLookupByLibrary.simpleMessage("Heb je al een account? "),
@@ -101,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
             "Laten we proberen je wachtwoord opnieuw in te stellen. We sturen een \nlink om je wachtwoord in te stellen naar je e-mailadres. "),
         "mobileNumber": MessageLookupByLibrary.simpleMessage("Telefoonnummer "),
+        "moreDetails": MessageLookupByLibrary.simpleMessage("Meer details"),
         "myAppBalance":
             MessageLookupByLibrary.simpleMessage("Mijn Account Saldo "),
         "newMovies": MessageLookupByLibrary.simpleMessage("Nieuwe films "),
@@ -126,12 +134,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacybeleid "),
         "question": MessageLookupByLibrary.simpleMessage("Wil je doorgaan? "),
         "register": MessageLookupByLibrary.simpleMessage("Registreren "),
+        "reserved": MessageLookupByLibrary.simpleMessage("Gereseveerd"),
         "resetPassword": MessageLookupByLibrary.simpleMessage(
             "Wachtwoord opnieuw instellen "),
+        "resources": MessageLookupByLibrary.simpleMessage("Hulpbronnen"),
         "search": MessageLookupByLibrary.simpleMessage("zoeken "),
+        "seatPrice": MessageLookupByLibrary.simpleMessage("Stoel prijs: "),
         "seats": MessageLookupByLibrary.simpleMessage("stoelen "),
         "seatsAvailable":
             MessageLookupByLibrary.simpleMessage("beschikbare stoelen "),
+        "seatsChosen":
+            MessageLookupByLibrary.simpleMessage("Gekozen stoelen: "),
+        "selected": MessageLookupByLibrary.simpleMessage("Geselecteerd"),
+        "selectedSeats":
+            MessageLookupByLibrary.simpleMessage("Geselecteerde stoelen: "),
         "signWithApple":
             MessageLookupByLibrary.simpleMessage("Inloggen met Apple "),
         "signWithGoogle":
@@ -150,6 +166,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "topMovies": MessageLookupByLibrary.simpleMessage("Topfilms "),
         "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
             "Je moet inloggen voordat je items aan de winkelwagen kunt toevoegen!"),
+        "uDidnotSelectSeat": MessageLookupByLibrary.simpleMessage(
+            "Je hebt geen stoel gekozen :("),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Er is een onbekende fout opgetreden. "),
         "urNotLogin":

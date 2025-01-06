@@ -21,14 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("عن"),
         "aboutUs": MessageLookupByLibrary.simpleMessage(" معلومات عنا"),
         "accountCreated":
             MessageLookupByLibrary.simpleMessage(" تم إنشاء الحساب بنجاح!"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 " يوجد حساب بالفعل باستخدام عنوان البريد الإلكتروني هذا ولكن مع بيانات اعتماد مختلفة."),
+        "actors": MessageLookupByLibrary.simpleMessage("الممثلين"),
         "additionalInfo":
             MessageLookupByLibrary.simpleMessage(" معلومات اضافية"),
         "address": MessageLookupByLibrary.simpleMessage(" العنوان"),
@@ -36,10 +37,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "allInvesting": MessageLookupByLibrary.simpleMessage(
             " جميع الاستثمارات تنطوي على مخاطر"),
         "allMovies": MessageLookupByLibrary.simpleMessage(" جميع الأفلام"),
+        "available": MessageLookupByLibrary.simpleMessage("متوفر"),
         "beTheFirstOne": MessageLookupByLibrary.simpleMessage(" كن الأول!"),
+        "bookNow": MessageLookupByLibrary.simpleMessage("احجز الآن!"),
         "byPress": MessageLookupByLibrary.simpleMessage(" عند الضغط"),
         "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "cart": MessageLookupByLibrary.simpleMessage("السلة"),
+        "chooseSeat": MessageLookupByLibrary.simpleMessage("اختار مكانك"),
         "city": MessageLookupByLibrary.simpleMessage(" المدينة"),
         "colorThemeApp":
             MessageLookupByLibrary.simpleMessage(" الثيمات اللونية"),
@@ -47,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "coupons": MessageLookupByLibrary.simpleMessage(" الكوبونات"),
         "createAccount": MessageLookupByLibrary.simpleMessage(" إنشاء حساب"),
         "dateOfBirth": MessageLookupByLibrary.simpleMessage(" تاريخ الميلاد"),
+        "douKnowWhoIs": MessageLookupByLibrary.simpleMessage("بتعرف مين هو "),
         "email": MessageLookupByLibrary.simpleMessage(" البريد الإلكتروني"),
         "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             " البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر."),
@@ -60,9 +65,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(" فقط بعض البيانات الإضافية!"),
         "fieldRequired":
             MessageLookupByLibrary.simpleMessage(" هذا الحقل مطلوب"),
+        "finalPrice": MessageLookupByLibrary.simpleMessage("السعر النهائي: "),
         "forgetPassword":
             MessageLookupByLibrary.simpleMessage(" هل نسيت كلمة المرور؟"),
         "fullName": MessageLookupByLibrary.simpleMessage(" الاسم الكامل"),
+        "go": MessageLookupByLibrary.simpleMessage("يلا !"),
         "guest": MessageLookupByLibrary.simpleMessage(" كزائر"),
         "haveAccount":
             MessageLookupByLibrary.simpleMessage(" هل لديك حساب بالفعل؟"),
@@ -98,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
             " دعنا نحاول اعادة تعيين كلمة المرور الخاصة بك . سنقوم بارسال رابط \nلتعيين كلمة المرور الى البريد الالكتروني الخاص بكم"),
         "mobileNumber": MessageLookupByLibrary.simpleMessage(" رقم الهاتف"),
+        "moreDetails": MessageLookupByLibrary.simpleMessage("مزيد من التفاصيل"),
         "myAppBalance": MessageLookupByLibrary.simpleMessage(" رصيد الحساب"),
         "newMovies": MessageLookupByLibrary.simpleMessage(" أفلام جديدة"),
         "noCartItems":
@@ -123,12 +131,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "question":
             MessageLookupByLibrary.simpleMessage(" هل ترغب في الاستمرار؟"),
         "register": MessageLookupByLibrary.simpleMessage(" تسجيل"),
+        "reserved": MessageLookupByLibrary.simpleMessage("محجوز"),
         "resetPassword":
             MessageLookupByLibrary.simpleMessage(" اعادة تعيين كلمة المرور"),
+        "resources": MessageLookupByLibrary.simpleMessage("الموارد"),
         "search": MessageLookupByLibrary.simpleMessage(" بحث"),
+        "seatPrice": MessageLookupByLibrary.simpleMessage("سعر المقعد: "),
         "seats": MessageLookupByLibrary.simpleMessage(" المقاعد"),
         "seatsAvailable":
             MessageLookupByLibrary.simpleMessage(" المقاعد المتاحة"),
+        "seatsChosen":
+            MessageLookupByLibrary.simpleMessage("المقاعد المختارة: "),
+        "selected": MessageLookupByLibrary.simpleMessage("محدد"),
+        "selectedSeats":
+            MessageLookupByLibrary.simpleMessage("المقاعد المحددة: "),
         "signWithApple": MessageLookupByLibrary.simpleMessage(
             " تسجيل الدخول باستخدام Apple"),
         "signWithGoogle": MessageLookupByLibrary.simpleMessage(
@@ -147,6 +163,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "topMovies": MessageLookupByLibrary.simpleMessage(" أفضل الأفلام"),
         "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
             "لازم تسجل دخولك عشان تضيف منتجات للسلة!"),
+        "uDidnotSelectSeat":
+            MessageLookupByLibrary.simpleMessage("ما اخترت مكان :("),
         "unknownError":
             MessageLookupByLibrary.simpleMessage(" حدث خطأ غير معروف."),
         "urNotLogin": MessageLookupByLibrary.simpleMessage("انت مش مسجل دخول!"),

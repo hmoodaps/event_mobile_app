@@ -24,17 +24,17 @@ class OperatorsRepoImplementer implements OperatorsRepository {
     return await repositories.removeFilmFromFavorites(movie: movie);
   }
 
-  @override
-  Future<Either<FailureClass, void>> addFilmToCart(
-      {required MovieResponse movie}) async {
-    return await repositories.addFilmToCart(movie: movie);
-  }
-
-  @override
-  Future<Either<FailureClass, void>> removeFilmFromCart(
-      {required MovieResponse movie}) async {
-    return await repositories.removeFilmFromCart(movie: movie);
-  }
+  // @override
+  // Future<Either<FailureClass, void>> addFilmToCart(
+  //     {required MovieResponse movie}) async {
+  //   return await repositories.addFilmToCart(movie: movie);
+  // }
+  //
+  // @override
+  // Future<Either<FailureClass, void>> removeFilmFromCart(
+  //     {required MovieResponse movie}) async {
+  //   return await repositories.removeFilmFromCart(movie: movie);
+  // }
 
   @override
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse() async {

@@ -4,8 +4,14 @@ import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
+import '../../../app/components/constants/assets_manager.dart';
+import '../../../app/components/constants/general_strings.dart';
+import '../../../app/components/constants/getSize/getSize.dart';
+import '../../../app/components/constants/size_manager.dart';
 import '../../../app/handle_app_language/handle_app_language.dart';
 import '../../../domain/model_objects/actor_model.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
@@ -64,10 +70,35 @@ class MoreDetailModelView extends BaseViewModel {
     fetchActorsData(
       movie.actors!.map((e) => e.toString()).toList(),
     );
+
+  }
+  getIcons() {
+    List<Widget> listIcons = [
+      Icon(Icons.info),
+      Image.asset(
+        AssetsManager.actor,
+        width: GetSize.widthValue(SizeManager.d30, context),
+        height: GetSize.heightValue(SizeManager.d30, context),
+      ),
+    ];
+    return listIcons;
   }
 
-  void fetchActorsData(List<String> actors) {
-    _bloc.add(FetchActorsDataEvent(actors: actors));
+  getIconsName() {
+    List<String> listString = [
+      GeneralStrings.about(context),
+      GeneralStrings.actors(context)
+    ];
+
+    return listString;
+  }
+
+  int selectedIndex = 0;
+
+  int carouselViewSelectedIndex = 0;
+
+  bool isExpanded(int index) {
+    return selectedIndex == index;
   }
 
   _startListen() {
@@ -78,5 +109,17 @@ class MoreDetailModelView extends BaseViewModel {
         initValue = findMidpoint(state.actors.length);
       }
     });
+  }
+  void fetchActorsData(List<String> actors) {
+  _bloc.add(FetchActorsDataEvent(actors: actors));
+  }
+
+  resourcesTap(int selectedActor) async {
+    try {
+      await launchUrl(Uri.parse(
+          "https://en.wikipedia.org/?curid=${actors[selectedActor].pageId}"));
+    } catch (e) {
+      print(e);
+    }
   }
 }

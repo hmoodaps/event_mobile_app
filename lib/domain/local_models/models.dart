@@ -186,9 +186,9 @@ bool isItemInFaves({required int filmId}) {
   }
 }
 
-bool isItemInCart({required int filmId}) {
-  return VariablesManager.currentUserRespon.cart?.contains(filmId) ?? false;
-}
+// bool isItemInCart({required int filmId}) {
+//   return VariablesManager.currentUserRespon.cart?.contains(filmId) ?? false;
+// }
 
 Widget featuresSlider(MovieResponse movie, BuildContext context) {
   List<Widget> features = [];
@@ -375,58 +375,58 @@ class NotificationDialog extends StatelessWidget {
   }
 }
 
-Widget cartIcon(
-    BuildContext context,
-    MovieResponse movie,
-    void Function(MovieResponse) addToCart,
-    void Function(MovieResponse) removeFromCart) {
-  return CircleAvatar(
-    radius: 15,
-    backgroundColor: isItemInCart(filmId: movie.id!)
-        ? Colors.green
-        : ColorManager.privateGrey,
-    child: Align(
-      alignment: Alignment.center,
-      child: IconButton(
-        onPressed: () {
-          if (FirebaseAuth.instance.currentUser?.uid == null) {
-            showDialog(
-                context: context,
-                builder: (context) => NotificationDialog(
-                    title: GeneralStrings.urNotLogin(context),
-                    message: GeneralStrings.uCantAddItemToCart(context),
-                    button1Action: () {
-                      navigateTo(context, RouteStringsManager.loginRoute);
-                    },
-                    button1Text: GeneralStrings.login(
-                      context,
-                    ),
-                    button2Action: () {
-                      navigateTo(context, RouteStringsManager.registerRoute);
-                    },
-                    button2Text: GeneralStrings.register(context),
-                    button3Action: () {
-                      Navigator.pop(context);
-                    },
-                    button3Text: GeneralStrings.cancel(context)));
-          } else {
-            if (!isItemInCart(filmId: movie.id!)) {
-              addToCart(movie);
-            } else {
-              removeFromCart(movie);
-            }
-          }
-        },
-        icon: Icon(
-          IconsManager.cart,
-          size: 20,
-          color: isItemInCart(filmId: movie.id!) ? Colors.red : Colors.black,
-        ),
-        padding: EdgeInsets.zero,
-      ),
-    ),
-  );
-}
+// Widget cartIcon(
+//     BuildContext context,
+//     MovieResponse movie,
+//     void Function(MovieResponse) addToCart,
+//     void Function(MovieResponse) removeFromCart) {
+//   return CircleAvatar(
+//     radius: 15,
+//     backgroundColor: isItemInCart(filmId: movie.id!)
+//         ? Colors.green
+//         : ColorManager.privateGrey,
+//     child: Align(
+//       alignment: Alignment.center,
+//       child: IconButton(
+//         onPressed: () {
+//           if (FirebaseAuth.instance.currentUser?.uid == null) {
+//             showDialog(
+//                 context: context,
+//                 builder: (context) => NotificationDialog(
+//                     title: GeneralStrings.urNotLogin(context),
+//                     message: GeneralStrings.uCantAddItemToCart(context),
+//                     button1Action: () {
+//                       navigateTo(context, RouteStringsManager.loginRoute);
+//                     },
+//                     button1Text: GeneralStrings.login(
+//                       context,
+//                     ),
+//                     button2Action: () {
+//                       navigateTo(context, RouteStringsManager.registerRoute);
+//                     },
+//                     button2Text: GeneralStrings.register(context),
+//                     button3Action: () {
+//                       Navigator.pop(context);
+//                     },
+//                     button3Text: GeneralStrings.cancel(context)));
+//           } else {
+//             if (!isItemInCart(filmId: movie.id!)) {
+//               addToCart(movie);
+//             } else {
+//               removeFromCart(movie);
+//             }
+//           }
+//         },
+//         icon: Icon(
+//           IconsManager.cart,
+//           size: 20,
+//           color: isItemInCart(filmId: movie.id!) ? Colors.red : Colors.black,
+//         ),
+//         padding: EdgeInsets.zero,
+//       ),
+//     ),
+//   );
+// }
 
 Widget favoriteIcon(
     BuildContext context,

@@ -12,11 +12,11 @@ abstract class OperatorsRepository {
   Future<Either<FailureClass, void>> removeFilmFromFavorites(
       {required MovieResponse movie});
 
-  Future<Either<FailureClass, void>> addFilmToCart(
-      {required MovieResponse movie});
-
-  Future<Either<FailureClass, void>> removeFilmFromCart(
-      {required MovieResponse movie});
+  // Future<Either<FailureClass, void>> addFilmToCart(
+  //     {required MovieResponse movie});
+  //
+  // Future<Either<FailureClass, void>> removeFilmFromCart(
+  //     {required MovieResponse movie});
 
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse();
 

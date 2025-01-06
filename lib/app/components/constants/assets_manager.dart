@@ -10,4 +10,5 @@ class AssetsManager {
   static const String just4prog = '$_asset/just4prog.png';
   static const String screen = '$_asset/Screen.svg';
   static const String seat = '$_asset/seat.png';
+  static const String actor = '$_asset/actor.png';
 }

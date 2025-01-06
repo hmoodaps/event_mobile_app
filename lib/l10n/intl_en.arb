@@ -104,5 +104,11 @@
   "seatPrice": "seat price : ",
   "seatsChosen": "seats chosen : ",
   "selectedSeats": "selected seats : ",
-  "finalPrice": "final price : "
+  "finalPrice": "final price : ",
+  "actors": "actors",
+  "about": "about",
+  "douKnowWhoIs": "Do you Know who is ",
+  "resources": "resources",
+  "bookNow": "Book NOW!",
+  "moreDetails": "More Details"
 }

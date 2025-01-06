@@ -103,6 +103,11 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   http: ^1.2.2
   youtube_player_iframe: ^5.2.1
+  url_launcher: ^6.3.1
+  flutter_stripe: ^11.3.0
+  flip_card: ^0.7.0
+  credit_card_type_detector: ^3.0.0
+#  flutter_credit_card: ^4.0.1
 
 dev_dependencies:
   flutter_test:
@@ -158,6 +163,9 @@ flutter:
     - family: cormo
       fonts:
         - asset: assets/fonts/CormorantGaramond-Regular.ttf
+    - family: orca
+      fonts:
+        - asset: assets/fonts/OCRA.ttf
 
 
 

@@ -101,9 +101,9 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<GetCurrentUserResponseEvent>(_onGetCurrentUserResponseEvent);
     on<RemoveFilmFromFavEvent>(_onRemoveFilmFromFavEvent);
     on<GetFavesItemsEvent>(_onGetFavesItemsEvent);
-    on<AddFilmToCartEvent>(_onAddFilmToCartEvent);
-    on<RemoveFilmFromCartEvent>(_onRemoveFilmFromCartEvent);
-    on<GetCartItemsEvent>(_onGetCartItemsEvent);
+    // on<AddFilmToCartEvent>(_onAddFilmToCartEvent);
+    // on<RemoveFilmFromCartEvent>(_onRemoveFilmFromCartEvent);
+    // on<GetCartItemsEvent>(_onGetCartItemsEvent);
     on<GetActorsPhotosEvent>(_onGetActorsPhotosEvent);
   }
 
@@ -116,6 +116,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     try {
       await _operators.fetchActorsData(actors: event.actors).then((result) {
         result.fold((fail) {}, (actors) async {
+          emit(FetchActorsSuccessState(actors));
           add(GetActorsPhotosEvent(actors: actors));
         });
       });
@@ -127,9 +128,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   _onGetActorsPhotosEvent(
       GetActorsPhotosEvent event, Emitter<AppStates> emit) async {
     try {
-      await _functions.getActorsPhotos(event.actors).then((_) {
-        emit(FetchActorsSuccessState(event.actors));
-      });
+      await _functions.getActorsPhotos(event.actors);
     } catch (e) {
       print("_onFetchActorsDataEvent $e");
     }
@@ -146,84 +145,84 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       }, (success) {
         VariablesManager.currentUserRespon = success;
         add(GetFavesItemsEvent());
-        add(GetCartItemsEvent());
+        // add(GetCartItemsEvent());
         emit(GetCurrentUserResponseState());
       });
     });
   }
 
   // ============= adding or remove CART ==========================
-  _onAddFilmToCartEvent(
-      AddFilmToCartEvent event, Emitter<AppStates> emit) async {
-    await _operators.addFilmToCart(movie: event.movie).then((value) {
-      value.fold((fail) {
-        if (kDebugMode) {
-          print(fail.error);
-        }
-      }, (success) {
-        add(GetCurrentUserResponseEvent());
-        add(GetCartItemsEvent());
-      });
-    });
-  }
-
-  _onRemoveFilmFromCartEvent(
-      RemoveFilmFromCartEvent event, Emitter<AppStates> emit) async {
-    await _operators.removeFilmFromCart(movie: event.movie).then((value) {
-      value.fold((fail) {
-        if (kDebugMode) {
-          print(fail.error);
-        }
-      }, (success) {
-        VariablesManager.cartMovies.remove(event.movie);
-
-        emit(RemoveFilmFromCartState());
-        add(GetCurrentUserResponseEvent());
-        add(GetCartItemsEvent());
-      });
-    });
-  }
-
-  Future<void> _onGetCartItemsEvent(
-      GetCartItemsEvent event, Emitter<AppStates> emit) async {
-    try {
-      final cartItems = VariablesManager.currentUserRespon.cart ?? [];
-
-      final movieIds = cartItems
-          .map((movieId) {
-            return int.tryParse(movieId.toString()) ?? 0;
-          })
-          .toSet()
-          .toList();
-      VariablesManager.cartMovies.clear();
-
-      for (int id in movieIds) {
-        await HttpHelper.makeRequest(
-            method: 'GET',
-            methodUrl: 'viewsets/movies/$id',
-            headers: {
-              'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
-            }).then((result) {
-          result.fold((fail) {
-            if (kDebugMode) {
-              print(fail.error);
-            }
-          }, (success) {
-            var body = jsonDecode(success.body);
-
-            final cartMovie = MovieResponse.fromJson(body).toDomain();
-            if (!VariablesManager.cartMovies
-                .any((movie) => movie.id == cartMovie.id)) {
-              VariablesManager.cartMovies.add(cartMovie);
-            }
-          });
-        });
-      }
-    } catch (e) {
-      if (kDebugMode) print('the error : $e ');
-    }
-    emit(GetCartItemsState());
-  }
+  // _onAddFilmToCartEvent(
+  //     AddFilmToCartEvent event, Emitter<AppStates> emit) async {
+  //   await _operators.addFilmToCart(movie: event.movie).then((value) {
+  //     value.fold((fail) {
+  //       if (kDebugMode) {
+  //         print(fail.error);
+  //       }
+  //     }, (success) {
+  //       add(GetCurrentUserResponseEvent());
+  //       add(GetCartItemsEvent());
+  //     });
+  //   });
+  // }
+  //
+  // _onRemoveFilmFromCartEvent(
+  //     RemoveFilmFromCartEvent event, Emitter<AppStates> emit) async {
+  //   await _operators.removeFilmFromCart(movie: event.movie).then((value) {
+  //     value.fold((fail) {
+  //       if (kDebugMode) {
+  //         print(fail.error);
+  //       }
+  //     }, (success) {
+  //       VariablesManager.cartMovies.remove(event.movie);
+  //
+  //       emit(RemoveFilmFromCartState());
+  //       add(GetCurrentUserResponseEvent());
+  //       add(GetCartItemsEvent());
+  //     });
+  //   });
+  // }
+  //
+  // Future<void> _onGetCartItemsEvent(
+  //     GetCartItemsEvent event, Emitter<AppStates> emit) async {
+  //   try {
+  //     final cartItems = VariablesManager.currentUserRespon.cart ?? [];
+  //
+  //     final movieIds = cartItems
+  //         .map((movieId) {
+  //           return int.tryParse(movieId.toString()) ?? 0;
+  //         })
+  //         .toSet()
+  //         .toList();
+  //     VariablesManager.cartMovies.clear();
+  //
+  //     for (int id in movieIds) {
+  //       await HttpHelper.makeRequest(
+  //           method: 'GET',
+  //           methodUrl: 'viewsets/movies/$id',
+  //           headers: {
+  //             'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
+  //           }).then((result) {
+  //         result.fold((fail) {
+  //           if (kDebugMode) {
+  //             print(fail.error);
+  //           }
+  //         }, (success) {
+  //           var body = jsonDecode(success.body);
+  //
+  //           final cartMovie = MovieResponse.fromJson(body).toDomain();
+  //           if (!VariablesManager.cartMovies
+  //               .any((movie) => movie.id == cartMovie.id)) {
+  //             VariablesManager.cartMovies.add(cartMovie);
+  //           }
+  //         });
+  //       });
+  //     }
+  //   } catch (e) {
+  //     if (kDebugMode) print('the error : $e ');
+  //   }
+  //   emit(GetCartItemsState());
+  // }
 
   // ============= adding or remove FAVORITE ==========================
 

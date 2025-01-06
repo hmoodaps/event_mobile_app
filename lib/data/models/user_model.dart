@@ -6,12 +6,14 @@ part 'user_model.g.dart';
 @freezed
 class BillingInfo with _$BillingInfo {
   const factory BillingInfo({
-    required int numberOfSeats,
     required List<int> reservedSeats,
     required double seatPrice,
     required double totalBill,
-    required List<int> reservedMovies,
+    required int reservedMovie,
     required bool isPaid,
+    required String paymentMethod,
+    required String currency,
+
   }) = _BillingInfo;
 
   factory BillingInfo.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +28,7 @@ class UserResponse with _$UserResponse {
     String? email,
     String? dateOfBirth,
     String? mobileNumber,
-    List<int>? cart,
+    // List<int>? cart,
     List<int>? favorites,
     String? postalCode,
     String? houseNumber,

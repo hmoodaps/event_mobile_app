@@ -1,10 +1,12 @@
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'color_manager.dart';
 import 'font_manager.dart';
 
 TextFormField textFormField({
+  int ? maxLength ,
   bool? readOnly,
   required TextEditingController controller,
   String? Function(String?)? validator,
@@ -22,6 +24,7 @@ TextFormField textFormField({
   required BuildContext context,
 }) {
   return defaultTextFormField(
+
     context: context,
     controller: controller,
     hintText: hintText,
@@ -35,6 +38,7 @@ TextFormField textFormField({
     keyboardType: keyboardType,
     obscureText: obscureText,
     onChanged: onChanged,
+    maxLength: maxLength,
     onEditingComplete: onEditingComplete,
     readOnly: readOnly,
     disabledBorder:
@@ -75,6 +79,7 @@ TextFormField searchFormField({
   TextInputType? keyboardType,
   void Function()? onEditingComplete,
   Widget? suffix,
+  int ? maxLength,
   Widget? prefix,
   String? hintText,
   String? labelText,
@@ -82,6 +87,8 @@ TextFormField searchFormField({
   Color? fillColor,
 }) {
   return defaultTextFormField(
+    maxLength: maxLength,
+
     controller: controller,
     hintText: hintText,
     fillColor: fillColor,
@@ -115,6 +122,7 @@ TextFormField defaultTextFormField({
   TextInputType? keyboardType,
   void Function()? onEditingComplete,
   Widget? suffix,
+  int ? maxLength,
   Widget? prefix,
   String? hintText,
   String? labelText,
@@ -126,6 +134,10 @@ TextFormField defaultTextFormField({
   OutlineInputBorder? disabledBorder,
 }) {
   return TextFormField(
+    maxLengthEnforcement: MaxLengthEnforcement.none,
+    inputFormatters: [
+      LengthLimitingTextInputFormatter(maxLength), 
+    ],
     readOnly: readOnly ?? false,
     controller: controller,
     validator: validator,
