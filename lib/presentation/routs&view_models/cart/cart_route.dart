@@ -5,7 +5,7 @@
 // import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 // import 'package:event_mobile_app/app/components/constants/getSize/getSize.dart';
 // import 'package:event_mobile_app/app/components/constants/size_manager.dart';
-// import 'package:event_mobile_app/data/models/movie_model.dart';
+// import 'package:event_mobile_app/core/models/movie_model.dart';
 // import 'package:event_mobile_app/domain/local_models/models.dart';
 // import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 // import 'package:flutter/material.dart';

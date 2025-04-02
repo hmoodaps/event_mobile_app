@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:event_mobile_app/data/models/movie_model.dart';
-import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 
 import '../../data/implementer/failure_class/failure_class.dart';
-import '../../data/models/user_model.dart';
+import '../models/billing_info/billing_info.dart';
+import '../models/model_objects/actor_model.dart';
+import '../models/movie_model/movie_model.dart';
+import '../models/user_model/user_model.dart';
 
 abstract class OperatorsRepository {
   Future<Either<FailureClass, void>> addFilmToFavorites(
@@ -22,4 +23,6 @@ abstract class OperatorsRepository {
 
   Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
       {required List<String> actors});
+  Future<void> addBillingInfoToUser({required BillingInfo billingInfo});
+  Future<String> generateUniqueReferenceNumber();
 }

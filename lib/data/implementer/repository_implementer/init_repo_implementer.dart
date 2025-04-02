@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 
+import '../../../domain/models/movie_model/movie_model.dart';
 import '../../../domain/repository/init_repository.dart';
 import '../../../domain/repository/main_repositories/repositories.dart';
-import '../../models/movie_model.dart';
 import '../failure_class/failure_class.dart';
 
 class InitRepositoryImplementer implements InitRepository {

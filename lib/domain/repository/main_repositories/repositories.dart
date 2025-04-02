@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:event_mobile_app/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../data/implementer/failure_class/failure_class.dart';
-import '../../../data/models/movie_model.dart';
 import '../../local_models/models.dart';
-import '../../model_objects/actor_model.dart';
+import '../../models/billing_info/billing_info.dart';
+import '../../models/model_objects/actor_model.dart';
+import '../../models/movie_model/movie_model.dart';
+import '../../models/user_model/user_model.dart';
 
 abstract class Repositories {
   // Logs a user into Firebase using provided requirements
@@ -13,7 +14,7 @@ abstract class Repositories {
       {required CreateUserRequirements req});
 
   // Creates a new user in Firebase with given requirements
-  Future<Either<FailureClass, UserCredential>> createUserAtFirebase(
+  Future<Either<FailureClass, Map<String , dynamic>>> createUserAtFirebase(
       {required CreateUserRequirements req});
 
   // Adds a new user to Firestore database
@@ -31,7 +32,7 @@ abstract class Repositories {
       {required CreateUserRequirements req});
 
   // Creates a new user in Firebase using an authentication credential
-  Future<Either<FailureClass, User>> createUserAtFirebaseWithCredential(
+  Future<Either<FailureClass, Map<String, dynamic>>> createUserAtFirebaseWithCredential(
       {required AuthCredential credential});
 
   // Logs the current user out of the application
@@ -61,4 +62,8 @@ abstract class Repositories {
 
   Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
       {required List<String> actors});
+
+  Future<String> createGuest(String id);
+  Future<void> addBillingInfoToUser({required BillingInfo billingInfo});
+  Future<String> generateUniqueReferenceNumber();
 }

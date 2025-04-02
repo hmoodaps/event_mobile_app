@@ -129,7 +129,10 @@ Widget googleAndAppleButton({
                   if (sufixSvgAssetPath != null)
                     SvgPicture.asset(
                       sufixSvgAssetPath,
-                      color: suffixSvgColor ?? Colors.black,
+                      colorFilter: ColorFilter.mode(
+                        suffixSvgColor ?? Colors.black,
+                        BlendMode.srcIn,
+                      ),
                       height: GetSize.heightValue(SizeManager.d50, context),
                       width: GetSize.widthValue(SizeManager.d70, context),
                     ),

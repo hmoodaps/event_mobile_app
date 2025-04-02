@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/components/constants/color_manager.dart';
@@ -9,11 +8,12 @@ import '../../app/components/constants/general_strings.dart';
 import '../../app/components/constants/getSize/getSize.dart';
 import '../../app/components/constants/icons_manager.dart';
 import '../../app/components/constants/route_strings_manager.dart';
-import '../../app/components/constants/routs_manager.dart';
 import '../../app/components/constants/size_manager.dart';
 import '../../app/components/constants/variables_manager.dart';
-import '../../data/models/movie_model.dart';
-
+import '../models/billing_info/billing_info.dart';
+import '../models/movie_model/movie_model.dart';
+import 'dart:ui';
+import 'package:qr_flutter/qr_flutter.dart';
 class CreateUserRequirements {
   String? dateOfBirth;
   String? mobileNumber;
@@ -25,10 +25,12 @@ class CreateUserRequirements {
   String? password;
   String? email;
   String? fullName;
+  String token;
 
   CreateUserRequirements({
     this.password,
     this.email,
+     required this.token,
     this.fullName,
     this.dateOfBirth,
     this.mobileNumber,
@@ -52,6 +54,7 @@ class CreateUserRequirements {
       'password': password,
       'email': email,
       'fullName': fullName,
+      'token': token,
     };
   }
 
@@ -59,6 +62,7 @@ class CreateUserRequirements {
   factory CreateUserRequirements.fromMap(Map<String, dynamic> map) {
     return CreateUserRequirements(
       dateOfBirth: map['dateOfBirth'],
+      token: map['token'],
       mobileNumber: map['mobileNumber'],
       street: map['street'],
       houseNumber: map['houseNumber'],
@@ -175,7 +179,7 @@ class CustomExpandableCard extends StatelessWidget {
 
 bool isItemInFaves({required int filmId}) {
   if (SharedPref.prefs.getString(GeneralStrings.currentUser) != null) {
-    return VariablesManager.currentUserRespon.favorites?.contains(filmId) ??
+    return VariablesManager.currentUserResponse.favorites?.contains(filmId) ??
         false;
   } else {
     return SharedPref.prefs
@@ -197,10 +201,15 @@ Widget featuresSlider(MovieResponse movie, BuildContext context) {
       String label, dynamic value, String suffixLabel) {
     return Row(
       children: [
-        Text(
-          label,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyleManager.smallParagraphStyle(context),
+        FittedBox(
+          child: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyleManager.smallParagraphStyle(context),
+            softWrap: true,
+            maxLines: 1,
+            
+          ),
         ),
         Text(
           ' $value',
@@ -221,7 +230,7 @@ Widget featuresSlider(MovieResponse movie, BuildContext context) {
     );
   }
 
-  double oldTicketPrice = movie.ticketPrice! * 2.4;
+  // double oldTicketPrice = movie.ticket_price! * 2.4;
 
   features.add(
     Row(
@@ -231,24 +240,24 @@ Widget featuresSlider(MovieResponse movie, BuildContext context) {
           overflow: TextOverflow.ellipsis,
           style: TextStyleManager.smallParagraphStyle(context),
         ),
-        Text(
-          ' ${oldTicketPrice.toStringAsFixed(2)}',
-          overflow: TextOverflow.ellipsis,
-          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-            decoration: TextDecoration.lineThrough,
-            color: Colors.grey,
-          ),
-        ),
-        Text(
-          ' ${movie.ticketPrice}',
-          overflow: TextOverflow.ellipsis,
-          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-            color: VariablesManager.isDark
-                ? Colors.white
-                : ColorManager.primarySecond,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        // Text(
+        //   ' ${oldTicketPrice.toStringAsFixed(2)}',
+        //   overflow: TextOverflow.ellipsis,
+        //   style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+        //     decoration: TextDecoration.lineThrough,
+        //     color: Colors.grey,
+        //   ),
+        // ),
+        // Text(
+        //   ' ${movie.ticket_price}',
+        //   overflow: TextOverflow.ellipsis,
+        //   style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+        //     color: VariablesManager.isDark
+        //         ? Colors.white
+        //         : ColorManager.primarySecond,
+        //     fontWeight: FontWeight.bold,
+        //   ),
+        // ),
       ],
     ),
   );
@@ -257,66 +266,66 @@ Widget featuresSlider(MovieResponse movie, BuildContext context) {
         .add(buildTextWithVariable(movieTag.toString().toUpperCase(), '', ''));
   }
   features.add(buildTextWithVariable(
-      GeneralStrings.heightIMDBRate(context), movie.imdbRating, ''));
-  features.add(buildTextWithVariable(
-      '', movie.availableSeats, GeneralStrings.seatsAvailable(context)));
-  features.add(
-      buildTextWithVariable('', movie.seats, GeneralStrings.seats(context)));
-
-  if (movie.availableSeats == movie.seats) {
-    features.add(
-      Text(
-        GeneralStrings.beTheFirstOne(context),
-        overflow: TextOverflow.ellipsis,
-        style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-          fontStyle: FontStyle.italic,
-          color: Colors.blue,
-        ),
-      ),
-    );
-  } else if (movie.availableSeats == 1) {
-    features.add(
-      Text(
-        GeneralStrings.lastTicketAvailable(context),
-        overflow: TextOverflow.ellipsis,
-        style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-          fontStyle: FontStyle.italic,
-          color: Colors.red,
-        ),
-      ),
-    );
-  } else if (movie.availableSeats! <= 5) {
-    features.add(
-      Row(
-        children: [
-          Text(
-            GeneralStrings.hurry(context),
-            overflow: TextOverflow.ellipsis,
-            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              fontStyle: FontStyle.italic,
-              color: Colors.orange,
-            ),
-          ),
-          Text(
-            " ${movie.availableSeats}",
-            overflow: TextOverflow.ellipsis,
-            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              fontStyle: FontStyle.italic,
-              color: Colors.blue,
-            ),
-          ),
-          Text(
-            " ${GeneralStrings.ticketsLeft(context)}",
-            overflow: TextOverflow.ellipsis,
-            style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
-              fontStyle: FontStyle.italic,
-              color: Colors.orange,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+      GeneralStrings.heightIMDBRate(context), movie.imdb_rating, ''));
+  // features.add(buildTextWithVariable(
+  //     '', movie.available_seats, GeneralStrings.seatsAvailable(context)));
+  // features.add(
+  //     buildTextWithVariable('', movie.seats, GeneralStrings.seats(context)));
+  //
+  // if (movie.available_seats == movie.seats) {
+  //   features.add(
+  //     Text(
+  //       GeneralStrings.beTheFirstOne(context),
+  //       overflow: TextOverflow.ellipsis,
+  //       style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+  //         fontStyle: FontStyle.italic,
+  //         color: Colors.blue,
+  //       ),
+  //     ),
+  //   );
+  // } else if (movie.available_seats == 1) {
+  //   features.add(
+  //     Text(
+  //       GeneralStrings.lastTicketAvailable(context),
+  //       overflow: TextOverflow.ellipsis,
+  //       style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+  //         fontStyle: FontStyle.italic,
+  //         color: Colors.red,
+  //       ),
+  //     ),
+  //   );
+  // } else if (movie.available_seats! <= 5) {
+  //   features.add(
+  //     Row(
+  //       children: [
+  //         Text(
+  //           GeneralStrings.hurry(context),
+  //           overflow: TextOverflow.ellipsis,
+  //           style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+  //             fontStyle: FontStyle.italic,
+  //             color: Colors.orange,
+  //           ),
+  //         ),
+  //         Text(
+  //           " ${movie.available_seats}",
+  //           overflow: TextOverflow.ellipsis,
+  //           style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+  //             fontStyle: FontStyle.italic,
+  //             color: Colors.blue,
+  //           ),
+  //         ),
+  //         Text(
+  //           " ${GeneralStrings.ticketsLeft(context)}",
+  //           overflow: TextOverflow.ellipsis,
+  //           style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+  //             fontStyle: FontStyle.italic,
+  //             color: Colors.orange,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   return CarouselSlider(
     items: features,
@@ -727,8 +736,7 @@ class _ArcItemSelectorState extends State<ArcItemSelector> {
   @override
   void initState() {
     super.initState();
-    selectedIndex =
-        (widget.items.length / 2).round(); // العنصر الافتراضي في المنتصف.
+    selectedIndex = (widget.items.length / 2).round();
   }
 
   Widget _buildArcItem(int index) {
@@ -786,6 +794,616 @@ class _ArcItemSelectorState extends State<ArcItemSelector> {
           for (int i = 0; i < widget.items.length; i++) _buildArcItem(i),
         ],
       ),
+    );
+  }
+}
+
+
+class SimpleMovieTicket extends StatefulWidget {
+  final String movieName;
+  final String showDate;
+  final String showTime;
+  final String hall;
+  final List<int> reservedSeats;
+  final String reservationCode;
+  final String verticalPhoto;
+  final String photo;
+  final double seatPrice;
+
+  const SimpleMovieTicket({
+    Key? key,
+    required this.movieName,
+    required this.photo,
+    required this.showDate,
+    required this.showTime,
+    required this.hall,
+    required this.reservedSeats,
+    required this.reservationCode,
+    required this.verticalPhoto,
+    required this.seatPrice,
+  }) : super(key: key);
+
+  @override
+  _SimpleMovieTicketState createState() => _SimpleMovieTicketState();
+}
+
+class _SimpleMovieTicketState extends State<SimpleMovieTicket> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  bool _isFront = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 600),
+    );
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
+  void _flipCard() {
+    if (_isFront) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+    _isFront = !_isFront;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Blurred background
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(widget.verticalPhoto),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.2),
+                  BlendMode.darken,
+                ),
+              ),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(color: Colors.black.withOpacity(0.2)),
+            ),
+          ),
+
+          // Flipping card
+          Center(
+            child: GestureDetector(
+              onTap: _flipCard,
+              child: AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  final angle = _animation.value * 3.1416;
+                  final transform = Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(angle);
+
+                  return Transform(
+                    transform: transform,
+                    alignment: Alignment.center,
+                    child: _animation.value <= 0.5
+                        ? _buildTicketFront()
+                        : Transform(
+                      transform: Matrix4.rotationY(3.1416), // قلب المحتوى 180 درجة
+                      alignment: Alignment.center,
+                      child: _buildQRBack(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTicketFront() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.2),
+            blurRadius: 20,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.movieName,
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 15),
+              _buildInfoRow(),
+              SizedBox(height: 25),
+              _buildSeatsGrid(),
+              SizedBox(height: 10),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  height: 300,
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  child: Image.network(
+                    widget.photo,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              _buildPriceSection(),
+              Center(child: Text("press to flip" , style: TextStyleManager.paragraphStyle(context),))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQRBack() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.2),
+            blurRadius: 20,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          QrImageView(
+            data: widget.reservationCode,
+            version: QrVersions.auto,
+            size: 200,
+            eyeStyle: QrEyeStyle(
+              color: Colors.white,
+              eyeShape: QrEyeShape.square,
+            ),
+            dataModuleStyle: QrDataModuleStyle(
+              color: Colors.white,
+              dataModuleShape: QrDataModuleShape.square,
+            ),
+          ),
+
+          Text(widget.reservationCode , style: TextStyleManager.header(context),),
+        ],
+      ),
+    );
+  }
+
+
+  Widget _buildInfoRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildInfoColumn(GeneralStrings.date(context), widget.showDate),
+        _buildInfoColumn(GeneralStrings.time(context), widget.showTime),
+        _buildInfoColumn(GeneralStrings.hall(context), widget.hall),
+      ],
+    );
+  }
+
+  Widget _buildInfoColumn(String title, String value) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(color: Colors.white70, fontSize: 14),
+        ),
+        Text(
+          value,
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSeatsGrid() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(GeneralStrings.seats(context), style: TextStyle(color: Colors.white, fontSize: 18)),
+        SizedBox(height: 10),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: widget.reservedSeats
+              .map((seat) => Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(seat.toString(), style: TextStyle(color: Colors.white)),
+          ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPriceSection() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(GeneralStrings.totalPrice(context),
+            style: TextStyle(color: Colors.white, fontSize: 18)),
+        Text('${widget.seatPrice.toStringAsFixed(2)} €',
+            style: TextStyle(color: Colors.amber, fontSize: 20)),
+      ],
+    );
+  }
+
+}
+
+
+
+
+class SecSimpleMovieTicket extends StatefulWidget {
+  final BillingInfo bill;
+
+  const SecSimpleMovieTicket({
+    Key? key,
+    required this.bill,
+  }) : super(key: key);
+
+  @override
+  _SecSimpleMovieTicket createState() => _SecSimpleMovieTicket();
+}
+
+class _SecSimpleMovieTicket extends State<SecSimpleMovieTicket>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  bool _isFront = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 600),
+    );
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _flipCard() {
+    if (_isFront) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+    _isFront = !_isFront;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final photo = widget.bill.verticalPhoto ?? widget.bill.photo ?? '';
+    final reservedSeats = (widget.bill.reserved_seats as List<dynamic>?)?.cast<int>() ?? [];
+    final seatPrice = widget.bill.ticket_price ?? 0.0;
+    final totalPrice = widget.bill.totalBill;
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Blurred background
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(photo),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.2),
+                  BlendMode.darken,
+                ),
+              ),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(color: Colors.black.withOpacity(0.2)),
+            ),
+          ),
+
+          // Flipping card
+          Center(
+            child: GestureDetector(
+              onTap: _flipCard,
+              child: AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  final angle = _animation.value * 3.1416;
+                  final transform = Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(angle);
+
+                  return Transform(
+                    transform: transform,
+                    alignment: Alignment.center,
+                    child: _animation.value <= 0.5
+                        ? _buildTicketFront(
+                      widget.bill.movieName ?? '',
+                      widget.bill.showTimesResponseDate ?? '',
+                      widget.bill.showTimesResponseTime ?? '',
+                      widget.bill.showTimesResponseHall ?? '',
+                      reservedSeats,
+                      widget.bill.reservations_code ?? '',
+                      photo,
+                      seatPrice,
+                      totalPrice,
+                    )
+                        : Transform(
+                      transform: Matrix4.rotationY(3.1416),
+                      alignment: Alignment.center,
+                      child: _buildQRBack(
+                        widget.bill.reservations_code ?? '',
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTicketFront(
+      String movieName,
+      String showDate,
+      String showTime,
+      String hall,
+      List<int> reservedSeats,
+      String reservationCode,
+      String photo,
+      double seatPrice,
+      double totalPrice,
+      ) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.2),
+            blurRadius: 20,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                movieName,
+                style: TextStyleManager.header(context)?.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 15),
+              _buildInfoRow(showDate, showTime, hall),
+              SizedBox(height: 25),
+              _buildSeatsGrid(reservedSeats , seatPrice),
+              SizedBox(height: 10),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  height: MediaQuery.of(context).size.height /3,
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  child: Image.network(
+                    photo,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
+                      color: Colors.grey.shade800,
+                      child: Center(
+                        child: Icon(Icons.movie, size: 50, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
+              _buildPriceSection(seatPrice, totalPrice),
+              Spacer(),
+              Center(
+                child: Text(
+                  "press to flip",
+                  style: TextStyleManager.paragraphStyle(context),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQRBack(String reservationCode) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.2),
+            blurRadius: 20,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          QrImageView(
+            data: reservationCode,
+            version: QrVersions.auto,
+            size: 200,
+            eyeStyle: QrEyeStyle(
+              color: Colors.white,
+              eyeShape: QrEyeShape.square,
+            ),
+            dataModuleStyle: QrDataModuleStyle(
+              color: Colors.white,
+              dataModuleShape: QrDataModuleShape.square,
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            reservationCode,
+            style: TextStyleManager.header(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String showDate, String showTime, String hall) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildInfoColumn(GeneralStrings.date(context), showDate),
+        _buildInfoColumn(GeneralStrings.time(context), showTime),
+        _buildInfoColumn(GeneralStrings.hall(context), hall),
+      ],
+    );
+  }
+
+  Widget _buildInfoColumn(String title, String value) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyleManager.smallParagraphStyle(context)?.copyWith(
+            color: Colors.white70,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyleManager.bodyStyle(context)?.copyWith(
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSeatsGrid(List<int> reservedSeats , double seatPrice) {
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              GeneralStrings.seats(context),
+              style: TextStyleManager.bodyStyle(context)?.copyWith(
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 10),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: reservedSeats
+                  .map((seat) => Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  seat.toString(),
+                  style: TextStyleManager.bodyStyle(context)?.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ))
+                  .toList(),
+            ),
+          ],
+        ),
+        Spacer(),
+        Column(
+          children: [
+            Text(
+              GeneralStrings.seatPrice(context),
+              style: TextStyleManager.bodyStyle(context)?.copyWith(
+                color: Colors.white70,
+              ),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              '${seatPrice.toStringAsFixed(2)} €',
+              style: TextStyleManager.bodyStyle(context)?.copyWith(
+                color: Colors.white,
+              ),
+            ),
+
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPriceSection(double seatPrice, double totalPrice) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          GeneralStrings.totalPrice(context),
+          style: TextStyleManager.titleStyle(context)?.copyWith(
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          '${totalPrice.toStringAsFixed(2)} €',
+          style: TextStyleManager.titleStyle(context)?.copyWith(
+            color: Colors.amber,
+          ),
+        ),
+      ],
     );
   }
 }

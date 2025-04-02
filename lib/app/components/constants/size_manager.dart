@@ -43,6 +43,8 @@ class SizeManager {
   static const int i4 = 4;
   static const int i5 = 5;
   static const int i6 = 6;
+  static const int i7 = 7;
+  static const int i8 = 8;
   static const int i200 = 200;
   static const int i300 = 300;
   static const int i400 = 400;
@@ -55,6 +57,11 @@ class SizeManager {
   static const int i1600 = 1600;
   static const int i1800 = 1800;
   static const int i2000 = 2000;
+  static const int i2200 = 2200;
+  static const int i2400 = 2400;
+  static const int i2600 = 2600;
+  static const int i2800 = 2800;
+  static const int i3000 = 3000;
 
 //screen size
   static screenSize(BuildContext context) => MediaQuery.of(context).size;

@@ -15,7 +15,7 @@ class RegisterImplementer implements RegisterInFirebaseRepo {
 
   // Create a new user in Firebase
   @override
-  Future<Either<FailureClass, UserCredential>> createUserAtFirebase(
+  Future<Either<FailureClass, Map<String , dynamic>>> createUserAtFirebase(
       {required CreateUserRequirements req}) async {
     return await repo.createUserAtFirebase(req: req);
   }
@@ -28,9 +28,14 @@ class RegisterImplementer implements RegisterInFirebaseRepo {
   }
 
   @override
-  Future<Either<FailureClass, void>> createUserAtFirebaseWithCredential(
+  Future<Either<FailureClass, Map<String, dynamic>>> createUserAtFirebaseWithCredential(
       {required AuthCredential credential}) async {
     return await repo.createUserAtFirebaseWithCredential(
         credential: credential);
+  }
+
+  @override
+  Future<String> createGuest(String id) async {
+    return await repo.createGuest(id);
   }
 }

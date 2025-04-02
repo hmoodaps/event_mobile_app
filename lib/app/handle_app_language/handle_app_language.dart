@@ -1,5 +1,3 @@
-// Defines the green theme colors.
-
 import 'package:flutter/foundation.dart';
 
 import '../../data/local_storage/shared_local.dart';
@@ -48,8 +46,23 @@ class SpanishLanguage implements AppLanguage {
   String appLanguage = 'es';
 }
 
+class RussianLanguage implements AppLanguage {
+  @override
+  String appLanguage = 'ru';
+}
+
+class ItalianLanguage implements AppLanguage {
+  @override
+  String appLanguage = 'it';
+}
+
+class GermanLanguage implements AppLanguage {
+  @override
+  String appLanguage = 'de';
+}
+
 // Enum to define the available color themes.
-enum ApplicationLanguage { en, nl, ar, fr, es, tr }
+enum ApplicationLanguage { en, nl, ar, fr, es, tr, ru, it, de }
 
 // Extension to retrieve the color manager based on the selected theme.
 extension ApplicationLanguageExtension on ApplicationLanguage {
@@ -67,8 +80,12 @@ extension ApplicationLanguageExtension on ApplicationLanguage {
         return EnglishLanguage();
       case ApplicationLanguage.ar:
         return ArabicLanguage();
-      default:
-        return EnglishLanguage();
+      case ApplicationLanguage.ru:
+        return RussianLanguage();
+      case ApplicationLanguage.it:
+        return ItalianLanguage();
+      case ApplicationLanguage.de:
+        return GermanLanguage();
     }
   }
 }
@@ -100,6 +117,15 @@ class HandleAppLanguage {
       TheAppLanguage.updateLanguage(language);
     } else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'tr') {
       AppLanguage language = ApplicationLanguage.tr.applanguage;
+      TheAppLanguage.updateLanguage(language);
+    } else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'ru') {
+      AppLanguage language = ApplicationLanguage.ru.applanguage;
+      TheAppLanguage.updateLanguage(language);
+    } else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'it') {
+      AppLanguage language = ApplicationLanguage.it.applanguage;
+      TheAppLanguage.updateLanguage(language);
+    } else if (SharedPref.prefs.getString(GeneralStrings.appLanguage) == 'de') {
+      AppLanguage language = ApplicationLanguage.de.applanguage;
       TheAppLanguage.updateLanguage(language);
     }
     if (kDebugMode) {

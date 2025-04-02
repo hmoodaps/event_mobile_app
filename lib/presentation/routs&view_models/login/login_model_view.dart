@@ -32,6 +32,7 @@ class LoginModelView extends BaseViewModel with LoginModelViewFunctions {
     required String password,
   }) async {
     CreateUserRequirements req = CreateUserRequirements(
+      token: "",
       email: email,
       password: password,
     );

@@ -12,6 +12,8 @@
 // To fulfill dependencies or method parameters, allowing the test to focus on other behaviors.
 // To ensure that the code can execute without requiring fully functional objects in scenarios where they are not critical for the test.
 
+import '../../domain/models/show_time_response/show_time_response.dart';
+
 extension NonNullDoubleParse on String? {
   double toDoubleOrZero() {
     return this == null ? 0.0 : double.tryParse(this!) ?? 0.0;
@@ -44,6 +46,11 @@ extension NonNullDouble on double? {
 
 extension NonNullList on List? {
   List orEmptyList() {
+    return this ?? [];
+  }
+}
+extension emptyShowTimesResponseList on List<ShowTimesResponse>? {
+  List<ShowTimesResponse>?  orEmptyShowTimesResponseList() {
     return this ?? [];
   }
 }

@@ -90,7 +90,7 @@ class RegisterModelView extends BaseViewModel with RegisterModelViewFunctions {
     required String password,
   }) async {
     CreateUserRequirements req = CreateUserRequirements(
-        email: email, password: password, fullName: fullName);
+        email: email, password: password, fullName: fullName, token: '');
     if (formKey!.currentState!.validate()) {
       _bloc.add(StartCreateUserEvent(req));
     }

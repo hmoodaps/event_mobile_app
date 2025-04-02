@@ -11,6 +11,20 @@ class FailureClass {
   });
 }
 
+class PaymentData {
+  final String amount;
+  final String currency;
+
+  PaymentData(this.amount) : currency = 'euro';
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount,
+      'currency': currency,
+    };
+  }
+}
+
 Future<Either<FailureClass, T>> handleFirebaseOperation<T>(
     Future<T> Function() firebaseOperation) async {
   try {

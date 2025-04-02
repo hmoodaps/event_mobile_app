@@ -1,14 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
-import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
+import 'package:event_mobile_app/domain/models/billing_info/billing_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/handle_app_language/handle_app_language.dart';
 import '../../app/handle_app_theme/handle_app_theme_colors.dart';
 import '../../data/implementer/failure_class/failure_class.dart';
-import '../../data/models/movie_model.dart';
 import '../../domain/local_models/models.dart';
+import '../../domain/models/model_objects/actor_model.dart';
+import '../../domain/models/movie_model/movie_model.dart';
 
 abstract class AppEvents {}
 
@@ -22,7 +23,7 @@ class StartCreateUserEvent extends AppEvents {
 class CreatingUserResultEvent extends AppEvents {
   final String? error;
   final CreateUserRequirements req;
-  final Either<FailureClass, UserCredential> result;
+  final Either<FailureClass, Map<String , dynamic>> result;
 
   CreatingUserResultEvent(this.req, this.result, {this.error});
 }
@@ -46,7 +47,7 @@ class SignInWithGoogleEvent extends AppEvents {}
 
 class SignInWithGoogleResultEvent extends AppEvents {
   final String? error;
-  Either<FailureClass, User> result;
+  Either<FailureClass, Map<String, dynamic>> result;
 
   SignInWithGoogleResultEvent(this.result, {this.error});
 }
@@ -133,8 +134,9 @@ class UserCreatedErrorEvent extends AppEvents {
 
 class UserCreatedSuccessEvent extends AppEvents {
   User user;
+  String token ;
 
-  UserCreatedSuccessEvent(this.user);
+  UserCreatedSuccessEvent(this.user,{required this.token});
 }
 
 class LoginErrorEvent extends AppEvents {
@@ -163,8 +165,9 @@ class SignInWithGoogleEventError extends AppEvents {
 
 class SignInWithGoogleEventSuccess extends AppEvents {
   final User user;
+  final String token ;
 
-  SignInWithGoogleEventSuccess(this.user);
+  SignInWithGoogleEventSuccess(this.user , this.token);
 }
 
 class ChangeColorModeEvent extends AppEvents {
@@ -277,3 +280,39 @@ class FetchActorsDataEvent extends AppEvents {
 
   FetchActorsDataEvent({required this.actors});
 }
+
+class MakePaymentEvent extends AppEvents {
+  final String ? clientEmail ;
+  final String ? description ;
+  final double amount;
+
+  MakePaymentEvent({required this.amount,this.clientEmail, this.description, });
+}
+
+class MakeReservationEvent extends AppEvents{
+   String guest_id;
+   int movie_id;
+   int showtime_id;
+   List<int> seat_numbers;
+  MakeReservationEvent(
+      {required this.guest_id,
+      required this.movie_id,
+      required this.showtime_id,
+      required this.seat_numbers});
+}
+class MakeReservationSuccessEvent extends AppEvents{
+  String reservationCode;
+  MakeReservationSuccessEvent({required this.reservationCode});
+}
+class MakeReservationFailedEvent extends AppEvents{}
+class AddBillsToFirebaseEvent extends AppEvents{
+  BillingInfo bill ;
+  AddBillsToFirebaseEvent({required this.bill});
+}
+
+class GetMovieEvent extends AppEvents{
+  int movieId ;
+  GetMovieEvent({required this.movieId});
+}
+
+class GenerateBillRefNumEvent extends AppEvents{}

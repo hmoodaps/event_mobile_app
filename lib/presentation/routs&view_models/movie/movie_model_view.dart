@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../../domain/models/movie_model/movie_model.dart';
 import '../../bloc_state_managment/events.dart';
 
 class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
@@ -25,10 +25,15 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   @override
   void start() {
     _bloc = EventsBloc.get(context);
-
     extractDominantColor();
+    fetchActorsData(
+      movie.actors!.map((e) => e.toString()).toList(),
+    );
   }
 
+  void fetchActorsData(List<String> actors) {
+    _bloc.add(FetchActorsDataEvent(actors: actors));
+  }
 
   /// Determines the contrasting color for a given color based on brightness.
   /// The brightness calculation follows the standard luminance formula:
@@ -37,9 +42,9 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   /// - Otherwise, the text color should be white.
   @override
   Color getContrastingColor(Color color) {
-    // Calculate brightness using the luminance formula.
+// Calculate brightness using the luminance formula.
     double brightness =
-        (0.299 * color.red + 0.587 * color.green + 0.114 * color.blue) / 255;
+        (0.299 * color.r + 0.587 * color.g + 0.114 * color.b) / 255;
 
     // Return black text if brightness is high, otherwise return white text.
     return brightness > 0.5 ? Colors.black : Colors.white;
@@ -116,6 +121,8 @@ class MovieModelView extends BaseViewModel with MoviesModelViewFunctions {
   removeFilmFromFavEvent(MovieResponse movie) {
     _bloc.add(RemoveFilmFromFavEvent(movie));
   }
+
+
 }
 
 mixin MoviesModelViewFunctions {

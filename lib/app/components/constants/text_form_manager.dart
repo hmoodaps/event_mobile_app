@@ -6,7 +6,7 @@ import 'color_manager.dart';
 import 'font_manager.dart';
 
 TextFormField textFormField({
-  int ? maxLength ,
+  int? maxLength,
   bool? readOnly,
   required TextEditingController controller,
   String? Function(String?)? validator,
@@ -24,7 +24,6 @@ TextFormField textFormField({
   required BuildContext context,
 }) {
   return defaultTextFormField(
-
     context: context,
     controller: controller,
     hintText: hintText,
@@ -79,7 +78,7 @@ TextFormField searchFormField({
   TextInputType? keyboardType,
   void Function()? onEditingComplete,
   Widget? suffix,
-  int ? maxLength,
+  int? maxLength,
   Widget? prefix,
   String? hintText,
   String? labelText,
@@ -88,7 +87,6 @@ TextFormField searchFormField({
 }) {
   return defaultTextFormField(
     maxLength: maxLength,
-
     controller: controller,
     hintText: hintText,
     fillColor: fillColor,
@@ -122,7 +120,7 @@ TextFormField defaultTextFormField({
   TextInputType? keyboardType,
   void Function()? onEditingComplete,
   Widget? suffix,
-  int ? maxLength,
+  int? maxLength,
   Widget? prefix,
   String? hintText,
   String? labelText,
@@ -136,7 +134,7 @@ TextFormField defaultTextFormField({
   return TextFormField(
     maxLengthEnforcement: MaxLengthEnforcement.none,
     inputFormatters: [
-      LengthLimitingTextInputFormatter(maxLength), 
+      LengthLimitingTextInputFormatter(maxLength),
     ],
     readOnly: readOnly ?? false,
     controller: controller,

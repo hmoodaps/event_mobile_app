@@ -5,7 +5,6 @@ import 'package:event_mobile_app/app/components/constants/font_manager.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
-import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage'
     '.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
@@ -18,6 +17,7 @@ import 'package:staggered_animated_widget/staggered_animated_widget.dart';
 
 import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../domain/local_models/models.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
 import '../more_detail_route/more_detail_view.dart';
 
 class MovieRoute extends StatefulWidget {
@@ -63,7 +63,7 @@ class _MovieRouteState extends State<MovieRoute> {
               height: SizeManager.screenSize(context).height * (75 / 100),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                imageUrl: widget.movie.verticalPhoto!,
+                imageUrl: widget.movie.vertical_photo!,
               ),
             ),
           ),
@@ -110,7 +110,7 @@ class _MovieRouteState extends State<MovieRoute> {
                         child: StaggeredAnimatedWidget(
                           delay: SizeManager.i900,
                           child: Text(
-                            widget.movie.shortDescription!,
+                            widget.movie.short_description!,
                             style: TextStyleManager.bodyStyle(context)!
                                 .copyWith(color: _model.textColor),
                           ),
@@ -187,33 +187,31 @@ class _MovieRouteState extends State<MovieRoute> {
               alignment: Alignment.bottomLeft,
               child: Padding(
                 padding: EdgeInsets.all(SizeManager.d20),
-                child: Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        ContainerManager.myShadow(shadowColor: Colors.black45),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      ContainerManager.myShadow(shadowColor: Colors.black45),
+                    ],
+                    borderRadius: BorderRadius.circular(SizeManager.d20),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white,
+                        ColorManager.green4,
+                        ColorManager.green3,
                       ],
-                      borderRadius: BorderRadius.circular(SizeManager.d20),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.white,
-                          ColorManager.green4,
-                          ColorManager.green3,
-                        ],
-                        stops: [0.00001, 0.5, 1],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
+                      stops: [0.00001, 0.5, 1],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                     ),
-                    height: GetSize.heightValue(SizeManager.d50, context),
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        GeneralStrings.moreDetails(context),
-                        style: TextStyleManager.bodyStyle(context)?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeightManager.bold),
-                      ),
+                  ),
+                  height: GetSize.heightValue(SizeManager.d50, context),
+                  width: double.infinity,
+                  child: Center(
+                    child: Text(
+                      GeneralStrings.moreDetails(context),
+                      style: TextStyleManager.bodyStyle(context)?.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeightManager.bold),
                     ),
                   ),
                 ),

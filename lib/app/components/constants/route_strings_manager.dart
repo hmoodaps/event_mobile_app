@@ -14,4 +14,5 @@ class RouteStringsManager {
   static const String searchRoute = '/searchRoute';
   static const String profileRoute = '/profileRoute';
   static const String takeUserDetailsRoute = '/takeUserDetailsRoute';
+  static const String afterPaymentView = '/after-payment-view';
 }

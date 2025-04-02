@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:event_mobile_app/app/components/constants/getSize/getSize.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer_effect/shimmer_effect.dart';
-
 import '../../../app/components/constants/color_manager.dart';
 import '../../../app/components/constants/font_manager.dart';
 import '../../../app/components/constants/general_strings.dart';
@@ -17,8 +15,8 @@ import '../../../app/components/constants/size_manager.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/text_form_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
-import '../../../data/models/movie_model.dart';
 import '../../../domain/local_models/models.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/states.dart';
 import '../more_detail_route/more_detail_view.dart';
@@ -62,7 +60,10 @@ class _MoviesRouteState extends State<MoviesRoute> {
           springAnimationDurationInMilliseconds: SizeManager.i1400,
           color: ColorManager.primarySecond,
           showChildOpacityTransition: true,
-          onRefresh: () => _model.getMovies(),
+          onRefresh: () {
+            //TODO : FFFFFFFFFFFFFFFFFFFFFFF
+            return _model.getMovies();
+          },
           child: stackBackGroundManager(
               otherWidget: _screenWidgets(), isDark: VariablesManager.isDark),
         ),
@@ -179,7 +180,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
                     backgroundColor: Colors.transparent,
                     children: List.generate(
                       VariablesManager.movies.length,
-                          (index) =>
+                      (index) =>
                           _newMovies(movie: VariablesManager.movies[index]),
                     ),
                   ),
@@ -262,7 +263,6 @@ class _MoviesRouteState extends State<MoviesRoute> {
   }
 
   Widget _newMovies({required MovieResponse movie}) {
-
     return RepaintBoundary(
       child: SizedBox(
         child: CachedNetworkImage(
@@ -302,7 +302,7 @@ class _MoviesRouteState extends State<MoviesRoute> {
             ),
           ),
           CachedNetworkImage(
-            imageUrl: movie.verticalPhoto!,
+            imageUrl: movie.vertical_photo!,
             height: GetSize.heightValue(SizeManager.d150, context),
             width: GetSize.widthValue(SizeManager.d100, context),
             fit: BoxFit.cover,
@@ -372,12 +372,16 @@ class _MoviesRouteState extends State<MoviesRoute> {
           featuresSlider(movie, context),
           Row(
             children: [
-              Text("${movie.ticketPrice.toString()} €",
+              Text("${_model.getMinPrice(movie)} €",
                   style: TextStyleManager.bodyStyle(context)),
               Spacer(),
               GestureDetector(
-                onTap :(){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoreDetailView(movie: movie),));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MoreDetailView(movie: movie),
+                      ));
                 },
                 child: CircleAvatar(
                   radius: 18,

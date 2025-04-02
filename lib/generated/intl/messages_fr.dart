@@ -22,181 +22,241 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "about": MessageLookupByLibrary.simpleMessage("À propos"),
-        "aboutUs": MessageLookupByLibrary.simpleMessage("À propos de nous"),
-        "accountCreated":
-            MessageLookupByLibrary.simpleMessage("Compte créé avec succès!"),
-        "accountExistsWithDifferentCredential":
-            MessageLookupByLibrary.simpleMessage(
-                "Un compte existe déjà avec cette adresse e-mail, mais avec des informations d\'identification différentes."),
-        "actors": MessageLookupByLibrary.simpleMessage("Acteurs"),
-        "additionalInfo": MessageLookupByLibrary.simpleMessage(
-            "Informations supplémentaires"),
-        "address": MessageLookupByLibrary.simpleMessage("Adresse"),
-        "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid"),
-        "allInvesting": MessageLookupByLibrary.simpleMessage(
-            "Tout investissement comporte des risques"),
-        "allMovies": MessageLookupByLibrary.simpleMessage("Tous les films"),
-        "available": MessageLookupByLibrary.simpleMessage("Disponible"),
-        "beTheFirstOne":
-            MessageLookupByLibrary.simpleMessage("Soyez le premier!"),
-        "bookNow": MessageLookupByLibrary.simpleMessage("Réservez MAINTENANT!"),
-        "byPress": MessageLookupByLibrary.simpleMessage("par pression"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
-        "cart": MessageLookupByLibrary.simpleMessage("Panier"),
-        "chooseSeat":
-            MessageLookupByLibrary.simpleMessage("Choisissez votre siège"),
-        "city": MessageLookupByLibrary.simpleMessage("ville"),
-        "colorThemeApp":
-            MessageLookupByLibrary.simpleMessage("Thèmes de couleur"),
-        "continueString": MessageLookupByLibrary.simpleMessage("Continuer"),
-        "coupons": MessageLookupByLibrary.simpleMessage("Coupons"),
-        "createAccount":
-            MessageLookupByLibrary.simpleMessage("Créer un compte"),
-        "dateOfBirth":
-            MessageLookupByLibrary.simpleMessage("Date de naissance"),
-        "douKnowWhoIs":
-            MessageLookupByLibrary.simpleMessage("Tu sais qui est "),
-        "email": MessageLookupByLibrary.simpleMessage("Adresse e-mail"),
-        "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
-            "L\'adresse e-mail est déjà utilisée par un autre compte."),
-        "error": MessageLookupByLibrary.simpleMessage("Erreur"),
-        "expiredActionCode": MessageLookupByLibrary.simpleMessage(
-            "Le code OTP dans le lien email a expiré."),
-        "favorites": MessageLookupByLibrary.simpleMessage("Favoris"),
-        "fee": MessageLookupByLibrary.simpleMessage("tarification"),
-        "feedback":
-            MessageLookupByLibrary.simpleMessage("Commentaires & Réclamations"),
-        "fewData":
-            MessageLookupByLibrary.simpleMessage("Encore quelques données!"),
-        "fieldRequired":
-            MessageLookupByLibrary.simpleMessage("Ce champ est requis"),
-        "finalPrice": MessageLookupByLibrary.simpleMessage("Prix final: "),
-        "forgetPassword":
-            MessageLookupByLibrary.simpleMessage("Mot de passe oublié?"),
-        "fullName": MessageLookupByLibrary.simpleMessage("Nom complet"),
-        "go": MessageLookupByLibrary.simpleMessage("Allez!"),
-        "guest": MessageLookupByLibrary.simpleMessage("en tant qu\'invité"),
-        "haveAccount":
-            MessageLookupByLibrary.simpleMessage("Vous avez déjà un compte?"),
-        "heightIMDBRate":
-            MessageLookupByLibrary.simpleMessage("Meilleure note IMDB:"),
-        "houseNumber":
-            MessageLookupByLibrary.simpleMessage("Numéro de la maison"),
-        "hurry": MessageLookupByLibrary.simpleMessage(
-            "Dépêchez-vous! Il ne reste que"),
-        "invalidCredential": MessageLookupByLibrary.simpleMessage(
-            "Les informations d\'identification ne sont pas valides ou ont expiré."),
-        "invalidEmail": MessageLookupByLibrary.simpleMessage(
-            "L\'adresse e-mail n\'est pas valide."),
-        "invalidVerificationCode": MessageLookupByLibrary.simpleMessage(
-            "Le code de vérification n\'est pas valide."),
-        "invalidVerificationId": MessageLookupByLibrary.simpleMessage(
-            "L\'ID de vérification n\'est pas valide."),
-        "language": MessageLookupByLibrary.simpleMessage("Langue"),
-        "lastName": MessageLookupByLibrary.simpleMessage("Nom de famille"),
-        "lastTicketAvailable":
-            MessageLookupByLibrary.simpleMessage("Dernier billet disponible!"),
-        "learnMore":
-            MessageLookupByLibrary.simpleMessage("pour en savoir plus"),
-        "letsCreateAccount": MessageLookupByLibrary.simpleMessage(
-            "Créons un compte rapidement pour vous"),
-        "letsStart": MessageLookupByLibrary.simpleMessage("Commençons"),
-        "login": MessageLookupByLibrary.simpleMessage("Se connecter"),
-        "loginOrRegister":
-            MessageLookupByLibrary.simpleMessage("Se connecter ou s\'inscrire"),
-        "logout": MessageLookupByLibrary.simpleMessage("Se déconnecter"),
-        "lostConnection":
-            MessageLookupByLibrary.simpleMessage("Internet déconnecté"),
-        "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
-            "Veuillez vérifier votre connexion Internet.\nCe message disparaîtra automatiquement lorsque la connexion sera rétablie."),
-        "lowPrice": MessageLookupByLibrary.simpleMessage("Prix bas:"),
-        "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
-            "Essayons de réinitialiser votre mot de passe. Nous enverrons un lien pour\n définir votre mot de passe à votre adresse e-mail."),
-        "mobileNumber":
-            MessageLookupByLibrary.simpleMessage("Numéro de téléphone"),
-        "moreDetails": MessageLookupByLibrary.simpleMessage("Plus de détails"),
-        "myAppBalance":
-            MessageLookupByLibrary.simpleMessage("Mon solde de compte"),
-        "newMovies": MessageLookupByLibrary.simpleMessage("Nouveaux films"),
-        "noCartItems": MessageLookupByLibrary.simpleMessage(
-            "Votre panier est vide pour l’instant !"),
-        "noFaveItems":
-            MessageLookupByLibrary.simpleMessage("Pas encore de favoris ici !"),
-        "notLoggedIn": MessageLookupByLibrary.simpleMessage(
-            "Vous n’êtes pas encore connecté. Connectez-vous pour accéder à votre panier !"),
-        "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
-            "Opération non autorisée. \nActivez cette option dans la console Firebase."),
-        "or": MessageLookupByLibrary.simpleMessage("ou"),
-        "orders": MessageLookupByLibrary.simpleMessage("Commandes"),
-        "otherFees": MessageLookupByLibrary.simpleMessage(
-            "Des frais supplémentaires peuvent s\'appliquer"),
-        "password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
-        "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
-            "Le lien de réinitialisation du mot de passe a été envoyé à votre e-mail.\nVérifiez votre boîte de réception"),
-        "paymentMethods":
-            MessageLookupByLibrary.simpleMessage("Méthodes de paiement"),
-        "postalCode": MessageLookupByLibrary.simpleMessage("Code postal"),
-        "privacy": MessageLookupByLibrary.simpleMessage(
-            "Politique de confidentialité"),
-        "privacyPolicy": MessageLookupByLibrary.simpleMessage(
-            "Politique de confidentialité"),
-        "question":
-            MessageLookupByLibrary.simpleMessage("Voulez-vous continuer?"),
-        "register": MessageLookupByLibrary.simpleMessage("S\'inscrire"),
-        "reserved": MessageLookupByLibrary.simpleMessage("Réservé"),
-        "resetPassword": MessageLookupByLibrary.simpleMessage(
-            "Réinitialiser le mot de passe"),
-        "resources": MessageLookupByLibrary.simpleMessage("Ressources"),
-        "search": MessageLookupByLibrary.simpleMessage("chercher"),
-        "seatPrice": MessageLookupByLibrary.simpleMessage("Prix du siège: "),
-        "seats": MessageLookupByLibrary.simpleMessage("places"),
-        "seatsAvailable":
-            MessageLookupByLibrary.simpleMessage("places disponibles"),
-        "seatsChosen": MessageLookupByLibrary.simpleMessage("Sièges choisis: "),
-        "selected": MessageLookupByLibrary.simpleMessage("Sélectionné"),
-        "selectedSeats":
-            MessageLookupByLibrary.simpleMessage("Sièges sélectionnés: "),
-        "signWithApple":
-            MessageLookupByLibrary.simpleMessage("Se connecter avec Apple"),
-        "signWithGoogle":
-            MessageLookupByLibrary.simpleMessage("Se connecter avec Google"),
-        "skip": MessageLookupByLibrary.simpleMessage("Passer"),
-        "someInfo": MessageLookupByLibrary.simpleMessage(
-            "Nous allons prendre quelques informations pour améliorer\n votre expérience personnalisée, seulement quelques secondes."),
-        "startInvesting": MessageLookupByLibrary.simpleMessage(
-            "Commencez à investir sans commission"),
-        "street": MessageLookupByLibrary.simpleMessage("Rue"),
-        "success": MessageLookupByLibrary.simpleMessage("Succès"),
-        "termsAndConditions":
-            MessageLookupByLibrary.simpleMessage("Termes et conditions"),
-        "themeMode": MessageLookupByLibrary.simpleMessage("Mode Thème"),
-        "ticketsLeft":
-            MessageLookupByLibrary.simpleMessage("billets restants!"),
-        "topMovies": MessageLookupByLibrary.simpleMessage("Films principaux"),
-        "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
-            "Connectez-vous d’abord pour ajouter des articles au panier !"),
-        "uDidnotSelectSeat": MessageLookupByLibrary.simpleMessage(
-            "Vous n\'avez pas choisi de siège :("),
-        "unknownError": MessageLookupByLibrary.simpleMessage(
-            "Une erreur inconnue s\'est produite."),
-        "urNotLogin":
-            MessageLookupByLibrary.simpleMessage("Vous n’êtes pas connecté !"),
-        "userDisabled": MessageLookupByLibrary.simpleMessage(
-            "L\'utilisateur a été désactivé."),
-        "userMismatch": MessageLookupByLibrary.simpleMessage(
-            "Les informations d\'identification ne correspondent pas à l\'utilisateur."),
-        "userNotFound": MessageLookupByLibrary.simpleMessage(
-            "Aucun utilisateur trouvé avec les informations d\'identification fournies."),
-        "viewOur": MessageLookupByLibrary.simpleMessage("Voir notre"),
-        "weakPassword": MessageLookupByLibrary.simpleMessage(
-            "Le mot de passe est trop faible."),
-        "welcome":
-            MessageLookupByLibrary.simpleMessage("Bienvenue sur Cinema Ticket"),
-        "welcomeBack":
-            MessageLookupByLibrary.simpleMessage("Bienvenue de nouveau!"),
-        "wrongPassword": MessageLookupByLibrary.simpleMessage(
-            "Le mot de passe est incorrect ou le compte n\'a pas de mot de passe défini."),
-        "youAccept": MessageLookupByLibrary.simpleMessage("Vous acceptez nos")
-      };
+    "BOPM": MessageLookupByLibrary.simpleMessage("BOPM"),
+    "about": MessageLookupByLibrary.simpleMessage("À propos"),
+    "aboutUs": MessageLookupByLibrary.simpleMessage("À propos de nous "),
+    "accountCreated": MessageLookupByLibrary.simpleMessage(
+      "Ton compte a été créé avec succès! ",
+    ),
+    "accountExistsWithDifferentCredential": MessageLookupByLibrary.simpleMessage(
+      "Un compte existe déjà avec cette adresse email mais avec des informations différentes. ",
+    ),
+    "actors": MessageLookupByLibrary.simpleMessage("Acteurs"),
+    "additionalInfo": MessageLookupByLibrary.simpleMessage(
+      "Informations supplémentaires ",
+    ),
+    "address": MessageLookupByLibrary.simpleMessage("Adresse "),
+    "ahmadKhalid": MessageLookupByLibrary.simpleMessage("Ahmed Khalid "),
+    "allInvesting": MessageLookupByLibrary.simpleMessage(
+      "Toutes les investissements ont un risque ",
+    ),
+    "allMovies": MessageLookupByLibrary.simpleMessage("Tous les films "),
+    "available": MessageLookupByLibrary.simpleMessage("Disponible"),
+    "basedOnPhoneMode": MessageLookupByLibrary.simpleMessage(
+      "Basé sur le mode téléphone",
+    ),
+    "beTheFirstOne": MessageLookupByLibrary.simpleMessage("Sois le premier! "),
+    "blue": MessageLookupByLibrary.simpleMessage("Bleu"),
+    "bookNow": MessageLookupByLibrary.simpleMessage("Réserve maintenant!"),
+    "byPress": MessageLookupByLibrary.simpleMessage("D\'un simple clic "),
+    "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
+    "cart": MessageLookupByLibrary.simpleMessage("Panier "),
+    "checkOut": MessageLookupByLibrary.simpleMessage("Passer à la caisse"),
+    "chooseSeat": MessageLookupByLibrary.simpleMessage("Choisis ton siège"),
+    "city": MessageLookupByLibrary.simpleMessage("Ville "),
+    "colorThemeApp": MessageLookupByLibrary.simpleMessage("Thèmes de couleur "),
+    "continueString": MessageLookupByLibrary.simpleMessage("Continue "),
+    "coupons": MessageLookupByLibrary.simpleMessage("Coupons "),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Créer un compte "),
+    "darkMode": MessageLookupByLibrary.simpleMessage("Mode sombre"),
+    "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date de naissance "),
+    "douKnowWhoIs": MessageLookupByLibrary.simpleMessage("Tu sais qui est "),
+    "email": MessageLookupByLibrary.simpleMessage("Adresse e-mail "),
+    "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+      "L\'email est déjà utilisé par un autre compte. ",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage(
+      "Oups, quelque chose a foiré! ",
+    ),
+    "expiredActionCode": MessageLookupByLibrary.simpleMessage(
+      "Le code OTP dans le lien de l\'email a expiré. ",
+    ),
+    "favorites": MessageLookupByLibrary.simpleMessage("Favoris "),
+    "fee": MessageLookupByLibrary.simpleMessage("barème de frais "),
+    "feedback": MessageLookupByLibrary.simpleMessage(
+      "Commentaires & Réclamations ",
+    ),
+    "fewData": MessageLookupByLibrary.simpleMessage("Quelques infos de plus! "),
+    "fieldRequired": MessageLookupByLibrary.simpleMessage(
+      "Ce champ est obligatoire ",
+    ),
+    "filmName": MessageLookupByLibrary.simpleMessage("Nom du film:"),
+    "finalPrice": MessageLookupByLibrary.simpleMessage("Prix final: "),
+    "forgetPassword": MessageLookupByLibrary.simpleMessage(
+      "T\'as oublié ton mot de passe? ",
+    ),
+    "fullName": MessageLookupByLibrary.simpleMessage("Nom complet "),
+    "go": MessageLookupByLibrary.simpleMessage("Go!"),
+    "green": MessageLookupByLibrary.simpleMessage("Vert"),
+    "guest": MessageLookupByLibrary.simpleMessage("en tant qu\'invité "),
+    "haveAccount": MessageLookupByLibrary.simpleMessage(
+      "T\'as déjà un compte? ",
+    ),
+    "heightIMDBRate": MessageLookupByLibrary.simpleMessage(
+      "Meilleur taux IMDB: ",
+    ),
+    "houseNumber": MessageLookupByLibrary.simpleMessage("Numéro de maison "),
+    "hurry": MessageLookupByLibrary.simpleMessage(
+      "Vite! Il ne reste plus que ",
+    ),
+    "invalidCredential": MessageLookupByLibrary.simpleMessage(
+      "Les informations d\'identification ne sont pas valides ou ont expiré. ",
+    ),
+    "invalidEmail": MessageLookupByLibrary.simpleMessage(
+      "L\'adresse email n\'est pas valide. ",
+    ),
+    "invalidVerificationCode": MessageLookupByLibrary.simpleMessage(
+      "Le code de vérification est invalide. ",
+    ),
+    "invalidVerificationId": MessageLookupByLibrary.simpleMessage(
+      "L\'identifiant de vérification est invalide. ",
+    ),
+    "language": MessageLookupByLibrary.simpleMessage("Langue "),
+    "lastName": MessageLookupByLibrary.simpleMessage("Nom de famille "),
+    "lastTicketAvailable": MessageLookupByLibrary.simpleMessage(
+      "Dernière place dispo! ",
+    ),
+    "learnMore": MessageLookupByLibrary.simpleMessage("pour en savoir plus "),
+    "letsCreateAccount": MessageLookupByLibrary.simpleMessage(
+      "On va créer ton compte rapidement ",
+    ),
+    "letsStart": MessageLookupByLibrary.simpleMessage("On y va, let\'s go! "),
+    "lightMode": MessageLookupByLibrary.simpleMessage("Mode clair"),
+    "login": MessageLookupByLibrary.simpleMessage("Se connecter "),
+    "loginOrRegister": MessageLookupByLibrary.simpleMessage(
+      "Se connecter ou s\'inscrire ",
+    ),
+    "logout": MessageLookupByLibrary.simpleMessage("Se déconnecter "),
+    "lostConnection": MessageLookupByLibrary.simpleMessage("Connexion perdue "),
+    "lostConnectionContent": MessageLookupByLibrary.simpleMessage(
+      "Vérifie ta connexion internet.\nCe message disparaîtra quand la connexion sera rétablie. ",
+    ),
+    "lowPrice": MessageLookupByLibrary.simpleMessage("Prix bas: "),
+    "ltsResetPassword": MessageLookupByLibrary.simpleMessage(
+      "On va essayer de réinitialiser ton mot de passe. On t\'enverra un lien sur ton email. ",
+    ),
+    "manual": MessageLookupByLibrary.simpleMessage("Manuel"),
+    "mobileNumber": MessageLookupByLibrary.simpleMessage(
+      "Numéro de téléphone ",
+    ),
+    "moreDetails": MessageLookupByLibrary.simpleMessage("Plus de détails"),
+    "myAppBalance": MessageLookupByLibrary.simpleMessage(
+      "Mon solde dans l\'app ",
+    ),
+    "newMovies": MessageLookupByLibrary.simpleMessage("Films récents "),
+    "noCartItems": MessageLookupByLibrary.simpleMessage(
+      "Ton panier est vide pour l\'instant! ",
+    ),
+    "noFaveItems": MessageLookupByLibrary.simpleMessage(
+      "Pas encore de favoris! ",
+    ),
+    "notLoggedIn": MessageLookupByLibrary.simpleMessage(
+      "Tu n\'es pas connecté encore! Connecte-toi pour accéder à ton panier! ",
+    ),
+    "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
+      "Opération non autorisée. ",
+    ),
+    "or": MessageLookupByLibrary.simpleMessage("ou "),
+    "orders": MessageLookupByLibrary.simpleMessage("Commandes "),
+    "otherFees": MessageLookupByLibrary.simpleMessage(
+      "Des frais supplémentaires peuvent s\'appliquer! ",
+    ),
+    "password": MessageLookupByLibrary.simpleMessage("Mot de passe "),
+    "passwordResetSuccess": MessageLookupByLibrary.simpleMessage(
+      "Le lien de réinitialisation du mot de passe a été envoyé à ton email.\nVérifie ta boîte de réception ",
+    ),
+    "pay": MessageLookupByLibrary.simpleMessage("Payer"),
+    "paymentMethods": MessageLookupByLibrary.simpleMessage(
+      "Méthodes de paiement ",
+    ),
+    "postalCode": MessageLookupByLibrary.simpleMessage("Code postal "),
+    "privacy": MessageLookupByLibrary.simpleMessage(
+      "Politique de confidentialité ",
+    ),
+    "privacyPolicy": MessageLookupByLibrary.simpleMessage(
+      "Politique de confidentialité ",
+    ),
+    "purple": MessageLookupByLibrary.simpleMessage("Violet"),
+    "question": MessageLookupByLibrary.simpleMessage("Tu veux continuer? "),
+    "register": MessageLookupByLibrary.simpleMessage("S\'inscrire "),
+    "reserved": MessageLookupByLibrary.simpleMessage("Réservé"),
+    "resetPassword": MessageLookupByLibrary.simpleMessage(
+      "Réinitialiser le mot de passe ",
+    ),
+    "resources": MessageLookupByLibrary.simpleMessage("Ressources"),
+    "search": MessageLookupByLibrary.simpleMessage("Recherche "),
+    "seatPrice": MessageLookupByLibrary.simpleMessage("Prix du siège: "),
+    "seats": MessageLookupByLibrary.simpleMessage("places "),
+    "seatsAvailable": MessageLookupByLibrary.simpleMessage(
+      "Places disponibles ",
+    ),
+    "seatsChosen": MessageLookupByLibrary.simpleMessage("Sièges choisis: "),
+    "seatsCount": MessageLookupByLibrary.simpleMessage("Nombre de sièges:"),
+    "seatsNumbers": MessageLookupByLibrary.simpleMessage("Numéros de sièges:"),
+    "selected": MessageLookupByLibrary.simpleMessage("Sélectionné"),
+    "selectedSeats": MessageLookupByLibrary.simpleMessage(
+      "Sièges sélectionnés: ",
+    ),
+    "signWithApple": MessageLookupByLibrary.simpleMessage(
+      "Se connecter avec Apple ",
+    ),
+    "signWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Se connecter avec Google ",
+    ),
+    "skip": MessageLookupByLibrary.simpleMessage("Passer "),
+    "someInfo": MessageLookupByLibrary.simpleMessage(
+      "On a juste besoin de quelques infos pour améliorer ton expérience. ",
+    ),
+    "startInvesting": MessageLookupByLibrary.simpleMessage(
+      "Commence à investir sans frais ",
+    ),
+    "street": MessageLookupByLibrary.simpleMessage("Rue "),
+    "success": MessageLookupByLibrary.simpleMessage(
+      "C\'est bon, c\'est fait! ",
+    ),
+    "termsAndConditions": MessageLookupByLibrary.simpleMessage(
+      "Termes et conditions ",
+    ),
+    "themeMode": MessageLookupByLibrary.simpleMessage("Mode Thème "),
+    "ticketsLeft": MessageLookupByLibrary.simpleMessage(
+      "Il reste des places! ",
+    ),
+    "topMovies": MessageLookupByLibrary.simpleMessage("Films Top "),
+    "totalDiscount": MessageLookupByLibrary.simpleMessage(
+      "Total des réductions:",
+    ),
+    "totalPrice": MessageLookupByLibrary.simpleMessage("Prix total:"),
+    "totalToPay": MessageLookupByLibrary.simpleMessage("Total à payer:"),
+    "uCantAddItemToCart": MessageLookupByLibrary.simpleMessage(
+      "Faut que tu te connectes avant d\'ajouter des trucs dans ton panier! ",
+    ),
+    "uDidnotSelectSeat": MessageLookupByLibrary.simpleMessage(
+      "T\'as pas choisi ton siège :( ",
+    ),
+    "unknownError": MessageLookupByLibrary.simpleMessage(
+      "Une erreur inconnue s\'est produite. ",
+    ),
+    "urNotLogin": MessageLookupByLibrary.simpleMessage("T\'es pas connecté! "),
+    "userDisabled": MessageLookupByLibrary.simpleMessage(
+      "Le compte a été désactivé. ",
+    ),
+    "userMismatch": MessageLookupByLibrary.simpleMessage(
+      "Les informations ne correspondent pas. ",
+    ),
+    "userNotFound": MessageLookupByLibrary.simpleMessage(
+      "Aucun utilisateur trouvé avec les informations fournies. ",
+    ),
+    "viewOur": MessageLookupByLibrary.simpleMessage("Regarde notre "),
+    "weakPassword": MessageLookupByLibrary.simpleMessage(
+      "Le mot de passe est trop faible. ",
+    ),
+    "welcome": MessageLookupByLibrary.simpleMessage(
+      "Bienvenue sur Cinema Ticket ",
+    ),
+    "welcomeBack": MessageLookupByLibrary.simpleMessage("Re-bienvenue! "),
+    "wrongPassword": MessageLookupByLibrary.simpleMessage(
+      "Le mot de passe est incorrect ou le compte n\'a pas de mot de passe. ",
+    ),
+    "youAccept": MessageLookupByLibrary.simpleMessage("Tu acceptes nos "),
+  };
 }

@@ -17,9 +17,7 @@ extension AppThemeExtension on AppTheme {
         return darkThemeData();
       case AppTheme.light:
         return lightThemeData();
-      default:
-        return lightThemeData();
-    }
+      }
   }
 }
 

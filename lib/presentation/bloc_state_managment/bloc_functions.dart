@@ -1,15 +1,22 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:easy_stripe_payment/easy_stripe_payment.dart';
+import 'package:event_mobile_app/app/components/constants/dio_and_mapper_constants.dart';
+import 'package:event_mobile_app/data/mapper/mapper.dart';
+import 'package:event_mobile_app/data/network_data_handler/rest_api/dio_logger.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/events.dart';
 import 'package:flutter/material.dart';
-
 import '../../app/components/constants/general_strings.dart';
 import '../../app/components/constants/variables_manager.dart';
 import '../../app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import '../../app/handle_app_language/handle_app_language.dart';
 import '../../app/handle_app_theme/handle_app_theme_colors.dart';
 import '../../data/local_storage/shared_local.dart';
-import '../../data/models/movie_model.dart';
+import '../../domain/models/model_objects/actor_model.dart';
+import '../../domain/models/movie_model/movie_model.dart';
 import '../../main.dart';
 
 class BlocFunctions {
@@ -35,7 +42,7 @@ class BlocFunctions {
 
   changeLanguage(ChangeLanguageEvent event) {
     HandleAppLanguage.changeAppLanguage(event);
-    // Use switch to handle setting the color theme
+    // Use switch to handle setting the language
     switch (event.applicationLanguage) {
       case ApplicationLanguage.en:
         SharedPref.prefs.setString(GeneralStrings.appLanguage, 'en');
@@ -54,6 +61,15 @@ class BlocFunctions {
         break;
       case ApplicationLanguage.ar:
         SharedPref.prefs.setString(GeneralStrings.appLanguage, 'ar');
+        break;
+      case ApplicationLanguage.ru:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'ru');
+        break;
+      case ApplicationLanguage.it:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'it');
+        break;
+      case ApplicationLanguage.de:
+        SharedPref.prefs.setString(GeneralStrings.appLanguage, 'de');
         break;
     }
   }
@@ -89,7 +105,7 @@ class BlocFunctions {
       for (MovieResponse movie in moviesCopy) {
         await precacheImage(CachedNetworkImageProvider(movie.photo!),
             navigatorKey.currentContext!);
-        await precacheImage(CachedNetworkImageProvider(movie.verticalPhoto!),
+        await precacheImage(CachedNetworkImageProvider(movie.vertical_photo!),
             navigatorKey.currentContext!);
       }
     }
@@ -110,4 +126,67 @@ class BlocFunctions {
           navigatorKey.currentContext!);
     }
   }
+
+  Future<Either<String, Response<dynamic>>> makePayment(double amount,
+      {String? clientEmail, String? description}) async {
+    return await EasyStripePayment.instance.makePayment(
+        amount: amount,
+        clientEmail: clientEmail ?? "",
+        description: description ?? "",
+        currency: "eur");
+  }
+
+ Future<Either<String,String>> makeReservation(
+      {required String guest_id,
+      required int movie_id,
+      required int showtime_id,
+      required List<int> seat_numbers}) async{
+    String reservationId="";
+    try{
+      await createDio().post(
+        AppConstants.create_reservation,
+        data: {
+          "guest_id": guest_id,
+          "movie_id": movie_id,
+          "showtime_id": showtime_id,
+          "seat_numbers": seat_numbers
+        },
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization":"token ${VariablesManager.currentUserResponse.token}"
+          },
+        ),
+      ).then((value) {
+        reservationId = value.data["reservation_code"];
+      },);
+      return Right(reservationId)  ;
+    }catch (e){
+      log(e.toString());
+      return Left(e.toString());
+    }
+  }
+
+  Future<MovieResponse> getMovie(
+      {required int movieId,
+}) async{
+    try{
+  final response = await createDio().get(
+        AppConstants.getOneMovie(movieId: movieId),
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization":"token ${VariablesManager.currentUserResponse.token}"
+          },
+        ),
+      );
+    final movieResponse = MovieResponse.fromJson(response.data! );
+    return movieResponse.toDomain();
+
+    }catch (e){
+      throw Exception("error while getting movie ${e.toString()}");
+    }
+  }
+
+
 }

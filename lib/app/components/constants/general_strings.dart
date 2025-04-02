@@ -9,7 +9,6 @@ class GeneralStrings {
   static const String isFirstTimeOpened = 'isFirstTimeOpened';
   static const String currentUser = 'currentUser';
   static const String toggleModeType = 'toggleModeType';
-  static const String manual = 'manual';
   static const String basedOnPhone = 'basedOnPhone';
   static const String isLogin = 'isLogin';
   static const String isGuest = 'isGuest';
@@ -27,9 +26,53 @@ class GeneralStrings {
 
   static String available(BuildContext context) => S.of(context).available;
 
+  static String date(BuildContext context) => S.of(context).date;
+
+  static String time(BuildContext context) => S.of(context).time;
+
+  static String manual(BuildContext context) => S.of(context).manual;
+
+  static String hall(BuildContext context) => S.of(context).hall;
+
+  static String pay(BuildContext context) => S.of(context).pay;
+
+  static String filmName(BuildContext context) => S.of(context).filmName;
+
+  static String seatsNumbers(BuildContext context) =>
+      S.of(context).seatsNumbers;
+
+  static String basedOnPhoneMode(BuildContext context) =>
+      S.of(context).basedOnPhoneMode;
+
+  static String darkMode(BuildContext context) => S.of(context).darkMode;
+
+  static String lightMode(BuildContext context) => S.of(context).lightMode;
+
+  static String green(BuildContext context) => S.of(context).green;
+
+  static String blue(BuildContext context) => S.of(context).blue;
+
+  static String purple(BuildContext context) => S.of(context).purple;
+
+  static String bopm(BuildContext context) => S.of(context).BOPM;
+
+  static String seatsCount(BuildContext context) => S.of(context).seatsCount;
+
+  static String seatPrice(BuildContext context) => S.of(context).seatPrice;
+
+  static String totalPrice(BuildContext context) => S.of(context).totalPrice;
+
+  static String totalDiscount(BuildContext context) =>
+      S.of(context).totalDiscount;
+
+  static String totalToPay(BuildContext context) => S.of(context).totalToPay;
+
+  static String checkOut(BuildContext context) => S.of(context).checkOut;
+
   static String selected(BuildContext context) => S.of(context).selected;
 
   static String reserved(BuildContext context) => S.of(context).reserved;
+
   static String actors(BuildContext context) => S.of(context).actors;
 
   static String bookNow(BuildContext context) => S.of(context).bookNow;
@@ -38,11 +81,10 @@ class GeneralStrings {
       S.of(context).douKnowWhoIs;
 
   static String resources(BuildContext context) => S.of(context).resources;
+
   static String moreDetails(BuildContext context) => S.of(context).moreDetails;
 
   static String about(BuildContext context) => S.of(context).about;
-
-  static String seatPrice(BuildContext context) => S.of(context).seatPrice;
 
   static String seatsChosen(BuildContext context) => S.of(context).seatsChosen;
 

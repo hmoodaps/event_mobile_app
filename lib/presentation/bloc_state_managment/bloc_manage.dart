@@ -19,8 +19,8 @@ import '../../app/components/constants/variables_manager.dart';
 import '../../app/components/firebase_error_handler/firebase_error_handler.dart';
 import '../../app/dependencies_injection/dependency_injection.dart';
 import '../../data/implementer/failure_class/failure_class.dart';
-import '../../data/models/movie_model.dart';
 import '../../data/network_data_handler/http_requests/http_requests_handller.dart';
+import '../../domain/models/movie_model/movie_model.dart';
 import '../../domain/repository/add_user_details.dart';
 import '../../domain/repository/auth_repository.dart';
 import '../../domain/repository/init_repository.dart';
@@ -55,6 +55,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   EventsBloc() : super(InitialState()) {
     // Registering event handlers to listen and respond to various events
     on<StartCreateUserEvent>(_onCreateUserEvent);
+    on<MakePaymentEvent>(_onMakePaymentEvent);
     on<FetchActorsDataEvent>(_onFetchActorsDataEvent);
     on<GetFavesItemsStateSuccessEvent>(_onGetFavesItemsStateSuccessEvent);
     on<AddFilmToFavEvent>(_onAddFilmToFavEvent);
@@ -89,7 +90,6 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<ChangeColorModeEvent>(_onChangeColorModeEvent);
     on<ChangeLanguageEvent>(_onChangeLanguageEvent);
     on<AddUserToFirebaseEvent>(_onAddUserToFirebaseEvent);
-    on<SignInWithGoogleUserExistEvent>(_onSignInWithGoogleUserExistEvent);
     on<ResetPasswordEvent>(_onResetPasswordEvent);
     on<ResetPasswordErrorEvent>(_onResetPasswordErrorEvent);
     on<ResetPasswordSuccessEvent>(_onResetPasswordSuccessEvent);
@@ -101,14 +101,64 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     on<GetCurrentUserResponseEvent>(_onGetCurrentUserResponseEvent);
     on<RemoveFilmFromFavEvent>(_onRemoveFilmFromFavEvent);
     on<GetFavesItemsEvent>(_onGetFavesItemsEvent);
-    // on<AddFilmToCartEvent>(_onAddFilmToCartEvent);
-    // on<RemoveFilmFromCartEvent>(_onRemoveFilmFromCartEvent);
-    // on<GetCartItemsEvent>(_onGetCartItemsEvent);
     on<GetActorsPhotosEvent>(_onGetActorsPhotosEvent);
+    on<MakeReservationEvent>(_onMakeReservationEvent);
+    on<AddBillsToFirebaseEvent>(_onAddBillsToFirebaseEvent);
+    on<GetMovieEvent>(_onGetMovieEvent);
+    on<GenerateBillRefNumEvent>(_onGenerateBillRefNumEvent);
   }
 
   //create instance from Event bloc if we need new instance and cant use it from DI
   static EventsBloc get(context) => BlocProvider.of<EventsBloc>(context);
+
+
+  //===================Generate Bill Reference Number==============
+
+  _onGenerateBillRefNumEvent(GenerateBillRefNumEvent event , Emitter<AppStates> emit)async{
+   final String refNum = await _operators.generateUniqueReferenceNumber();
+   emit(GenerateBillRefNumState(refNum: refNum));
+  }
+  //====================get one movie ===========================
+  _onGetMovieEvent(GetMovieEvent event, Emitter<AppStates> emit) async {
+    final movieResponse = await _functions.getMovie(movieId: event.movieId);
+    emit(GetMovieState(movieResponse: movieResponse));
+  }
+
+  //====================Create Payment=============================
+  _onMakePaymentEvent(MakePaymentEvent event, Emitter<AppStates> emit) async {
+    await _functions.makePayment(event.amount).then((result) {
+      result.fold((error) {
+        emit(MakePaymentFailState(error: error));
+      }, (response) {
+        emit(MakePaymentSuccessState(response: response));
+      });
+    });
+  }
+
+  _onMakeReservationEvent(
+      MakeReservationEvent event, Emitter<AppStates> emit) async {
+    await _functions
+        .makeReservation(
+            guest_id: event.guest_id,
+            movie_id: event.movie_id,
+            showtime_id: event.showtime_id,
+            seat_numbers: event.seat_numbers)
+        .then(
+      (value) {
+        value.fold((fail) {
+          emit(MakeReservationState(error: fail));
+        }, (reservationCode) {
+          emit(MakeReservationState(reservationCode: reservationCode));
+        });
+      },
+    );
+  }
+
+  _onAddBillsToFirebaseEvent(
+      AddBillsToFirebaseEvent event, Emitter<AppStates> emit) async {
+    await _operators.addBillingInfoToUser(billingInfo: event.bill);
+    emit(AddBillsToFirebaseState());
+  }
 
   //=============Get actors Data ===============================
   _onFetchActorsDataEvent(
@@ -116,7 +166,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     try {
       await _operators.fetchActorsData(actors: event.actors).then((result) {
         result.fold((fail) {}, (actors) async {
+          if (VariablesManager.actors.isEmpty) {
+            VariablesManager.actors.clear();
+          }
           emit(FetchActorsSuccessState(actors));
+          VariablesManager.actors.addAll(actors);
           add(GetActorsPhotosEvent(actors: actors));
         });
       });
@@ -140,91 +194,20 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
     await _operators.getCurrentUserResponse().then((value) {
       value.fold((fail) {
         if (kDebugMode) {
-          print(fail.error);
+          print(
+              "fail.errorfail.errorfail.errorfail.errorfail.error ${fail.error}");
         }
       }, (success) {
-        VariablesManager.currentUserRespon = success;
-        add(GetFavesItemsEvent());
-        // add(GetCartItemsEvent());
+        VariablesManager.currentUserResponse = success;
+        print("success VariablesManager.currentUserResponse ${success.token}");
+        print(
+            "VariablesManager.currentUserResponse VariablesManager.currentUserResponse ${VariablesManager.currentUserResponse}");
         emit(GetCurrentUserResponseState());
+        add(GetFavesItemsEvent());
+
       });
     });
   }
-
-  // ============= adding or remove CART ==========================
-  // _onAddFilmToCartEvent(
-  //     AddFilmToCartEvent event, Emitter<AppStates> emit) async {
-  //   await _operators.addFilmToCart(movie: event.movie).then((value) {
-  //     value.fold((fail) {
-  //       if (kDebugMode) {
-  //         print(fail.error);
-  //       }
-  //     }, (success) {
-  //       add(GetCurrentUserResponseEvent());
-  //       add(GetCartItemsEvent());
-  //     });
-  //   });
-  // }
-  //
-  // _onRemoveFilmFromCartEvent(
-  //     RemoveFilmFromCartEvent event, Emitter<AppStates> emit) async {
-  //   await _operators.removeFilmFromCart(movie: event.movie).then((value) {
-  //     value.fold((fail) {
-  //       if (kDebugMode) {
-  //         print(fail.error);
-  //       }
-  //     }, (success) {
-  //       VariablesManager.cartMovies.remove(event.movie);
-  //
-  //       emit(RemoveFilmFromCartState());
-  //       add(GetCurrentUserResponseEvent());
-  //       add(GetCartItemsEvent());
-  //     });
-  //   });
-  // }
-  //
-  // Future<void> _onGetCartItemsEvent(
-  //     GetCartItemsEvent event, Emitter<AppStates> emit) async {
-  //   try {
-  //     final cartItems = VariablesManager.currentUserRespon.cart ?? [];
-  //
-  //     final movieIds = cartItems
-  //         .map((movieId) {
-  //           return int.tryParse(movieId.toString()) ?? 0;
-  //         })
-  //         .toSet()
-  //         .toList();
-  //     VariablesManager.cartMovies.clear();
-  //
-  //     for (int id in movieIds) {
-  //       await HttpHelper.makeRequest(
-  //           method: 'GET',
-  //           methodUrl: 'viewsets/movies/$id',
-  //           headers: {
-  //             'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
-  //           }).then((result) {
-  //         result.fold((fail) {
-  //           if (kDebugMode) {
-  //             print(fail.error);
-  //           }
-  //         }, (success) {
-  //           var body = jsonDecode(success.body);
-  //
-  //           final cartMovie = MovieResponse.fromJson(body).toDomain();
-  //           if (!VariablesManager.cartMovies
-  //               .any((movie) => movie.id == cartMovie.id)) {
-  //             VariablesManager.cartMovies.add(cartMovie);
-  //           }
-  //         });
-  //       });
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) print('the error : $e ');
-  //   }
-  //   emit(GetCartItemsState());
-  // }
-
-  // ============= adding or remove FAVORITE ==========================
 
   _onAddFilmToFavEvent(AddFilmToFavEvent event, Emitter<AppStates> emit) async {
     emit(StartAddingItemToFavesState());
@@ -236,7 +219,6 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       }, (success) {
         emit(AddFilmToFavState());
         add(GetCurrentUserResponseEvent());
-        add(GetFavesItemsEvent());
       });
     });
   }
@@ -251,19 +233,20 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
         }
       }, (success) {
         VariablesManager.favesMovies.remove(event.movie);
-        emit(RemoveFilmFromFavState());
+        SharedPref.prefs.getStringList(GeneralStrings.listFaves)?.remove(event.movie.id.toString());
         add(GetCurrentUserResponseEvent());
-        add(GetFavesItemsEvent());
       });
     });
   }
 
+
   Future<void> _onGetFavesItemsEvent(
       GetFavesItemsEvent event, Emitter<AppStates> emit) async {
     try {
+      VariablesManager.favesMovies.clear();
       final favorites = FirebaseAuth.instance.currentUser == null
           ? (SharedPref.prefs.getStringList(GeneralStrings.listFaves)!)
-          : (VariablesManager.currentUserRespon.favorites ?? []);
+          : (VariablesManager.currentUserResponse.favorites ?? []);
 
       final movieIds = favorites
           .map((movieId) {
@@ -272,26 +255,14 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           .toSet()
           .toList();
 
-      VariablesManager.favesMovies.clear();
 
       for (int id in movieIds) {
-        await HttpHelper.makeRequest(
-            method: 'GET',
-            methodUrl: 'viewsets/movies/$id/',
-            headers: {
-              'Authorization': 'token 48f9c49e84ffb04666bd1bc21ad2fd82ba3ecf13'
-            }).then((result) {
-          return result.fold((fail) => null, (success) {
-            var body = jsonDecode(success.body);
-
-            final faveMovie = MovieResponse.fromJson(body).toDomain();
-            if (!VariablesManager.favesMovies
-                .any((movie) => movie.id == faveMovie.id)) {
-              VariablesManager.favesMovies.add(faveMovie);
-            }
-          });
-        });
+        final faveMovie = await _functions.getMovie(movieId: id);
+        if (!VariablesManager.favesMovies.any((movie) => movie.id == faveMovie.id)) {
+          VariablesManager.favesMovies.add(faveMovie);
+        }
       }
+      emit(GetFavesItemsState());
     } catch (e) {
       if (kDebugMode) print(e);
     }
@@ -425,7 +396,6 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
           print(VariablesManager.userIds);
         }
         add(FetchFirebaseSuccessEvent());
-        add(GetCurrentUserResponseEvent());
       },
     );
   }
@@ -442,6 +412,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onFetchFirebaseSuccessEvent(
       FetchFirebaseSuccessEvent event, Emitter<AppStates> emit) async {
     emit(FetchFirebaseSuccessState());
+    print("hhhhhhhhhhhhhhhhhhhh");
+    add(GetCurrentUserResponseEvent());
   }
 
   // Starts user creation by calling createUserAtFirebase and triggers
@@ -453,7 +425,7 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       StartCreateUserEvent event, Emitter<AppStates> emit) async {
     emit(StartUserCreateState());
 
-    Either<FailureClass, UserCredential> result =
+    Either<FailureClass, Map<String, dynamic>> result =
         await _register.createUserAtFirebase(req: event.req);
 
     if (kDebugMode) {
@@ -469,10 +441,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
         add(UserCreatedErrorEvent(fail.firebaseException!));
       },
       (success) {
-        if (success.user != null) {
+        if (success["user"] != null) {
           SharedPref.prefs
-              .setString(GeneralStrings.currentUser, success.user!.uid);
-          add(UserCreatedSuccessEvent(success.user!));
+              .setString(GeneralStrings.currentUser, success["user"]!.uid);
+          add(UserCreatedSuccessEvent(success["user"],
+              token: success["token"]));
         }
       },
     );
@@ -489,9 +462,11 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
 
   Future<void> _onUserCreatedSuccessEvent(
       UserCreatedSuccessEvent event, Emitter<AppStates> emit) async {
+    print("tttttttoooooooooookkkkkkkkkeeeeeeen ${event.token}");
     _register
         .addUserToFirebase(
             req: CreateUserRequirements(
+      token: event.token,
       fullName: event.user.displayName,
       email: event.user.email,
     ))
@@ -559,7 +534,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onSignInWithGoogleEvent(
       SignInWithGoogleEvent event, Emitter<AppStates> emit) async {
     emit(StartSignInWithGoogleState());
-    Either<FailureClass, User> result = await _auth.signInWithGoogle();
+    Either<FailureClass, Map<String, dynamic>> result =
+        await _auth.signInWithGoogle();
     add(SignInWithGoogleResultEvent(result));
   }
 
@@ -569,9 +545,9 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
       (fail) {
         add(SignInWithGoogleEventError(fail.toString()));
       },
-      (user) {
-        VariablesManager.currentUser = user.uid;
-        add(SignInWithGoogleEventSuccess(user));
+      (result) {
+        VariablesManager.currentUser = result["user"].uid;
+        add(SignInWithGoogleEventSuccess(result["user"], result["token"]));
         add(GetCurrentUserResponseEvent());
       },
     );
@@ -585,13 +561,8 @@ class EventsBloc extends Bloc<AppEvents, AppStates> {
   Future<void> _onSignInWithGoogleEventSuccess(
       SignInWithGoogleEventSuccess event, Emitter<AppStates> emit) async {
     VariablesManager.userIds.contains(event.user.uid)
-        ? add(SignInWithGoogleUserExistEvent())
-        : add(UserCreatedSuccessEvent(event.user));
-  }
-
-  Future<void> _onSignInWithGoogleUserExistEvent(
-      SignInWithGoogleUserExistEvent event, Emitter<AppStates> emit) async {
-    emit(SignInWithGoogleUserExistState());
+        ? emit(SignInWithGoogleUserExistState())
+        : add(UserCreatedSuccessEvent(event.user, token: event.token));
   }
 
 //============ on Change Color and language mode ============

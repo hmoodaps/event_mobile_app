@@ -1,0 +1,61 @@
+{
+  "id": 3,
+  "name": "Saw X",
+  "photo": "https://sm.ign.com/t/ign_nordic/feature/s/saw-x-post/saw-x-post-credits-scene-and-ending-explained-jigsaws-bigges_7mqm.1200.jpg",
+  "vertical_photo": "https://m.media-amazon.com/images/M/MV5BODRmMzAwMWItZjI5MS00NDYyLWFjMmMtZGUwYjQ1ZTBkNmYzXkEyXkFqcGc@._V1_.jpg",
+  "description": "A new chapter in the Saw franchise, as a series of twisted games are played...",
+  "short_description": "The latest horror-thriller in the Saw series.",
+  "sponsor_video": "https://www.youtube.com/watch?v=t3PzUo4P21c",
+  "actors": [
+    "Tobin Bell",
+    "Shawnee Smith",
+    "Steven Brand",
+    "Samantha Hanratty",
+    "Parker Posey",
+    "Michael Beach",
+    "Costas Mandylor",
+    "Lynn Easton"
+  ],
+  "release_date": "2024-09-29",
+  "added_date": "2025-03-14",
+  "duration": "1h 50m",
+  "imdb_rating": 6.2,
+  "tags": [
+    "horror",
+    "thriller",
+    "mystery",
+    "crime"
+  ],
+  "show_times": [
+    {
+      "id": 4,
+      "date": "2025-02-10",
+      "time": "18:30:00",
+      "hall": "C1",
+      "total_seats": 120,
+      "available_seats": 120,
+      "ticket_price": 17.0,
+      "reserved_seats": []
+    },
+    {
+      "id": 5,
+      "date": "2025-02-11",
+      "time": "20:45:00",
+      "hall": "D2",
+      "total_seats": 150,
+      "available_seats": 150,
+      "ticket_price": 18.5,
+      "reserved_seats": []
+    },
+    {
+      "id": 6,
+      "date": "2025-02-12",
+      "time": "22:00:00",
+      "hall": "A3",
+      "total_seats": 100,
+      "available_seats": 100,
+      "ticket_price": 16.0,
+      "reserved_seats": []
+    }
+  ]
+}

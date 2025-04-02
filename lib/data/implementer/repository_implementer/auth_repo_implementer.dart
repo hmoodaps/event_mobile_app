@@ -14,7 +14,7 @@ class AuthImplementer implements AuthRepository {
 
   // Sign in with Google
   @override
-  Future<Either<FailureClass, User>> signInWithGoogle() async {
+  Future<Either<FailureClass, Map<String, dynamic>>> signInWithGoogle() async {
     try {
       // Attempt to sign in with Google
       final GoogleSignInAccount? googleUser =
@@ -42,7 +42,7 @@ class AuthImplementer implements AuthRepository {
           return Left(FailureClass(error: failure.toString()));
         },
         // Handle failure
-        (user) => Right(user), // Return bool on success
+        (success) => Right(success), // Return bool on success
       );
     } catch (error) {
       print(error);

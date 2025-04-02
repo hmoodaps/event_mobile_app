@@ -1,8 +1,8 @@
 abstract class BaseViewModel extends BaseViewModelInputs {}
 
 abstract class BaseViewModelInputs {
-  void start(//TODO : BRING DATA FROM MODEL
-      );
+  //function to BRING DATA FROM MODEL
+  void start();
 
   void dispose();
 }

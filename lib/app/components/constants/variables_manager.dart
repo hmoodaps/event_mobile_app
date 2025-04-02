@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:event_mobile_app/data/models/user_model.dart';
+import 'package:event_mobile_app/data/mapper/mapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../data/local_storage/shared_local.dart';
-import '../../../data/models/movie_model.dart';
+import '../../../domain/models/model_objects/actor_model.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
+import '../../../domain/models/user_model/user_model.dart';
 import 'general_strings.dart';
 
 class VariablesManager {
@@ -13,13 +15,19 @@ class VariablesManager {
   static List<MovieResponse> movies = [];
   static List<MovieResponse> favesMovies = [];
   static List<MovieResponse> cartMovies = [];
-  static UserResponse currentUserRespon = UserResponse();
+  static List<ActorModel> actors = [];
+  static UserResponse _currentUserResponse = UserResponse();
+  static UserResponse get currentUserResponse => _currentUserResponse;
+  static set currentUserResponse(UserResponse currentUserResponse) {
+    _currentUserResponse = currentUserResponse;
+  }
   static final firebaseAuthInstance = FirebaseAuth.instance;
   static final firestoreInstance = FirebaseFirestore.instance;
 
   static String? currentUser =
       SharedPref.prefs.getString(GeneralStrings.currentUser) ??
           FirebaseAuth.instance.currentUser?.uid;
+  static String? currentUserToken = '';
 
 //sign in with google .>>
   static final GoogleSignIn googleSignIn = GoogleSignIn(

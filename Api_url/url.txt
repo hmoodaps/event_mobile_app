@@ -1,0 +1,50 @@
+
+
+static const String baseUrl = 'https://eventapi-teal.vercel.app/';
+
+
+
+//get 1 movie
+https://eventapi-teal.vercel.app/viewsets/movies/5
+
+
+
+urlpatterns = [
+
+    # المسارات الأساسية للموقع
+    path('admin/', admin.site.urls),//// done //////
+
+    # رابط لعرض مفاتيح Stripe
+    path('stripe_keys/', views.StripeKeys.as_view(), name='stripe_keys'),//// done //////
+
+    # مسارات الـ viewsets الخاصة بـ guests, movies, reservations
+    path('viewsets/', include(router.urls)),//// done //////
+
+    # رابط لخلق مستخدم جديد من نوع superuser
+    path('create-superuser/', views.create_superuser, name='create-superuser'),//// done //////
+
+    # رابط لإنشاء ضيف جديد
+    path('create-guest/', views.create_guest, name='create-guest'),//// done //////
+
+    # رابط لإنشاء حجز جديد
+    path('create-reservation/', views.create_reservation, name='create-reservation'),
+guest_id, movie_id, showtime_id, and seat_numbers
+    # رابط لعرض الأفلام
+    path('get-movies/', views.get_movies, name='get-movies'),
+
+    # رابط لحذف الحجز باستخدام رمز الحجز
+    path('delete-reservation/', views.delete_reservation, name='delete-reservation'),
+
+    path('get-reservation/', views.get_reservation_by_code, name='get-reservation'),
+
+
+        # الدفع
+        path('payments/create/', create_mollie_payment, name='create-payment'),
+
+
+        path('payment/status/', payment_redirect, name='payment-status'),
+
+        # API للتحقق من الحالة (للتحديث التلقائي)
+        path('api/payment/status/', payment_status, name='payment-status-api'),
+
+]

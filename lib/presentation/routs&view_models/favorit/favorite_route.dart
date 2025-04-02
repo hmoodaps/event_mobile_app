@@ -6,7 +6,6 @@ import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
-import 'package:event_mobile_app/data/models/movie_model.dart';
 import 'package:event_mobile_app/domain/local_models/models.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/more_detail_route/more_detail_view.dart';
@@ -18,6 +17,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/stack_background_manager.dart';
 import '../../../app/components/constants/variables_manager.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
 import '../../bloc_state_managment/states.dart';
 import 'favorit_model_view.dart';
 
@@ -117,7 +117,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                   );
                 }
               } else {
-                if (VariablesManager.currentUserRespon.favorites!.isEmpty) {
+                if (VariablesManager.currentUserResponse.favorites!.isEmpty) {
                   return Center(
                     child: Text(
                       GeneralStrings.noFaveItems(context),
@@ -181,11 +181,11 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                       children: [
                         Expanded(
                           child: Text(
-                                 movie.name!,
+                            movie.name!,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
-                            style:
-                                TextStyleManager.titleStyle(context)?.copyWith(),
+                            style: TextStyleManager.titleStyle(context)
+                                ?.copyWith(),
                           ),
                         ),
                         Spacer(),
@@ -213,8 +213,13 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                             // cartIcon(context, movie, _model.addFilmToCartEvent,
                             //     _model.removeFilmFromCartEvent),
                             GestureDetector(
-                              onTap :(){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => MoreDetailView(movie: movie),));
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          MoreDetailView(movie: movie),
+                                    ));
                               },
                               child: CircleAvatar(
                                 radius: 18,
@@ -223,7 +228,7 @@ class _FavoriteRouteState extends State<FavoriteRoute> {
                             ),
                             Spacer(),
                             Text(
-                              "${movie.ticketPrice!.toString()} €",
+                              "${_model.getMinPrice(movie)} €",
                               style: TextStyleManager.header(context)
                                   ?.copyWith(color: ColorManager.green3),
                             ),

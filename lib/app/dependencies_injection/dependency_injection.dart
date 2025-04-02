@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_stripe_payment/easy_stripe_payment.dart';
+import 'package:event_mobile_app/app/components/constants/dio_and_mapper_constants.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/handel_dark_and_light_mode/handel_dark_light_mode.dart';
 import 'package:event_mobile_app/data/implementer/repository_implementer/operators_repo_implementer.dart';
 import 'package:event_mobile_app/data/network_data_handler/remote_requests/dio_requests_handler.dart';
-import 'package:event_mobile_app/domain/repository/operators_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 
 import '../../data/implementer/repository_implementer/add_user_details_implementer.dart';
 import '../../data/implementer/repository_implementer/auth_repo_implementer.dart';
@@ -22,6 +26,7 @@ import '../../domain/repository/auth_repository.dart';
 import '../../domain/repository/init_repository.dart';
 import '../../domain/repository/login_to_firebase_repo.dart';
 import '../../domain/repository/main_repositories/repositories.dart';
+import '../../domain/repository/operators_repository.dart';
 import '../../domain/repository/register_in_firebase_repo.dart';
 import '../../presentation/bloc_state_managment/bloc_manage.dart';
 import '../../presentation/bloc_state_managment/bloc_observe.dart';
@@ -35,6 +40,7 @@ final instance = GetIt.asNewInstance();
 /// Initializes the application modules by registering dependencies with GetIt.
 /// This method is asynchronous and should be called during the application startup.
 Future<void> initAppModules() async {
+  getStripeKeys();
   Bloc.observer = AppBlocObserver();
   // Setting the system UI mode to manual and enabling the top overlay (like status bar)
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
@@ -58,7 +64,6 @@ Future<void> initAppModules() async {
       dio); // Register the Dio instance globally for HTTP requests.
   instance.registerLazySingleton<DioClient>(() => DioClient(instance<
       Dio>())); // Register DioClient which will use the Dio instance for network requests.
-
   // ------ Register repo for Background Tasks ------
   // This section registers the repo to handle background tasks, such as user login and data fetching in background isolates.
 // Register ComputedFunctions to manage background computing tasks.
@@ -120,4 +125,19 @@ void _initRepositories() {
 
   instance.registerLazySingleton<OperatorsRepository>(
       () => OperatorsRepoImplementer(instance()));
+}
+
+Future<void> getStripeKeys() async {
+  final response = await http.get(Uri.parse('${AppConstants.getStripeKeys}'));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    String secretKey = data['secret_key'];
+    String publishableKey = data['publishable_key'];
+    await EasyStripePayment.instance
+        .init(secretKey: secretKey, publishKey: publishableKey);
+    print("success");
+  } else {
+    print("fail");
+  }
 }

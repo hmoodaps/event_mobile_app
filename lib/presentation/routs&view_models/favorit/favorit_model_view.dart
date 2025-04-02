@@ -1,9 +1,10 @@
-import 'package:event_mobile_app/data/models/movie_model.dart';
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../../domain/models/movie_model/movie_model.dart';
 import '../../bloc_state_managment/events.dart';
 
 class FavoriteModelView extends BaseViewModel {
@@ -19,6 +20,7 @@ class FavoriteModelView extends BaseViewModel {
   @override
   void start() {
     _bloc = EventsBloc.get(context);
+    _bloc.add(GetFavesItemsEvent());
   }
 
   getFavesItems() {
@@ -33,6 +35,7 @@ class FavoriteModelView extends BaseViewModel {
     _bloc.add(RemoveFilmFromFavEvent(movie));
   }
 
+
   onItemPressed(MovieResponse movie) {
     Navigator.push(
       context,
@@ -42,11 +45,12 @@ class FavoriteModelView extends BaseViewModel {
     );
   }
 
-  void addFilmToCartEvent(MovieResponse movie) {
-    _bloc.add(AddFilmToCartEvent(movie));
-  }
 
-  void removeFilmFromCartEvent(MovieResponse movie) {
-    _bloc.add(RemoveFilmFromCartEvent(movie));
+
+  double getMinPrice(MovieResponse movie) {
+    return movie.show_times!
+        .where((e) => e.ticket_price != null)
+        .map((e) => e.ticket_price!)
+        .reduce((a, b) => a < b ? a : b);
   }
 }

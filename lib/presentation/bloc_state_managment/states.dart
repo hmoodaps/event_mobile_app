@@ -1,6 +1,9 @@
 // ======== Abstract State ========
-import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
+import 'package:dio/dio.dart';
+import 'package:event_mobile_app/domain/models/movie_model/movie_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../domain/models/model_objects/actor_model.dart';
 
 abstract class AppStates {}
 
@@ -174,4 +177,32 @@ class FetchActorsSuccessState extends AppStates {
   final List<ActorModel> actors;
 
   FetchActorsSuccessState(this.actors);
+}
+
+class MakePaymentSuccessState extends AppStates {
+  Response<dynamic> response ;//from dio
+  MakePaymentSuccessState({required this.response});
+}
+
+class MakePaymentFailState extends AppStates {
+  String error;
+
+  MakePaymentFailState({required this.error});
+}
+
+class MakeReservationState extends AppStates{
+  String ? error;
+  String ? reservationCode ;
+  MakeReservationState({this.reservationCode , this.error});
+}
+
+class AddBillsToFirebaseState extends AppStates{}
+class GetMovieState extends AppStates{
+  MovieResponse movieResponse ;
+  GetMovieState({required this.movieResponse});
+}
+
+class GenerateBillRefNumState extends AppStates{
+  String refNum;
+  GenerateBillRefNumState({required this.refNum});
 }

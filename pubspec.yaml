@@ -28,86 +28,81 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  analyzer: ^7.3.0
+  animations: ^2.0.11
+  audioplayers: ^6.4.0
+  badges: ^3.1.2
+  bloc: ^9.0.0
+  bloc_test: ^10.0.0
+  build_runner: ^2.4.15
+  cached_network_image: ^3.4.1
+  carousel_slider: ^5.0.0
+  cloud_firestore: ^5.6.5
+  color_palette_generator: ^2.0.1
+  conditional_builder_null_safety: ^0.0.6
+  confetti: ^0.8.0
+  cupertino_icons: ^1.0.8
+  curved_navigation_bar: ^1.0.6
+  dartz: ^0.10.1
+  dio: ^5.8.0+1
+  easy_stripe_payment: ^3.0.8
+  elegant_notification: ^2.4.3
+  firebase_auth: ^5.5.1
+  firebase_core: ^3.12.1
   flutter:
     sdk: flutter
+  flutter_animate: ^4.5.2
+  flutter_bloc: ^9.1.0
+  flutter_blurhash: ^0.8.2
+  flutter_localization: ^0.3.1
   flutter_localizations:
     sdk: flutter
+  flutter_rating_bar: ^4.0.1
+  flutter_staggered_animations: ^1.1.1
+  flutter_staggered_grid_view: ^0.7.0
+  flutter_svg: ^2.0.17
+  freezed_annotation: ^2.4.4
+  get_it: ^8.0.3
+  glassmorphism: ^3.0.0
+  google_fonts: ^6.2.1
+  google_sign_in: ^6.3.0
+  http: ^1.3.0
+  icon_broken: ^1.1.0
+  internet_connection_checker_plus: ^2.7.1
+  intl: ^0.19.0
+  json_annotation: ^4.9.0
+  json_serializable: ^6.9.4
+  liquid_pull_to_refresh: ^3.0.1
+  liquid_swipe: ^3.1.0
+  loading_indicator: ^3.1.1
+  mockito: ^5.4.5
+  movie_ticket_card: ^0.0.1
+  palette_generator: ^0.3.3+6
+  parallax_rain: ^1.1.1
+  particles_fly: ^0.0.9
+  pretty_dio_logger: ^1.4.0
+  qr_flutter: ^4.1.0
+  retrofit: ^4.4.2
+  retrofit_generator: ^9.1.9
+  selector_wheel: ^1.1.2
+  shared_preferences: ^2.5.2
+  shimmer: ^3.0.0
+  shimmer_effect: ^1.0.4
+  sign_in_with_apple: ^6.1.4
+  smooth_page_indicator: ^1.2.1
+  staggered_animated_widget: ^2.0.4
+  syncfusion_flutter_datepicker: ^29.1.33
+  url_launcher: ^6.3.1
+  uuid: ^4.5.1
+  wheel_picker: ^0.2.1
+  youtube_player_iframe: ^5.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
-  firebase_core: ^3.8.0
-  firebase_auth: ^5.3.3
-  icon_broken: ^1.1.0
-  liquid_pull_to_refresh: ^3.0.1
-  liquid_progress_indicator_v2: ^0.5.0
-  shrink_sidemenu: ^2.0.0+2-null-safety
-  collection: ^1.18.0
-  flutter_lints: ^5.0.0
-  http_parser: ^4.0.2
-  leak_tracker: ^10.0.5
-  leak_tracker_flutter_testing: ^3.0.5
-  lints: ^5.0.0
-  material_color_utilities: ^0.11.1
-  meta: ^1.15.0
-  stack_trace: ^1.11.1
-  string_scanner: ^1.2.0
-  test_api: ^0.7.2
-  vm_service: ^14.2.5
-  staggered_animated_widget: ^2.0.3
-  elegant_notification: ^2.3.1
-  google_maps_flutter: ^2.9.0
-  shimmer_effect: ^1.0.4
-  dio: ^5.7.0
-  google_sign_in: ^6.2.2
-  smooth_page_indicator: ^1.2.0+3
-  flutter_staggered_grid_view: ^0.7.0
-  hero_animation: ^1.1.4
-  flutter_bloc: ^8.1.6
-  bloc: ^8.1.4
-  shared_preferences: ^2.3.3
-  flutter_svg: ^2.0.14
-  cloud_firestore: ^5.5.0
-  pulsator: ^1.0.0+2
-  carousel_slider: ^5.0.0
-  sign_in_with_apple: ^6.1.3
-  curved_navigation_bar: ^1.0.6
-  color_palette_generator: ^2.0.1
-  dependency_validator: ^4.1.1
-  video_player: ^2.9.2
-  loading_indicator: ^3.1.1
-  retrofit: ^4.4.1
-  analyzer: ^6.7.0
-  json_serializable: ^6.8.0
-  retrofit_generator: ^9.1.5
-  build_runner: ^2.4.13
-  json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.4
-  dartz: ^0.10.1
-  internet_connection_checker_plus: ^2.5.2
-  pretty_dio_logger: ^1.4.0
-  flutter_localization: ^0.2.2
-  intl: ^0.19.0
-  get_it: ^8.0.2
-  mockito: ^5.4.4
-  test: ^1.25.7
-  mocktail: ^1.0.4
-  cached_network_image: ^3.4.1
-  flutter_rating_bar: ^4.0.1
-  flutter_staggered_animations: ^1.1.1
-  selector_wheel: ^1.1.2
-  wheel_picker: ^0.1.1
-  palette_generator: ^0.3.3+5
-  uuid: ^4.5.1
-  conditional_builder_null_safety: ^0.0.6
-  http: ^1.2.2
-  youtube_player_iframe: ^5.2.1
-  url_launcher: ^6.3.1
-  flutter_stripe: ^11.3.0
-  flip_card: ^0.7.0
-  credit_card_type_detector: ^3.0.0
-#  flutter_credit_card: ^4.0.1
+
+
+
 
 dev_dependencies:
   flutter_test:
@@ -134,13 +129,20 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/images/
+    - assets/icons/
     - assets/images/1.5x/
     - assets/images/2.0x/
     - assets/images/3.0x/
     - assets/images/4.0x/
 
-  # An image asset can refer to one or more resolution-specific "variants", see
+
+
+
+
+
+    # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
   # For details regarding adding assets from package dependencies, see

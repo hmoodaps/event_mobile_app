@@ -185,20 +185,6 @@ class _ProfileRouteState extends State<ProfileRoute> {
           suffix: Text('0,0 €'),
         ),
         SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
-        _buildCustomListTileCard(
-          context: context,
-          leadingIcon: Icons.my_location,
-          title: GeneralStrings.address(context),
-          onTap: () => _model.onAddressButtonPressed(),
-        ),
-        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
-        _buildCustomListTileCard(
-          context: context,
-          leadingIcon: Icons.credit_card,
-          title: GeneralStrings.paymentMethods(context),
-          onTap: () => _model.onPaymentMethodsButtonPressed(),
-        ),
-        SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
       ];
     } else {
       return [
@@ -305,6 +291,48 @@ class _ProfileRouteState extends State<ProfileRoute> {
                 ? Icon(IconsManager.trueIcon)
                 : SizedBox(),
           ),
+          ListTile(
+            title: Text(
+              'Русский',
+              style: TextStyleManager.paragraphStyle(context)
+                  ?.copyWith(color: Colors.black),
+            ),
+            onTap: () {
+              _model.onChangeLanguageRussian();
+            },
+            dense: true,
+            trailing: _model.selectedLanguageIndex == SizeManager.i6
+                ? Icon(IconsManager.trueIcon)
+                : SizedBox(),
+          ),
+          ListTile(
+            title: Text(
+              'Italiano',
+              style: TextStyleManager.paragraphStyle(context)
+                  ?.copyWith(color: Colors.black),
+            ),
+            onTap: () {
+              _model.onChangeLanguageItalian();
+            },
+            dense: true,
+            trailing: _model.selectedLanguageIndex == SizeManager.i7
+                ? Icon(IconsManager.trueIcon)
+                : SizedBox(),
+          ),
+          ListTile(
+            title: Text(
+              'Deutsch',
+              style: TextStyleManager.paragraphStyle(context)
+                  ?.copyWith(color: Colors.black),
+            ),
+            onTap: () {
+              _model.onChangeLanguageGerman();
+            },
+            dense: true,
+            trailing: _model.selectedLanguageIndex == SizeManager.i8
+                ? Icon(IconsManager.trueIcon)
+                : SizedBox(),
+          ),
         ],
         suffixText: Text(
             SharedPref.prefs.getString(GeneralStrings.appLanguage) ?? 'en'),
@@ -315,10 +343,9 @@ class _ProfileRouteState extends State<ProfileRoute> {
         leadingIcon: Icons.light_mode,
         title: GeneralStrings.themeMode(context),
         children: [
-          // وضع الهاتف
           ListTile(
             title: Text(
-              'Based on phone mode',
+              GeneralStrings.basedOnPhoneMode(context),
               style: TextStyleManager.paragraphStyle(context)
                   ?.copyWith(color: Colors.black),
             ),
@@ -332,7 +359,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
           ),
           ExpansionTile(
             title: Text(
-              'Manual',
+              GeneralStrings.manual(context),
               style: TextStyleManager.paragraphStyle(context)
                   ?.copyWith(color: Colors.black),
             ),
@@ -347,7 +374,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
             children: [
               ListTile(
                 title: Text(
-                  'Dark Mode',
+                  GeneralStrings.darkMode(context),
                   style: TextStyleManager.smallParagraphStyle(context)
                       ?.copyWith(color: Colors.black),
                 ),
@@ -356,9 +383,11 @@ class _ProfileRouteState extends State<ProfileRoute> {
                 },
               ),
               ListTile(
-                title: Text('Light Mode',
-                    style: TextStyleManager.smallParagraphStyle(context)
-                        ?.copyWith(color: Colors.black)),
+                title: Text(
+                  GeneralStrings.lightMode(context),
+                  style: TextStyleManager.smallParagraphStyle(context)
+                      ?.copyWith(color: Colors.black),
+                ),
                 onTap: () {
                   _model.onChangeThemeManualToLight();
                 },
@@ -368,7 +397,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
         ],
         suffixText: Text(SharedPref.prefs.getBool(GeneralStrings.isManual)!
             ? SharedPref.prefs.getString(GeneralStrings.appMode)!
-            : 'BOPM'),
+            : GeneralStrings.bopm(context)),
       ),
       SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
       _buildCustomExpandableCard(
@@ -378,7 +407,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
         children: [
           ListTile(
             title: Text(
-              'Green',
+              GeneralStrings.green(context),
               style: TextStyleManager.paragraphStyle(context)
                   ?.copyWith(color: Colors.black),
             ),
@@ -392,7 +421,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
           ),
           ListTile(
             title: Text(
-              'Blue',
+              GeneralStrings.blue(context),
               style: TextStyleManager.paragraphStyle(context)
                   ?.copyWith(color: Colors.black),
             ),
@@ -406,7 +435,7 @@ class _ProfileRouteState extends State<ProfileRoute> {
           ),
           ListTile(
             title: Text(
-              'Purple',
+              GeneralStrings.purple(context),
               style: TextStyleManager.paragraphStyle(context)
                   ?.copyWith(color: Colors.black),
             ),
@@ -420,7 +449,8 @@ class _ProfileRouteState extends State<ProfileRoute> {
           ),
         ],
         suffixText: Text(
-            SharedPref.prefs.getString(GeneralStrings.colorTheme) ?? 'green'),
+            SharedPref.prefs.getString(GeneralStrings.colorTheme) ??
+                GeneralStrings.green(context)),
       ),
       SizedBox(height: GetSize.heightValue(SizeManager.d14, context)),
     ];

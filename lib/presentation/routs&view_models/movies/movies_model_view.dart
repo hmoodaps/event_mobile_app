@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../app/components/constants/variables_manager.dart';
-import '../../../data/models/movie_model.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
 
 class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   TextEditingController searchController = TextEditingController();
@@ -30,13 +30,11 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   @override
   void start() {
     _bloc = EventsBloc.get(context);
-     shuffledMovies = shuffleMovies();
+    shuffledMovies = shuffleMovies();
     if (isAuto) {
       startAutoPlay();
     }
   }
-
-
 
   @override
   Future<void> getMovies() async {
@@ -86,24 +84,28 @@ class MoviesModelView extends BaseViewModel with MovieModelViewFunctions {
   void startAutoPlay() {
     autoPlayTimer?.cancel();
     autoPlayTimer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
-      if (currentPage >= VariablesManager.movies.length - 1 ) {
+      if (currentPage >= VariablesManager.movies.length - 1) {
         currentPage = 0;
-
       } else {
         currentPage++;
-
       }
-        carouselController.animateTo(
-          currentPage * MediaQuery.sizeOf(context).width / 1.2,
-          duration: Duration(milliseconds: 700),
-          curve: Curves.easeInOut,
-        );
-
+      carouselController.animateTo(
+        currentPage * MediaQuery.sizeOf(context).width / 1.2,
+        duration: Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+      );
     });
   }
 
   void stopAutoPlay() {
     autoPlayTimer?.cancel();
+  }
+
+  double getMinPrice(MovieResponse movie) {
+    return movie.show_times!
+        .where((e) => e.ticket_price != null)
+        .map((e) => e.ticket_price!)
+        .reduce((a, b) => a < b ? a : b);
   }
 }
 

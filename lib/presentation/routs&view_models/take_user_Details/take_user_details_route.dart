@@ -41,7 +41,6 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _modelView.dispose();
   }
@@ -279,7 +278,7 @@ class _TakeUserDetailsRouteState extends State<TakeUserDetailsRoute> {
                                       additionalInfo:
                                           _modelView.additionalInfo.text,
                                       postalCode: _modelView.postalCode.text,
-                                      city: _modelView.city.text,
+                                      city: _modelView.city.text, token: '',
                                     ),
                                   );
                                   setState(() {

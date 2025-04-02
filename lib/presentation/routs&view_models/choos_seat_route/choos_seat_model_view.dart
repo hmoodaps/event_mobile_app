@@ -1,18 +1,29 @@
-import 'package:event_mobile_app/data/models/movie_model.dart';
+import 'package:event_mobile_app/domain/models/show_time_response/show_time_response.dart';
 import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../domain/models/movie_model/movie_model.dart';
+import '../../bloc_state_managment/events.dart';
+
 class ChooseSeatModelView extends BaseViewModel {
   MovieResponse movie;
-  BuildContext context;
-  late EventsBloc bloc;
+  ShowTimesResponse selectedShowTime;
 
-  ChooseSeatModelView({required this.movie, required this.context});
+  BuildContext context;
+  late EventsBloc _bloc;
+
+
+  ChooseSeatModelView(
+      {required this.movie,
+      required this.context,
+      required this.selectedShowTime});
 
   late List<bool> seatsLeft;
   late List<bool> seatsRight;
-
+  getMovie(){
+    _bloc.add(GetMovieEvent(movieId:movie.id!));
+  }
   List<int> getSelectedSeats() {
     List<int> selectedSeats = [];
     for (int i = 0; i < seatsLeft.length; i++) {
@@ -34,15 +45,14 @@ class ChooseSeatModelView extends BaseViewModel {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
   }
 
   @override
   void start() {
-    print(movie.seats);
-    bloc = EventsBloc.get(context);
+    _bloc = EventsBloc.get(context);
 
-    int totalSeats = movie.seats ?? 0;
+    int totalSeats = selectedShowTime.total_seats ?? 0;
     int halfSeats = (totalSeats / 2).ceil();
 
     seatsLeft =

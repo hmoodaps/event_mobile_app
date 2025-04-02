@@ -2,9 +2,10 @@ import 'package:event_mobile_app/app/components/constants/color_manager.dart';
 import 'package:event_mobile_app/app/components/constants/font_manager.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/app/components/constants/icons_manager.dart';
-import 'package:event_mobile_app/data/models/user_model.dart';
+import 'package:event_mobile_app/domain/models/show_time_response/show_time_response.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
+import 'package:event_mobile_app/presentation/routs&view_models/CheckOutPage/check_out_route.dart';
 import 'package:event_mobile_app/presentation/routs&view_models/choos_seat_route/choos_seat_model_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +15,16 @@ import 'package:flutter_svg/svg.dart';
 import '../../../app/components/constants/assets_manager.dart';
 import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/size_manager.dart';
-import '../../../data/models/movie_model.dart';
 import '../../../domain/local_models/models.dart';
-import '../CheckOutPage/check_out_route.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
 
 class Seat extends StatefulWidget {
   final MovieResponse movie;
+  final ShowTimesResponse selectedShowTime;
 
   const Seat({
     super.key,
+    required this.selectedShowTime,
     required this.movie,
   });
 
@@ -36,7 +38,10 @@ class _SeatState extends State<Seat> {
   @override
   void initState() {
     super.initState();
-    _model = ChooseSeatModelView(movie: widget.movie, context: context);
+    _model = ChooseSeatModelView(
+        movie: widget.movie,
+        context: context,
+        selectedShowTime: widget.selectedShowTime);
     _model.start();
   }
 
@@ -46,8 +51,7 @@ class _SeatState extends State<Seat> {
         builder: (context, state) => _getScaffold());
   }
 
-  Widget _getScaffold() =>
-      Scaffold(
+  Widget _getScaffold() => Scaffold(
         appBar: AppBar(
           actions: [
             TextButton(
@@ -57,19 +61,18 @@ class _SeatState extends State<Seat> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content:
-                        Text(GeneralStrings.uDidnotSelectSeat(context)),
+                            Text(GeneralStrings.uDidnotSelectSeat(context)),
                       ),
                     );
-                  }else{
-                    BillingInfo   billInfo =  BillingInfo(currency: 'eur',
-                        isPaid: false,
-                        paymentMethod: '',
-                        reservedMovie: widget.movie.id!,
-                        reservedSeats: selectedSeats,
-                        seatPrice: widget.movie.ticketPrice!,
-                        totalBill: selectedSeats.length *
-                            widget.movie.ticketPrice!);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutRoute(billingInfo : billInfo, movie: widget.movie,),));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckOutRoute(
+                              movie: widget.movie,
+                              showTimesResponse: widget.selectedShowTime,
+                              reservedSeats: selectedSeats),
+                        ));
                   }
                   if (kDebugMode) {
                     print('Selected Seats: $selectedSeats');
@@ -90,7 +93,7 @@ class _SeatState extends State<Seat> {
           title: Text(
             GeneralStrings.chooseSeat(context),
             style:
-            TextStyleManager.header(context)?.copyWith(color: Colors.white),
+                TextStyleManager.header(context)?.copyWith(color: Colors.white),
           ),
         ),
         body: SafeArea(
@@ -114,14 +117,8 @@ class _SeatState extends State<Seat> {
                     height: GetSize.heightValue(SizeManager.d70, context),
                   ),
                   SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 2.5,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    width: MediaQuery.of(context).size.width,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -132,20 +129,21 @@ class _SeatState extends State<Seat> {
                                 physics: BouncingScrollPhysics(),
                                 itemCount: _model.seatsLeft.length,
                                 gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 5,
                                 ),
                                 itemBuilder: (context, index) {
-                                  bool isReserved = widget.movie.reservedSeats!
+                                  bool isReserved = widget
+                                      .selectedShowTime.reserved_seats!
                                       .contains(index +
-                                      SizeManager
-                                          .i1); // check if the seat is reserved
+                                          SizeManager
+                                              .i1); // check if the seat is reserved
                                   return GestureDetector(
                                     onTap: () {
                                       if (!isReserved) {
                                         setState(() {
                                           _model.seatsLeft[index] =
-                                          !_model.seatsLeft[index];
+                                              !_model.seatsLeft[index];
                                         });
                                       }
                                     },
@@ -154,10 +152,10 @@ class _SeatState extends State<Seat> {
                                       color: isReserved
                                           ? Colors.red // Reserved seat is red
                                           : _model.seatsLeft[index]
-                                          ? Colors
-                                          .green // Selected seat is green
-                                          : Colors
-                                          .white, // Available seat is white
+                                              ? Colors
+                                                  .green // Selected seat is green
+                                              : Colors
+                                                  .white, // Available seat is white
                                     ),
                                   );
                                 },
@@ -165,27 +163,28 @@ class _SeatState extends State<Seat> {
                             ),
                             SizedBox(
                               width:
-                              GetSize.widthValue(SizeManager.d30, context),
+                                  GetSize.widthValue(SizeManager.d30, context),
                             ),
                             Expanded(
                               child: GridView.builder(
                                 physics: BouncingScrollPhysics(),
                                 itemCount: _model.seatsRight.length,
                                 gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: SizeManager.i5,
                                 ),
                                 itemBuilder: (context, index) {
-                                  bool isReserved = widget.movie.reservedSeats!
+                                  bool isReserved = widget
+                                      .selectedShowTime.reserved_seats!
                                       .contains(_model.seatsLeft.length +
-                                      index +
-                                      SizeManager.i5);
+                                          index +
+                                          SizeManager.i1);
                                   return GestureDetector(
                                     onTap: () {
                                       if (!isReserved) {
                                         setState(() {
                                           _model.seatsRight[index] =
-                                          !_model.seatsRight[index];
+                                              !_model.seatsRight[index];
                                         });
                                       }
                                     },
@@ -194,10 +193,10 @@ class _SeatState extends State<Seat> {
                                       color: isReserved
                                           ? Colors.red // Reserved seat is red
                                           : _model.seatsRight[index]
-                                          ? Colors
-                                          .green // Selected seat is green
-                                          : Colors
-                                          .white, // Available seat is white
+                                              ? Colors
+                                                  .green // Selected seat is green
+                                              : Colors
+                                                  .white, // Available seat is white
                                     ),
                                   );
                                 },
@@ -313,7 +312,7 @@ class _SeatState extends State<Seat> {
                             style: TextStyleManager.header(context),
                           ),
                           Text(
-                            "${widget.movie.ticketPrice!} €",
+                            "${widget.selectedShowTime.ticket_price!} €",
                             style: TextStyleManager.header(context)
                                 ?.copyWith(color: ColorManager.green3),
                           ),
@@ -326,9 +325,7 @@ class _SeatState extends State<Seat> {
                             style: TextStyleManager.header(context),
                           ),
                           Text(
-                            '${_model
-                                .getSelectedSeats()
-                                .length}',
+                            '${_model.getSelectedSeats().length}',
                             style: TextStyleManager.header(context)
                                 ?.copyWith(color: ColorManager.green3),
                           ),
@@ -340,7 +337,6 @@ class _SeatState extends State<Seat> {
                             GeneralStrings.selectedSeats(context),
                             style: TextStyleManager.header(context),
                           ),
-                          // استخدام Wrap لتوزيع النص عبر أسطر متعددة
                           Expanded(
                             child: Wrap(
                               children: [
@@ -361,9 +357,7 @@ class _SeatState extends State<Seat> {
                             style: TextStyleManager.header(context),
                           ),
                           Text(
-                            '${_model
-                                .getSelectedSeats()
-                                .length * widget.movie.ticketPrice!}',
+                            '${_model.getSelectedSeats().length * widget.selectedShowTime.ticket_price!}',
                             style: TextStyleManager.header(context)
                                 ?.copyWith(color: ColorManager.green3),
                           ),

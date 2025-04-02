@@ -12,7 +12,7 @@ import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 import '../../../app/components/constants/dio_and_mapper_constants.dart';
-import '../../models/movie_model.dart';
+import '../../../domain/models/movie_model/movie_model.dart';
 
 part 'rest_api_dio.g.dart';
 

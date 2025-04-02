@@ -1,5 +1,6 @@
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:event_mobile_app/app/components/constants/size_manager.dart';
+import 'package:event_mobile_app/app/components/constants/variables_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'font_manager.dart';
@@ -10,14 +11,14 @@ errorNotification(
     required String description,
     Color? backgroundColor}) {
   return ElegantNotification.error(
-    background: backgroundColor ?? Colors.white,
+    background: VariablesManager.isDark ? Colors.grey.shade700 : Colors.white,
     title: Text(
       GeneralStrings.error(context),
       style: TextStyleManager.titleStyle(context),
     ),
     description: Text(
       description,
-      style: TextStyleManager.bodyStyle(context),
+      style: TextStyleManager.bodyStyle(context)?.copyWith(color: VariablesManager.isDark ? Colors.white : Colors.black),
     ),
     animationDuration: Duration(seconds: SizeManager.i4),
     toastDuration: Duration(seconds: SizeManager.i6),

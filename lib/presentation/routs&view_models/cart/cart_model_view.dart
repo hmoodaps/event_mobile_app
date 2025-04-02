@@ -1,4 +1,4 @@
-// import 'package:event_mobile_app/data/models/movie_model.dart';
+// import 'package:event_mobile_app/core/models/movie_model.dart';
 // import 'package:event_mobile_app/presentation/base/base_view_model.dart';
 // import 'package:event_mobile_app/presentation/bloc_state_managment/bloc_manage.dart';
 // import 'package:event_mobile_app/presentation/routs&view_models/movie/movie_route.dart';

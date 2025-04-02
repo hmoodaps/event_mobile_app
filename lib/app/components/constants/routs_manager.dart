@@ -1,8 +1,7 @@
 import 'package:event_mobile_app/app/components/constants/route_strings_manager.dart';
 import 'package:flutter/material.dart';
 
-import '../../../presentation/routs&view_models/cart/cart_route.dart';
-import '../../../presentation/routs&view_models/edit_reservation/edit_reservation_route.dart';
+import '../../../presentation/routs&view_models/after_payment/after_payment_view.dart';
 import '../../../presentation/routs&view_models/favorit/favorite_route.dart';
 import '../../../presentation/routs&view_models/forget_password/forget_password_route.dart';
 import '../../../presentation/routs&view_models/login/login_route.dart';
@@ -12,7 +11,6 @@ import '../../../presentation/routs&view_models/past_films/past_films_route.dart
 import '../../../presentation/routs&view_models/profile/profile_route.dart';
 import '../../../presentation/routs&view_models/question/question_route.dart';
 import '../../../presentation/routs&view_models/regeister/register_route.dart';
-import '../../../presentation/routs&view_models/reservation/reservation_route.dart';
 import '../../../presentation/routs&view_models/search/search_route.dart';
 import '../../../presentation/routs&view_models/splash/splash_route.dart';
 import '../../../presentation/routs&view_models/take_user_Details/take_user_details_route.dart';
@@ -27,15 +25,17 @@ class Routes {
     RouteStringsManager.forgetPasswordRoute: (context) =>
         const ForgetPasswordRoute(),
     RouteStringsManager.mainRoute: (context) => const MainRoute(),
-    RouteStringsManager.editReservationRoute: (context) =>
-        const EditReservationRoute(),
-    RouteStringsManager.reservationRoute: (context) => const ReservationRoute(),
+    // RouteStringsManager.editReservationRoute: (context) =>
+    //     const EditReservationRoute(),
+    // RouteStringsManager.reservationRoute: (context) => const ReservationRoute(),
     // RouteStringsManager.cartRoute: (context) => const CartRoute(),
     RouteStringsManager.favoriteRoute: (context) => const FavoriteRoute(),
     RouteStringsManager.pastFilmsRoute: (context) => const PastFilmsRoute(),
     RouteStringsManager.profileRoute: (context) => const ProfileRoute(),
     RouteStringsManager.searchRoute: (context) => const SearchRoute(),
-    RouteStringsManager.takeUserDetailsRoute: (context) =>
+    RouteStringsManager.afterPaymentView: (context) =>  AfterPaymentView(),
+
+  RouteStringsManager.takeUserDetailsRoute: (context) =>
         const TakeUserDetailsRoute(),
   };
 

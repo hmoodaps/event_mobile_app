@@ -1,22 +1,26 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:event_mobile_app/app/components/constants/dio_and_mapper_constants.dart';
 import 'package:event_mobile_app/app/components/constants/general_strings.dart';
 import 'package:event_mobile_app/data/local_storage/shared_local.dart';
 import 'package:event_mobile_app/data/mapper/mapper.dart';
 import 'package:event_mobile_app/data/network_data_handler/rest_api/rest_api_dio.dart';
-import 'package:event_mobile_app/domain/model_objects/actor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../app/components/constants/variables_manager.dart';
 import '../../../../domain/local_models/models.dart';
+import '../../../../domain/local_models/reference_number_generator.dart';
+import '../../../../domain/models/billing_info/billing_info.dart';
+import '../../../../domain/models/model_objects/actor_model.dart';
+import '../../../../domain/models/movie_model/movie_model.dart';
+import '../../../../domain/models/user_model/user_model.dart';
 import '../../../../domain/repository/main_repositories/repositories.dart';
-import '../../../models/movie_model.dart';
-import '../../../models/user_model.dart';
 import '../../failure_class/failure_class.dart';
 
 class RepositoriesImplementer implements Repositories {
@@ -26,6 +30,30 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Getter to get the userId dynamically-------
   String? get userId => VariablesManager.firebaseAuthInstance.currentUser?.uid;
+
+  //create user in the  server side
+  @override
+  Future<String> createGuest(String id) async {
+    final url = '${AppConstants.createGuest}';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'id': id,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      print("successfully created user${jsonDecode(response.body)["token"]}");
+      VariablesManager.currentUserToken = jsonDecode(response.body)["token"];
+      return jsonDecode(response.body)["token"];
+    } else {
+      print('Failed to create guest: ${response.body}');
+      return response.body;
+    }
+  }
 
   // ----------------------- Firebase Functions -----------------------
 
@@ -49,15 +77,18 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Function: Create a user in Firebase -------
   @override
-  Future<Either<FailureClass, UserCredential>> createUserAtFirebase(
+  Future<Either<FailureClass, Map<String , dynamic>>> createUserAtFirebase(
       {required CreateUserRequirements req}) async {
+    String token ="";
     return handleFirebaseOperation(() async {
       final userCredential = await VariablesManager.firebaseAuthInstance
           .createUserWithEmailAndPassword(
         email: req.email!,
         password: req.password!,
       );
-      return userCredential;
+      if (!VariablesManager.userIds.contains(userCredential.user?.uid))
+        token =  await createGuest(userCredential.user!.uid);
+      return {"token": token , "user":userCredential };
     });
   }
 
@@ -72,12 +103,16 @@ class RepositoriesImplementer implements Repositories {
         int favoriteItem = int.parse(favorite);
         favorites.add(favoriteItem);
       }
+      print("tkoonaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ${req.token}");
       final userResponse = UserResponse(
         email: req.email,
         fullName: req.fullName,
         id: userId,
         favorites: favorites,
+        token: req.token
       );
+       if (!VariablesManager.userIds.contains(userId))
+      //   await createGuest(userId!);
 
       await VariablesManager.firestoreInstance
           .collection(GeneralStrings.users)
@@ -137,18 +172,21 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Function: Create user with credentials -------
   @override
-  Future<Either<FailureClass, User>> createUserAtFirebaseWithCredential(
+  Future<Either<FailureClass, Map<String, dynamic>>> createUserAtFirebaseWithCredential(
       {required AuthCredential credential}) async {
+    String token = "";
     return handleFirebaseOperation(() async {
       final userCredential = await VariablesManager.firebaseAuthInstance
           .signInWithCredential(credential);
       SharedPref.prefs
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
-
       await _addFavesFromGuestToUser();
       SharedPref.prefs
           .setString(GeneralStrings.currentUser, userCredential.user!.uid);
-      return userCredential.user!;
+      if (!VariablesManager.userIds.contains(userCredential.user?.uid))
+        token =  await createGuest(userCredential.user!.uid);
+      print("token is  $token" );
+      return {"user":userCredential.user! , "token" :token};
     });
   }
 
@@ -171,30 +209,57 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Get Current User Response -------
   @override
+
+  @override
   Future<Either<FailureClass, UserResponse>> getCurrentUserResponse() async {
+    print("🔵 [DEBUG] - getCurrentUserResponse started");
+
     if (userId == null) {
+      print("❌ [ERROR] - User ID is null (User not authenticated)");
       return Left(FailureClass(error: "User not authenticated"));
     }
 
-    return handleFirebaseOperation(() async {
+    try {
+      print("🟢 [INFO] - Fetching user data from Firestore...");
       final userDoc = await VariablesManager.firestoreInstance
           .collection(GeneralStrings.users)
           .doc(userId)
           .get();
-      SharedPref.prefs.setString(
-          GeneralStrings.currentUser, FirebaseAuth.instance.currentUser!.uid);
 
-      if (userDoc.exists) {
-        return UserResponse.fromJson(userDoc.data()!).toDomain();
-      } else {
-        throw Exception('User document not found.');
+      if (!userDoc.exists) {
+        print("❌ [ERROR] - User document not found in Firestore");
+        return Left(FailureClass(error: "User document not found."));
       }
-    });
+
+      // طباعة البيانات المسترجعة من Firestore
+      print("📄 [FIRESTORE DATA] - ${userDoc.data()}");
+
+      // تحويل البيانات إلى كائن UserResponse
+      final userResponse = UserResponse.fromJson(userDoc.data()!);
+
+      // تحويل قائمة الفواتير إلى domain model
+      final transformedBills = userResponse.bills?.map((bill) => bill.toDomain()).toList();
+
+      // تحويل UserResponse إلى domain model مع الفواتير المحولة
+      final userDomain = userResponse.toDomain().copyWith(bills: transformedBills);
+
+      print("🟢 [INFO] - Converted to domain model: $userDomain");
+
+      // التحقق من قيمة token
+      print("🟢 [INFO] - Token before return: ${userDomain.token}");
+
+      return Right(userDomain);
+    } catch (error, stacktrace) {
+      print("❌ [ERROR] - Exception caught: $error");
+      print("🔴 [STACKTRACE] - $stacktrace");
+      return Left(FailureClass(error: "An unexpected error occurred."));
+    }
   }
 
   // -------Add Film To Favorites -------
   @override
-  Future<Either<FailureClass, void>> addFilmToFavorites({required MovieResponse movie}) async {
+  Future<Either<FailureClass, void>> addFilmToFavorites(
+      {required MovieResponse movie}) async {
     return handleFirebaseOperation(() async {
       if (userId == null) {
         List<String> faves =
@@ -226,7 +291,8 @@ class RepositoriesImplementer implements Repositories {
 
   // -------Remove Film From Favorites -------
   @override
-  Future<Either<FailureClass, void>> removeFilmFromFavorites({required MovieResponse movie}) async {
+  Future<Either<FailureClass, void>> removeFilmFromFavorites(
+      {required MovieResponse movie}) async {
     return handleFirebaseOperation(() async {
       if (userId == null) {
         List<String> faves =
@@ -250,46 +316,6 @@ class RepositoriesImplementer implements Repositories {
     });
   }
 
-  // -------Add Film To Cart -------
-  // @override
-  // Future<Either<FailureClass, void>> addFilmToCart(
-  //     {required MovieResponse movie}) async {
-  //   return handleFirebaseOperation(() async {
-  //     if (userId != null) {
-  //       final userRef = VariablesManager.firestoreInstance
-  //           .collection(GeneralStrings.users)
-  //           .doc(userId);
-  //       VariablesManager.cartMovies.add(movie);
-  //       await VariablesManager.firestoreInstance
-  //           .runTransaction((transaction) async {
-  //         final docSnapshot = await transaction.get(userRef);
-  //         if (docSnapshot.exists) {
-  //           transaction.update(userRef, {
-  //             'cart': FieldValue.arrayUnion([movie.id!])
-  //           });
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
-  //
-  // // -------Remove Film From Favorites -------
-  // @override
-  // Future<Either<FailureClass, void>> removeFilmFromCart(
-  //     {required MovieResponse movie}) async {
-  //   return handleFirebaseOperation(() async {
-  //     final userRef = VariablesManager.firestoreInstance
-  //         .collection(GeneralStrings.users)
-  //         .doc(userId);
-  //     VariablesManager.cartMovies.remove(movie);
-  //     final docSnapshot = await userRef.get();
-  //     if (docSnapshot.exists) {
-  //       await userRef.update({
-  //         'cart': FieldValue.arrayRemove([movie.id])
-  //       });
-  //     }
-  //   });
-  // }
 
   _addFavesFromGuestToUser() async {
     final currentUser = await VariablesManager.firestoreInstance
@@ -326,7 +352,8 @@ class RepositoriesImplementer implements Repositories {
   }
 
   @override
-  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData({required List<String> actors}) async {
+  Future<Either<FailureClass, List<ActorModel>>> fetchActorsData(
+      {required List<String> actors}) async {
     return await handleFirebaseOperation(() async {
       try {
         final result = await compute(fetchActorsDataIsolate, actors);
@@ -362,4 +389,51 @@ class RepositoriesImplementer implements Repositories {
 
     return actorsModel;
   }
+
+
+  @override
+  Future<void> addBillingInfoToUser({required BillingInfo billingInfo}) async {
+    DocumentReference userDocRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+    DocumentSnapshot userSnapshot = await userDocRef.get();
+
+    // if (userSnapshot.exists) {
+      Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+
+      List<dynamic> existingBills = userData['bills'] ?? [];
+      existingBills.add(billingInfo.toDomain().toJson());
+
+      await userDocRef.update({
+        'bills': existingBills,
+      }).then((value) => print("existingBills ${existingBills.length}"),);
+    // } else {
+    //   await userDocRef.set({
+    //     'bills': [billingInfo.toJson()],
+    //   });
+    // }
+
+
+  }
+  @override
+
+  Future<String> generateUniqueReferenceNumber() async {
+    String refNumber;
+    bool exists = true;
+    final firestore = FirebaseFirestore.instance;
+
+    do {
+      refNumber = generateReferenceNumber();
+
+      final querySnapshot = await firestore
+          .collection('bills')
+          .where('referenceNumber', isEqualTo: refNumber)
+          .get();
+
+      exists = querySnapshot.docs.isNotEmpty;
+
+    } while (exists);
+
+    return refNumber;
+  }
+
 }

@@ -1,19 +1,6 @@
-import 'package:event_mobile_app/app/components/constants/color_manager.dart';
-import 'package:event_mobile_app/app/components/constants/font_manager.dart';
-import 'package:event_mobile_app/app/components/constants/general_strings.dart';
-import 'package:event_mobile_app/app/components/constants/route_strings_manager.dart';
-import 'package:event_mobile_app/app/components/constants/routs_manager.dart';
-import 'package:event_mobile_app/presentation/bloc_state_managment/states.dart';
-import 'package:event_mobile_app/presentation/routs&view_models/cart/cart_route.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../app/components/constants/getSize/getSize.dart';
 import '../../../app/components/constants/icons_manager.dart';
-import '../../../app/components/constants/size_manager.dart';
-import '../../../app/components/constants/stack_background_manager.dart';
-import '../../../app/components/constants/variables_manager.dart';
 import '../../base/base_view_model.dart';
 import '../../bloc_state_managment/bloc_manage.dart';
 import '../../bloc_state_managment/events.dart';

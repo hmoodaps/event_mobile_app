@@ -15,7 +15,7 @@ Widget stackBackGroundManager(
                 end: Alignment.bottomCenter,
                 colors: isDark
                     ? [
-                        Colors.black.withOpacity(0.96),
+                  Colors.black.withValues(alpha: 0.96,),
                         ColorManager.green1,
                         ColorManager.green2,
                         ColorManager.green3,
